@@ -4,154 +4,68 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Texas Movement International — Systems for people who move.</title>
-<meta name="description" content="Texas Movement International — Performance, AI strategy, media, footwear, and founder infrastructure. Building at the intersection of athletic performance, AI, and urban economic development." />
+<meta name="description" content="Texas Movement International — Performance, AI strategy, media, footwear, and founder operations. Led by Alexander Mathai." />
 <meta property="og:title" content="Texas Movement International" />
 <meta property="og:description" content="Systems for people who move. Performance. AI. Media. Footwear. Founders." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://texasmovement.com" />
 <style>
-  :root{--bg:#0a0a0a;--ink:#f5f5f5;--mute:#9a9a9a;--line:#1f1f1f;--accent:#c8102e;}
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
-  a{color:inherit;text-decoration:none}
-  .wrap{max-width:880px;margin:0 auto;padding:48px 24px 80px}
-  header{border-bottom:1px solid var(--line);padding-bottom:32px;margin-bottom:40px}
-  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:16px}
-  h1{font-size:clamp(34px,5vw,52px);font-weight:800;letter-spacing:-.02em;margin:0 0 16px;line-height:1.1}
-  h1 .accent{color:var(--accent)}
-  .lede{font-size:clamp(16px,2vw,18px);color:#cfcfcf;max-width:62ch;margin:0}
-  h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin:48px 0 16px;font-weight:600}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-  .card{display:block;border:1px solid var(--line);border-radius:10px;padding:18px 18px 16px;transition:border-color .15s ease,transform .15s ease,background .15s ease;background:#0f0f0f}
-  .card:hover{border-color:#3a3a3a;transform:translateY(-1px);background:#131313}
-  .card .name{font-weight:700;font-size:16px;margin-bottom:4px}
-  .card .desc{font-size:13px;color:var(--mute);line-height:1.45}
-  .card .arrow{display:inline-block;margin-top:10px;font-size:12px;color:var(--accent);letter-spacing:.08em}
-  .linkedin{display:inline-flex;align-items:center;gap:10px;border:1px solid #2a2a2a;border-radius:999px;padding:10px 16px;font-size:14px;margin-top:24px;background:#0f0f0f}
-  .linkedin:hover{background:#161616;border-color:#3a3a3a}
-  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+:root{--bg:#0a0a0a;--ink:#f5f5f5;--mute:#9a9a9a;--line:#1f1f1f;--accent:#c8102e;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--accent)}
+.wrap{max-width:920px;margin:0 auto;padding:64px 24px 96px}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:16px}
+h1{font-size:clamp(34px,5vw,52px);font-weight:800;letter-spacing:-.02em;margin:0 0 16px;line-height:1.1}
+.lede{font-size:18px;color:var(--mute);max-width:640px;margin:0 0 40px}
+.cta{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:#111;transition:all .15s}
+.cta:hover{border-color:var(--accent);color:var(--accent)}
+section{margin-top:56px;padding-top:32px;border-top:1px solid var(--line)}
+h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:600;margin:0 0 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{padding:20px;border:1px solid var(--line);border-radius:14px;background:#0f0f0f;transition:all .15s;display:flex;flex-direction:column;gap:8px}
+.card:hover{border-color:#333;transform:translateY(-2px)}
+.card .name{font-weight:700;font-size:17px}
+.card .desc{color:var(--mute);font-size:14px}
+.card .links{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.card .links a{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--mute)}
+.card .links a:hover{border-color:var(--accent);color:var(--accent)}
+.connect{display:flex;flex-wrap:wrap;gap:12px}
+.sbtn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:#0f0f0f;font-size:14px;transition:all .15s}
+.sbtn:hover{border-color:var(--accent);color:var(--accent)}
+footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </style>
 </head>
 <body>
 <main class="wrap">
-  <header>
-    <div class="eyebrow">Texas Movement International · Chicago</div>
-    <h1>Systems for people who move.<br><span class="accent">Performance. AI. Media. Footwear. Founders.</span></h1>
-    <p class="lede">Building at the intersection of athletic performance, AI strategy, and urban economic development. A portfolio that operates like a constellation, not a conglomerate.</p>
-    <a class="linkedin" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener">
-      Connect with Alexander Mathai on LinkedIn →
-    </a>
-  </header>
-
-  <h2>The Verticals</h2>
-  <div class="grid">
-    <a class="card" href="https://consulting.texasmovement.com" target="_blank" rel="noopener">
-      <div class="name">Texas Movement Consulting</div>
-      <div class="desc">AI strategy and business consulting for founders and operators who want results, not decks.</div>
-      <div class="arrow">consulting.texasmovement.com →</div>
-    </a>
-    <a class="card" href="https://performance.texasmovement.com" target="_blank" rel="noopener">
-      <div class="name">TM Performance</div>
-      <div class="desc">Elite biomechanics and athletic performance consulting. Home of "Elite Secrets."</div>
-      <div class="arrow">performance.texasmovement.com →</div>
-    </a>
-    <a class="card" href="https://media.texasmovement.com" target="_blank" rel="noopener">
-      <div class="name">Texas Movement Media</div>
-      <div class="desc">Pro Talks, TMM Productions, Leadership Devotionals, and live interviews.</div>
-      <div class="arrow">media.texasmovement.com →</div>
-    </a>
-    <a class="card" href="https://hero.texasmovement.com" target="_blank" rel="noopener">
-      <div class="name">HERO Footwear</div>
-      <div class="desc">Athletic footwear built for culture and performance — for the people who show up.</div>
-      <div class="arrow">hero.texasmovement.com →</div>
-    </a>
-    <a class="card" href="https://founderlink.texasmovement.com" target="_blank" rel="noopener">
-      <div class="name">FounderLink</div>
-      <div class="desc">A vetted founder network for legacy cities and the Midwest.</div>
-      <div class="arrow">founderlink.texasmovement.com →</div>
-    </a>
-    <a class="card" href="https://reparations.texasmovement.com" target="_blank" rel="noopener">
-      <div class="name">TM Powernomics</div>
-      <div class="desc">Urban economic development and Powernomics initiatives.</div>
-      <div class="arrow">reparations.texasmovement.com →</div>
-    </a>
-  </div>
-
-  <h2>On LinkedIn</h2>
-  <div class="grid">
-    <a class="card" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener">
-      <div class="name">Alexander Mathai</div>
-      <div class="desc">Founder & CEO. Writing on systems, AI, performance science, and founder infrastructure — labeled human or hybrid.</div>
-      <div class="arrow">linkedin.com/in/alexandermathai →</div>
-    </a>
-    <a class="card" href="https://www.linkedin.com<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Texas Movement International — Systems for people who move.</title>
-<meta name="description" content="Texas Movement International — Performance, AI strategy, media, footwear, and founder infrastructure." />
-<style>
-  :root{--bg:#0a0a0a;--ink:#f5f5f5;--mute:#9a9a9a;--line:#1f1f1f;--accent:#c8102e;}
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;line-height:1.5}
-  a{color:inherit;text-decoration:none}
-  .wrap{max-width:880px;margin:0 auto;padding:48px 24px 80px}
-  header{border-bottom:1px solid var(--line);padding-bottom:32px;margin-bottom:40px}
-  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:16px}
-  h1{font-size:clamp(34px,5vw,52px);font-weight:800;letter-spacing:-.02em;margin:0 0 16px;line-height:1.1}
-  h1 .accent{color:var(--accent)}
-  .lede{font-size:clamp(16px,2vw,18px);color:#cfcfcf;max-width:62ch;margin:0}
-  h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin:48px 0 16px;font-weight:600}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-  .card{display:block;border:1px solid var(--line);border-radius:10px;padding:18px 18px 16px;background:#0f0f0f}
-  .card:hover{border-color:#3a3a3a;background:#131313}
-  .card .name{font-weight:700;font-size:16px;margin-bottom:4px}
-  .card .desc{font-size:13px;color:var(--mute);line-height:1.45}
-  .card .arrow{display:inline-block;margin-top:10px;font-size:12px;color:var(--accent);letter-spacing:.08em}
-  .linkedin{display:inline-flex;align-items:center;gap:10px;border:1px solid #2a2a2a;border-radius:999px;padding:10px 16px;font-size:14px;margin-top:24px;background:#0f0f0f}
-  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-</style>
-</head>
-<body>
-<main class="wrap">
-  <header>
-    <div class="eyebrow">Texas Movement International · Chicago</div>
-    <h1>Systems for people who move.<br><span class="accent">Performance. AI. Media. Footwear. Founders.</span></h1>
-    <p class="lede">Building at the intersection of athletic performance, AI strategy, and urban economic development. A portfolio that operates like a constellation, not a conglomerate.</p>
-    <a class="linkedin" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener">Connect with Alexander Mathai on LinkedIn →</a>
-  </header>
-  <h2>The Verticals</h2>
-  <div class="grid">
-    <a class="card" href="https://consulting.texasmovement.com" target="_blank" rel="noopener"><div class="name">Texas Movement Consulting</div><div class="desc">AI strategy and business consulting for founders and operators who want results, not decks.</div><div class="arrow">consulting.texasmovement.com →</div></a>
-    <a class="card" href="https://performance.texasmovement.com" target="_blank" rel="noopener"><div class="name">TM Performance</div><div class="desc">Elite biomechanics and athletic performance consulting. Home of "Elite Secrets."</div><div class="arrow">performance.texasmovement.com →</div></a>
-    <a class="card" href="https://media.texasmovement.com" target="_blank" rel="noopener"><div class="name">Texas Movement Media</div><div class="desc">Pro Talks, TMM Productions, Leadership Devotionals, and live interviews.</div><div class="arrow">media.texasmovement.com →</div></a>
-    <a class="card" href="https://hero.texasmovement.com" target="_blank" rel="noopener"><div class="name">HERO Footwear</div><div class="desc">Athletic footwear built for culture and performance — for the people who show up.</div><div class="arrow">hero.texasmovement.com →</div></a>
-    <a class="card" href="https://founderlink.texasmovement.com" target="_blank" rel="noopener"><div class="name">FounderLink</div><div class="desc">A vetted founder network for legacy cities and the Midwest.</div><div class="arrow">founderlink.texasmovement.com →</div></a>
-    <a class="card" href="https://reparations.texasmovement.com" target="_blank" rel="noopener"><div class="name">TM Powernomics</div><div class="desc">Urban economic development and Powernomics initiatives.</div><div class="arrow">reparations.texasmovement.com →</div></a>
-  </div>
-  <h2>On LinkedIn</h2>
-  <div class="grid">
-    <a class="card" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener"><div class="name">Alexander Mathai</div><div class="desc">Founder & CEO. Writing on systems, AI, performance science, and founder infrastructure — labeled human or hybrid.</div><div class="arrow">linkedin.com/in/alexandermathai →</div></a>
-    <a class="card" href="https://www.linkedin.com/in/alexandermathai/recent-activity/all/" target="_blank" rel="noopener"><div class="name">Recent Activity</div><div class="desc">Latest posts, the hybrid standard, and TMI architecture notes.</div><div class="arrow">View activity →</div></a>
-  </div>
-  <footer>
-    <span>© Texas Movement International · Chicago</span>
-    <span>The hybrid standard. Labeled, on purpose.</span>
-  </footer>
-</main>
-</body>
-                                                                                                                                                                                                                                                                               </html>/in/alexandermathai/recent-activity/all/" target="_blank" rel="noopener">
-      <div class="name">Recent Activity</div>
-      <div class="desc">Latest posts, the hybrid standard, and TMI architecture notes.</div>
-      <div class="arrow">View activity →</div>
-    </a>
-  </div>
-
-  <footer>
-    <span>© Texas Movement International · Chicago</span>
-    <span>The hybrid standard. Labeled, on purpose.</span>
-  </footer>
+<div class="eyebrow">Texas Movement International</div>
+<h1>Systems for people who move.</h1>
+<p class="lede">Performance science, AI strategy, media, footwear, and founder operations — built by Alexander Mathai. Civil engineer (IIT) turned biomechanics consultant to NFL, NBA, and UFC athletes.</p>
+<a class="cta" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener">Connect on LinkedIn →</a>
+<section>
+<h2>Divisions</h2>
+<div class="grid">
+<div class="card"><div class="name">TM Consulting</div><div class="desc">Biomechanics &amp; performance consulting for elite athletes and teams (NFL, NBA, UFC).</div><div class="links"><a href="https://www.youtube.com/@texasmovementperformance" target="_blank" rel="noopener">YouTube</a></div></div>
+<div class="card"><div class="name">HERO Footwear</div><div class="desc">Footwear engineered around biomechanics. Built for the people who move.</div><div class="links"><a href="https://www.instagram.com/herofootwearusa/" target="_blank" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@herofootwear" target="_blank" rel="noopener">TikTok</a><a href="https://www.youtube.com/@HEROFootwear" target="_blank" rel="noopener">YouTube</a></div></div>
+<div class="card"><div class="name">TM Media</div><div class="desc">Long-form storytelling, films, and broadcast for the movement category.</div><div class="links"><a href="https://www.youtube.com/@texasmovementmedia" target="_blank" rel="noopener">YouTube</a></div></div>
+<div class="card"><div class="name">FounderLink</div><div class="desc">Operating playbooks and capital pathways for founders who actually ship.</div></div>
+<div class="card"><div class="name">TM Powernomics</div><div class="desc">Applied economics and AI strategy at the intersection of culture, capital, and capability.</div></div>
+<div class="card"><div class="name">TM Performance</div><div class="desc">Training systems &amp; recovery protocols engineered from first principles.</div></div>
+</div>
+</section>
+<section>
+<h2>Connect</h2>
+<div class="connect">
+<a class="sbtn" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener">LinkedIn — Alexander Mathai</a>
+<a class="sbtn" href="https://www.instagram.com/alexanderofnazareth/" target="_blank" rel="noopener">Instagram — @alexanderofnazareth</a>
+<a class="sbtn" href="https://www.tiktok.com/@alexandervmathai" target="_blank" rel="noopener">TikTok — @alexandervmathai</a>
+</div>
+</section>
+<footer>
+<div>© Texas Movement International</div>
+<div>texasmovement.com</div>
+</footer>
 </main>
 </body>
 </html>
