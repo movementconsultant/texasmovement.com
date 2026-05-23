@@ -36,6 +36,95 @@ h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute
 .sbtn:hover{border-color:var(--accent);color:var(--accent)}
 footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </style>
+
+  <!-- Structured Data: Organization + Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://texasmovement.com/#organization",
+        "name": "Texas Movement International",
+        "alternateName": "TMI",
+        "url": "https://texasmovement.com",
+        "logo": "https://texasmovement.com/favicon.ico",
+        "description": "Texas Movement International is a multi-division performance, consulting, media, footwear, and nightlife organization founded in 2015. Divisions include Texas Movement Performance, Texas Movement Consulting, Texas Movement Media, HERO Footwear, and Texas Movement Social.",
+        "foundingDate": "2015",
+        "founder": {
+          "@id": "https://texasmovement.com/#alexander-mathai"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/company/texasmovement",
+          "https://www.linkedin.com/in/alexandermathai/"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "TMI Divisions",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "name": "Texas Movement Performance",
+              "url": "https://performance.texasmovement.com"
+            },
+            {
+              "@type": "Offer",
+              "name": "Texas Movement Consulting",
+              "url": "https://consulting.texasmovement.com"
+            },
+            {
+              "@type": "Offer",
+              "name": "Texas Movement Media",
+              "url": "https://media.texasmovement.com"
+            },
+            {
+              "@type": "Offer",
+              "name": "HERO Footwear",
+              "url": "https://hero.texasmovement.com"
+            },
+            {
+              "@type": "Offer",
+              "name": "Texas Movement Social",
+              "url": "https://social.texasmovement.com"
+            }
+          ]
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://texasmovement.com/#alexander-mathai",
+        "name": "Alexander Mathai",
+        "jobTitle": "Founder & CEO",
+        "worksFor": {
+          "@id": "https://texasmovement.com/#organization"
+        },
+        "url": "https://texasmovement.com",
+        "sameAs": [
+          "https://www.linkedin.com/in/alexandermathai/"
+        ],
+        "knowsAbout": [
+          "AI Project Consulting",
+          "Biomechanics",
+          "Athletic Performance",
+          "Organizational Systems",
+          "Media Production",
+          "Footwear Design"
+        ],
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Illinois Institute of Technology",
+          "sameAs": "https://www.iit.edu"
+        },
+        "hasCredential": [
+          {
+            "@type": "EducationalOccupationalCredential",
+            "name": "USATF Level 1 Certified Coach"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <main class="wrap">
