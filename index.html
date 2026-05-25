@@ -18,147 +18,134 @@ a:hover{color:var(--accent)}
 .wrap{max-width:920px;margin:0 auto;padding:64px 24px 96px}
 .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:16px}
 h1{font-size:clamp(34px,5vw,52px);font-weight:800;letter-spacing:-.02em;margin:0 0 16px;line-height:1.1}
-.lede{font-size:18px;color:var(--mute);max-width:640px;margin:0 0 32px}
-.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px}
-.cta{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:#111;transition:all .15s}
+.lede{font-size:18px;color:var(--mute);max-width:640px;margin:0 0 32px;line-height:1.6}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.cta{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:#111;transition:border-color .15s,color .15s;color:var(--ink)}
 .cta:hover{border-color:var(--accent);color:var(--accent)}
-.cta.primary{border-color:#444;color:var(--ink)}
-.cta.primary:hover{border-color:var(--accent);color:var(--accent)}
+.cta.primary{border-color:#444}
 section{margin-top:56px;padding-top:32px;border-top:1px solid var(--line)}
-h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:600;margin:0 0 24px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.card{padding:20px;border:1px solid var(--line);border-radius:14px;background:#0f0f0f;transition:all .15s;display:flex;flex-direction:column;gap:8px}
+h2{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:600;margin:0 0 24px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+@media(min-width:701px) and (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+.card{padding:20px;border:1px solid var(--line);border-radius:14px;background:#0f0f0f;transition:border-color .15s,transform .15s;display:flex;flex-direction:column;gap:0}
 .card:hover{border-color:#333;transform:translateY(-2px)}
-.card .name{font-weight:700;font-size:17px}
-.card .desc{color:var(--mute);font-size:14px;flex:1}
-.card .visit{font-size:12px;color:var(--mute);margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}
-.card:hover .visit{color:var(--accent)}
-.card .links{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
-.card .links a{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--mute)}
-.card .links a:hover{border-color:var(--accent);color:var(--accent)}
-.about-body{font-size:15px;color:var(--mute);max-width:700px;line-height:1.7}
-.about-body p{margin:0 0 16px}
-.about-body p:last-child{margin:0}
+.card-name{font-weight:700;font-size:16px;margin:0 0 8px;color:var(--ink)}
+.card-desc{color:var(--mute);font-size:14px;line-height:1.55;flex:1;margin:0 0 16px}
+.card-links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{display:inline-flex;align-items:center;font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;color:var(--mute);transition:border-color .15s,color .15s}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.card-visit{font-size:12px;color:var(--mute);padding-top:12px;border-top:1px solid var(--line);display:block;transition:color .15s}
+.card:hover .card-visit{color:var(--accent)}
+.about-body{font-size:15px;color:var(--mute);max-width:700px;line-height:1.75}
+.about-body p+p{margin-top:14px}
 .connect{display:flex;flex-wrap:wrap;gap:12px}
-.sbtn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:#0f0f0f;font-size:14px;transition:all .15s}
+.sbtn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:#0f0f0f;font-size:14px;transition:border-color .15s,color .15s}
 .sbtn:hover{border-color:var(--accent);color:var(--accent)}
 footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
 </style>
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://texasmovement.com/#organization",
-      "name": "Texas Movement International",
-      "alternateName": "TMI",
-      "url": "https://texasmovement.com",
-      "logo": "https://texasmovement.com/favicon.ico",
-      "description": "Texas Movement International is a systems company building infrastructure for performance, media, and economic development across athletics, content, footwear, and city-scale consulting.",
-      "foundingDate": "2015",
-      "founder": { "@id": "https://texasmovement.com/#alexander-mathai" },
-      "sameAs": ["https://www.linkedin.com/company/texasmovement","https://www.linkedin.com/in/alexandermathai/"]
-    },
-    {
-      "@type": "Person",
-      "@id": "https://texasmovement.com/#alexander-mathai",
-      "name": "Alexander Mathai",
-      "jobTitle": "Founder & President",
-      "url": "https://texasmovement.com",
-      "sameAs": ["https://www.linkedin.com/in/alexandermathai/","https://www.instagram.com/alexanderofnazareth/","https://www.tiktok.com/@alexandervmathai"]
-    }
-  ]
-}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://texasmovement.com/#organization","name":"Texas Movement International","alternateName":"TMI","url":"https://texasmovement.com","description":"A systems company building infrastructure for performance, media, and economic development across athletics, content, footwear, and city-scale consulting.","foundingDate":"2015","founder":{"@id":"https://texasmovement.com/#alexander-mathai"},"sameAs":["https://www.linkedin.com/company/texasmovement","https://www.linkedin.com/in/alexandermathai/"]},{"@type":"Person","@id":"https://texasmovement.com/#alexander-mathai","name":"Alexander Mathai","jobTitle":"Founder & President","url":"https://texasmovement.com","sameAs":["https://www.linkedin.com/in/alexandermathai/","https://www.instagram.com/alexanderofnazareth/","https://www.tiktok.com/@alexandervmathai"]}]}
 </script>
 </head>
 <body>
 <main class="wrap">
 
+  <!-- HERO -->
   <div class="eyebrow">Texas Movement International</div>
   <h1>Systems for people who move.</h1>
-  <p class="lede">A systems company building infrastructure for performance, media, and economic development — operating across athletics, content, footwear, and city-scale consulting.</p>
+  <p class="lede">A systems company building infrastructure for performance, media, and economic development across athletics, content, footwear, and city-scale consulting.</p>
   <div class="ctas">
-    <a class="cta primary" href="#divisions">Explore the Ecosystem →</a>
-    <a class="cta" href="https://consulting.texasmovement.com" target="_blank" rel="noopener">Work With TMI →</a>
+    <a class="cta primary" href="#divisions">Explore the Ecosystem &rarr;</a>
+    <a class="cta" href="https://consulting.texasmovement.com" target="_blank" rel="noopener">Work With TMI &rarr;</a>
   </div>
 
+  <!-- DIVISIONS -->
   <section id="divisions">
     <h2>Divisions</h2>
     <div class="grid">
 
-      <a class="card" href="https://social.texasmovement.com" target="_blank" rel="noopener">
-        <div class="name">Texas Movement Social / Gather™</div>
-        <div class="desc">The ceremony and experience platform for couples, families, and communities — powered by Circle OS™.</div>
-        <div class="visit">Visit social.texasmovement.com →</div>
-      </a>
+      <!-- 1 -->
+      <div class="card">
+        <p class="card-name">Texas Movement Social / Gather&trade;</p>
+        <p class="card-desc">The ceremony and experience platform for couples, families, and communities &mdash; powered by Circle OS&trade;.</p>
+        <a class="card-visit" href="https://social.texasmovement.com" target="_blank" rel="noopener">Visit social.texasmovement.com &rarr;</a>
+      </div>
 
-      <a class="card" href="https://media.texasmovement.com" target="_blank" rel="noopener">
-        <div class="name">Texas Movement Media</div>
-        <div class="desc">The content arm of TMI turning underreported sports and founder stories into economic leverage for athletes, brands, and cities.</div>
-        <div class="links">
-          <a href="https://www.youtube.com/@TexasMovementMedia" target="_blank" rel="noopener" onclick="event.stopPropagation()">YouTube</a>
+      <!-- 2 -->
+      <div class="card">
+        <p class="card-name">Texas Movement Media</p>
+        <p class="card-desc">The content arm of TMI turning underreported sports and founder stories into economic leverage for athletes, brands, and cities.</p>
+        <div class="card-links">
+          <a class="chip" href="https://www.youtube.com/@TexasMovementMedia" target="_blank" rel="noopener">YouTube</a>
         </div>
-        <div class="visit">Visit media.texasmovement.com →</div>
-      </a>
+        <a class="card-visit" href="https://media.texasmovement.com" target="_blank" rel="noopener">Visit media.texasmovement.com &rarr;</a>
+      </div>
 
-      <a class="card" href="https://hero.texasmovement.com" target="_blank" rel="noopener">
-        <div class="name">HERO Footwear &amp; Performance</div>
-        <div class="desc">Footwear and training systems engineered around biomechanics — built for athletes who operate at the edge.</div>
-        <div class="links">
-          <a href="https://www.instagram.com/herofootwearusa/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Instagram</a>
-          <a href="https://www.tiktok.com/@herofootwear" target="_blank" rel="noopener" onclick="event.stopPropagation()">TikTok</a>
-          <a href="https://www.youtube.com/@HEROFootwear" target="_blank" rel="noopener" onclick="event.stopPropagation()">YouTube</a>
+      <!-- 3 -->
+      <div class="card">
+        <p class="card-name">HERO Footwear &amp; Performance</p>
+        <p class="card-desc">Footwear and training systems engineered around biomechanics &mdash; built for athletes who operate at the edge.</p>
+        <div class="card-links">
+          <a class="chip" href="https://www.instagram.com/herofootwearusa/" target="_blank" rel="noopener">Instagram</a>
+          <a class="chip" href="https://www.tiktok.com/@herofootwear" target="_blank" rel="noopener">TikTok</a>
+          <a class="chip" href="https://www.youtube.com/@HEROFootwear" target="_blank" rel="noopener">YouTube</a>
         </div>
-        <div class="visit">Visit hero.texasmovement.com →</div>
-      </a>
+        <a class="card-visit" href="https://hero.texasmovement.com" target="_blank" rel="noopener">Visit hero.texasmovement.com &rarr;</a>
+      </div>
 
-      <a class="card" href="https://consulting.texasmovement.com" target="_blank" rel="noopener">
-        <div class="name">TM Consulting</div>
-        <div class="desc">Biomechanics and performance consulting for elite athletes and teams across the NFL, NBA, and UFC.</div>
-        <div class="visit">Visit consulting.texasmovement.com →</div>
-      </a>
+      <!-- 4 -->
+      <div class="card">
+        <p class="card-name">TM Consulting</p>
+        <p class="card-desc">Biomechanics and performance consulting for elite athletes and teams across the NFL, NBA, and UFC.</p>
+        <a class="card-visit" href="https://consulting.texasmovement.com" target="_blank" rel="noopener">Visit consulting.texasmovement.com &rarr;</a>
+      </div>
 
-      <a class="card" href="https://founderlink.texasmovement.com" target="_blank" rel="noopener">
-        <div class="name">FounderLink</div>
-        <div class="desc">Operating playbooks and capital pathways for founders who ship — connecting builders to the infrastructure they actually need.</div>
-        <div class="visit">Visit founderlink.texasmovement.com →</div>
-      </a>
+      <!-- 5 -->
+      <div class="card">
+        <p class="card-name">FounderLink</p>
+        <p class="card-desc">Operating playbooks and capital pathways for founders who ship &mdash; connecting builders to the infrastructure they actually need.</p>
+        <a class="card-visit" href="https://founderlink.texasmovement.com" target="_blank" rel="noopener">Visit founderlink.texasmovement.com &rarr;</a>
+      </div>
 
-      <a class="card" href="https://reparations.texasmovement.com" target="_blank" rel="noopener">
-        <div class="name">TM Reparations &amp; Partners</div>
-        <div class="desc">Applied economics and infrastructure-first capital strategy at the intersection of culture, community, and long-term development.</div>
-        <div class="visit">Visit reparations.texasmovement.com →</div>
-      </a>
+      <!-- 6 -->
+      <div class="card">
+        <p class="card-name">TM Reparations &amp; Partners</p>
+        <p class="card-desc">Applied economics and infrastructure-first capital strategy at the intersection of culture, community, and long-term development.</p>
+        <a class="card-visit" href="https://reparations.texasmovement.com" target="_blank" rel="noopener">Visit reparations.texasmovement.com &rarr;</a>
+      </div>
 
-      <a class="card" href="https://performance.texasmovement.com" target="_blank" rel="noopener">
-        <div class="name">TM Performance</div>
-        <div class="desc">Training systems and recovery protocols engineered from first principles — built to be repeatable at every level.</div>
-        <div class="visit">Visit performance.texasmovement.com →</div>
-      </a>
+      <!-- 7 -->
+      <div class="card">
+        <p class="card-name">TM Performance</p>
+        <p class="card-desc">Training systems and recovery protocols engineered from first principles &mdash; built to be repeatable at every level.</p>
+        <a class="card-visit" href="https://performance.texasmovement.com" target="_blank" rel="noopener">Visit performance.texasmovement.com &rarr;</a>
+      </div>
 
     </div>
   </section>
 
+  <!-- ABOUT -->
   <section id="about">
     <h2>About TMI</h2>
     <div class="about-body">
-      <p>Texas Movement International is a multi-vertical systems company headquartered in Texas. We build the infrastructure — athletic, economic, cultural, and operational — that helps athletes, founders, cities, and families move with precision. Our verticals span performance science, media production, footwear, consulting, and ceremony technology.</p>
+      <p>Texas Movement International is a multi-vertical systems company headquartered in Texas. We build the infrastructure &mdash; athletic, economic, cultural, and operational &mdash; that helps athletes, founders, cities, and families move with precision. Our verticals span performance science, media production, footwear, consulting, and ceremony technology.</p>
       <p>TMI exists because high-functioning people and institutions need systems that work together, not just individual services. Every TMI product is designed to integrate with the broader ecosystem: better athletes generate better stories; better stories create better markets; better markets fund better infrastructure. We build for compounding returns.</p>
     </div>
   </section>
 
+  <!-- CONNECT -->
   <section id="connect">
     <h2>Connect</h2>
     <div class="connect">
-      <a class="sbtn" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener">LinkedIn — Alexander Mathai</a>
-      <a class="sbtn" href="https://www.instagram.com/alexanderofnazareth/" target="_blank" rel="noopener">Instagram — @alexanderofnazareth</a>
-      <a class="sbtn" href="https://www.tiktok.com/@alexandervmathai" target="_blank" rel="noopener">TikTok — @alexandervmathai</a>
+      <a class="sbtn" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener">LinkedIn &mdash; Alexander Mathai</a>
+      <a class="sbtn" href="https://www.instagram.com/alexanderofnazareth/" target="_blank" rel="noopener">Instagram &mdash; @alexanderofnazareth</a>
+      <a class="sbtn" href="https://www.tiktok.com/@alexandervmathai" target="_blank" rel="noopener">TikTok &mdash; @alexandervmathai</a>
     </div>
   </section>
 
   <footer>
-    <div>Texas Movement International · Performance. Media. Infrastructure. — texasmovement.com</div>
+    <p>&copy; Texas Movement International &middot; Performance. Media. Infrastructure. &mdash; texasmovement.com</p>
   </footer>
 
 </main>
