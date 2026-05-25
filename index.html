@@ -28,7 +28,7 @@ h2{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:700px){.grid{grid-template-columns:1fr}}
 @media(min-width:701px) and (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
-.card{padding:20px;border:1px solid var(--line);border-radius:14px;background:#0f0f0f;transition:border-color .15s,transform .15s;display:flex;flex-direction:column;gap:0}
+.card{padding:20px;border:1px solid var(--line);border-radius:14px;background:#0f0f0f;transition:border-color .15s,transform .15s;display:flex;flex-direction:column}
 .card:hover{border-color:#333;transform:translateY(-2px)}
 .card-name{font-weight:700;font-size:16px;margin:0 0 8px;color:var(--ink)}
 .card-desc{color:var(--mute);font-size:14px;line-height:1.55;flex:1;margin:0 0 16px}
@@ -39,13 +39,25 @@ h2{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute
 .card:hover .card-visit{color:var(--accent)}
 .about-body{font-size:15px;color:var(--mute);max-width:700px;line-height:1.75}
 .about-body p+p{margin-top:14px}
-.connect{display:flex;flex-wrap:wrap;gap:12px}
-.sbtn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:#0f0f0f;font-size:14px;transition:border-color .15s,color .15s}
-.sbtn:hover{border-color:var(--accent);color:var(--accent)}
+.network-intro{font-size:15px;color:var(--mute);max-width:700px;line-height:1.75;margin:0 0 32px}
+.handle-groups{display:flex;flex-direction:column;gap:28px}
+.handle-group-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600;margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.handle-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.handle-item{display:flex;align-items:flex-start;gap:0;flex-wrap:wrap}
+.handle-item a{font-size:14px;font-weight:600;color:var(--ink);transition:color .15s;white-space:nowrap}
+.handle-item a:hover{color:var(--accent)}
+.handle-item .hdesc{font-size:14px;color:var(--mute);margin-left:6px}
+.apply-intro{font-size:15px;color:var(--mute);max-width:700px;line-height:1.75;margin:0 0 20px}
+.apply-list{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:10px}
+.apply-list li{font-size:14px;color:var(--mute);line-height:1.6;padding-left:20px;position:relative}
+.apply-list li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+.apply-cta{font-size:14px;color:var(--mute);line-height:1.65;max-width:680px}
+.apply-cta a{color:var(--ink);border-bottom:1px solid var(--line);transition:color .15s,border-color .15s}
+.apply-cta a:hover{color:var(--accent);border-color:var(--accent)}
 footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://texasmovement.com/#organization","name":"Texas Movement International","alternateName":"TMI","url":"https://texasmovement.com","description":"A systems company building infrastructure for performance, media, and economic development across athletics, content, footwear, and city-scale consulting.","foundingDate":"2015","founder":{"@id":"https://texasmovement.com/#alexander-mathai"},"sameAs":["https://www.linkedin.com/company/texasmovement","https://www.linkedin.com/in/alexandermathai/"]},{"@type":"Person","@id":"https://texasmovement.com/#alexander-mathai","name":"Alexander Mathai","jobTitle":"Founder & President","url":"https://texasmovement.com","sameAs":["https://www.linkedin.com/in/alexandermathai/","https://www.instagram.com/alexanderofnazareth/","https://www.tiktok.com/@alexandervmathai"]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://texasmovement.com/#organization","name":"Texas Movement International","alternateName":"TMI","url":"https://texasmovement.com","description":"A systems company building infrastructure for performance, media, and economic development across athletics, content, footwear, and city-scale consulting.","foundingDate":"2015","founder":{"@id":"https://texasmovement.com/#alexander-mathai"}},{"@type":"Person","@id":"https://texasmovement.com/#alexander-mathai","name":"Alexander Mathai","jobTitle":"Founder & President","url":"https://texasmovement.com","sameAs":["https://www.linkedin.com/in/alexandermathai/","https://www.instagram.com/alexanderofnazareth/","https://www.tiktok.com/@alexandervmathai"]}]}
 </script>
 </head>
 <body>
@@ -65,14 +77,12 @@ footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-si
     <h2>Divisions</h2>
     <div class="grid">
 
-      <!-- 1 -->
       <div class="card">
         <p class="card-name">Texas Movement Social / Gather&trade;</p>
         <p class="card-desc">The ceremony and experience platform for couples, families, and communities &mdash; powered by Circle OS&trade;.</p>
         <a class="card-visit" href="https://social.texasmovement.com" target="_blank" rel="noopener">Visit social.texasmovement.com &rarr;</a>
       </div>
 
-      <!-- 2 -->
       <div class="card">
         <p class="card-name">Texas Movement Media</p>
         <p class="card-desc">The content arm of TMI turning underreported sports and founder stories into economic leverage for athletes, brands, and cities.</p>
@@ -82,7 +92,6 @@ footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-si
         <a class="card-visit" href="https://media.texasmovement.com" target="_blank" rel="noopener">Visit media.texasmovement.com &rarr;</a>
       </div>
 
-      <!-- 3 -->
       <div class="card">
         <p class="card-name">HERO Footwear &amp; Performance</p>
         <p class="card-desc">Footwear and training systems engineered around biomechanics &mdash; built for athletes who operate at the edge.</p>
@@ -94,28 +103,24 @@ footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-si
         <a class="card-visit" href="https://hero.texasmovement.com" target="_blank" rel="noopener">Visit hero.texasmovement.com &rarr;</a>
       </div>
 
-      <!-- 4 -->
       <div class="card">
         <p class="card-name">TM Consulting</p>
         <p class="card-desc">Biomechanics and performance consulting for elite athletes and teams across the NFL, NBA, and UFC.</p>
         <a class="card-visit" href="https://consulting.texasmovement.com" target="_blank" rel="noopener">Visit consulting.texasmovement.com &rarr;</a>
       </div>
 
-      <!-- 5 -->
       <div class="card">
         <p class="card-name">FounderLink</p>
         <p class="card-desc">Operating playbooks and capital pathways for founders who ship &mdash; connecting builders to the infrastructure they actually need.</p>
         <a class="card-visit" href="https://founderlink.texasmovement.com" target="_blank" rel="noopener">Visit founderlink.texasmovement.com &rarr;</a>
       </div>
 
-      <!-- 6 -->
       <div class="card">
         <p class="card-name">TM Reparations &amp; Partners</p>
         <p class="card-desc">Applied economics and infrastructure-first capital strategy at the intersection of culture, community, and long-term development.</p>
         <a class="card-visit" href="https://reparations.texasmovement.com" target="_blank" rel="noopener">Visit reparations.texasmovement.com &rarr;</a>
       </div>
 
-      <!-- 7 -->
       <div class="card">
         <p class="card-name">TM Performance</p>
         <p class="card-desc">Training systems and recovery protocols engineered from first principles &mdash; built to be repeatable at every level.</p>
@@ -136,12 +141,68 @@ footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-si
 
   <!-- CONNECT -->
   <section id="connect">
-    <h2>Connect</h2>
-    <div class="connect">
-      <a class="sbtn" href="https://www.linkedin.com/in/alexandermathai/" target="_blank" rel="noopener">LinkedIn &mdash; Alexander Mathai</a>
-      <a class="sbtn" href="https://www.instagram.com/alexanderofnazareth/" target="_blank" rel="noopener">Instagram &mdash; @alexanderofnazareth</a>
-      <a class="sbtn" href="https://www.tiktok.com/@alexandervmathai" target="_blank" rel="noopener">TikTok &mdash; @alexandervmathai</a>
+    <h2>Follow the Texas Movement Network</h2>
+    <p class="network-intro">Texas Movement International is a systems company operating across performance, media, footwear, and economic development. Alexander Mathai is the current flagship creator and founder &mdash; follow his channels for the founder&rsquo;s perspective on training, builds, and what it takes to operate inside this kind of system. The handles below are the official network: the best way to follow HERO product development, TMM features, and Texas Movement performance science in real time.</p>
+
+    <div class="handle-groups">
+
+      <div>
+        <p class="handle-group-label">Flagship Creator / Founder</p>
+        <ul class="handle-list">
+          <li class="handle-item">
+            <a href="https://www.instagram.com/alexanderofnazareth/" target="_blank" rel="noopener">Instagram &mdash; @AlexanderofNazareth</a>
+            <span class="hdesc">Founder&rsquo;s perspective: TMI, training, and what gets built.</span>
+          </li>
+          <li class="handle-item">
+            <a href="https://www.tiktok.com/@alexandervmathai" target="_blank" rel="noopener">TikTok &mdash; @AlexanderVMathai</a>
+            <span class="hdesc">Personal feed: daily work, training, and the build in progress.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="handle-group-label">HERO &amp; Performance</p>
+        <ul class="handle-list">
+          <li class="handle-item">
+            <a href="https://www.tiktok.com/@herofootwear" target="_blank" rel="noopener">TikTok &mdash; @HeroFootwear</a>
+            <span class="hdesc">Footwear and performance clips from inside HERO by Texas Movement.</span>
+          </li>
+          <li class="handle-item">
+            <a href="https://www.youtube.com/@HEROFootwear" target="_blank" rel="noopener">YouTube &mdash; @HEROfootwear</a>
+            <span class="hdesc">HERO: product development, performance breakdowns, and athlete content.</span>
+          </li>
+          <li class="handle-item">
+            <a href="https://www.youtube.com/@TexasMovementPerformance" target="_blank" rel="noopener">YouTube &mdash; @TexasMovementPerformance</a>
+            <span class="hdesc">Training systems, biomechanics protocols, and performance science from Texas Movement Performance.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="handle-group-label">Texas Movement Media</p>
+        <ul class="handle-list">
+          <li class="handle-item">
+            <a href="https://www.youtube.com/@TexasMovementMedia" target="_blank" rel="noopener">YouTube &mdash; @TexasMovementMedia</a>
+            <span class="hdesc">Pro talks, movement features, and documentary-style content from the TMM production arm.</span>
+          </li>
+        </ul>
+      </div>
+
     </div>
+  </section>
+
+  <!-- STEP INTO THE NETWORK -->
+  <section id="host">
+    <h2>Step Into the Network</h2>
+    <p class="apply-intro">Alexander Mathai is the current flagship creator and on-air voice of Texas Movement. As TMI grows across media, performance, and city-scale work, we&rsquo;re selectively opening the door to future hosts and on-air talent who want to carry specific shows, verticals, or markets forward. This isn&rsquo;t a collab request &mdash; it&rsquo;s a long-term creative and operational role inside a system that&rsquo;s being built to last.</p>
+    <ul class="apply-list">
+      <li>You&rsquo;re comfortable on camera and have documented reps &mdash; interviews, commentary, training content, or event coverage you can point to.</li>
+      <li>You understand at least one of the following at a real level: elite sports and performance, founder and operator economics, city development and infrastructure, or ceremony and community design.</li>
+      <li>You think in systems, not moments &mdash; you&rsquo;re interested in building a body of work, not chasing individual clips.</li>
+      <li>You can represent the TMI brand without supervision: calm, credible, economics-first, and serious about the work.</li>
+      <li>You&rsquo;re based in or connected to Texas, the South, or a city market TMI operates in &mdash; or you have a clear case for why you should be.</li>
+    </ul>
+    <p class="apply-cta">To apply: send a short introduction, links to work you&rsquo;ve already produced, and a note on what show or vertical you&rsquo;d want to host or build to <a href="mailto:texasmovementmedia@gmail.com?subject=Host Application: [Your Name / Market]">texasmovementmedia@gmail.com</a> with the subject line: <em>Host Application: [Your Name / Market]</em>.</p>
   </section>
 
   <footer>
