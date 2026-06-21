@@ -4,14 +4,38 @@
   <meta charset="UTF-8">
   <title>Texas Movement International — Systems for people who move.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Texas Movement International is a multi-vertical systems company building infrastructure for performance, media, footwear, and economic development. Systems for people who move.">
-  <meta property="og:title" content="Texas Movement International — Systems for people who move.">
-  <meta property="og:description" content="A systems company building infrastructure for performance, media, and economic development across athletics, content, footwear, and city-scale consulting.">
+
+  <!-- Primary description -->
+  <meta name="description" content="Texas Movement International is a systems company building infrastructure for performance, media, footwear, and economic development across athletics, content, and city-scale consulting.">
+
+  <!-- Theme color for mobile UI -->
+  <meta name="theme-color" content="#15181E">
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Texas Movement International">
+  <meta property="og:title" content="Texas Movement International — Systems for people who move.">
+  <meta property="og:description" content="A systems company building infrastructure for performance, media, footwear, and economic development across athletics, content, footwear, and city-scale consulting.">
   <meta property="og:url" content="https://texasmovement.com">
+  <!-- Use the banner header as the primary share image -->
+  <meta property="og:image" content="https://texasmovement.com/05_banner_header.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="Texas Movement International — systems for people who move.">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Texas Movement International — Systems for people who move.">
+  <meta name="twitter:description" content="Performance, media, footwear, consulting, and economic development — built as one integrated system.">
+  <meta name="twitter:image" content="https://texasmovement.com/05_banner_header.png">
+  <meta name="twitter:image:alt" content="Texas Movement International — systems for people who move.">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --paper: #E7E8E2;
@@ -26,18 +50,8 @@
       --tension: #BD3B22;     /* red */
       --wrap: 1180px;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      -webkit-text-size-adjust: 100%;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
       background: var(--paper);
       color: var(--ink);
@@ -46,26 +60,11 @@
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--compression); outline-offset: 3px; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    a:focus-visible {
-      outline: 2px solid var(--compression);
-      outline-offset: 3px;
-    }
-
-    .mono {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
-    }
-
-    .wrap {
-      max-width: var(--wrap);
-      margin: 0 auto;
-      padding: 0 28px;
-    }
+    .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 28px; }
 
     header {
       border-bottom: 1px solid var(--line);
@@ -75,14 +74,12 @@
       top: 0;
       z-index: 40;
     }
-
     .topbar {
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-
     .brand {
       font-family: "Space Grotesk", sans-serif;
       font-weight: 600;
@@ -93,13 +90,22 @@
       align-items: center;
       gap: 10px;
     }
-
     .brand span {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.7rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--ink-soft);
+    }
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-mark img {
+      height: 28px;
+      width: auto;
+      display: block;
     }
 
     nav {
@@ -111,25 +117,15 @@
       text-transform: uppercase;
       color: var(--ink-soft);
     }
+    nav a:hover { color: var(--ink); }
 
-    nav a:hover {
-      color: var(--ink);
-    }
-
-    .section {
-      padding: 88px 0;
-    }
-
-    .section--tight {
-      padding: 72px 0;
-    }
-
+    .section { padding: 88px 0; }
+    .section--tight { padding: 72px 0; }
     .section--panel {
       background: var(--panel);
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
-
     .section--graphite {
       background: var(--graphite);
       color: var(--white);
@@ -147,7 +143,6 @@
       gap: 12px;
       margin-bottom: 18px;
     }
-
     .eyebrow::before {
       content: "";
       width: 32px;
@@ -155,56 +150,30 @@
       background: var(--tension);
       flex: none;
     }
+    .eyebrow--light { color: #9aa0ab; }
+    .eyebrow--light::before { background: var(--tension); }
 
-    .eyebrow--light {
-      color: #9aa0ab;
-    }
-
-    .eyebrow--light::before {
-      background: var(--tension);
-    }
-
-    h1,
-    h2,
-    h3 {
+    h1, h2, h3 {
       font-family: "Space Grotesk", sans-serif;
       font-weight: 600;
       line-height: 1.06;
       letter-spacing: -0.02em;
     }
-
-    h1 {
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      margin-bottom: 16px;
-    }
-
-    h2 {
-      font-size: clamp(1.7rem, 3.1vw, 2.4rem);
-      margin-bottom: 16px;
-    }
-
-    h3 {
-      font-size: 1.1rem;
-      margin-bottom: 6px;
-    }
-
-    p {
-      color: var(--ink-soft);
-      max-width: 44em;
-    }
+    h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); margin-bottom: 16px; }
+    h2 { font-size: clamp(1.7rem, 3.1vw, 2.4rem); margin-bottom: 16px; }
+    h3 { font-size: 1.1rem; margin-bottom: 6px; }
+    p { color: var(--ink-soft); max-width: 44em; }
 
     .hero {
       border-bottom: 1px solid var(--line);
       background: radial-gradient(circle at top left, #f9fafb, var(--paper));
     }
-
     .hero-inner {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 52px;
       align-items: center;
     }
-
     .hero-tagline {
       font-family: "Space Grotesk", sans-serif;
       font-size: 1.05rem;
@@ -213,19 +182,16 @@
       color: var(--ink-soft);
       margin-bottom: 10px;
     }
-
     .hero-body {
       font-size: 1.02rem;
       margin-bottom: 26px;
     }
-
     .hero-ctas {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 32px;
     }
-
     .btn {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.78rem;
@@ -241,29 +207,11 @@
       color: var(--white);
       transition: 0.18s ease;
     }
-
-    .btn:hover {
-      background: transparent;
-      color: var(--ink);
-    }
-
-    .btn--ghost {
-      background: transparent;
-      color: var(--ink);
-    }
-
-    .btn--ghost:hover {
-      background: var(--ink);
-      color: var(--white);
-    }
-
-    .btn .arrow {
-      transition: transform 0.18s ease;
-    }
-
-    .btn:hover .arrow {
-      transform: translateX(3px);
-    }
+    .btn:hover { background: transparent; color: var(--ink); }
+    .btn--ghost { background: transparent; color: var(--ink); }
+    .btn--ghost:hover { background: var(--ink); color: var(--white); }
+    .btn .arrow { transition: transform 0.18s ease; }
+    .btn:hover .arrow { transform: translateX(3px); }
 
     .hero-note {
       font-family: "IBM Plex Mono", monospace;
@@ -279,6 +227,13 @@
       padding: 18px 18px 14px;
       background: var(--panel);
     }
+    .hero-figure img.hero-banner {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      margin-bottom: 12px;
+    }
 
     .hero-grid {
       display: grid;
@@ -287,7 +242,6 @@
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.7rem;
     }
-
     .hero-node {
       border-radius: 12px;
       padding: 10px 10px 9px;
@@ -295,7 +249,6 @@
       border: 1px solid var(--line-strong);
       min-height: 80px;
     }
-
     .hero-node-label {
       text-transform: uppercase;
       letter-spacing: 0.14em;
@@ -303,14 +256,8 @@
       margin-bottom: 4px;
       color: var(--ink-soft);
     }
-
-    .hero-node--source {
-      border-color: var(--tension);
-    }
-
-    .hero-node--terminal {
-      border-color: var(--compression);
-    }
+    .hero-node--source { border-color: var(--tension); }
+    .hero-node--terminal { border-color: var(--compression); }
 
     .hero-caption {
       margin-top: 8px;
@@ -328,7 +275,6 @@
       gap: 20px;
       margin-top: 32px;
     }
-
     .division {
       border-radius: 14px;
       border: 1px solid var(--line-strong);
@@ -338,7 +284,6 @@
       flex-direction: column;
       gap: 6px;
     }
-
     .division-label {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.7rem;
@@ -346,17 +291,8 @@
       text-transform: uppercase;
       color: var(--ink-soft);
     }
-
-    .division-title {
-      font-size: 1.02rem;
-      font-weight: 600;
-    }
-
-    .division-body {
-      font-size: 0.9rem;
-      color: var(--ink-soft);
-    }
-
+    .division-title { font-size: 1.02rem; font-weight: 600; }
+    .division-body { font-size: 0.9rem; color: var(--ink-soft); }
     .division-links {
       margin-top: 6px;
       display: flex;
@@ -367,14 +303,8 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-
-    .division-links a {
-      border-bottom: 1px solid transparent;
-    }
-
-    .division-links a:hover {
-      border-bottom-color: var(--ink);
-    }
+    .division-links a { border-bottom: 1px solid transparent; }
+    .division-links a:hover { border-bottom-color: var(--ink); }
 
     .about-grid {
       display: grid;
@@ -382,11 +312,7 @@
       gap: 40px;
       margin-top: 24px;
     }
-
-    .about-body p {
-      margin-bottom: 14px;
-    }
-
+    .about-body p { margin-bottom: 14px; }
     .about-side {
       border-radius: 14px;
       border: 1px solid var(--line-strong);
@@ -402,13 +328,11 @@
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 22px;
     }
-
     .network-block {
       border-radius: 14px;
       border: 1px solid #2c313b;
       padding: 18px 18px 14px;
     }
-
     .network-label {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.7rem;
@@ -417,14 +341,12 @@
       color: #9aa0ab;
       margin-bottom: 8px;
     }
-
     .network-title {
       font-family: "Space Grotesk", sans-serif;
       font-size: 1rem;
       color: var(--white);
       margin-bottom: 6px;
     }
-
     .network-links {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
@@ -435,29 +357,15 @@
       gap: 8px 14px;
       color: #cdd2da;
     }
+    .network-links a:hover { color: var(--white); }
 
-    .network-links a:hover {
-      color: var(--white);
-    }
-
-    .hosts-list {
-      margin-top: 18px;
-      font-size: 0.9rem;
-      color: #cdd2da;
-    }
-
-    .hosts-list ul {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 12px;
-    }
-
+    .hosts-list { margin-top: 18px; font-size: 0.9rem; color: #cdd2da; }
+    .hosts-list ul { list-style: none; padding-left: 0; margin-top: 12px; }
     .hosts-list li {
       position: relative;
       padding-left: 18px;
       margin-bottom: 8px;
     }
-
     .hosts-list li::before {
       content: "—";
       position: absolute;
@@ -474,7 +382,6 @@
       font-size: 0.7rem;
       letter-spacing: 0.06em;
     }
-
     .footer-inner {
       display: flex;
       flex-wrap: wrap;
@@ -484,300 +391,264 @@
     }
 
     @media (max-width: 900px) {
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      .section,
-      .section--tight {
-        padding: 64px 0;
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      nav {
-        display: none;
-      }
-
-      .wrap {
-        padding: 0 20px;
-      }
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+      .section, .section--tight { padding: 64px 0; }
+      .about-grid { grid-template-columns: 1fr; }
+      nav { display: none; }
+      .wrap { padding: 0 20px; }
     }
-
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
+      html { scroll-behavior: auto; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="wrap topbar">
-    <div class="brand">
-      TEXAS MOVEMENT
-      <span>INTERNATIONAL</span>
+  <div class="wrap">
+    <div class="topbar">
+      <a href="#top" class="brand">
+        <span class="brand-mark">
+          <!-- stacked primary mark -->
+          <img src="01_primary_stacked_transparent.png" alt="Texas Movement International logo">
+        </span>
+        <span>TEXAS MOVEMENT&nbsp;INTERNATIONAL</span>
+      </a>
+      <nav>
+        <a href="#divisions">Divisions</a>
+        <a href="#about">About</a>
+        <a href="#network">Network</a>
+        <a href="https://consulting.texasmovement.com/">Work with TMI</a>
+      </nav>
     </div>
-    <nav>
-      <a href="#divisions">Divisions</a>
-      <a href="#about">About</a>
-      <a href="#network">Network</a>
-      <a href="https://consulting.texasmovement.com/">Work with TMI</a>
-    </nav>
   </div>
 </header>
 
-<section class="section hero">
-  <div class="wrap hero-inner">
-    <div>
-      <div class="hero-tagline">SYSTEMS FOR PEOPLE WHO MOVE.</div>
-      <h1>Texas Movement International.</h1>
-      <p class="hero-body">
-        A systems company building infrastructure for performance, media, and economic development across athletics, content, footwear, and city-scale consulting.
-      </p>
-      <div class="hero-ctas">
-        <a class="btn" href="#divisions">
-          Explore the ecosystem <span class="arrow">→</span>
-        </a>
-        <a class="btn btn--ghost" href="https://consulting.texasmovement.com/">
-          Work with TMI <span class="arrow">→</span>
-        </a>
-      </div>
-      <div class="hero-note mono">
-        PERFORMANCE · MEDIA · FOOTWEAR · CONSULTING · ECONOMIC DEVELOPMENT
-      </div>
-    </div>
-    <aside class="hero-figure" aria-hidden="true">
-      <div class="hero-grid">
-        <div class="hero-node hero-node--source">
-          <div class="hero-node-label">PERFORMANCE</div>
-          <div>Training systems, biomechanics, and recovery protocols.</div>
-        </div>
-        <div class="hero-node">
-          <div class="hero-node-label">MEDIA</div>
-          <div>Pro talks, underreported sports, and founder stories.</div>
-        </div>
-        <div class="hero-node">
-          <div class="hero-node-label">FOOTWEAR</div>
-          <div>HERO product development, engineered around biomechanics.</div>
-        </div>
-        <div class="hero-node">
-          <div class="hero-node-label">CONSULTING</div>
-          <div>AI systems advisory, inverted funnels, and org design.</div>
-        </div>
-        <div class="hero-node hero-node--terminal">
-          <div class="hero-node-label">INFRASTRUCTURE</div>
-          <div>City-scale work, reparative capital, and long-horizon systems.</div>
-        </div>
-      </div>
-      <div class="hero-caption mono">
-        FIG. 01 — VERTICALS UNDER LOAD · TEXAS MOVEMENT INTERNATIONAL
-      </div>
-    </aside>
-  </div>
-</section>
-
-<section id="divisions" class="section section--panel">
-  <div class="wrap">
-    <div class="eyebrow">DIVISIONS</div>
-    <h2>One system, seven verticals.</h2>
-    <p>
-      Each TMI vertical is built to do one thing well — and to feed the others. Better athletes generate better stories; better stories create better markets; better markets fund better infrastructure.
-    </p>
-
-    <div class="divisions-grid" style="margin-top:28px">
-      <!-- Social / Gather -->
-      <div class="division">
-        <div class="division-label">Texas Movement Social / Gather™</div>
-        <div class="division-title">Ceremony &amp; experience, powered by Circle OS™.</div>
-        <div class="division-body">
-          The ceremony and experience platform for couples, families, and communities — powered by Circle OS™.
-        </div>
-        <div class="division-links">
-          <a href="https://social.texasmovement.com/">Visit social.texasmovement.com →</a>
-        </div>
-      </div>
-
-      <!-- Media -->
-      <div class="division">
-        <div class="division-label">Texas Movement Media</div>
-        <div class="division-title">Content as economic leverage.</div>
-        <div class="division-body">
-          The content arm of TMI turning underreported sports and founder stories into economic leverage for athletes, brands, and cities.
-        </div>
-        <div class="division-links">
-          <a href="https://www.youtube.com/@TexasMovementMedia">YouTube</a>
-          <a href="https://media.texasmovement.com/">Visit media.texasmovement.com →</a>
-        </div>
-      </div>
-
-      <!-- HERO -->
-      <div class="division">
-        <div class="division-label">HERO Footwear &amp; Performance</div>
-        <div class="division-title">Footwear engineered around biomechanics.</div>
-        <div class="division-body">
-          Footwear and training systems engineered around biomechanics — built for athletes who operate at the edge.
-        </div>
-        <div class="division-links">
-          <a href="https://www.instagram.com/herofootwearusa/">Instagram</a>
-          <a href="https://www.tiktok.com/@herofootwear">TikTok</a>
-          <a href="https://www.youtube.com/@HEROFootwear">YouTube</a>
-          <a href="https://hero.texasmovement.com/">Visit hero.texasmovement.com →</a>
-        </div>
-      </div>
-
-      <!-- TM Consulting -->
-      <div class="division">
-        <div class="division-label">TM Consulting</div>
-        <div class="division-title">AI systems &amp; city-scale work.</div>
-        <div class="division-body">
-          Biomechanics and performance consulting for elite athletes and teams across the NFL, NBA, and UFC — now expanded into AI systems and org design.
-        </div>
-        <div class="division-links">
-          <a href="https://consulting.texasmovement.com/">Visit consulting.texasmovement.com →</a>
-        </div>
-      </div>
-
-      <!-- FounderLink -->
-      <div class="division">
-        <div class="division-label">FounderLink</div>
-        <div class="division-title">Operating playbooks &amp; capital pathways.</div>
-        <div class="division-body">
-          Operating playbooks and capital pathways for founders who ship — connecting builders to the infrastructure they actually need.
-        </div>
-        <div class="division-links">
-          <a href="https://founderlink.texasmovement.com/">Visit founderlink.texasmovement.com →</a>
-        </div>
-      </div>
-
-      <!-- Reparations & Partners -->
-      <div class="division">
-        <div class="division-label">TM Reparations &amp; Partners</div>
-        <div class="division-title">Reparative capital &amp; infrastructure.</div>
-        <div class="division-body">
-          Applied economics and infrastructure-first capital strategy at the intersection of culture, community, and long-term development.
-        </div>
-        <div class="division-links">
-          <a href="https://reparations.texasmovement.com/">Visit reparations.texasmovement.com →</a>
-        </div>
-      </div>
-
-      <!-- TM Performance -->
-      <div class="division">
-        <div class="division-label">TM Performance</div>
-        <div class="division-title">Training systems &amp; recovery protocols.</div>
-        <div class="division-body">
-          Training systems and recovery protocols engineered from first principles — built to be repeatable at every level.
-        </div>
-        <div class="division-links">
-          <a href="https://performance.texasmovement.com/">Visit performance.texasmovement.com →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="about" class="section">
-  <div class="wrap">
-    <div class="eyebrow">ABOUT TMI</div>
-    <h2>Why Texas Movement exists.</h2>
-    <div class="about-grid">
-      <div class="about-body">
-        <p>
-          Texas Movement International is a multi-vertical systems company headquartered in Texas. We build the infrastructure — athletic, economic, cultural, and operational — that helps athletes, founders, cities, and families move with precision.
+<main id="top">
+  <section class="section hero">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="hero-tagline">SYSTEMS FOR PEOPLE WHO MOVE.</div>
+        <h1>Texas Movement International.</h1>
+        <p class="hero-body">
+          A systems company building infrastructure for performance, media, and economic development across
+          athletics, content, footwear, and city-scale consulting.
         </p>
-        <p>
-          Our verticals span performance science, media production, footwear, consulting, and ceremony technology.
-        </p>
-        <p>
-          TMI exists because high-functioning people and institutions need systems that work together, not just individual services. Every TMI product is designed to integrate with the broader ecosystem: better athletes generate better stories; better stories create better markets; better markets fund better infrastructure. We build for compounding returns.
-        </p>
+        <div class="hero-ctas">
+          <a class="btn" href="#divisions">
+            Explore the ecosystem <span class="arrow">→</span>
+          </a>
+          <a class="btn btn--ghost" href="https://consulting.texasmovement.com/">
+            Work with TMI <span class="arrow">→</span>
+          </a>
+        </div>
+        <div class="hero-note">
+          PERFORMANCE · MEDIA · FOOTWEAR · CONSULTING · ECONOMIC DEVELOPMENT
+        </div>
       </div>
-      <aside class="about-side">
-        <strong>Systems, not one-offs.</strong>
-        <p style="margin-top:10px">
-          The through-line is simple: put high-functioning people and places under good load. When the training system, the media story, the product, and the capital all point in the same direction, the work compounds instead of leaking.
-        </p>
+
+      <aside class="hero-figure">
+        <img src="05_banner_header.png" alt="Texas Movement International banner" class="hero-banner">
+        <div class="hero-grid">
+          <div class="hero-node hero-node--source">
+            <div class="hero-node-label">Performance</div>
+            <div>Training systems, biomechanics, and recovery protocols.</div>
+          </div>
+          <div class="hero-node">
+            <div class="hero-node-label">Media</div>
+            <div>Pro talks, underreported sports, and founder stories.</div>
+          </div>
+          <div class="hero-node hero-node--terminal">
+            <div class="hero-node-label">Infrastructure</div>
+            <div>City-scale work, reparative capital, and long-horizon systems.</div>
+          </div>
+        </div>
+        <div class="hero-caption">
+          FIG. 01 — VERTICALS UNDER LOAD · TEXAS MOVEMENT INTERNATIONAL
+        </div>
       </aside>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="network" class="section section--graphite">
-  <div class="wrap">
-    <div class="eyebrow eyebrow--light">FOLLOW THE TEXAS MOVEMENT NETWORK</div>
-    <h2>Where the system shows up in public.</h2>
-    <p style="max-width:44em;color:#cdd2da">
-      Texas Movement International is a systems company operating across performance, media, footwear, and economic development. Alexander Mathai is the current flagship creator and founder — follow his channels for the founder’s perspective on training, builds, and what it takes to operate inside this kind of system. The handles below are the official network.
-    </p>
+  <section id="divisions" class="section section--panel">
+    <div class="wrap">
+      <div class="eyebrow">DIVISIONS</div>
+      <h2>One system, seven verticals.</h2>
+      <p>Each TMI vertical is built to do one thing well — and to feed the others. Better athletes generate better stories; better stories create better markets; better markets fund better infrastructure.</p>
 
-    <div class="network-grid">
-      <div class="network-block">
-        <div class="network-label">Flagship Creator / Founder</div>
-        <div class="network-title">Alexander Mathai</div>
-        <div class="network-links">
-          <a href="https://www.instagram.com/alexanderofnazareth/">Instagram — @AlexanderofNazareth</a>
-          <a href="https://www.tiktok.com/@alexandervmathai">TikTok — @AlexanderVMathai</a>
-        </div>
-        <p class="hosts-list">
-          Founder’s perspective: training, builds, and operating inside a multi-vertical system.
-        </p>
-      </div>
+      <div class="divisions-grid">
+        <article class="division">
+          <div class="division-label">Texas Movement Social / Gather™</div>
+          <div class="division-title">Ceremony &amp; experience, powered by Circle OS™.</div>
+          <p class="division-body">
+            The ceremony and experience platform for couples, families, and communities — powered by Circle OS™.
+          </p>
+          <div class="division-links">
+            <a href="https://social.texasmovement.com/">Visit social.texasmovement.com →</a>
+          </div>
+        </article>
 
-      <div class="network-block">
-        <div class="network-label">HERO &amp; Performance</div>
-        <div class="network-title">Footwear &amp; training systems</div>
-        <div class="network-links">
-          <a href="https://www.tiktok.com/@herofootwear">TikTok — @HeroFootwear</a>
-          <a href="https://www.youtube.com/@HEROFootwear">YouTube — @HEROfootwear</a>
-          <a href="https://www.youtube.com/@TexasMovementPerformance">YouTube — @TexasMovementPerformance</a>
-        </div>
-        <p class="hosts-list">
-          Footwear development, biomechanics protocols, and performance science from Texas Movement Performance.
-        </p>
-      </div>
+        <article class="division">
+          <div class="division-label">Texas Movement Media</div>
+          <div class="division-title">Content as economic leverage.</div>
+          <p class="division-body">
+            The content arm of TMI turning underreported sports and founder stories into economic leverage for athletes, brands, and cities.
+          </p>
+          <div class="division-links">
+            <a href="https://www.youtube.com/@TexasMovementMedia">YouTube</a>
+            <a href="https://media.texasmovement.com/">Visit media.texasmovement.com →</a>
+          </div>
+        </article>
 
-      <div class="network-block">
-        <div class="network-label">Texas Movement Media</div>
-        <div class="network-title">Pro talks &amp; movement features</div>
-        <div class="network-links">
-          <a href="https://www.youtube.com/@TexasMovementMedia">YouTube — @TexasMovementMedia</a>
-        </div>
-        <p class="hosts-list">
-          Pro talks, movement features, and documentary-style content from the TMM production arm.
-        </p>
+        <article class="division">
+          <div class="division-label">HERO Footwear &amp; Performance</div>
+          <div class="division-title">Footwear engineered around biomechanics.</div>
+          <p class="division-body">
+            Footwear and training systems engineered around biomechanics — built for athletes who operate at the edge.
+          </p>
+          <div class="division-links">
+            <a href="https://www.instagram.com/herofootwearusa/">Instagram</a>
+            <a href="https://www.tiktok.com/@herofootwear">TikTok</a>
+            <a href="https://www.youtube.com/@HEROFootwear">YouTube</a>
+            <a href="https://hero.texasmovement.com/">Visit hero.texasmovement.com →</a>
+          </div>
+        </article>
+
+        <article class="division">
+          <div class="division-label">TM Consulting</div>
+          <div class="division-title">AI systems &amp; city-scale work.</div>
+          <p class="division-body">
+            Biomechanics and performance consulting for elite athletes and teams across the NFL, NBA, and UFC — now expanded into AI systems and org design.
+          </p>
+          <div class="division-links">
+            <a href="https://consulting.texasmovement.com/">Visit consulting.texasmovement.com →</a>
+          </div>
+        </article>
+
+        <article class="division">
+          <div class="division-label">FounderLink</div>
+          <div class="division-title">Operating playbooks &amp; capital pathways.</div>
+          <p class="division-body">
+            Operating playbooks and capital pathways for founders who ship — connecting builders to the infrastructure they actually need.
+          </p>
+          <div class="division-links">
+            <a href="https://founderlink.texasmovement.com/">Visit founderlink.texasmovement.com →</a>
+          </div>
+        </article>
+
+        <article class="division">
+          <div class="division-label">TM Reparations &amp; Partners</div>
+          <div class="division-title">Reparative capital &amp; infrastructure.</div>
+          <p class="division-body">
+            Applied economics and infrastructure-first capital strategy at the intersection of culture, community, and long-term development.
+          </p>
+          <div class="division-links">
+            <a href="https://reparations.texasmovement.com/">Visit reparations.texasmovement.com →</a>
+          </div>
+        </article>
+
+        <article class="division">
+          <div class="division-label">TM Performance</div>
+          <div class="division-title">Training systems &amp; recovery protocols.</div>
+          <p class="division-body">
+            Training systems and recovery protocols engineered from first principles — built to be repeatable at every level.
+          </p>
+          <div class="division-links">
+            <a href="https://performance.texasmovement.com/">Visit performance.texasmovement.com →</a>
+          </div>
+        </article>
       </div>
     </div>
+  </section>
 
-    <div class="hosts-list" style="margin-top:32px">
-      <h3 style="font-size:1rem;color:#e5e7eb;margin-bottom:10px">Step into the network.</h3>
-      <p>
-        As TMI grows across media, performance, and city-scale work, we’re selectively opening the door to future hosts and on-air talent who want to carry specific shows, verticals, or markets forward. This isn’t a collab request — it’s a long-term creative and operational role inside a system that’s being built to last.
-      </p>
-      <ul>
-        <li>You’re comfortable on camera and have documented reps — interviews, commentary, training content, or event coverage you can point to.</li>
-        <li>You understand at least one of the following at a real level: elite sports and performance, founder and operator economics, city development and infrastructure, or ceremony and community design.</li>
-        <li>You think in systems, not moments — you’re interested in building a body of work, not chasing individual clips.</li>
-        <li>You can represent the TMI brand without supervision: calm, credible, economics-first, and serious about the work.</li>
-        <li>You’re based in or connected to Texas, the South, or a city market TMI operates in — or you have a clear case for why you should be.</li>
-      </ul>
-      <p style="margin-top:12px">
-        To apply: send a short introduction, links to work you’ve already produced, and a note on what show or vertical you’d want to host or build to
-        <a href="mailto:texasmovementmedia@gmail.com?subject=Host%20Application:%20%5BYour%20Name%20/%20Market%5D">texasmovementmedia@gmail.com</a>
-        with the subject line: <span class="mono">Host Application: [Your Name / Market]</span>.
-      </p>
+  <section id="about" class="section section--tight">
+    <div class="wrap">
+      <div class="eyebrow">ABOUT TMI</div>
+      <h2>Why Texas Movement exists.</h2>
+
+      <div class="about-grid">
+        <div class="about-body">
+          <p>Texas Movement International is a multi-vertical systems company headquartered in Texas. We build the infrastructure — athletic, economic, cultural, and operational — that helps athletes, founders, cities, and families move with precision.</p>
+          <p>Our verticals span performance science, media production, footwear, consulting, and ceremony technology.</p>
+          <p>TMI exists because high-functioning people and institutions need systems that work together, not just individual services. Every TMI product is designed to integrate with the broader ecosystem: better athletes generate better stories; better stories create better markets; better markets fund better infrastructure. We build for compounding returns.</p>
+          <p><strong>Systems, not one-offs.</strong></p>
+          <p>The through-line is simple: put high-functioning people and places under good load. When the training system, the media story, the product, and the capital all point in the same direction, the work compounds instead of leaking.</p>
+        </div>
+
+        <aside class="about-side">
+          <div class="eyebrow">MARK &amp; MONOGRAM</div>
+          <p>Texas Movement International operates under a single identity across performance, media, footwear, consulting, and reparative infrastructure. The primary mark and monogram appear across divisions to signal that the work is part of one system.</p>
+        </aside>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <section id="network" class="section section--graphite">
+    <div class="wrap">
+      <div class="eyebrow eyebrow--light">FOLLOW THE TEXAS MOVEMENT NETWORK</div>
+      <h2>Where the system shows up in public.</h2>
+      <p>Texas Movement International is a systems company operating across performance, media, footwear, and economic development. Alexander Mathai is the current flagship creator and founder — follow his channels for the founder’s perspective on training, builds, and what it takes to operate inside this kind of system. The handles below are the official network.</p>
+
+      <div class="network-grid">
+        <div class="network-block">
+          <div class="network-label">Flagship Creator / Founder</div>
+          <div class="network-title">Alexander Mathai</div>
+          <div class="network-links">
+            <a href="https://www.instagram.com/alexanderofnazareth/">Instagram — @AlexanderofNazareth</a>
+            <a href="https://www.tiktok.com/@alexandervmathai">TikTok — @AlexanderVMathai</a>
+          </div>
+          <div class="hosts-list">
+            Founder’s perspective: training, builds, and operating inside a multi-vertical system.
+          </div>
+        </div>
+
+        <div class="network-block">
+          <div class="network-label">HERO &amp; Performance</div>
+          <div class="network-title">Footwear &amp; training systems</div>
+          <div class="network-links">
+            <a href="https://www.tiktok.com/@herofootwear">TikTok — @HeroFootwear</a>
+            <a href="https://www.youtube.com/@HEROFootwear">YouTube — @HEROfootwear</a>
+            <a href="https://www.youtube.com/@TexasMovementPerformance">YouTube — @TexasMovementPerformance</a>
+          </div>
+          <div class="hosts-list">
+            Footwear development, biomechanics protocols, and performance science from Texas Movement Performance.
+          </div>
+        </div>
+
+        <div class="network-block">
+          <div class="network-label">Texas Movement Media</div>
+          <div class="network-title">Pro talks &amp; movement features</div>
+          <div class="network-links">
+            <a href="https://www.youtube.com/@TexasMovementMedia">YouTube — @TexasMovementMedia</a>
+          </div>
+          <div class="hosts-list">
+            Pro talks, movement features, and documentary-style content from the TMM production arm.
+          </div>
+        </div>
+      </div>
+
+      <div class="hosts-list">
+        <h3 style="margin-top:28px; margin-bottom:8px;">Step into the network.</h3>
+        <p>As TMI grows across media, performance, and city-scale work, we’re selectively opening the door to future hosts and on-air talent who want to carry specific shows, verticals, or markets forward. This isn’t a collab request — it’s a long-term creative and operational role inside a system that’s being built to last.</p>
+        <ul>
+          <li>You’re comfortable on camera and have documented reps — interviews, commentary, training content, or event coverage you can point to.</li>
+          <li>You understand at least one of the following at a real level: elite sports and performance, founder and operator economics, city development and infrastructure, or ceremony and community design.</li>
+          <li>You think in systems, not moments — you’re interested in building a body of work, not chasing individual clips.</li>
+          <li>You can represent the TMI brand without supervision: calm, credible, economics-first, and serious about the work.</li>
+          <li>You’re based in or connected to Texas, the South, or a city market TMI operates in — or you have a clear case for why you should be.</li>
+        </ul>
+        <p>To apply: send a short introduction, links to work you’ve already produced, and a note on what show or vertical you’d want to host or build to <a href="mailto:texasmovementmedia@gmail.com?subject=Host%20Application:%20%5BYour%20Name%20/%20Market%5D">texasmovementmedia@gmail.com</a> with the subject line: <span class="mono">Host Application: [Your Name / Market]</span>.</p>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer>
-  <div class="wrap footer-inner">
-    <span>© Texas Movement International · Performance. Media. Infrastructure. — texasmovement.com</span>
-    <span>Systems for people who move.</span>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span>© Texas Movement International · Performance. Media. Infrastructure. — texasmovement.com</span>
+      <span>Systems for people who move.</span>
+    </div>
   </div>
 </footer>
 
