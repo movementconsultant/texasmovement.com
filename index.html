@@ -6,7 +6,7 @@
   <title>Texas Movement International — Systems for people who move.</title>
   <meta
     name="description"
-    content="Texas Movement International is a consulting and media company building systems for performance, content, footwear, and strategic operations."
+    content="Texas Movement International is a systems company building infrastructure for performance, media, footwear, consulting, and strategic operations."
   />
   <link rel="canonical" href="https://texasmovement.com/" />
   <meta name="theme-color" content="#15181E" />
@@ -16,7 +16,7 @@
   <meta property="og:title" content="Texas Movement International — Systems for people who move." />
   <meta
     property="og:description"
-    content="A consulting and media company building systems for performance, content, footwear, and strategic operations."
+    content="Texas Movement International builds infrastructure for performance, media, footwear, consulting, and strategic operations."
   />
   <meta property="og:url" content="https://texasmovement.com/" />
   <meta property="og:image" content="https://texasmovement.com/05_banner_header.png" />
@@ -29,7 +29,7 @@
   <meta name="twitter:title" content="Texas Movement International — Systems for people who move." />
   <meta
     name="twitter:description"
-    content="A consulting and media company building systems for performance, content, footwear, and strategic operations."
+    content="Texas Movement International builds infrastructure for performance, media, footwear, consulting, and strategic operations."
   />
   <meta name="twitter:image" content="https://texasmovement.com/05_banner_header.png" />
   <meta name="twitter:image:alt" content="Texas Movement International banner" />
@@ -41,7 +41,7 @@
       "name": "Texas Movement International LLC",
       "url": "https://texasmovement.com/",
       "logo": "https://texasmovement.com/01_primary_stacked_transparent.png",
-      "description": "Texas Movement International LLC is a consulting and media company focused on performance, content, footwear, and strategic operations.",
+      "description": "Texas Movement International LLC is a systems company focused on performance, media, footwear, consulting, and strategic operations.",
       "sameAs": [
         "https://www.linkedin.com/company/texas-movement-consulting"
       ],
@@ -114,6 +114,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
     }
     .brand {
       font-family: "Space Grotesk", sans-serif;
@@ -124,6 +125,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
     }
     .brand span {
       font-family: "IBM Plex Mono", monospace;
@@ -146,6 +148,8 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--ink-soft);
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
     nav a:hover { color: var(--ink); }
 
@@ -214,13 +218,13 @@
     }
     .hero-body {
       font-size: 1.02rem;
-      margin-bottom: 26px;
+      margin-bottom: 16px;
     }
     .hero-ctas {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
     .btn {
       font-family: "IBM Plex Mono", monospace;
@@ -264,7 +268,6 @@
       display: block;
       margin-bottom: 12px;
     }
-
     .hero-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -288,7 +291,6 @@
     }
     .hero-node--source { border-color: var(--tension); }
     .hero-node--terminal { border-color: var(--compression); }
-
     .hero-caption {
       margin-top: 8px;
       font-family: "IBM Plex Mono", monospace;
@@ -433,6 +435,302 @@
   </style>
 </head>
 <body>
-  <!-- body content can stay structurally similar, but tighten the copy to match the new head -->
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <a href="#top" class="brand" aria-label="Texas Movement International home">
+          <span class="brand-mark">
+            <img src="01_primary_stacked_transparent.png" alt="Texas Movement International logo" />
+          </span>
+          <span>TEXAS MOVEMENT INTERNATIONAL</span>
+        </a>
+        <nav>
+          <a href="#divisions">Divisions</a>
+          <a href="#about">About</a>
+          <a href="#network">Network</a>
+          <a href="mailto:movementconsultant@gmail.com">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="section hero">
+      <div class="wrap hero-inner">
+        <div>
+          <div class="hero-tagline">SYSTEMS FOR PEOPLE WHO MOVE.</div>
+          <h1>Texas Movement International.</h1>
+          <p class="hero-body">
+            Texas Movement International is a systems company building infrastructure for performance,
+            media, footwear, consulting, and strategic operations.
+          </p>
+          <p class="hero-body">
+            The company exists for founders, operators, athletes, and teams that need clear structure,
+            reliable execution, and a practical operating system that compounds over time.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn" href="#divisions">
+              Explore the ecosystem <span class="arrow">→</span>
+            </a>
+            <a class="btn btn--ghost" href="mailto:movementconsultant@gmail.com">
+              Contact movementconsultant@gmail.com <span class="arrow">→</span>
+            </a>
+          </div>
+          <div class="hero-note">
+            PERFORMANCE · MEDIA · FOOTWEAR · CONSULTING · STRATEGIC OPERATIONS
+          </div>
+        </div>
+
+        <aside class="hero-figure">
+          <img src="05_banner_header.png" alt="Texas Movement International banner" class="hero-banner" />
+          <div class="hero-grid">
+            <div class="hero-node hero-node--source">
+              <div class="hero-node-label">Performance</div>
+              <div>Training systems, biomechanics, and recovery protocols.</div>
+            </div>
+            <div class="hero-node">
+              <div class="hero-node-label">Media</div>
+              <div>Founder stories, sports content, and distribution systems.</div>
+            </div>
+            <div class="hero-node hero-node--terminal">
+              <div class="hero-node-label">Operations</div>
+              <div>Strategic systems that make execution easier to sustain.</div>
+            </div>
+          </div>
+          <div class="hero-caption">
+            FIG. 01 — VERTICALS UNDER LOAD · TEXAS MOVEMENT INTERNATIONAL
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="divisions" class="section section--panel">
+      <div class="wrap">
+        <div class="eyebrow">DIVISIONS</div>
+        <h2>One company, several operating lanes.</h2>
+        <p>
+          Each Texas Movement vertical is built to do one thing clearly and support the larger system.
+          The result is a company that can stay focused while still compounding across multiple surfaces.
+        </p>
+
+        <div class="divisions-grid">
+          <article class="division">
+            <div class="division-label">Texas Movement Consulting</div>
+            <div class="division-title">Strategy, systems, and implementation support.</div>
+            <p class="division-body">
+              Consulting for founders, operators, and organizations that need clearer workflows, better decisions,
+              and tighter execution.
+            </p>
+            <div class="division-links">
+              <a href="https://www.linkedin.com/company/texas-movement-consulting">LinkedIn</a>
+              <a href="https://consulting.texasmovement.com/">Website →</a>
+            </div>
+          </article>
+
+          <article class="division">
+            <div class="division-label">Texas Movement Media</div>
+            <div class="division-title">Content that supports the broader system.</div>
+            <p class="division-body">
+              Media built to explain the work, document the process, and create durable signal across channels.
+            </p>
+            <div class="division-links">
+              <a href="https://media.texasmovement.com/">Website →</a>
+              <a href="https://www.youtube.com/@TexasMovementMedia">YouTube</a>
+            </div>
+          </article>
+
+          <article class="division">
+            <div class="division-label">HERO By Texas Movement</div>
+            <div class="division-title">A traditional footwear and fashion player.</div>
+            <p class="division-body">
+              HERO is positioned as an apparel and footwear brand that solves real style and utility problems through
+              engineering, design discipline, and a stronger product identity.
+            </p>
+            <div class="division-links">
+              <a href="https://www.linkedin.com/company/herobytm">LinkedIn</a>
+              <a href="https://hero.texasmovement.com/">Website →</a>
+              <a href="https://www.instagram.com/herofootwearusa/">Instagram</a>
+              <a href="https://www.tiktok.com/@herofootwear">TikTok</a>
+              <a href="https://www.youtube.com/@HEROFootwear">YouTube</a>
+            </div>
+          </article>
+
+          <article class="division">
+            <div class="division-label">TM Performance</div>
+            <div class="division-title">Training systems and recovery protocols.</div>
+            <p class="division-body">
+              Performance-oriented systems built around repeatability, discipline, and sustainable output.
+            </p>
+            <div class="division-links">
+              <a href="https://performance.texasmovement.com/">Website →</a>
+              <a href="https://www.linkedin.com/posts/tmp_texas-movement-performance-activity-7470895752429449216-O5Lm">LinkedIn</a>
+              <a href="https://www.youtube.com/@TexasMovementPerformance">YouTube</a>
+            </div>
+          </article>
+
+          <article class="division">
+            <div class="division-label">FounderLink</div>
+            <div class="division-title">Founder playbooks and operating pathways.</div>
+            <p class="division-body">
+              A space for practical founder tools, workflows, and operating patterns that support stronger execution.
+            </p>
+            <div class="division-links">
+              <a href="https://founderlink.texasmovement.com/">Website →</a>
+            </div>
+          </article>
+
+          <article class="division">
+            <div class="division-label">Texas Movement Social / Gather™</div>
+            <div class="division-title">Ceremony and experience systems.</div>
+            <p class="division-body">
+              Tools and frameworks for events, gatherings, and shared experiences that need structure and polish.
+            </p>
+            <div class="division-links">
+              <a href="https://social.texasmovement.com/">Website →</a>
+            </div>
+          </article>
+
+          <article class="division">
+            <div class="division-label">TM Reparations &amp; Partners</div>
+            <div class="division-title">Long-horizon infrastructure thinking.</div>
+            <p class="division-body">
+              Work focused on capital, community, and the structural conditions that shape durable outcomes.
+            </p>
+            <div class="division-links">
+              <a href="https://reparations.texasmovement.com/">Website →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section section--tight">
+      <div class="wrap">
+        <div class="eyebrow">ABOUT TMI</div>
+        <h2>Why Texas Movement exists.</h2>
+
+        <div class="about-grid">
+          <div class="about-body">
+            <p>
+              Texas Movement International exists to build systems that help people and organizations move with more
+              precision. The company brings together performance, media, footwear, consulting, and strategic operations
+              under one operating idea: structure creates leverage.
+            </p>
+            <p>
+              The point is not to do everything. The point is to make each lane work clearly, then connect those lanes
+              so the output compounds instead of fragmenting.
+            </p>
+            <p>
+              That is why the brand stays disciplined: every division has a clear purpose, every message has a clear
+              use, and every public-facing system is meant to support real work.
+            </p>
+          </div>
+
+          <aside class="about-side">
+            <div class="eyebrow">MARK &amp; MONOGRAM</div>
+            <p>
+              Texas Movement International uses one identity across its divisions so the company reads as a system,
+              not as a pile of unrelated projects.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="network" class="section section--graphite">
+      <div class="wrap">
+        <div class="eyebrow eyebrow--light">FOLLOW THE NETWORK</div>
+        <h2>Where the system shows up in public.</h2>
+        <p>
+          The public network is how the company documents its work and shares the founder’s perspective. All Alexander
+          Mathai references below link to <a href="https://alexandermathai.com/">AlexanderMathai.com</a>, and the
+          operating principle is simple: use the most direct path to the right information.
+        </p>
+
+        <div class="network-grid">
+          <div class="network-block">
+            <div class="network-label">Founder / Flagship Creator</div>
+            <div class="network-title">
+              <a href="https://alexandermathai.com/">Alexander Mathai</a>
+            </div>
+            <div class="network-links">
+              <a href="https://www.instagram.com/alexanderofnazareth/">Instagram — @AlexanderofNazareth</a>
+              <a href="https://www.tiktok.com/@alexandervmathai">TikTok — @AlexanderVMathai</a>
+              <a href="https://www.linkedin.com/in/alexandermathai">LinkedIn</a>
+            </div>
+            <div class="hosts-list">
+              Founder perspective on systems, training, and building across multiple lanes.
+            </div>
+          </div>
+
+          <div class="network-block">
+            <div class="network-label">HERO &amp; Fashion</div>
+            <div class="network-title">Footwear and apparel with a traditional brand posture</div>
+            <div class="network-links">
+              <a href="https://www.linkedin.com/company/herobytm">LinkedIn</a>
+              <a href="https://www.instagram.com/herofootwearusa/">Instagram — @herofootwearusa</a>
+              <a href="https://www.tiktok.com/@herofootwear">TikTok — @herofootwear</a>
+              <a href="https://www.youtube.com/@HEROFootwear">YouTube — @HEROFootwear</a>
+            </div>
+            <div class="hosts-list">
+              HERO is the product-forward, style-forward arm of the ecosystem — built to stand in the apparel and footwear market as a real brand, not just a content feed.
+            </div>
+          </div>
+
+          <div class="network-block">
+            <div class="network-label">Texas Movement Media</div>
+            <div class="network-title">Content and documentation</div>
+            <div class="network-links">
+              <a href="https://www.youtube.com/@TexasMovementMedia">YouTube — @TexasMovementMedia</a>
+            </div>
+            <div class="hosts-list">
+              Media, interviews, and public documentation from the TMM arm.
+            </div>
+          </div>
+
+          <div class="network-block">
+            <div class="network-label">Texas Movement Performance</div>
+            <div class="network-title">Training and movement systems</div>
+            <div class="network-links">
+              <a href="https://performance.texasmovement.com/">Website →</a>
+              <a href="https://www.linkedin.com/posts/tmp_texas-movement-performance-activity-7470895752429449216-O5Lm">LinkedIn</a>
+              <a href="https://www.youtube.com/@TexasMovementPerformance">YouTube — @TexasMovementPerformance</a>
+            </div>
+            <div class="hosts-list">
+              Performance programming and movement education built on a systems-first view of the body.
+            </div>
+          </div>
+        </div>
+
+        <div class="hosts-list">
+          <h3 style="margin-top:28px; margin-bottom:8px;">Step into the network.</h3>
+          <p>
+            Texas Movement is open to future contributors, hosts, and collaborators when there is a real fit with the
+            company’s direction. This is not casual affiliate work; it is a long-term role inside a system built for
+            serious output.
+          </p>
+          <ul>
+            <li>You can represent the brand clearly and calmly.</li>
+            <li>You have real experience in sports, founder economics, infrastructure, or ceremony design.</li>
+            <li>You think in systems and can sustain a body of work.</li>
+            <li>You have visible work to point to.</li>
+          </ul>
+          <p>
+            To introduce yourself, send a short note, links to your work, and the vertical or role you would want to
+            support to <a href="mailto:movementconsultant@gmail.com">movementconsultant@gmail.com</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <span>© Texas Movement International · Performance. Media. Infrastructure. — texasmovement.com</span>
+        <span>Systems for people who move.</span>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
