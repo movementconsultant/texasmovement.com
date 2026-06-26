@@ -76,8 +76,9 @@
     :root {
       --paper: #e7e8e2;
       --panel: #ddded7;
-      --hero: #e4ddd2;
-      --hero2: #efe4d0;
+      --hero: #e8dfd3;
+      --hero-alt: #f3ebdf;
+      --hero-cta: #6a4b36;
       --ink: #15181e;
       --ink-soft: #454a54;
       --line: #c4c6bd;
@@ -86,7 +87,6 @@
       --white: #f4f5f0;
       --compression: #274a78;
       --tension: #bd3b22;
-      --hero-accent: #8b5e3c;
       --wrap: 1180px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -101,12 +101,11 @@
     }
     a { color: inherit; text-decoration: none; }
     a:focus-visible { outline: 2px solid var(--compression); outline-offset: 3px; }
-    .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
     .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 28px; }
 
     header {
       border-bottom: 1px solid var(--line);
-      background: rgba(231, 232, 226, 0.9);
+      background: rgba(231, 232, 226, 0.92);
       backdrop-filter: blur(8px);
       position: sticky;
       top: 0;
@@ -137,11 +136,8 @@
       text-transform: uppercase;
       color: var(--ink-soft);
     }
-    .brand-mark img {
-      height: 28px;
-      width: auto;
-      display: block;
-    }
+    .brand-mark img { height: 28px; width: auto; display: block; }
+
     nav {
       display: flex;
       gap: 18px;
@@ -202,7 +198,7 @@
 
     .hero {
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(135deg, var(--hero), var(--hero2));
+      background: linear-gradient(135deg, var(--hero), var(--hero-alt));
     }
     .hero-inner {
       display: grid;
@@ -256,11 +252,12 @@
       text-transform: uppercase;
       color: var(--ink-soft);
     }
+
     .hero-figure {
       border: 1px solid var(--line-strong);
       border-radius: 16px;
       padding: 18px 18px 14px;
-      background: rgba(255, 245, 235, 0.5);
+      background: rgba(255, 245, 235, 0.56);
     }
     .hero-figure img.hero-banner {
       width: 100%;
@@ -281,7 +278,7 @@
       padding: 10px 10px 9px;
       background: var(--paper);
       border: 1px solid var(--line-strong);
-      min-height: 80px;
+      min-height: 84px;
     }
     .hero-node-label {
       text-transform: uppercase;
@@ -338,6 +335,30 @@
     }
     .division-links a { border-bottom: 1px solid transparent; }
     .division-links a:hover { border-bottom-color: var(--ink); }
+
+    .division--hero {
+      background: linear-gradient(180deg, #efe4d3, #e2c8ab);
+      border-color: #b98c63;
+    }
+    .division--hero .division-label,
+    .division--hero .division-body { color: #5f452f; }
+    .division--hero .division-title { color: #342515; }
+    .division--hero .division-links { gap: 8px 12px; }
+    .hero-link {
+      border: 1px solid #7b5637;
+      background: rgba(255, 250, 243, 0.35);
+      color: #402d1d;
+      padding: 8px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
+    .hero-link:hover {
+      background: #f9f2e8;
+      border-color: #402d1d;
+      color: #20160f;
+    }
 
     .about-grid {
       display: grid;
@@ -515,19 +536,19 @@
         </p>
 
         <div class="divisions-grid">
-          <article class="division">
-            <div class="division-label">HERO By Texas Movement</div>
+          <article class="division division--hero">
+            <div class="division-label">HERO by Texas Movement</div>
             <div class="division-title">A traditional apparel and footwear brand.</div>
             <p class="division-body">
-              HERO is the product-forward, style-forward arm of the ecosystem — built to stand in the athletic footwear
-              and fashion space as a brand with identity, utility, and visual cohesion.
+              HERO is the product-forward, style-forward arm of the ecosystem — built to stand in the athletic
+              footwear and fashion space as a brand with identity, utility, and visual cohesion.
             </p>
             <div class="division-links">
-              <a href="https://www.linkedin.com/company/herobytm">LinkedIn</a>
-              <a href="https://hero.texasmovement.com/">Website →</a>
-              <a href="https://www.instagram.com/herofootwearusa/">Instagram</a>
-              <a href="https://www.tiktok.com/@herofootwear">TikTok</a>
-              <a href="https://www.youtube.com/@HEROFootwear">YouTube</a>
+              <a class="hero-link" href="https://www.linkedin.com/company/herofootwear/">LinkedIn</a>
+              <a class="hero-link" href="https://hero.texasmovement.com/">Website →</a>
+              <a class="hero-link" href="https://www.instagram.com/herofootwearusa/">Instagram</a>
+              <a class="hero-link" href="https://www.tiktok.com/@herofootwear">TikTok</a>
+              <a class="hero-link" href="https://www.youtube.com/@HEROFootwear">YouTube</a>
             </div>
           </article>
 
@@ -668,13 +689,13 @@
             <div class="network-label">HERO &amp; Fashion</div>
             <div class="network-title">A brand built for the athletic footwear and style market</div>
             <div class="network-links">
-              <a href="https://www.linkedin.com/company/herobytm">LinkedIn</a>
+              <a href="https://www.linkedin.com/company/herofootwear/">LinkedIn</a>
               <a href="https://www.instagram.com/herofootwearusa/">Instagram — @herofootwearusa</a>
               <a href="https://www.tiktok.com/@herofootwear">TikTok — @herofootwear</a>
               <a href="https://www.youtube.com/@HEROFootwear">YouTube — @HEROFootwear</a>
             </div>
             <div class="hosts-list">
-              HERO is positioned as a serious product and brand surface — more retail and identity, less consulty tone.
+              HERO by Texas Movement is the official name, while HERO or HERO Footwear may be used casually in public-facing copy.
             </div>
           </div>
 
