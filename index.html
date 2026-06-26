@@ -4,20 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Texas Movement International — Systems for people who move.</title>
-  <meta
-    name="description"
-    content="Texas Movement International is a systems company building infrastructure for footwear, performance, media, consulting, and strategic operations."
-  />
+  <meta name="description" content="Texas Movement International is a systems company building infrastructure for footwear, performance, media, consulting, and strategic operations." />
   <link rel="canonical" href="https://texasmovement.com/" />
   <meta name="theme-color" content="#15181E" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Texas Movement International" />
   <meta property="og:title" content="Texas Movement International — Systems for people who move." />
-  <meta
-    property="og:description"
-    content="Texas Movement International builds infrastructure for footwear, performance, media, consulting, and strategic operations."
-  />
+  <meta property="og:description" content="Texas Movement International builds infrastructure for footwear, performance, media, consulting, and strategic operations." />
   <meta property="og:url" content="https://texasmovement.com/" />
   <meta property="og:image" content="https://texasmovement.com/05_banner_header.png" />
   <meta property="og:image:width" content="1200" />
@@ -27,10 +21,7 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Texas Movement International — Systems for people who move." />
-  <meta
-    name="twitter:description"
-    content="Texas Movement International builds infrastructure for footwear, performance, media, consulting, and strategic operations."
-  />
+  <meta name="twitter:description" content="Texas Movement International builds infrastructure for footwear, performance, media, consulting, and strategic operations." />
   <meta name="twitter:image" content="https://texasmovement.com/05_banner_header.png" />
   <meta name="twitter:image:alt" content="Texas Movement International banner" />
 
@@ -42,9 +33,7 @@
       "url": "https://texasmovement.com/",
       "logo": "https://texasmovement.com/01_primary_stacked_transparent.png",
       "description": "Texas Movement International LLC is a systems company focused on footwear, performance, media, consulting, and strategic operations.",
-      "sameAs": [
-        "https://www.linkedin.com/company/texas-movement-consulting"
-      ],
+      "sameAs": ["https://www.linkedin.com/company/texas-movement-consulting"],
       "contactPoint": [
         {
           "@type": "ContactPoint",
@@ -67,18 +56,16 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet" />
 
   <style>
     :root {
       --paper: #e7e8e2;
       --panel: #ddded7;
-      --hero: #e8dfd3;
-      --hero-alt: #f3ebdf;
-      --hero-cta: #6a4b36;
+      --hero: #e9e0d5;
+      --hero-soft: #f3ebe2;
+      --hero-ink: #3c2a1d;
+      --hero-border: #b88d68;
       --ink: #15181e;
       --ink-soft: #454a54;
       --line: #c4c6bd;
@@ -89,6 +76,7 @@
       --tension: #bd3b22;
       --wrap: 1180px;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
@@ -111,6 +99,7 @@
       top: 0;
       z-index: 40;
     }
+
     .topbar {
       height: 64px;
       display: flex;
@@ -118,6 +107,7 @@
       justify-content: space-between;
       gap: 16px;
     }
+
     .brand {
       font-family: "Space Grotesk", sans-serif;
       font-weight: 600;
@@ -129,6 +119,7 @@
       gap: 10px;
       min-width: 0;
     }
+
     .brand span {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.7rem;
@@ -136,6 +127,7 @@
       text-transform: uppercase;
       color: var(--ink-soft);
     }
+
     .brand-mark img { height: 28px; width: auto; display: block; }
 
     nav {
@@ -149,6 +141,7 @@
       flex-wrap: wrap;
       justify-content: flex-end;
     }
+
     nav a:hover { color: var(--ink); }
 
     .section { padding: 88px 0; }
@@ -175,6 +168,7 @@
       gap: 12px;
       margin-bottom: 18px;
     }
+
     .eyebrow::before {
       content: "";
       width: 32px;
@@ -182,6 +176,7 @@
       background: var(--tension);
       flex: none;
     }
+
     .eyebrow--light { color: #9aa0ab; }
     .eyebrow--light::before { background: var(--tension); }
 
@@ -191,6 +186,7 @@
       line-height: 1.06;
       letter-spacing: -0.02em;
     }
+
     h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); margin-bottom: 16px; }
     h2 { font-size: clamp(1.7rem, 3.1vw, 2.4rem); margin-bottom: 16px; }
     h3 { font-size: 1.1rem; margin-bottom: 6px; }
@@ -198,14 +194,16 @@
 
     .hero {
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(135deg, var(--hero), var(--hero-alt));
+      background: linear-gradient(135deg, var(--hero), var(--hero-soft));
     }
+
     .hero-inner {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 52px;
       align-items: center;
     }
+
     .hero-tagline {
       font-family: "Space Grotesk", sans-serif;
       font-size: 1.05rem;
@@ -214,16 +212,19 @@
       color: var(--ink-soft);
       margin-bottom: 10px;
     }
+
     .hero-body {
       font-size: 1.02rem;
       margin-bottom: 16px;
     }
+
     .hero-ctas {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 24px;
     }
+
     .btn {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.78rem;
@@ -238,7 +239,9 @@
       background: var(--ink);
       color: var(--white);
       transition: 0.18s ease;
+      text-decoration: none;
     }
+
     .btn:hover { background: transparent; color: var(--ink); }
     .btn--ghost { background: transparent; color: var(--ink); }
     .btn--ghost:hover { background: var(--ink); color: var(--white); }
@@ -257,8 +260,9 @@
       border: 1px solid var(--line-strong);
       border-radius: 16px;
       padding: 18px 18px 14px;
-      background: rgba(255, 245, 235, 0.56);
+      background: rgba(255, 247, 238, 0.64);
     }
+
     .hero-figure img.hero-banner {
       width: 100%;
       height: auto;
@@ -266,6 +270,7 @@
       display: block;
       margin-bottom: 12px;
     }
+
     .hero-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -273,6 +278,7 @@
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.7rem;
     }
+
     .hero-node {
       border-radius: 12px;
       padding: 10px 10px 9px;
@@ -280,6 +286,7 @@
       border: 1px solid var(--line-strong);
       min-height: 84px;
     }
+
     .hero-node-label {
       text-transform: uppercase;
       letter-spacing: 0.14em;
@@ -287,8 +294,10 @@
       margin-bottom: 4px;
       color: var(--ink-soft);
     }
+
     .hero-node--source { border-color: var(--tension); }
     .hero-node--terminal { border-color: var(--compression); }
+
     .hero-caption {
       margin-top: 8px;
       font-family: "IBM Plex Mono", monospace;
@@ -305,6 +314,7 @@
       gap: 20px;
       margin-top: 32px;
     }
+
     .division {
       border-radius: 14px;
       border: 1px solid var(--line-strong);
@@ -314,6 +324,7 @@
       flex-direction: column;
       gap: 6px;
     }
+
     .division-label {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.7rem;
@@ -321,8 +332,10 @@
       text-transform: uppercase;
       color: var(--ink-soft);
     }
+
     .division-title { font-size: 1.02rem; font-weight: 600; }
     .division-body { font-size: 0.9rem; color: var(--ink-soft); }
+
     .division-links {
       margin-top: 6px;
       display: flex;
@@ -333,30 +346,39 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-    .division-links a { border-bottom: 1px solid transparent; }
+
+    .division-links a {
+      border-bottom: 1px solid transparent;
+      text-decoration: none;
+    }
+
     .division-links a:hover { border-bottom-color: var(--ink); }
 
     .division--hero {
-      background: linear-gradient(180deg, #efe4d3, #e2c8ab);
-      border-color: #b98c63;
+      background: linear-gradient(180deg, #ecddca, #dcb792);
+      border-color: #b88255;
     }
+
     .division--hero .division-label,
-    .division--hero .division-body { color: #5f452f; }
-    .division--hero .division-title { color: #342515; }
-    .division--hero .division-links { gap: 8px 12px; }
+    .division--hero .division-body { color: #5c4029; }
+
+    .division--hero .division-title { color: #2f2116; }
+
     .hero-link {
-      border: 1px solid #7b5637;
-      background: rgba(255, 250, 243, 0.35);
-      color: #402d1d;
+      border: 1px solid #7b5434;
+      background: rgba(255, 252, 247, 0.42);
+      color: #402b1c;
       padding: 8px 12px;
       border-radius: 999px;
       display: inline-flex;
       align-items: center;
       line-height: 1;
+      text-decoration: none;
     }
+
     .hero-link:hover {
-      background: #f9f2e8;
-      border-color: #402d1d;
+      background: #faf3ea;
+      border-color: #402b1c;
       color: #20160f;
     }
 
@@ -366,7 +388,9 @@
       gap: 40px;
       margin-top: 24px;
     }
+
     .about-body p { margin-bottom: 14px; }
+
     .about-side {
       border-radius: 14px;
       border: 1px solid var(--line-strong);
@@ -382,11 +406,13 @@
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 22px;
     }
+
     .network-block {
       border-radius: 14px;
       border: 1px solid #2c313b;
       padding: 18px 18px 14px;
     }
+
     .network-label {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.7rem;
@@ -395,12 +421,14 @@
       color: #9aa0ab;
       margin-bottom: 8px;
     }
+
     .network-title {
       font-family: "Space Grotesk", sans-serif;
       font-size: 1rem;
       color: var(--white);
       margin-bottom: 6px;
     }
+
     .network-links {
       font-family: "IBM Plex Mono", monospace;
       font-size: 0.72rem;
@@ -411,15 +439,27 @@
       gap: 8px 14px;
       color: #cdd2da;
     }
+
     .network-links a:hover { color: var(--white); }
 
-    .hosts-list { margin-top: 18px; font-size: 0.9rem; color: #cdd2da; }
-    .hosts-list ul { list-style: none; padding-left: 0; margin-top: 12px; }
+    .hosts-list {
+      margin-top: 18px;
+      font-size: 0.9rem;
+      color: #cdd2da;
+    }
+
+    .hosts-list ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 12px;
+    }
+
     .hosts-list li {
       position: relative;
       padding-left: 18px;
       margin-bottom: 8px;
     }
+
     .hosts-list li::before {
       content: "—";
       position: absolute;
@@ -436,6 +476,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.06em;
     }
+
     .footer-inner {
       display: flex;
       flex-wrap: wrap;
@@ -451,6 +492,7 @@
       nav { display: none; }
       .wrap { padding: 0 20px; }
     }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
     }
@@ -491,16 +533,10 @@
             reliable execution, and a practical operating system that compounds over time.
           </p>
           <div class="hero-ctas">
-            <a class="btn" href="#divisions">
-              Explore the ecosystem <span class="arrow">→</span>
-            </a>
-            <a class="btn btn--ghost" href="mailto:movementconsultant@gmail.com">
-              Contact movementconsultant@gmail.com <span class="arrow">→</span>
-            </a>
+            <a class="btn" href="#divisions">Explore the ecosystem <span class="arrow">→</span></a>
+            <a class="btn btn--ghost" href="mailto:movementconsultant@gmail.com">Contact movementconsultant@gmail.com <span class="arrow">→</span></a>
           </div>
-          <div class="hero-note">
-            FOOTWEAR · PERFORMANCE · MEDIA · CONSULTING · STRATEGIC OPERATIONS
-          </div>
+          <div class="hero-note">FOOTWEAR · PERFORMANCE · MEDIA · CONSULTING · STRATEGIC OPERATIONS</div>
         </div>
 
         <aside class="hero-figure">
@@ -519,9 +555,7 @@
               <div>Strategic systems that make execution easier to sustain.</div>
             </div>
           </div>
-          <div class="hero-caption">
-            FIG. 01 — VERTICALS UNDER LOAD · TEXAS MOVEMENT INTERNATIONAL
-          </div>
+          <div class="hero-caption">FIG. 01 — VERTICALS UNDER LOAD · TEXAS MOVEMENT INTERNATIONAL</div>
         </aside>
       </div>
     </section>
@@ -538,10 +572,10 @@
         <div class="divisions-grid">
           <article class="division division--hero">
             <div class="division-label">HERO by Texas Movement</div>
-            <div class="division-title">A traditional apparel and footwear brand.</div>
+            <div class="division-title">The fashion-forward arm of the ecosystem.</div>
             <p class="division-body">
-              HERO is the product-forward, style-forward arm of the ecosystem — built to stand in the athletic
-              footwear and fashion space as a brand with identity, utility, and visual cohesion.
+              HERO is the brand side of Texas Movement — built for apparel, footwear, and visual identity with a more
+              fashion-forward, retail-minded, and culturally legible posture.
             </p>
             <div class="division-links">
               <a class="hero-link" href="https://www.linkedin.com/company/herofootwear/">LinkedIn</a>
@@ -672,17 +706,13 @@
         <div class="network-grid">
           <div class="network-block">
             <div class="network-label">Founder / Flagship Creator</div>
-            <div class="network-title">
-              <a href="https://alexandermathai.com/">Alexander Mathai</a>
-            </div>
+            <div class="network-title"><a href="https://alexandermathai.com/">Alexander Mathai</a></div>
             <div class="network-links">
               <a href="https://www.instagram.com/alexanderofnazareth/">Instagram — @AlexanderofNazareth</a>
               <a href="https://www.tiktok.com/@alexandervmathai">TikTok — @AlexanderVMathai</a>
               <a href="https://www.linkedin.com/in/alexandermathai">LinkedIn</a>
             </div>
-            <div class="hosts-list">
-              Founder perspective on systems, training, and building across multiple lanes.
-            </div>
+            <div class="hosts-list">Founder perspective on systems, training, and building across multiple lanes.</div>
           </div>
 
           <div class="network-block">
@@ -705,9 +735,7 @@
             <div class="network-links">
               <a href="https://www.youtube.com/@TexasMovementMedia">YouTube — @TexasMovementMedia</a>
             </div>
-            <div class="hosts-list">
-              Media, interviews, and public documentation from the TMM arm.
-            </div>
+            <div class="hosts-list">Media, interviews, and public documentation from the TMM arm.</div>
           </div>
 
           <div class="network-block">
@@ -718,9 +746,7 @@
               <a href="https://www.linkedin.com/posts/tmp_texas-movement-performance-activity-7470895752429449216-O5Lm">LinkedIn</a>
               <a href="https://www.youtube.com/@TexasMovementPerformance">YouTube — @TexasMovementPerformance</a>
             </div>
-            <div class="hosts-list">
-              Performance programming and movement education built on a systems-first view of the body.
-            </div>
+            <div class="hosts-list">Performance programming and movement education built on a systems-first view of the body.</div>
           </div>
         </div>
 
