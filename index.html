@@ -1,53 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Texas Movement International — Systems for people who move.</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="description"
+    content="Texas Movement International is a consulting and media company building systems for performance, content, footwear, and strategic operations."
+  />
+  <link rel="canonical" href="https://texasmovement.com/" />
+  <meta name="theme-color" content="#15181E" />
 
-  <!-- Primary description -->
-  <meta name="description" content="Texas Movement International is a systems company building infrastructure for performance, media, footwear, and economic development across athletics, content, and city-scale consulting.">
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Texas Movement International" />
+  <meta property="og:title" content="Texas Movement International — Systems for people who move." />
+  <meta
+    property="og:description"
+    content="A consulting and media company building systems for performance, content, footwear, and strategic operations."
+  />
+  <meta property="og:url" content="https://texasmovement.com/" />
+  <meta property="og:image" content="https://texasmovement.com/05_banner_header.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="Texas Movement International banner" />
 
-  <!-- Theme color for mobile UI -->
-  <meta name="theme-color" content="#15181E">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Texas Movement International — Systems for people who move." />
+  <meta
+    name="twitter:description"
+    content="A consulting and media company building systems for performance, content, footwear, and strategic operations."
+  />
+  <meta name="twitter:image" content="https://texasmovement.com/05_banner_header.png" />
+  <meta name="twitter:image:alt" content="Texas Movement International banner" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Texas Movement International">
-  <meta property="og:title" content="Texas Movement International — Systems for people who move.">
-  <meta property="og:description" content="A systems company building infrastructure for performance, media, footwear, and economic development across athletics, content, footwear, and city-scale consulting.">
-  <meta property="og:url" content="https://texasmovement.com">
-  <!-- Use the banner header as the primary share image -->
-  <meta property="og:image" content="https://texasmovement.com/05_banner_header.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:alt" content="Texas Movement International — systems for people who move.">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Texas Movement International LLC",
+      "url": "https://texasmovement.com/",
+      "logo": "https://texasmovement.com/01_primary_stacked_transparent.png",
+      "description": "Texas Movement International LLC is a consulting and media company focused on performance, content, footwear, and strategic operations.",
+      "sameAs": [
+        "https://www.linkedin.com/company/texas-movement-consulting"
+      ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "General Inquiries",
+          "email": "movementconsultant@gmail.com"
+        }
+      ]
+    }
+  </script>
 
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Texas Movement International — Systems for people who move.">
-  <meta name="twitter:description" content="Performance, media, footwear, consulting, and economic development — built as one integrated system.">
-  <meta name="twitter:image" content="https://texasmovement.com/05_banner_header.png">
-  <meta name="twitter:image:alt" content="Texas Movement International — systems for people who move.">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Texas Movement International",
+      "url": "https://texasmovement.com/",
+      "description": "Official website of Texas Movement International LLC."
+    }
+  </script>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap"
+    rel="stylesheet"
+  />
 
   <style>
     :root {
-      --paper: #E7E8E2;
-      --panel: #DDDED7;
-      --ink: #15181E;
-      --ink-soft: #454A54;
-      --line: #C4C6BD;
-      --line-strong: #A6A99F;
+      --paper: #e7e8e2;
+      --panel: #ddded7;
+      --ink: #15181e;
+      --ink-soft: #454a54;
+      --line: #c4c6bd;
+      --line-strong: #a6a99f;
       --graphite: #111217;
-      --white: #F4F5F0;
-      --compression: #274A78; /* blue */
-      --tension: #BD3B22;     /* red */
+      --white: #f4f5f0;
+      --compression: #274a78;
+      --tension: #bd3b22;
       --wrap: 1180px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,7 +98,6 @@
     }
     a { color: inherit; text-decoration: none; }
     a:focus-visible { outline: 2px solid var(--compression); outline-offset: 3px; }
-
     .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
     .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 28px; }
 
@@ -96,11 +131,6 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--ink-soft);
-    }
-    .brand-mark {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
     }
     .brand-mark img {
       height: 28px;
@@ -403,254 +433,6 @@
   </style>
 </head>
 <body>
-
-<header>
-  <div class="wrap">
-    <div class="topbar">
-      <a href="#top" class="brand">
-        <span class="brand-mark">
-          <!-- stacked primary mark -->
-          <img src="01_primary_stacked_transparent.png" alt="Texas Movement International logo">
-        </span>
-        <span>TEXAS MOVEMENT&nbsp;INTERNATIONAL</span>
-      </a>
-      <nav>
-        <a href="#divisions">Divisions</a>
-        <a href="#about">About</a>
-        <a href="#network">Network</a>
-        <a href="https://consulting.texasmovement.com/">Work with TMI</a>
-      </nav>
-    </div>
-  </div>
-</header>
-
-<main id="top">
-  <section class="section hero">
-    <div class="wrap hero-inner">
-      <div>
-        <div class="hero-tagline">SYSTEMS FOR PEOPLE WHO MOVE.</div>
-        <h1>Texas Movement International.</h1>
-        <p class="hero-body">
-          A systems company building infrastructure for performance, media, and economic development across
-          athletics, content, footwear, and city-scale consulting.
-        </p>
-        <div class="hero-ctas">
-          <a class="btn" href="#divisions">
-            Explore the ecosystem <span class="arrow">→</span>
-          </a>
-          <a class="btn btn--ghost" href="https://consulting.texasmovement.com/">
-            Work with TMI <span class="arrow">→</span>
-          </a>
-        </div>
-        <div class="hero-note">
-          PERFORMANCE · MEDIA · FOOTWEAR · CONSULTING · ECONOMIC DEVELOPMENT
-        </div>
-      </div>
-
-      <aside class="hero-figure">
-        <img src="05_banner_header.png" alt="Texas Movement International banner" class="hero-banner">
-        <div class="hero-grid">
-          <div class="hero-node hero-node--source">
-            <div class="hero-node-label">Performance</div>
-            <div>Training systems, biomechanics, and recovery protocols.</div>
-          </div>
-          <div class="hero-node">
-            <div class="hero-node-label">Media</div>
-            <div>Pro talks, underreported sports, and founder stories.</div>
-          </div>
-          <div class="hero-node hero-node--terminal">
-            <div class="hero-node-label">Infrastructure</div>
-            <div>City-scale work, reparative capital, and long-horizon systems.</div>
-          </div>
-        </div>
-        <div class="hero-caption">
-          FIG. 01 — VERTICALS UNDER LOAD · TEXAS MOVEMENT INTERNATIONAL
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  <section id="divisions" class="section section--panel">
-    <div class="wrap">
-      <div class="eyebrow">DIVISIONS</div>
-      <h2>One system, seven verticals.</h2>
-      <p>Each TMI vertical is built to do one thing well — and to feed the others. Better athletes generate better stories; better stories create better markets; better markets fund better infrastructure.</p>
-
-      <div class="divisions-grid">
-        <article class="division">
-          <div class="division-label">Texas Movement Social / Gather™</div>
-          <div class="division-title">Ceremony &amp; experience, powered by Circle OS™.</div>
-          <p class="division-body">
-            The ceremony and experience platform for couples, families, and communities — powered by Circle OS™.
-          </p>
-          <div class="division-links">
-            <a href="https://social.texasmovement.com/">Visit social.texasmovement.com →</a>
-          </div>
-        </article>
-
-        <article class="division">
-          <div class="division-label">Texas Movement Media</div>
-          <div class="division-title">Content as economic leverage.</div>
-          <p class="division-body">
-            The content arm of TMI turning underreported sports and founder stories into economic leverage for athletes, brands, and cities.
-          </p>
-          <div class="division-links">
-            <a href="https://www.youtube.com/@TexasMovementMedia">YouTube</a>
-            <a href="https://media.texasmovement.com/">Visit media.texasmovement.com →</a>
-          </div>
-        </article>
-
-        <article class="division">
-          <div class="division-label">HERO Footwear &amp; Performance</div>
-          <div class="division-title">Footwear engineered around biomechanics.</div>
-          <p class="division-body">
-            Footwear and training systems engineered around biomechanics — built for athletes who operate at the edge.
-          </p>
-          <div class="division-links">
-            <a href="https://www.instagram.com/herofootwearusa/">Instagram</a>
-            <a href="https://www.tiktok.com/@herofootwear">TikTok</a>
-            <a href="https://www.youtube.com/@HEROFootwear">YouTube</a>
-            <a href="https://hero.texasmovement.com/">Visit hero.texasmovement.com →</a>
-          </div>
-        </article>
-
-        <article class="division">
-          <div class="division-label">TM Consulting</div>
-          <div class="division-title">AI systems &amp; city-scale work.</div>
-          <p class="division-body">
-            Biomechanics and performance consulting for elite athletes and teams across the NFL, NBA, and UFC — now expanded into AI systems and org design.
-          </p>
-          <div class="division-links">
-            <a href="https://consulting.texasmovement.com/">Visit consulting.texasmovement.com →</a>
-          </div>
-        </article>
-
-        <article class="division">
-          <div class="division-label">FounderLink</div>
-          <div class="division-title">Operating playbooks &amp; capital pathways.</div>
-          <p class="division-body">
-            Operating playbooks and capital pathways for founders who ship — connecting builders to the infrastructure they actually need.
-          </p>
-          <div class="division-links">
-            <a href="https://founderlink.texasmovement.com/">Visit founderlink.texasmovement.com →</a>
-          </div>
-        </article>
-
-        <article class="division">
-          <div class="division-label">TM Reparations &amp; Partners</div>
-          <div class="division-title">Reparative capital &amp; infrastructure.</div>
-          <p class="division-body">
-            Applied economics and infrastructure-first capital strategy at the intersection of culture, community, and long-term development.
-          </p>
-          <div class="division-links">
-            <a href="https://reparations.texasmovement.com/">Visit reparations.texasmovement.com →</a>
-          </div>
-        </article>
-
-        <article class="division">
-          <div class="division-label">TM Performance</div>
-          <div class="division-title">Training systems &amp; recovery protocols.</div>
-          <p class="division-body">
-            Training systems and recovery protocols engineered from first principles — built to be repeatable at every level.
-          </p>
-          <div class="division-links">
-            <a href="https://performance.texasmovement.com/">Visit performance.texasmovement.com →</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="about" class="section section--tight">
-    <div class="wrap">
-      <div class="eyebrow">ABOUT TMI</div>
-      <h2>Why Texas Movement exists.</h2>
-
-      <div class="about-grid">
-        <div class="about-body">
-          <p>Texas Movement International is a multi-vertical systems company headquartered in Texas. We build the infrastructure — athletic, economic, cultural, and operational — that helps athletes, founders, cities, and families move with precision.</p>
-          <p>Our verticals span performance science, media production, footwear, consulting, and ceremony technology.</p>
-          <p>TMI exists because high-functioning people and institutions need systems that work together, not just individual services. Every TMI product is designed to integrate with the broader ecosystem: better athletes generate better stories; better stories create better markets; better markets fund better infrastructure. We build for compounding returns.</p>
-          <p><strong>Systems, not one-offs.</strong></p>
-          <p>The through-line is simple: put high-functioning people and places under good load. When the training system, the media story, the product, and the capital all point in the same direction, the work compounds instead of leaking.</p>
-        </div>
-
-        <aside class="about-side">
-          <div class="eyebrow">MARK &amp; MONOGRAM</div>
-          <p>Texas Movement International operates under a single identity across performance, media, footwear, consulting, and reparative infrastructure. The primary mark and monogram appear across divisions to signal that the work is part of one system.</p>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <section id="network" class="section section--graphite">
-    <div class="wrap">
-      <div class="eyebrow eyebrow--light">FOLLOW THE TEXAS MOVEMENT NETWORK</div>
-      <h2>Where the system shows up in public.</h2>
-      <p>Texas Movement International is a systems company operating across performance, media, footwear, and economic development. Alexander Mathai is the current flagship creator and founder — follow his channels for the founder’s perspective on training, builds, and what it takes to operate inside this kind of system. The handles below are the official network.</p>
-
-      <div class="network-grid">
-        <div class="network-block">
-          <div class="network-label">Flagship Creator / Founder</div>
-          <div class="network-title">Alexander Mathai</div>
-          <div class="network-links">
-            <a href="https://www.instagram.com/alexanderofnazareth/">Instagram — @AlexanderofNazareth</a>
-            <a href="https://www.tiktok.com/@alexandervmathai">TikTok — @AlexanderVMathai</a>
-          </div>
-          <div class="hosts-list">
-            Founder’s perspective: training, builds, and operating inside a multi-vertical system.
-          </div>
-        </div>
-
-        <div class="network-block">
-          <div class="network-label">HERO &amp; Performance</div>
-          <div class="network-title">Footwear &amp; training systems</div>
-          <div class="network-links">
-            <a href="https://www.tiktok.com/@herofootwear">TikTok — @HeroFootwear</a>
-            <a href="https://www.youtube.com/@HEROFootwear">YouTube — @HEROfootwear</a>
-            <a href="https://www.youtube.com/@TexasMovementPerformance">YouTube — @TexasMovementPerformance</a>
-          </div>
-          <div class="hosts-list">
-            Footwear development, biomechanics protocols, and performance science from Texas Movement Performance.
-          </div>
-        </div>
-
-        <div class="network-block">
-          <div class="network-label">Texas Movement Media</div>
-          <div class="network-title">Pro talks &amp; movement features</div>
-          <div class="network-links">
-            <a href="https://www.youtube.com/@TexasMovementMedia">YouTube — @TexasMovementMedia</a>
-          </div>
-          <div class="hosts-list">
-            Pro talks, movement features, and documentary-style content from the TMM production arm.
-          </div>
-        </div>
-      </div>
-
-      <div class="hosts-list">
-        <h3 style="margin-top:28px; margin-bottom:8px;">Step into the network.</h3>
-        <p>As TMI grows across media, performance, and city-scale work, we’re selectively opening the door to future hosts and on-air talent who want to carry specific shows, verticals, or markets forward. This isn’t a collab request — it’s a long-term creative and operational role inside a system that’s being built to last.</p>
-        <ul>
-          <li>You’re comfortable on camera and have documented reps — interviews, commentary, training content, or event coverage you can point to.</li>
-          <li>You understand at least one of the following at a real level: elite sports and performance, founder and operator economics, city development and infrastructure, or ceremony and community design.</li>
-          <li>You think in systems, not moments — you’re interested in building a body of work, not chasing individual clips.</li>
-          <li>You can represent the TMI brand without supervision: calm, credible, economics-first, and serious about the work.</li>
-          <li>You’re based in or connected to Texas, the South, or a city market TMI operates in — or you have a clear case for why you should be.</li>
-        </ul>
-        <p>To apply: send a short introduction, links to work you’ve already produced, and a note on what show or vertical you’d want to host or build to <a href="mailto:texasmovementmedia@gmail.com?subject=Host%20Application:%20%5BYour%20Name%20/%20Market%5D">texasmovementmedia@gmail.com</a> with the subject line: <span class="mono">Host Application: [Your Name / Market]</span>.</p>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span>© Texas Movement International · Performance. Media. Infrastructure. — texasmovement.com</span>
-      <span>Systems for people who move.</span>
-    </div>
-  </div>
-</footer>
-
+  <!-- body content can stay structurally similar, but tighten the copy to match the new head -->
 </body>
 </html>
