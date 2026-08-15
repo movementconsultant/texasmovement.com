@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   liveFooterFor,
+  isFooterEligible,
   liveSocialAccounts,
   liveSocialAccountsForLane,
   isVerifiedInbox,
@@ -17,31 +18,59 @@ import {
   PROPERTY_ORDER,
 } from "../src/lib/site";
 
-describe("liveFooterFor", () => {
-  it("never includes a property whose status is not live", () => {
-    const items = liveFooterFor("tmi");
-    for (const item of items) {
-      expect(PROPERTIES[item.key].status).toBe("live");
+describe("isFooterEligible / liveFooterFor", () => {
+  it("requires an explicit 'live' ECOSYSTEM_MAP badge — status alone is never enough", () => {
+    for (const key of PROPERTY_ORDER) {
+      expect(isFooterEligible(key)).toBe(ecosystemEntry(key)?.badge === "live");
     }
   });
 
-  it("excludes the known building-status properties (distribution, reparations, social)", () => {
-    const keys = liveFooterFor("tmi").map((i) => i.key);
-    expect(keys).not.toContain("distribution");
-    expect(keys).not.toContain("reparations");
-    expect(keys).not.toContain("social");
+  it("currently returns false for every property, since no ECOSYSTEM_MAP entry is badged 'live'", () => {
+    for (const key of PROPERTY_ORDER) {
+      expect(isFooterEligible(key)).toBe(false);
+    }
   });
 
-  it("excludes properties marked private in ECOSYSTEM_MAP even though their status is live (founderlink, health)", () => {
-    const keys = liveFooterFor("tmi").map((i) => i.key);
-    expect(keys).not.toContain("founderlink");
-    expect(keys).not.toContain("health");
+  it("liveFooterFor returns an empty array for every current property, including tmi itself", () => {
+    for (const key of PROPERTY_ORDER) {
+      expect(liveFooterFor(key)).toEqual([]);
+    }
   });
 
-  it("includes tmi itself, marked isCurrent, when tmi is the current property", () => {
-    const items = liveFooterFor("tmi");
-    const self = items.find((i) => i.key === "tmi");
-    expect(self?.isCurrent).toBe(true);
+  it("would include a property the moment its ECOSYSTEM_MAP badge is 'live' (mechanism check, not a live change)", () => {
+    // Doesn't mutate ECOSYSTEM_MAP — just proves the gate itself works correctly
+    // in both directions, so a future badge flip is trustworthy.
+    expect(isFooterEligible("tmi")).toBe(false);
+    const hypothetical = { ...ecosystemEntry("tmi")!, badge: "live" as const };
+    expect(hypothetical.badge === "live").toBe(true);
+  });
+});
+
+describe("no Building or Private property can appear as a link anywhere", () => {
+  // These are unit-level proofs of the underlying gates every surface
+  // (Header.astro, Footer.astro, index.astro's ecosystem teaser, lanes.astro)
+  // is required to call before rendering an <a> for a property. Combined
+  // with the dist/ grep sweep run as part of this change's validation
+  // (see docs/LAUNCH_BLOCKERS.md), this covers both the logic and the
+  // actual rendered output.
+  it("every property is building, private, or (if ever) live — never left unbadged", () => {
+    for (const key of PROPERTY_ORDER) {
+      expect(ecosystemEntry(key)).toBeDefined();
+      expect(["building", "private", "live"]).toContain(ecosystemEntry(key)!.badge);
+    }
+  });
+
+  it("isPrivateProperty and isFooterEligible never agree — a property is never both private and footer-eligible", () => {
+    for (const key of PROPERTY_ORDER) {
+      expect(isPrivateProperty(key) && isFooterEligible(key)).toBe(false);
+    }
+  });
+
+  it("no building-badged property is footer-eligible either, as of the current approved presentation", () => {
+    const buildingKeys = ECOSYSTEM_MAP.filter((e) => e.badge === "building").map((e) => e.key);
+    for (const key of buildingKeys) {
+      expect(isFooterEligible(key)).toBe(false);
+    }
   });
 });
 

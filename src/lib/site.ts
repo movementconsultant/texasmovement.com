@@ -103,8 +103,19 @@ export const LINKEDIN_URL_PENDING = true;
  * `liveFooterFor()` below) and from the primary nav (see Header.astro) —
  * mentioned only in the static ecosystem map, never linked or indexed as an
  * independent offer.
+ *
+ * "live" means: explicitly approved by the owner to appear as a real,
+ * clickable destination in global navigation/footer, on top of the
+ * ecosystem-map mention. No entry currently uses this value — as of the
+ * owner's approved ecosystem presentation, every property is "building" or
+ * "private", so `liveFooterFor()` below currently renders nothing. This is
+ * deliberate, not a bug: a property only leaves the informational-only map
+ * (`/lanes`, the homepage teaser) and becomes a real footer/nav link when
+ * its `ECOSYSTEM_MAP` entry is explicitly updated to `"live"` — a small,
+ * reviewable, one-entry change, never inferred from `PROPERTIES[key].status`
+ * alone.
  */
-export type EcosystemBadge = "building" | "private";
+export type EcosystemBadge = "building" | "private" | "live";
 export interface EcosystemMapEntry {
   readonly key: PropertyKey;
   readonly group: "core" | "founder" | "vertical";
@@ -189,16 +200,30 @@ export function isPrivateProperty(key: PropertyKey): boolean {
   return ecosystemEntry(key)?.badge === "private";
 }
 
-/** Live-only nav/footer — filters out "building"/"planned"/"retired" properties
- *  even though raw footerFor() would include them if inGlobalNav is true, AND
- *  filters out anything marked "private" in ECOSYSTEM_MAP (e.g. FounderLink,
- *  Health) even if PROPERTIES[key].status happens to say "live" — a Private
- *  property may not appear in global navigation beyond its static
- *  ecosystem-map mention. */
+/**
+ * The single gate for "may this property appear as a real, clickable link
+ * in global navigation or the footer" — deliberately stricter than, and
+ * independent of, `PROPERTIES[key].status`. `ECOSYSTEM_MAP` (the owner's
+ * approved public presentation) is the authority: a property is eligible
+ * ONLY when its entry's badge is explicitly `"live"`. A property with no
+ * `ECOSYSTEM_MAP` entry, or a `"building"`/`"private"` badge, is never
+ * eligible — absence of an explicit "live" mark is never treated as
+ * permission.
+ */
+export function isFooterEligible(key: PropertyKey): boolean {
+  return ecosystemEntry(key)?.badge === "live";
+}
+
+/**
+ * Global footer, filtered to `isFooterEligible()` only. As of the owner's
+ * approved ecosystem presentation (every property is "building" or
+ * "private"), this currently returns an empty array for every `current` —
+ * the footer's ecosystem/property list is correctly empty until a property
+ * is explicitly marked "live" in `ECOSYSTEM_MAP`. Building/Private
+ * properties remain visible ONLY on `/lanes` and the homepage's
+ * informational ecosystem teaser — never here. */
 export function liveFooterFor(current: PropertyKey) {
-  return footerFor(current).filter(
-    (item) => PROPERTIES[item.key].status === "live" && !isPrivateProperty(item.key),
-  );
+  return footerFor(current).filter((item) => isFooterEligible(item.key));
 }
 
 /** Live-only social accounts, further filtered to ones with a resolved

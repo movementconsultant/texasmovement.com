@@ -350,3 +350,39 @@ DivisionCard.astro` (added `status: "building" | "private"` prop), `src/lib/site
 `ECOSYSTEM_MAP`, `ecosystemEntry()`, `isPrivateProperty()`; `liveFooterFor()` updated), `src/
 styles/global.css` (removed now-dead `.teaser-item--link` rules), `tests/site.test.ts` (6 new
 tests), `docs/SITE_ARCHITECTURE.md` (route table + new mechanism section).
+
+## Pass — footer consistency fix (strip Building/Private properties from global nav)
+
+Follow-up to the ecosystem-verticals pass above. The owner reviewed and approved that pass,
+including its scope extension to the homepage/header/footer, then made one further decision: the
+global footer must include **only** properties explicitly marked `live`, publicly approved, and
+verified — not "any live-status property that isn't Private," which is what it did after the
+prior pass (Founder, Consulting, Performance, HERO, and Media were still linking out from the
+footer, since only `Private`-badged properties had been removed).
+
+**Change**: `EcosystemBadge` (`src/lib/site.ts`) extended to `"building" | "private" | "live"`
+(no entry currently uses `"live"` — see `docs/SITE_ARCHITECTURE.md`). Added `isFooterEligible(key)`
+— true only for an explicit `"live"` badge — and rewrote `liveFooterFor()` to use it instead of
+the previous `status === "live" && !isPrivateProperty(key)` logic. Since every `ECOSYSTEM_MAP`
+entry is currently `"building"` or `"private"`, `liveFooterFor()` now returns an empty array for
+every property. `Footer.astro` was updated to omit the `<nav aria-label="Ecosystem">` element
+entirely when there's nothing to show, rather than render an empty landmark — no dead links, `#`
+links, disabled-looking elements, or explanatory text were added in its place. The copyright/
+domain line and the Privacy/Terms/Accessibility legal links (both independent of any property's
+lifecycle) are untouched.
+
+**Verified in built output**: zero `href` to any `*.texasmovement.com` subdomain or
+`alexandermathai.com` anywhere across all 5 routes (only remaining external links are Google Fonts
+preconnects, unrelated). `/lanes` and the homepage teaser are unaffected — they were already
+fully non-interactive from the prior pass and remain the only place Building/Private properties
+are mentioned at all.
+
+**Registry/presentation mismatch — explicitly not touched, per instruction.** Several properties
+still carry `status: "live"` in the vendored `ecosystem.ts` while `ECOSYSTEM_MAP` badges them
+`"building"`/`"private"`. This pass did not reconcile that; see `docs/SITE_ARCHITECTURE.md`'s
+`ECOSYSTEM_MAP` section for the exact statement of the mismatch, kept as an open owner decision.
+
+Files touched: `src/lib/site.ts` (`EcosystemBadge` type, `isFooterEligible()`, `liveFooterFor()`
+rewrite), `src/components/Footer.astro` (conditional nav render), `src/components/DivisionCard.astro`
+(status prop type widened for compatibility, unreachable in practice today), `tests/site.test.ts`
+(6 new tests), `docs/SITE_ARCHITECTURE.md`, `docs/LAUNCH_BLOCKERS.md`.

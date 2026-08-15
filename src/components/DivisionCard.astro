@@ -16,15 +16,26 @@ interface Props {
   body: string;
   links?: LinkItem[];
   variant?: "default" | "hero";
-  /** Badge shown when links is empty — "building" (default) or "private".
-   *  Private renders no interactive element at all, same as building. */
-  status?: "building" | "private";
+  /** Badge shown when links is empty — "building" (default) or "private" are
+   *  the only two this component actually expects to receive with no
+   *  `links`. "live" is accepted for type compatibility with
+   *  `EcosystemBadge` (src/lib/site.ts) but is not a meaningful no-links
+   *  state: a property that's genuinely live should be passed real `links`
+   *  instead, not `status="live"` with an empty array — that combination
+   *  would be a content bug at the call site, not something this component
+   *  can render correctly on its own. */
+  status?: "building" | "private" | "live";
 }
 
 const { label, title, body, links = [], variant = "default", status = "building" } = Astro.props;
 
 const linkClass = variant === "hero" ? "hero-link" : undefined;
-const statusText = status === "private" ? "Private — not public yet" : "Building — not yet live";
+const statusText =
+  status === "private"
+    ? "Private — not public yet"
+    : status === "live"
+      ? "Live — see links above"
+      : "Building — not yet live";
 ---
 
 <article class:list={["division", { "division--hero": variant === "hero" }]}>

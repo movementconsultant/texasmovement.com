@@ -138,15 +138,17 @@ section being clickable)
       `docs/SITE_ARCHITECTURE.md`). To make a specific vertical clickable again: update its badge
       to reflect a real "verified, public, lifecycle-approved" state in `ECOSYSTEM_MAP`
       (`src/lib/site.ts`) — an explicit, reviewable, one-entry change.
-- [ ] **Open question, not resolved this pass:** the global footer (`liveFooterFor()`) still links
-      Founder (`alexandermathai.com`) and several `Building`-badged live-status properties
-      (Consulting, Performance, HERO, Media) — only `Private`-badged properties (FounderLink,
-      Health) were removed from the footer, per the explicit "not visible in global navigation"
-      rule for Private properties. Whether the footer should also stop linking `Building`-badged
-      properties (to fully match the "nothing presented as live" posture of the ecosystem map
-      itself) was out of scope for this pass — it touches a site-wide component, not `/lanes` or
-      the homepage specifically — and is flagged here for an explicit owner decision rather than
-      guessed at.
+- [x] **Resolved.** The open question above was decided: the global footer now includes only
+      properties with an explicit `"live"` badge in `ECOSYSTEM_MAP` (`isFooterEligible()` in
+      `src/lib/site.ts`) — not `status === "live"` in the vendored registry, and not "Building
+      minus Private" as it briefly was. Since every current `ECOSYSTEM_MAP` entry is `"building"`
+      or `"private"`, the footer's ecosystem/property list is currently empty on every page
+      (verified in `dist/`) — no dead links, no `#` links, no disabled-looking elements, the `<nav
+      aria-label="Ecosystem">` element itself is omitted entirely when there's nothing to show.
+      Only the copyright/domain line and the Privacy/Terms/Accessibility legal links remain, both
+      independent of property lifecycle. A property becomes footer-eligible again the moment its
+      `ECOSYSTEM_MAP` entry is explicitly updated to `badge: "live"` — a one-entry, reviewable
+      change; no template changes needed anywhere.
 
 ## Content/data reconciliation (informational — owner decision needed, doesn't block the build)
 

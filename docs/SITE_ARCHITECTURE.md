@@ -60,24 +60,34 @@ change is needed anywhere in this repo — every rendering path re-derives from 
 
 A second, separate layer on top of the mechanism above, added for the ecosystem-verticals pass
 (see `docs/MIGRATION_INVENTORY.md`). `ECOSYSTEM_MAP` (`src/lib/site.ts`) is an explicit editorial
-decision by the site owner about how `/lanes` and the homepage's "Explore the ecosystem" section
-*present* each property's build state — independent of, and currently stricter than,
-`PROPERTIES[key].status`. It does **not** modify `packages/constants` or create a second
-registry of URLs/CTAs/routing — only two small pieces of presentation data per property (a
-`"building" | "private"` badge and a one-line blurb).
+decision by the site owner about how `/lanes`, the homepage's "Explore the ecosystem" section, and
+the global footer *present* each property's build state — independent of, and currently stricter
+than, `PROPERTIES[key].status`. It does **not** modify `packages/constants` or create a second
+registry of URLs/CTAs/routing — only small pieces of presentation data per property (a
+`"building" | "private" | "live"` badge, a group, and a one-line blurb).
 
 Consequences:
 - Every card on `/lanes` and in the homepage's ecosystem teaser is non-interactive (no `<a>`, no
   `<button>`, no `tabindex`) — none are currently marked as safe to link, regardless of
   `PROPERTIES[key].status`.
-- `liveFooterFor()` (above) now ALSO excludes any property marked `"private"` in `ECOSYSTEM_MAP`
-  (currently `founderlink` and `health`) from the global footer, even though both have
-  `status: "live"` — a private property may appear only in the static `/lanes` mention, never in
-  global navigation. `isPrivateProperty(key)` is the predicate; use it anywhere a property is
-  about to be rendered as a nav/footer link.
+- **The global footer is gated by `isFooterEligible(key)`**, not `PROPERTIES[key].status` and not
+  merely "not private": a property appears in the footer ONLY when its `ECOSYSTEM_MAP` badge is
+  explicitly `"live"`. As of this pass, no entry uses that value, so `liveFooterFor()` returns an
+  empty array for every property and `Footer.astro` omits the `<nav aria-label="Ecosystem">`
+  element entirely rather than render it empty. (An earlier, now-superseded version of this gate
+  only excluded `"private"`-badged properties, which still let `"building"`-badged ones like
+  Founder/Consulting/Performance/HERO/Media through — the owner explicitly closed that gap.)
+- **Known, deliberately unreconciled mismatch:** several properties still carry `status: "live"`
+  in the vendored `packages/constants/src/ecosystem.ts` (`tmi`, `founder`, `consulting`,
+  `performance`, `hero`, `media`, `health`, `founderlink`) while their `ECOSYSTEM_MAP` badge says
+  `"building"` or `"private"`. This pass was explicitly instructed not to touch the vendored
+  registry's statuses — `ECOSYSTEM_MAP` is the public-presentation authority for now, and the
+  mismatch is an open owner decision: either the registry's statuses get revisited later, or they
+  simply continue to mean something different (e.g. "this property's own site exists") from what
+  `ECOSYSTEM_MAP`'s badges mean ("safe to present as live from the hub"). Not resolved here.
 - This layer is intentionally separate from the real lifecycle status so that reversing it later
   (once a specific vertical is ready to be presented as live) is a small, explicit, reviewable
-  change to `ECOSYSTEM_MAP` — not a silent side effect of some other refactor.
+  change to one `ECOSYSTEM_MAP` entry — not a silent side effect of some other refactor.
 
 ## The `VERIFIED_INBOXES` / primary-CTA gating mechanism
 
