@@ -6,6 +6,9 @@ import {
   isVerifiedInbox,
   verifiedGeneralContact,
   isLiveProperty,
+  safeOrganizationJsonLd,
+  CONTACT_CTA_LABEL,
+  LINKEDIN_URL_PENDING,
   VERIFIED_INBOXES,
   PROPERTIES,
 } from "../src/lib/site";
@@ -87,5 +90,52 @@ describe("tmi property registry sanity", () => {
   it("tmi's primaryCta points at the internal /lanes route, not an inbox", () => {
     expect(PROPERTIES.tmi.primaryCta.href).toBe("/lanes");
     expect(PROPERTIES.tmi.primaryCta.label).toBe("Find your lane");
+  });
+});
+
+describe("LinkedIn URL held pending confirmation", () => {
+  it("liveSocialAccounts() never returns the unconfirmed tmi-lane LinkedIn URL", () => {
+    for (const a of liveSocialAccounts()) {
+      expect(a.url).not.toBe("https://www.linkedin.com/company/texasmovement");
+    }
+  });
+
+  it("liveSocialAccountsForLane('tmi') never returns the unconfirmed LinkedIn URL", () => {
+    for (const a of liveSocialAccountsForLane("tmi")) {
+      expect(a.url).not.toBe("https://www.linkedin.com/company/texasmovement");
+    }
+  });
+
+  it("safeOrganizationJsonLd().sameAs excludes the unconfirmed LinkedIn URL", () => {
+    const jsonLd = safeOrganizationJsonLd();
+    expect(jsonLd.sameAs).not.toContain("https://www.linkedin.com/company/texasmovement");
+    expect(jsonLd.sameAs).not.toContain("https://www.linkedin.com/company/texas-movement-consulting");
+  });
+
+  it("safeOrganizationJsonLd() still includes other confirmed accounts (nothing over-filtered)", () => {
+    const jsonLd = safeOrganizationJsonLd();
+    expect(jsonLd.sameAs.length).toBeGreaterThan(0);
+    expect(jsonLd.sameAs).toContain("https://www.linkedin.com/in/alexandermathai");
+  });
+
+  it("LINKEDIN_URL_PENDING is a placeholder flag only — true, and not itself a URL", () => {
+    expect(LINKEDIN_URL_PENDING).toBe(true);
+  });
+});
+
+describe("primary CTA copy", () => {
+  it("CONTACT_CTA_LABEL matches the exact approved copy, independent of verification state", () => {
+    expect(CONTACT_CTA_LABEL).toBe("Contact Texas Movement");
+  });
+
+  it("verifiedGeneralContact(), if ever non-null, would use CONTACT_CTA_LABEL", () => {
+    // Currently null (VERIFIED_INBOXES is empty) — this just documents the
+    // contract so it can't silently drift if the inbox is later verified.
+    const cta = verifiedGeneralContact();
+    if (cta) {
+      expect(cta.label).toBe(CONTACT_CTA_LABEL);
+    } else {
+      expect(cta).toBeNull();
+    }
   });
 });

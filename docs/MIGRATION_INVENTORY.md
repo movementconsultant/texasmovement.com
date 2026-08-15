@@ -186,3 +186,113 @@ places the rebuild diverges from the old page's literal content, and why:
 No other content was cut. Every heading, paragraph, list item, and lane description from the old
 `index.html` is present somewhere in the new Astro pages (see PR description for a per-route
 before/after structural comparison).
+
+---
+
+## Pass 2 — homepage placeholder/hub rewrite + LinkedIn hold (this commit)
+
+Scoped placeholder-launch pass. Touched only the homepage (`src/pages/index.astro`), the shared
+lib/layout/header it depends on, and the public-output guard. `/lanes`, `/privacy`, `/terms`, and
+`/accessibility` were NOT touched by this pass.
+
+### Homepage content removed (with rationale — nothing silently dropped)
+
+1. **The "About TMI" essay section** (`#about`, ~3 paragraphs on "why Texas Movement exists" plus
+   a "Mark & Monogram" aside). Removed because this pass reframes the homepage as an honest,
+   general placeholder/hub rather than a full pitch page. The load-bearing facts in that essay
+   (systems company, founders/athletes/cities, disciplined execution) are preserved — they're
+   folded into the new hero copy and the "What we are building" section, both sourced from
+   `ORG.boilerplate` / `ORG.tagline` in `@tmi/constants`. The more editorial/brand-voice language
+   ("structure creates leverage," the monogram-motif aside) is NOT reproduced anywhere and has no
+   other home on this site. This is a deliberate, logged removal, not an oversight.
+2. **The full "Follow the Network" section** (`#network`) — four `NetworkBlock`s (Founder, HERO &
+   Fashion, Media, Performance) listing every confirmed social handle per lane, plus a "Step into
+   the network" recruiting call for future hosts/collaborators. Removed in full. None of this
+   content has another home on this site (`/lanes` does not list social handles except HERO's
+   Instagram). This is a deliberate, logged removal — social presence still exists in
+   `packages/constants/src/social.ts` and continues to back `safeOrganizationJsonLd()`'s `sameAs`
+   list; it's simply no longer rendered as a dedicated homepage section. If Alexander wants a
+   "follow us" surface back, `liveSocialAccountsForLane()` in `src/lib/site.ts` still supports
+   rebuilding it.
+3. **Two hero CTA buttons** ("Find your lane" → `/lanes`, "Start intake via FounderLink" →
+   FounderLink). Per this pass's explicit instruction ("exactly one primary CTA... there is no
+   second CTA"), both `.btn`-styled buttons were removed from the hero. The underlying
+   destinations are NOT lost — `/lanes` is linked as plain inline text in the hero copy and again
+   in the new "Explore the ecosystem" section, and FounderLink remains a live item in that same
+   ecosystem grid and in the header nav. Only the button-level CTA styling was removed, to keep
+   the page to exactly one primary CTA slot (see `docs/LAUNCH_BLOCKERS.md` for that CTA's current
+   state).
+4. **Lane teaser section duplicating `/lanes`'s card labels** (`#core-lanes` / `#product-lanes` on
+   the homepage — a bare list of division-label chips with no links or descriptions). Replaced by
+   the new "Explore the ecosystem" section, which does the same job with real content: live
+   properties as real links, building properties named as plain "in development" items. The full
+   lane detail (descriptions, per-lane links) continues to live exclusively on `/lanes`, as
+   before.
+
+### Homepage content added / changed
+
+- New hero copy grounded in `ORG.tagline` ("Systems for people who move") and `ORG.boilerplate`,
+  plus Alexander's supplied framing language ("operates at the intersection of performance,
+  culture, media, technology, and disciplined execution") — no new specifics invented beyond what
+  `@tmi/constants` already states.
+- New "What we are building" section (`#building`) — a few sentences summarizing the real lane
+  structure, built by paraphrasing each `PROPERTIES[key].role` string already in `ecosystem.ts`.
+  No product claims invented beyond the existing `role` text.
+- New "Explore the ecosystem" section (`#ecosystem`) — lists the 9 non-`tmi`, non-`founder`
+  properties in `PROPERTY_ORDER`. Live properties (`consulting`, `founderlink`, `performance`,
+  `health`, `hero`, `media`) render as real `<a>` links to their live URL. Building properties
+  (`distribution`, `reparations`, `social`) render as plain text with an "In development" badge —
+  this reuses the exact `isLiveProperty()` gate and the `.division-status` badge class DivisionCard
+  already uses on `/lanes` for the identical purpose, per this pass's explicit instruction not to
+  reinvent that pattern.
+- Header nav: the `/#about` link (pointed at the now-removed About section) was changed to
+  `/#ecosystem` (label "Ecosystem"), pointing at the new section instead. No other nav items
+  changed.
+
+### Contact CTA (this pass)
+
+The homepage now has exactly one primary-CTA slot, reserved for "Contact Texas Movement" —
+conditionally wired per `verifiedGeneralContact()` in `src/lib/site.ts`. `VERIFIED_INBOXES` is
+still empty on this branch (unchanged by this pass — see `docs/LAUNCH_BLOCKERS.md` for why it was
+NOT added even though Alexander approved the address name/brand), so `verifiedGeneralContact()`
+returns `null` and the CTA section is not rendered at all — confirmed by inspecting
+`dist/index.html` after a build: no `mailto:`, no `.btn`, no `#contact` section present.
+
+### LinkedIn URL — held pending confirmation (new in this pass)
+
+Alexander's decision: "Texas Movement International is the official LinkedIn Company Page
+identity. Do not link to either conflicting legacy LinkedIn URL until I provide the exact
+canonical Company Page URL." Two URLs are in play, neither confirmed:
+
+- `https://www.linkedin.com/company/texas-movement-consulting` — used in the old live
+  `legacy/index.html`, never present in `@tmi/constants`.
+- `https://www.linkedin.com/company/texasmovement` — currently sitting in
+  `packages/constants/src/social.ts` `ACCOUNTS`, lane `"tmi"`, as a non-`TBD` value. Before this
+  pass, this URL WAS flowing into `organizationJsonLd().sameAs` via `publishableAccounts()` (which
+  only excludes literal-`TBD` entries, not business-unconfirmed-but-technically-present ones).
+
+This pass adds a `HELD_PENDING_CONFIRMATION` filter in `src/lib/site.ts` that excludes this exact
+URL from `liveSocialAccounts()`, `liveSocialAccountsForLane()`, and a new `safeOrganizationJsonLd()`
+wrapper (which `src/layouts/Layout.astro` now imports instead of the raw
+`organizationJsonLd()` from `@tmi/constants`). Verified after build: the string
+`linkedin.com/company/texasmovement` does not appear anywhere in `dist/`, and
+`scripts/check-public-output.mjs` now fails the build if either legacy URL ever leaks back in. A
+placeholder `LINKEDIN_URL_PENDING = true` flag was added to `src/lib/site.ts`, unread by any
+rendering path, purely so wiring in the real URL later is a small, obvious change (see the code
+comment on `HELD_PENDING_CONFIRMATION` for the exact un-hold steps).
+
+The vendored `social.ts` `ACCOUNTS` entry itself was NOT edited — its URL is left as-is (still
+unconfirmed) since editing it would require guessing the real canonical URL, which this pass does
+not have. See `docs/LAUNCH_BLOCKERS.md`.
+
+### Files touched in this pass
+
+`src/pages/index.astro` (full rewrite), `src/components/Header.astro` (nav link),
+`src/layouts/Layout.astro` (JSON-LD source), `src/lib/site.ts` (LinkedIn hold, safe JSON-LD
+wrapper, CTA label constant), `src/styles/global.css` (small additive CSS for the new ecosystem
+grid — no existing rules changed), `scripts/check-public-output.mjs` (new check #6),
+`tests/site.test.ts` (new coverage for the above), plus the doc updates listed in this file's diff
+and in `docs/LAUNCH_BLOCKERS.md`. New root/`docs/` scaffolding files (`CLAUDE.md`,
+`docs/PROJECT_BRIEF.md`, `docs/BRAND_SYSTEM.md`, `docs/SITE_ARCHITECTURE.md`,
+`docs/IMPLEMENTATION_PLAN.md`, `docs/IMPLEMENTATION_STATUS.md`) were added; `README.md` was
+expanded from a single line.
