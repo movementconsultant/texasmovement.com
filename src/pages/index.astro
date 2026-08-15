@@ -1,0 +1,206 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import NetworkBlock from "@/components/NetworkBlock.astro";
+import { pageTitle, FOUNDER } from "@tmi/constants";
+import { PROPERTIES, liveSocialAccountsForLane } from "@/lib/site";
+import type { SocialAccount } from "@tmi/constants";
+
+const title = pageTitle("tmi", "Systems for people who move");
+const description =
+  "Texas Movement International is a systems company building infrastructure for founders, athletes, and cities across consulting, performance, and media.";
+
+// "Follow the network" — sourced live from @tmi/constants ACCOUNTS instead of
+// hand-typed handles, so a TBD or unverified handle can never render here.
+// See docs/MIGRATION_INVENTORY.md #2 for how this differs from the old page.
+const PLATFORM_LABEL: Record<SocialAccount["platform"], string> = {
+  youtube: "YouTube",
+  instagram: "Instagram",
+  tiktok: "TikTok",
+  linkedin: "LinkedIn",
+  substack: "Substack",
+  facebook: "Facebook",
+  x: "X",
+};
+const toLink = (a: SocialAccount) => ({
+  label: `${PLATFORM_LABEL[a.platform]}${a.handle && a.handle !== "__TBD__" ? ` — ${a.handle}` : ""}`,
+  href: a.url as string,
+});
+const founderLinks = liveSocialAccountsForLane("founder").map(toLink);
+const heroLinks = liveSocialAccountsForLane("hero").map(toLink);
+const mediaLinks = liveSocialAccountsForLane("media").map(toLink);
+const performanceLinks = liveSocialAccountsForLane("performance").map(toLink);
+---
+
+<Layout title={title} description={description} path="/">
+  <main id="main">
+    <div id="top"></div>
+    <!-- Hero / AEO block -->
+    <section class="section hero">
+      <div class="wrap hero-inner">
+        <div>
+          <div class="hero-tagline">SYSTEMS FOR PEOPLE WHO MOVE.</div>
+          <h1>Texas Movement International.</h1>
+          <p class="hero-body">
+            Texas Movement International is a systems company. We build infrastructure for founders, athletes, and cities through distinct operating lanes: Consulting, Performance, Media, Distribution, and Reparations.
+          </p>
+          <p class="hero-body">
+            The company exists for those who need clear structure, reliable execution, and an operating system that compounds over time. Each lane does one thing clearly and supports the larger system instead of fragmenting effort.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn" href="/lanes">
+              Find your lane <span class="arrow">→</span>
+            </a>
+            <a class="btn btn--ghost" href={PROPERTIES.founderlink.url}>
+              Start intake via FounderLink <span class="arrow">→</span>
+            </a>
+          </div>
+          <div class="hero-note">
+            CONSULTING · FOUNDERLINK · PERFORMANCE · MEDIA · DISTRIBUTION · REPARATIONS
+          </div>
+        </div>
+
+        <aside class="hero-figure">
+          <img
+            src="/05_banner_header.png"
+            alt="Texas Movement International ecosystem map"
+            class="hero-banner"
+            width="1280"
+            height="720"
+          />
+          <div class="hero-grid">
+            <div class="hero-node hero-node--source">
+              <div class="hero-node-label">Intake</div>
+              <div>FounderLink routes serious work to the right lane.</div>
+            </div>
+            <div class="hero-node">
+              <div class="hero-node-label">Systems</div>
+              <div>Consulting builds AI and operational workflows.</div>
+            </div>
+            <div class="hero-node hero-node--terminal">
+              <div class="hero-node-label">Output</div>
+              <div>Performance, Media, and Distribution handle signal.</div>
+            </div>
+          </div>
+          <div class="hero-caption">
+            FIG. 01 — ECOSYSTEM UNDER LOAD · TEXAS MOVEMENT INTERNATIONAL
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Lanes teaser — full grids live on /lanes; this keeps the old
+         #core-lanes / #product-lanes anchors resolving to something real. -->
+    <section id="core-lanes" class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>CORE OPERATING LANES</Eyebrow>
+        <h2>Where serious work lives.</h2>
+        <p>
+          These lanes handle the primary operating functions of the company. If you are a founder, operator, or institution with stakes, this is where you start.
+        </p>
+        <div class="teaser-list">
+          <div class="teaser-item"><div class="division-label">Consulting</div></div>
+          <div class="teaser-item"><div class="division-label">FounderLink</div></div>
+          <div class="teaser-item"><div class="division-label">Performance &amp; Health</div></div>
+          <div class="teaser-item"><div class="division-label">Media &amp; Distribution</div></div>
+          <div class="teaser-item"><div class="division-label">Reparations</div></div>
+        </div>
+
+        <div id="product-lanes" class="teaser-list" style="margin-top: 40px;">
+          <div class="teaser-item"><div class="division-label">HERO — Product Lane</div></div>
+          <div class="teaser-item"><div class="division-label">Social / Gather™</div></div>
+        </div>
+
+        <div style="margin-top: 32px;">
+          <a class="btn" href="/lanes">
+            See every lane, in full <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About section -->
+    <section id="about" class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>ABOUT TMI</Eyebrow>
+        <h2>Why Texas Movement exists.</h2>
+
+        <div class="about-grid">
+          <div class="about-body">
+            <p>
+              Texas Movement International exists to build systems that help people and organizations move with more precision. The company brings together performance, media, footwear, consulting, IP defense, health, intake, and structural partners under one operating idea: structure creates leverage.
+            </p>
+            <p>
+              The point is not to do everything. The point is to make each lane work clearly, then connect those lanes so the output compounds instead of fragmenting.
+            </p>
+            <p>
+              That is why the brand stays disciplined: every division has a clear purpose, every message has a clear use, and every public-facing system is meant to support real work.
+            </p>
+          </div>
+
+          <aside class="about-side">
+            <Eyebrow>MARK & MONOGRAM</Eyebrow>
+            <p>
+              Texas Movement International uses one identity across its divisions so the company reads as a system, not as a pile of unrelated projects. The FIG. 01 annotation motif and monogram reinforce that structure across surfaces.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Network / public presence -->
+    <section id="network" class="section section--graphite">
+      <div class="wrap">
+        <Eyebrow light>FOLLOW THE NETWORK</Eyebrow>
+        <h2>Where the system shows up in public.</h2>
+        <p>
+          The public network is how the company documents its work and shares the founder's perspective. All Alexander Mathai references below link to <a href={FOUNDER.site}>AlexanderMathai.com</a>. The operating principle is simple: use the most direct path to the right information.
+        </p>
+
+        <div class="network-grid">
+          <NetworkBlock
+            label="Founder / Flagship Creator"
+            title="Alexander Mathai"
+            titleHref={FOUNDER.site}
+            links={founderLinks}
+            note="Founder perspective on systems, training, and building across multiple lanes."
+          />
+
+          <NetworkBlock
+            label="HERO & Fashion"
+            title="A brand built for the athletic footwear and style market"
+            links={heroLinks}
+          />
+
+          <NetworkBlock
+            label="Texas Movement Media"
+            title="Content and documentation"
+            links={mediaLinks}
+          />
+
+          <NetworkBlock
+            label="Texas Movement Performance"
+            title="Training and movement systems"
+            links={[{ label: "Website →", href: PROPERTIES.performance.url }, ...performanceLinks]}
+          />
+        </div>
+
+        <div class="hosts-list">
+          <h3 style="margin-top:28px; margin-bottom:8px;">Step into the network.</h3>
+          <p>
+            Texas Movement is open to future contributors, hosts, and collaborators when there is a real fit with the company's direction. This is not casual affiliate work; it is a long-term role inside a system built for serious output.
+          </p>
+          <ul>
+            <li>You can represent the brand clearly and calmly.</li>
+            <li>You have real experience in sports, founder economics, infrastructure, or ceremony design.</li>
+            <li>You think in systems and can sustain a body of work.</li>
+            <li>You have visible work to point to.</li>
+          </ul>
+          <p>
+            To introduce yourself, send a short note, links to your work, and the vertical or role you'd want to support through <a href={PROPERTIES.founderlink.url}>FounderLink</a> — the ecosystem's front door for exactly this kind of inbound.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

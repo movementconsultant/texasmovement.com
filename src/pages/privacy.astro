@@ -1,0 +1,33 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { ORG } from "@tmi/constants";
+import { PROPERTIES } from "@/lib/site";
+
+const title = pageTitle("tmi", "Privacy Policy");
+const description =
+  "Privacy policy for Texas Movement International LLC and its properties. Full policy text has not been published yet.";
+---
+
+<Layout title={title} description={description} path="/privacy">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>LEGAL</Eyebrow>
+        <h1>Privacy Policy.</h1>
+        <p>
+          This page is a placeholder. {ORG.legalName} has not yet published a full privacy policy
+          for {PROPERTIES.tmi.domain} or its properties.
+        </p>
+        <div class="stub-note">
+          Policy content pending. No privacy policy text has been drafted, reviewed, or approved
+          for publication as of this build. Nothing on this page should be read as a substitute for
+          a real, counsel-reviewed privacy policy — do not treat its absence as "no data is
+          collected," and do not treat this note as legal advice. This is tracked as a launch
+          blocker; see <code>docs/LAUNCH_BLOCKERS.md</code> in the repository.
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

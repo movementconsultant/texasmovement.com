@@ -1,0 +1,15 @@
+# Netlify / Cloudflare Pages _redirects syntax.
+#
+# This rebuild did not move any previously-indexable URL path. The old site
+# was a single index.html at "/" with in-page fragment anchors
+# (#core-lanes, #product-lanes, #about, #network, #top). Fragments are never
+# sent to the server, so they can't be handled here — instead, the new
+# home page (src/pages/index.astro) keeps the same element ids
+# (#core-lanes, #product-lanes, #about, #network, #top) so any bookmarked
+# "https://texasmovement.com/#core-lanes"-style link still lands on
+# equivalent content. See docs/MIGRATION_INVENTORY.md for the full
+# before/after content map.
+#
+# No path-level redirects are needed for this release. Add entries here in
+# the form `/<old-path> /<new-path> 301` if a future restructuring moves a
+# real, indexed path.

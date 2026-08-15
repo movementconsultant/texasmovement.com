@@ -1,0 +1,30 @@
+---
+import { liveFooterFor, PROPERTIES } from "@/lib/site";
+import { LEGAL_LINKS } from "@tmi/constants";
+
+// "tmi" is this property's own key — used so the footer never links itself.
+const items = liveFooterFor("tmi");
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-meta">
+        <span>© {year} {PROPERTIES.tmi.name} · {PROPERTIES.tmi.domain}</span>
+        <nav class="footer-legal" aria-label="Legal">
+          {LEGAL_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
+        </nav>
+      </div>
+      <nav class="footer-nav" aria-label="Ecosystem">
+        {items.map((item) =>
+          item.isCurrent ? (
+            <span aria-current="page">{item.label}</span>
+          ) : (
+            <a href={item.href}>{item.label}</a>
+          )
+        )}
+      </nav>
+    </div>
+  </div>
+</footer>

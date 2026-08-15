@@ -1,0 +1,42 @@
+---
+interface LinkItem {
+  label: string;
+  href: string;
+  /** true when the destination property's status !== "live" — see
+   *  isLiveProperty() in src/lib/site.ts. Renders as plain text with a
+   *  "building" note instead of a clickable link, per the common brief's
+   *  live-only-link rule. Content (label) is still shown — nothing is
+   *  dropped, only the link is disabled until the property goes live. */
+  building?: boolean;
+}
+
+interface Props {
+  label: string;
+  title: string;
+  body: string;
+  links?: LinkItem[];
+  variant?: "default" | "hero";
+}
+
+const { label, title, body, links = [], variant = "default" } = Astro.props;
+
+const linkClass = variant === "hero" ? "hero-link" : undefined;
+---
+
+<article class:list={["division", { "division--hero": variant === "hero" }]}>
+  <div class="division-label">{label}</div>
+  <div class="division-title">{title}</div>
+  <p class="division-body">{body}</p>
+  {links.length > 0 && (
+    <div class="division-links">
+      {links.map((l) =>
+        l.building ? (
+          <span class="division-status">{l.label} — building, not yet live</span>
+        ) : (
+          <a href={l.href} class={linkClass}>{l.label}</a>
+        )
+      )}
+    </div>
+  )}
+  {links.length === 0 && <span class="division-status">Building — not yet live</span>}
+</article>
