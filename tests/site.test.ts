@@ -106,16 +106,32 @@ describe("LinkedIn URL held pending confirmation", () => {
     }
   });
 
-  it("safeOrganizationJsonLd().sameAs excludes the unconfirmed LinkedIn URL", () => {
+  it("safeOrganizationJsonLd().sameAs excludes the unconfirmed LinkedIn URLs", () => {
     const jsonLd = safeOrganizationJsonLd();
     expect(jsonLd.sameAs).not.toContain("https://www.linkedin.com/company/texasmovement");
     expect(jsonLd.sameAs).not.toContain("https://www.linkedin.com/company/texas-movement-consulting");
   });
 
-  it("safeOrganizationJsonLd() still includes other confirmed accounts (nothing over-filtered)", () => {
+  it("safeOrganizationJsonLd().sameAs excludes every linkedin.com URL, including the founder's personal profile — no LinkedIn URL of any kind is confirmed for public output yet", () => {
+    const jsonLd = safeOrganizationJsonLd();
+    expect(jsonLd.sameAs).not.toContain("https://www.linkedin.com/in/alexandermathai");
+    expect(jsonLd.sameAs.some((u) => u.includes("linkedin.com"))).toBe(false);
+  });
+
+  it("safeOrganizationJsonLd() still includes other confirmed, non-LinkedIn accounts (nothing over-filtered)", () => {
     const jsonLd = safeOrganizationJsonLd();
     expect(jsonLd.sameAs.length).toBeGreaterThan(0);
-    expect(jsonLd.sameAs).toContain("https://www.linkedin.com/in/alexandermathai");
+    expect(jsonLd.sameAs).toContain("https://youtube.com/@texasmovementmedia");
+  });
+
+  it("liveSocialAccounts() excludes every linkedin.com URL", () => {
+    expect(liveSocialAccounts().some((a) => (a.url as string).includes("linkedin.com"))).toBe(false);
+  });
+
+  it("liveSocialAccountsForLane('founder') excludes the personal LinkedIn URL but keeps other founder accounts", () => {
+    const founder = liveSocialAccountsForLane("founder");
+    expect(founder.some((a) => (a.url as string).includes("linkedin.com"))).toBe(false);
+    expect(founder.some((a) => a.platform === "tiktok")).toBe(true);
   });
 
   it("LINKEDIN_URL_PENDING is a placeholder flag only — true, and not itself a URL", () => {

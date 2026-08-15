@@ -85,19 +85,32 @@ anywhere under `src/pages`, `public/`, generated `dist/`, sitemap, robots, or JS
         brand-approval decision that "TMI is the identity," not operational confirmation that this
         specific URL is the real Company Page link).
 
-      As of this build, `src/lib/site.ts` explicitly excludes the `texasmovement` URL from all
+      As of this build, `src/lib/site.ts` explicitly excludes **every** `linkedin.com` URL from all
       public output (`liveSocialAccounts()`, `liveSocialAccountsForLane()`,
-      `safeOrganizationJsonLd().sameAs`) via a `HELD_PENDING_CONFIRMATION` filter, and
-      `scripts/check-public-output.mjs` fails the build if either URL leaks into `dist/` in any
-      form. Confirmed clean on this build (see PR description for the exact `grep` run against
-      `dist/`).
+      `safeOrganizationJsonLd().sameAs`) via `isHeldPendingConfirmation()`, and
+      `scripts/check-public-output.mjs` fails the build if any `linkedin.com` URL leaks into
+      `dist/` in any form. Confirmed clean on this build (`grep -ri linkedin.com dist/` → 0 hits on
+      both `PUBLIC_PREVIEW=true` and `=false` builds).
+
+      **End-of-day closeout note (this pass):** the filter originally only matched the exact
+      `tmi`-lane company-page URL by string equality, which missed a second, different LinkedIn URL
+      also present in `ACCOUNTS` — the founder's personal profile
+      (`https://www.linkedin.com/in/alexandermathai`, lane `"founder"`), which was leaking into
+      every page's `organizationJsonLd().sameAs`. Per `CLAUDE.md` rule 5 ("no unconfirmed brand
+      assets... any other brand identifier"), that also needed holding: `isHeldPendingConfirmation()`
+      now matches on the `linkedin.com` domain rather than one exact URL, so no LinkedIn URL of any
+      kind renders until Alexander confirms one. This does not change what's blocked — it was
+      already supposed to be zero LinkedIn URLs in public output — it fixes a gap in how that was
+      enforced.
 
       **Exact change required, once ready:** update the `linkedin` / lane `"tmi"` entry's `url`
       (and `handle`) in `packages/constants/src/social.ts` with the real, confirmed canonical
-      Company Page URL, THEN delete the one `HELD_PENDING_CONFIRMATION` entry in `src/lib/site.ts`
-      (a single line, with a comment explaining exactly where it is and why). Do not do these in
-      the reverse order — removing the filter before the URL is confirmed would let the still-
-      unconfirmed URL back into public output.
+      Company Page URL, THEN narrow or remove the `linkedin.com` match in
+      `isHeldPendingConfirmation()` (`src/lib/site.ts`) accordingly. Do not do these in the reverse
+      order — removing the filter before a URL is confirmed would let an unconfirmed URL back into
+      public output. (The founder's personal LinkedIn profile is a separate, independent
+      confirmation — un-hold it explicitly if/when Alexander confirms that one too; don't assume
+      confirming the company page also confirms the personal profile.)
 
 ## Social handles (informational — the section that displayed these was removed in Pass 2)
 

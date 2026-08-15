@@ -184,7 +184,7 @@ export const PROPERTIES: Readonly<Record<PropertyKey, Property>> = {
     domain: "alexandermathai.com",
     url: "https://alexandermathai.com",
     platform: "astro-cloudflare",
-    app: null, // separate repo: lexmathai/AVM
+    app: null, // separate repo, out of scope here
     role: "Founder authority, selected thinking, speaking, ecosystem navigation.",
     primaryCta: { label: "Speaking & press", href: "/contact", event: "booking_click" },
     mustNotBecome: "A competing version of TMI.",

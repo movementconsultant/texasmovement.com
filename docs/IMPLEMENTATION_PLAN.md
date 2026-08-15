@@ -34,9 +34,11 @@ for the exhaustive per-item detail behind each line here.
    code change needed. See `docs/LAUNCH_BLOCKERS.md` "Inbox verification" for the exact
    precondition.
 2. **Canonical LinkedIn Company Page URL** — once Alexander provides it, update the `tmi`-lane
-   `linkedin` entry in `packages/constants/src/social.ts`, then delete the one
-   `HELD_PENDING_CONFIRMATION` line in `src/lib/site.ts`. See `docs/LAUNCH_BLOCKERS.md` "LinkedIn
-   Company Page URL" for the exact order of operations (URL first, filter removal second).
+   `linkedin` entry in `packages/constants/src/social.ts`, then narrow the `linkedin.com` match in
+   `isHeldPendingConfirmation()` (`src/lib/site.ts`) so it stops holding that now-confirmed URL
+   (the founder's personal LinkedIn profile is a separate, independent confirmation — narrowing
+   this filter does not un-hold that one too). See `docs/LAUNCH_BLOCKERS.md` "LinkedIn Company Page
+   URL" for the exact order of operations (URL first, filter change second).
 3. **Legal / organization data** — `ORG.stateOfFormation`, `ORG.formationYear`,
    `ORG.mailingAddress.street`/`.postalCode` are `TBD` in `packages/constants/src/org.ts`. Needs
    the filed Certificate of Formation and a registered-agent or mailbox address (never a home

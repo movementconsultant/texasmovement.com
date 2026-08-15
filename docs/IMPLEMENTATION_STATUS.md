@@ -4,6 +4,11 @@ Snapshot taken at the end of the Pass 2 homepage placeholder/hub rewrite, on bra
 `claude/texas-movement-rebuild-pq14fo` (PR #1, draft). See `docs/IMPLEMENTATION_PLAN.md` for
 what's next and `docs/LAUNCH_BLOCKERS.md` for exact per-item blockers.
 
+**Updated by a Pass 3 end-of-day closeout/validation pass** (no new features; see
+`docs/LAUNCH_BLOCKERS.md` "LinkedIn Company Page URL" for the one behavioral fix made): the check
+counts and the LinkedIn-hold description below reflect the current `HEAD`, not the Pass 2 snapshot
+verbatim.
+
 ## Routes live (in the build; not yet deployed anywhere — see "Hosting" below)
 
 | Route | Status |
@@ -27,8 +32,8 @@ and full output:
   `TBD` entries reported, unchanged by this pass; drift warnings are all in `legacy/index.html`,
   which is historical/unreferenced, and one expected warning on the literal
   `hello@texasmovement.com` string in `src/lib/site.ts`).
-- `npx vitest run` — 19/19 tests passing (10 pre-existing + 9 new, added this pass for the
-  LinkedIn-hold and CTA-label changes).
+- `npx vitest run` — 22/22 tests passing (19 as of Pass 2 + 3 new in the Pass 3 closeout, covering
+  the broadened LinkedIn hold below).
 - `node tests/a11y.mjs` (axe-core, `wcag2a`/`wcag2aa`/`wcag21a`/`wcag21aa`) — 0 violations across
   all 5 routes, including the rewritten homepage.
 
@@ -37,8 +42,10 @@ and full output:
 1. **Contact CTA absent.** `hello@texasmovement.com` is not in `VERIFIED_INBOXES` — not yet
    operationally confirmed (mailbox provisioned + test email received + monitored). The
    homepage's one primary-CTA slot renders nothing until that's true. One-line change once ready.
-2. **Canonical LinkedIn URL not provided.** Both candidate URLs are excluded from all public
-   output pending Alexander supplying the real, confirmed canonical Company Page URL.
+2. **Canonical LinkedIn URL not provided.** No `linkedin.com` URL is confirmed, so none renders
+   anywhere in public output — this now covers both company-page candidates and the founder's
+   personal profile (a Pass 3 closeout fix; see `docs/LAUNCH_BLOCKERS.md`) — pending Alexander
+   supplying the real, confirmed canonical Company Page URL.
 3. **Legal/organization data incomplete.** `stateOfFormation`, `formationYear`, mailing address —
    all `TBD`, not rendered anywhere, blocking only a future "formed in ___" statement and a real
    mailing address on legal pages.

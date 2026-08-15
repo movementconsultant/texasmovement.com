@@ -41,7 +41,7 @@ export function isVerifiedInbox(address: string | undefined | null): boolean {
  * vendored `@tmi/constants/social.ts` `ACCOUNTS` array (i.e. `publishableAccounts()`
  * would otherwise treat them as safe to render).
  *
- * Currently holds exactly one entry: the `tmi`-lane LinkedIn URL
+ * Named entries: the `tmi`-lane LinkedIn URL
  * (`https://www.linkedin.com/company/texasmovement`). Alexander's decision is
  * "Texas Movement International is the official LinkedIn Company Page
  * identity. Do not link to either conflicting legacy LinkedIn URL until I
@@ -60,6 +60,22 @@ export function isVerifiedInbox(address: string | undefined | null): boolean {
 const HELD_PENDING_CONFIRMATION: ReadonlySet<string> = new Set([
   "https://www.linkedin.com/company/texasmovement",
 ]);
+
+/**
+ * Blanket LinkedIn hold: per CLAUDE.md rule 5 ("no unconfirmed brand
+ * assets"), no LinkedIn URL of any kind — company page or personal profile —
+ * is confirmed for public output on this property yet. The named entry above
+ * only caught the `tmi`-lane company-page URL; `ACCOUNTS` also carries the
+ * founder's personal LinkedIn profile (`lane: "founder"`), which is a
+ * *different*, non-`TBD` URL that was leaking into every page's Organization
+ * JSON-LD `sameAs` (via `publishableAccounts()`) even though it was never
+ * reviewed for this decision. Filtering by domain instead of by exact URL
+ * closes that gap and matches the "ZERO linkedin.com references in public
+ * output" bar this repo holds itself to until Alexander confirms a URL.
+ */
+function isHeldPendingConfirmation(u: string): boolean {
+  return HELD_PENDING_CONFIRMATION.has(u) || u.includes("linkedin.com");
+}
 
 /**
  * Placeholder slot for the eventual real, confirmed LinkedIn Company Page
@@ -83,7 +99,7 @@ export function liveFooterFor(current: PropertyKey) {
  *  HELD_PENDING_CONFIRMATION above) — this is the ONLY list that may back a
  *  footer/social-icon rendering path anywhere on this site. */
 export function liveSocialAccounts(): readonly SocialAccount[] {
-  return publishableAccounts().filter((a) => !HELD_PENDING_CONFIRMATION.has(a.url as string));
+  return publishableAccounts().filter((a) => !isHeldPendingConfirmation(a.url as string));
 }
 
 /** Live-only social accounts for one lane — used to build any "follow us"
@@ -91,7 +107,7 @@ export function liveSocialAccounts(): readonly SocialAccount[] {
  *  Same held-pending-confirmation filter as liveSocialAccounts(). */
 export function liveSocialAccountsForLane(lane: PropertyKey): readonly SocialAccount[] {
   return accountsForLane(lane).filter(
-    (a) => a.url !== "__TBD__" && !HELD_PENDING_CONFIRMATION.has(a.url as string),
+    (a) => a.url !== "__TBD__" && !isHeldPendingConfirmation(a.url as string),
   );
 }
 
@@ -107,7 +123,7 @@ export function safeOrganizationJsonLd() {
   const org = rawOrganizationJsonLd();
   return {
     ...org,
-    sameAs: (org.sameAs as string[]).filter((u) => !HELD_PENDING_CONFIRMATION.has(u)),
+    sameAs: (org.sameAs as string[]).filter((u) => !isHeldPendingConfirmation(u)),
   };
 }
 

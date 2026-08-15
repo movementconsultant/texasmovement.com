@@ -73,12 +73,14 @@ Same shape as lifecycle gating, applied to contact routes instead of nav links:
 
 Newest instance of the same pattern, added for the LinkedIn Company Page URL (see
 `docs/LAUNCH_BLOCKERS.md`): a value can be technically present and non-`TBD` in
-`@tmi/constants` while still not being confirmed correct by Alexander. `HELD_PENDING_CONFIRMATION`
-in `src/lib/site.ts` is a small set of such URLs, checked by `liveSocialAccounts()`,
-`liveSocialAccountsForLane()`, and `safeOrganizationJsonLd()` (the latter wraps the vendored
-`organizationJsonLd()` and must be imported instead of it everywhere in this repo).
-`scripts/check-public-output.mjs` also greps `dist/` directly for the two known-conflicting
-LinkedIn URLs as a build-time backstop.
+`@tmi/constants` while still not being confirmed correct by Alexander. `isHeldPendingConfirmation()`
+in `src/lib/site.ts` currently holds every `linkedin.com` URL (by domain, not just the two
+originally-flagged company-page candidates — a closeout pass found a second, different LinkedIn URL,
+the founder's personal profile, leaking through the original narrower filter), checked by
+`liveSocialAccounts()`, `liveSocialAccountsForLane()`, and `safeOrganizationJsonLd()` (the latter
+wraps the vendored `organizationJsonLd()` and must be imported instead of it everywhere in this
+repo). `scripts/check-public-output.mjs` also greps `dist/` directly for any `linkedin.com` URL as
+a build-time backstop.
 
 ## The `PUBLIC_PREVIEW` mechanism
 

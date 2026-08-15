@@ -20,12 +20,13 @@
  *      text specifically so this can never trip).
  *   5. A build made with PUBLIC_PREVIEW=true is missing the noindex robots
  *      meta tag on any HTML page.
- *   6. Either of the two conflicting/unconfirmed legacy LinkedIn URLs
- *      ("linkedin.com/company/texas-movement-consulting" or
- *      "linkedin.com/company/texasmovement") appears anywhere in dist/, in
- *      any form (link, JSON-LD, plain text). Neither is confirmed as the
- *      real Texas Movement International Company Page URL — see
- *      HELD_PENDING_CONFIRMATION in src/lib/site.ts for the full rationale
+ *   6. Any "linkedin.com" URL appears anywhere in dist/, in any form (link,
+ *      JSON-LD, plain text) — including the founder's personal profile, not
+ *      just the two conflicting/unconfirmed company-page URLs
+ *      ("linkedin.com/company/texas-movement-consulting" and
+ *      "linkedin.com/company/texasmovement"). No LinkedIn URL is confirmed
+ *      for public output yet — see HELD_PENDING_CONFIRMATION /
+ *      isHeldPendingConfirmation() in src/lib/site.ts for the full rationale
  *      and the one-line un-hold procedure once Alexander provides the real
  *      canonical URL.
  *
@@ -39,10 +40,6 @@ const DIST = join(ROOT, "dist");
 const CONSTANTS_ECOSYSTEM = join(ROOT, "packages", "constants", "src", "ecosystem.ts");
 const SITE_LIB = join(ROOT, "src", "lib", "site.ts");
 const TBD_SENTINEL = "__TBD__";
-const HELD_LINKEDIN_URLS = [
-  "linkedin.com/company/texas-movement-consulting",
-  "linkedin.com/company/texasmovement",
-];
 
 const errors = [];
 const err = (m) => errors.push(m);
@@ -164,11 +161,9 @@ for (const file of textFiles) {
     }
   }
 
-  // 6. held-pending-confirmation LinkedIn URLs must never leak into output
-  for (const needle of HELD_LINKEDIN_URLS) {
-    if (content.includes(needle)) {
-      err(`${rel}: contains held-pending-confirmation LinkedIn URL "${needle}" — see HELD_PENDING_CONFIRMATION in src/lib/site.ts`);
-    }
+  // 6. no LinkedIn URL of any kind is confirmed for public output yet
+  if (/linkedin\.com/i.test(content)) {
+    err(`${rel}: contains a "linkedin.com" URL — no LinkedIn URL is confirmed for public output yet, see isHeldPendingConfirmation() in src/lib/site.ts`);
   }
 }
 
