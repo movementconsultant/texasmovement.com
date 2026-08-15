@@ -16,11 +16,15 @@ interface Props {
   body: string;
   links?: LinkItem[];
   variant?: "default" | "hero";
+  /** Badge shown when links is empty — "building" (default) or "private".
+   *  Private renders no interactive element at all, same as building. */
+  status?: "building" | "private";
 }
 
-const { label, title, body, links = [], variant = "default" } = Astro.props;
+const { label, title, body, links = [], variant = "default", status = "building" } = Astro.props;
 
 const linkClass = variant === "hero" ? "hero-link" : undefined;
+const statusText = status === "private" ? "Private — not public yet" : "Building — not yet live";
 ---
 
 <article class:list={["division", { "division--hero": variant === "hero" }]}>
@@ -38,5 +42,5 @@ const linkClass = variant === "hero" ? "hero-link" : undefined;
       )}
     </div>
   )}
-  {links.length === 0 && <span class="division-status">Building — not yet live</span>}
+  {links.length === 0 && <span class="division-status">{statusText}</span>}
 </article>

@@ -6,11 +6,15 @@ import {
   isVerifiedInbox,
   verifiedGeneralContact,
   isLiveProperty,
+  isPrivateProperty,
+  ecosystemEntry,
+  ECOSYSTEM_MAP,
   safeOrganizationJsonLd,
   CONTACT_CTA_LABEL,
   LINKEDIN_URL_PENDING,
   VERIFIED_INBOXES,
   PROPERTIES,
+  PROPERTY_ORDER,
 } from "../src/lib/site";
 
 describe("liveFooterFor", () => {
@@ -28,10 +32,51 @@ describe("liveFooterFor", () => {
     expect(keys).not.toContain("social");
   });
 
+  it("excludes properties marked private in ECOSYSTEM_MAP even though their status is live (founderlink, health)", () => {
+    const keys = liveFooterFor("tmi").map((i) => i.key);
+    expect(keys).not.toContain("founderlink");
+    expect(keys).not.toContain("health");
+  });
+
   it("includes tmi itself, marked isCurrent, when tmi is the current property", () => {
     const items = liveFooterFor("tmi");
     const self = items.find((i) => i.key === "tmi");
     expect(self?.isCurrent).toBe(true);
+  });
+});
+
+describe("ECOSYSTEM_MAP / isPrivateProperty", () => {
+  it("has exactly one entry per property in PROPERTY_ORDER", () => {
+    const keys = ECOSYSTEM_MAP.map((e) => e.key).sort();
+    expect(keys).toEqual([...PROPERTY_ORDER].sort());
+  });
+
+  it("marks exactly founderlink, health, and reparations as private", () => {
+    const privateKeys = ECOSYSTEM_MAP.filter((e) => e.badge === "private").map((e) => e.key).sort();
+    expect(privateKeys).toEqual(["founderlink", "health", "reparations"].sort());
+  });
+
+  it("marks every other property as building, including tmi and founder", () => {
+    const buildingKeys = ECOSYSTEM_MAP.filter((e) => e.badge === "building").map((e) => e.key);
+    expect(buildingKeys).toContain("tmi");
+    expect(buildingKeys).toContain("founder");
+    expect(buildingKeys).toContain("media");
+    expect(buildingKeys).toContain("consulting");
+    expect(buildingKeys).toContain("hero");
+    expect(buildingKeys).toContain("performance");
+    expect(buildingKeys).toContain("distribution");
+    expect(buildingKeys).toContain("social");
+  });
+
+  it("isPrivateProperty agrees with ECOSYSTEM_MAP for every property", () => {
+    for (const key of PROPERTY_ORDER) {
+      expect(isPrivateProperty(key)).toBe(ecosystemEntry(key)?.badge === "private");
+    }
+  });
+
+  it("tmi is grouped as core and founder is grouped as founder", () => {
+    expect(ecosystemEntry("tmi")?.group).toBe("core");
+    expect(ecosystemEntry("founder")?.group).toBe("founder");
   });
 });
 

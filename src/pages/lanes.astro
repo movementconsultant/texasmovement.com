@@ -3,118 +3,84 @@ import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
 import DivisionCard from "@/components/DivisionCard.astro";
 import { pageTitle } from "@tmi/constants";
-import { PROPERTIES, isLiveProperty, liveSocialAccountsForLane } from "@/lib/site";
+import { PROPERTIES, ECOSYSTEM_MAP, ecosystemEntry } from "@/lib/site";
 
-const title = pageTitle("tmi", "Explore the lanes");
+const title = pageTitle("tmi", "The ecosystem map");
 const description =
-  "Every Texas Movement International operating lane: Consulting, FounderLink, Performance, Health, Media, Distribution, Reparations, HERO, and Social.";
+  "How Texas Movement International is being built: the institutional core, the founder layer, and the verticals that will carry it into the world.";
 
-// HERO's Instagram, sourced from @tmi/constants ACCOUNTS rather than
-// hand-typed, so the handle can never drift from the manifest.
-const heroInstagram = liveSocialAccountsForLane("hero").find((a) => a.platform === "instagram");
+const core = ecosystemEntry("tmi")!;
+const founder = ecosystemEntry("founder")!;
+const verticals = ECOSYSTEM_MAP.filter((e) => e.group === "vertical");
 ---
 
 <Layout title={title} description={description} path="/lanes">
   <main id="main">
     <section class="section section--tight">
       <div class="wrap">
-        <Eyebrow>ALL LANES</Eyebrow>
-        <h1>Find your lane.</h1>
+        <Eyebrow>ECOSYSTEM MAP</Eyebrow>
+        <h1>How this is being built.</h1>
         <p>
-          This is the full map of how Texas Movement International operates — the core lanes that
-          run the business, and the product/public lanes that carry it into the world. Not sure
-          which one fits? <a href={PROPERTIES.founderlink.url} style="border-bottom: 1px solid var(--ink); color: var(--ink);">Route your inquiry through FounderLink</a> and we'll determine fit.
+          This is the full architecture of Texas Movement International — the institutional core,
+          the founder layer, and the verticals that will carry it into the world. Every part of it
+          is being built deliberately, in order, not all at once. Nothing below is a live offer —
+          it's an honest map of what exists and what's still in progress.
         </p>
       </div>
     </section>
 
-    <!-- Core Operating Lanes -->
-    <section id="core-lanes" class="section section--panel">
+    <!-- Core -->
+    <section id="core" class="section section--panel">
       <div class="wrap">
-        <Eyebrow>CORE OPERATING LANES</Eyebrow>
-        <h2>Where serious work lives.</h2>
-        <p>
-          These lanes handle the primary operating functions of the company. If you are a founder, operator, or institution with stakes, this is where you start.
-        </p>
-
+        <Eyebrow>CORE</Eyebrow>
+        <h2>The institutional umbrella.</h2>
         <div class="divisions-grid">
           <DivisionCard
-            label="Texas Movement Consulting"
-            title="Systems and AI workflows for founders and operators."
-            body="Scoped diagnostics, systems builds, and operator retainers for work that needs structure. Most institutional work starts here."
-            links={[{ label: "Website →", href: PROPERTIES.consulting.url, building: !isLiveProperty("consulting") }]}
+            label={PROPERTIES.tmi.name}
+            title="Core — the institution itself."
+            body={core.blurb}
+            status={core.badge}
           />
-
-          <DivisionCard
-            label="FounderLink"
-            title="Intake and routing when stakes are broad or unclear."
-            body="The front door for founders. Send a brief, get a fit check, and be routed to the right lane—or told honestly if there isn't one."
-            links={[{ label: "Website →", href: PROPERTIES.founderlink.url, building: !isLiveProperty("founderlink") }]}
-          />
-
-          <DivisionCard
-            label="Texas Movement Performance & Health"
-            title="Training, biomechanics, and herbs-only recovery systems."
-            body="Engineering-grade training protocols and holistic recovery for serious movers. Performance handles the physical; Health handles the restoration."
-            links={[
-              { label: "Performance →", href: PROPERTIES.performance.url, building: !isLiveProperty("performance") },
-              { label: "Health →", href: PROPERTIES.health.url, building: !isLiveProperty("health") },
-            ]}
-          />
-
-          <DivisionCard
-            label="Media & Distribution"
-            title="Documentation, signal, rights, and catalog operations."
-            body="Media documents the work. Distribution protects it—handling takedowns, rights cleanup, and platform ops so creators can keep publishing."
-            links={[
-              { label: "Media →", href: PROPERTIES.media.url, building: !isLiveProperty("media") },
-              { label: "Distribution →", href: PROPERTIES.distribution.url, building: !isLiveProperty("distribution") },
-            ]}
-          />
-
-          <DivisionCard
-            label="TM Reparations Partners"
-            title="Structural analysis on economic repair and long-horizon leverage."
-            body="Sober, historically literate frameworks for reparations and economic repair. Distinct from charity; focused on structural leverage."
-            links={[{ label: "Website →", href: PROPERTIES.reparations.url, building: !isLiveProperty("reparations") }]}
-          />
-        </div>
-
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px dashed var(--line-strong);">
-          <p style="font-size: 0.9rem; color: var(--ink-soft);">
-            <strong>Not sure which lane fits?</strong> Route your inquiry through <a href={PROPERTIES.founderlink.url} style="border-bottom: 1px solid var(--ink); color: var(--ink);">FounderLink</a> and we will determine fit.
-          </p>
         </div>
       </div>
     </section>
 
-    <!-- Product Lanes -->
-    <section id="product-lanes" class="section">
+    <!-- Founder -->
+    <section id="founder-layer" class="section">
       <div class="wrap">
-        <Eyebrow>PRODUCT &amp; PUBLIC LANES</Eyebrow>
-        <h2>Signal and physical infrastructure.</h2>
+        <Eyebrow>FOUNDER LAYER</Eyebrow>
+        <h2>The person behind the system.</h2>
+        <div class="divisions-grid">
+          <DivisionCard
+            label={PROPERTIES.founder.name}
+            title="Founder layer."
+            body={founder.blurb}
+            status={founder.badge}
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Verticals -->
+    <section id="verticals" class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>VERTICALS</Eyebrow>
+        <h2>Where the work will live.</h2>
         <p>
-          These lanes handle product output and public gathering. They are supported by the core operating system but function as distinct consumer-facing brands.
+          Nine verticals, each with one clearly defined job. Most are still being built out
+          (named honestly, not linked before they're ready); a few are intentionally private for
+          now and named only as part of this map.
         </p>
 
         <div class="divisions-grid">
-          <DivisionCard
-            variant="hero"
-            label="HERO by Texas Movement"
-            title="The product lane for footwear and apparel."
-            body="HERO is the fashion-forward arm of the ecosystem—built for apparel, footwear, and visual identity with a retail-minded posture."
-            links={[
-              { label: "Website →", href: PROPERTIES.hero.url, building: !isLiveProperty("hero") },
-              ...(heroInstagram ? [{ label: `Instagram — ${heroInstagram.handle}`, href: heroInstagram.url as string }] : []),
-            ]}
-          />
-
-          <DivisionCard
-            label="Social / Gather™"
-            title="Public layer and structured live experiences."
-            body="The public social graph and the events module for structured live gatherings. Follow the system across platforms."
-            links={[{ label: "Website →", href: PROPERTIES.social.url, building: !isLiveProperty("social") }]}
-          />
+          {verticals.map((v) => (
+            <DivisionCard
+              label={PROPERTIES[v.key].name}
+              title={PROPERTIES[v.key].label}
+              body={v.blurb}
+              status={v.badge}
+            />
+          ))}
         </div>
       </div>
     </section>

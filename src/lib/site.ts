@@ -88,10 +88,117 @@ function isHeldPendingConfirmation(u: string): boolean {
  */
 export const LINKEDIN_URL_PENDING = true;
 
+/**
+ * Presentation-only ecosystem-map labels, used by /lanes and the homepage's
+ * "Explore the ecosystem" section. These do NOT change
+ * `PROPERTIES[key].status` (the real lifecycle/safety source of truth used
+ * by `isLiveProperty()`, sitemap/canonical gating, etc.) — they're an
+ * explicit editorial decision by the site owner about how the hub currently
+ * *presents* the ecosystem's build state, independent of whether an
+ * individual property's own site happens to be deployed elsewhere. Every
+ * entry is intentionally non-interactive wherever it's rendered: see
+ * src/pages/lanes.astro and src/pages/index.astro.
+ *
+ * "private" additionally means: excluded from the global footer (see
+ * `liveFooterFor()` below) and from the primary nav (see Header.astro) —
+ * mentioned only in the static ecosystem map, never linked or indexed as an
+ * independent offer.
+ */
+export type EcosystemBadge = "building" | "private";
+export interface EcosystemMapEntry {
+  readonly key: PropertyKey;
+  readonly group: "core" | "founder" | "vertical";
+  readonly badge: EcosystemBadge;
+  readonly blurb: string;
+}
+export const ECOSYSTEM_MAP: readonly EcosystemMapEntry[] = [
+  {
+    key: "tmi",
+    group: "core",
+    badge: "building",
+    blurb:
+      "The institutional umbrella for performance, culture, media, technology, and disciplined execution.",
+  },
+  {
+    key: "founder",
+    group: "founder",
+    badge: "building",
+    blurb: "Founder perspective, systems, writing, media, and building in public.",
+  },
+  {
+    key: "media",
+    group: "vertical",
+    badge: "building",
+    blurb: "Independent media, editorial series, and cultural documentation.",
+  },
+  {
+    key: "consulting",
+    group: "vertical",
+    badge: "building",
+    blurb: "Digital ecosystem strategy, brand architecture, and implementation systems.",
+  },
+  {
+    key: "hero",
+    group: "vertical",
+    badge: "building",
+    blurb: "Consumer products, apparel, footwear, and performance-oriented design.",
+  },
+  {
+    key: "performance",
+    group: "vertical",
+    badge: "building",
+    blurb: "Training, movement, athletic development, and performance systems.",
+  },
+  {
+    key: "founderlink",
+    group: "vertical",
+    badge: "private",
+    blurb: "Internal founder routing and cross-lane coordination.",
+  },
+  {
+    key: "distribution",
+    group: "vertical",
+    badge: "building",
+    blurb: "Content, product, and partnership distribution infrastructure.",
+  },
+  {
+    key: "social",
+    group: "vertical",
+    badge: "building",
+    blurb: "Community, social publishing, and public conversation systems.",
+  },
+  {
+    key: "health",
+    group: "vertical",
+    badge: "private",
+    blurb: "Future health and wellness work; no public claim, offer, or advice.",
+  },
+  {
+    key: "reparations",
+    group: "vertical",
+    badge: "private",
+    blurb: "Future research or advocacy work; no public claim, offer, or CTA.",
+  },
+] as const;
+
+export function ecosystemEntry(key: PropertyKey): EcosystemMapEntry | undefined {
+  return ECOSYSTEM_MAP.find((e) => e.key === key);
+}
+
+export function isPrivateProperty(key: PropertyKey): boolean {
+  return ecosystemEntry(key)?.badge === "private";
+}
+
 /** Live-only nav/footer — filters out "building"/"planned"/"retired" properties
- *  even though raw footerFor() would include them if inGlobalNav is true. */
+ *  even though raw footerFor() would include them if inGlobalNav is true, AND
+ *  filters out anything marked "private" in ECOSYSTEM_MAP (e.g. FounderLink,
+ *  Health) even if PROPERTIES[key].status happens to say "live" — a Private
+ *  property may not appear in global navigation beyond its static
+ *  ecosystem-map mention. */
 export function liveFooterFor(current: PropertyKey) {
-  return footerFor(current).filter((item) => PROPERTIES[item.key].status === "live");
+  return footerFor(current).filter(
+    (item) => PROPERTIES[item.key].status === "live" && !isPrivateProperty(item.key),
+  );
 }
 
 /** Live-only social accounts, further filtered to ones with a resolved

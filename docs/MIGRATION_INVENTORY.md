@@ -296,3 +296,57 @@ and in `docs/LAUNCH_BLOCKERS.md`. New root/`docs/` scaffolding files (`CLAUDE.md
 `docs/PROJECT_BRIEF.md`, `docs/BRAND_SYSTEM.md`, `docs/SITE_ARCHITECTURE.md`,
 `docs/IMPLEMENTATION_PLAN.md`, `docs/IMPLEMENTATION_STATUS.md`) were added; `README.md` was
 expanded from a single line.
+
+## Pass — ecosystem verticals map (Core / Founder layer / 9 verticals)
+
+Owner supplied an explicit "approved ecosystem presentation": Texas Movement International itself
+(Core), Alexander Mathai (Founder layer), and nine verticals (Media, Consulting, HERO,
+Performance, FounderLink, Distribution, Social, Health, Reparations), each with an exact one-line
+blurb and a `Building` or `Private` badge — `FounderLink`, `Health`, and `Reparations` are
+`Private`; everything else, including TMI itself and the Founder layer, is `Building`. Notably,
+**zero** entries in the owner's list are marked live/available — so per rule 3 ("a vertical may be
+linked only if the destination is already verified, public, lifecycle-approved...") every card on
+the resulting map is non-interactive. This is a deliberate, explicit editorial decision, not
+derived from `PROPERTIES[key].status` in the vendored `@tmi/constants` (which still shows several
+of these as `"live"` — that field remains the real deployment-lifecycle source of truth for other
+purposes and was not modified; see `docs/SITE_ARCHITECTURE.md`'s new "`ECOSYSTEM_MAP` presentation
+layer" section for how the two are kept distinct).
+
+**`/lanes`** was rewritten from the old two-grid "Core Operating Lanes" / "Product & Public Lanes"
+layout (which had several real, clickable links) into three sections — Core, Founder Layer,
+Verticals — using the owner's exact blurb text, each card a non-interactive `DivisionCard` (no
+`<a>`, no `<button>`, no `tabindex`; verified in `dist/` after build). The old "Route your inquiry
+through FounderLink" links (in the intro copy and a footer callout) were removed, since FounderLink
+is now `Private`.
+
+**Homepage** ("Explore the ecosystem" section) was updated to match: it previously rendered live
+properties (including FounderLink) as real `<a>` links via `isLiveProperty()`. It now renders all
+9 verticals as non-interactive cards sourced from the same `ECOSYSTEM_MAP` data `/lanes` uses —
+this touch was necessary (not optional) because leaving the old logic in place would have had the
+homepage presenting several verticals as live while `/lanes` presented them as Building/Private on
+the same site, a direct self-contradiction. The "What we are building" paragraph's wording was
+also adjusted — it previously said "Some of these lanes are live today," which is no longer
+accurate under this presentation.
+
+**Global header nav**: the direct `<a href={PROPERTIES.founderlink.url}>FounderLink</a>` link was
+removed (FounderLink is `Private`, may not appear in global navigation). The stale
+`/lanes#product-lanes` anchor was also removed since that section no longer exists under this
+structure; nav is now "Ecosystem Map" (`/lanes`) and "Verticals" (`/#ecosystem`).
+
+**Global footer** (`liveFooterFor()` in `src/lib/site.ts`): now additionally excludes any property
+marked `"private"` in `ECOSYSTEM_MAP`, even if `PROPERTIES[key].status === "live"`. Concretely,
+FounderLink and Health no longer appear in the site-wide footer. **Not changed, flagged instead**:
+the footer still links Founder (`alexandermathai.com`) and several other `Building`-badged live-
+status properties (Consulting, Performance, HERO, Media) — the global footer is a pre-existing,
+site-wide mechanism outside this pass's stated scope (`/lanes`, "only if necessary" the homepage),
+and rule 3's stricter bar was applied to the new ecosystem-map cards specifically, not retroactively
+to the footer's longstanding property-directory links. Whether the footer should also stop linking
+`Building`-badged properties is an open question for the owner — not resolved here, to avoid
+scope creep beyond what was asked.
+
+Files touched: `src/pages/lanes.astro` (full rewrite), `src/pages/index.astro` (ecosystem section
++ "what we are building" copy), `src/components/Header.astro` (nav links), `src/components/
+DivisionCard.astro` (added `status: "building" | "private"` prop), `src/lib/site.ts` (new
+`ECOSYSTEM_MAP`, `ecosystemEntry()`, `isPrivateProperty()`; `liveFooterFor()` updated), `src/
+styles/global.css` (removed now-dead `.teaser-item--link` rules), `tests/site.test.ts` (6 new
+tests), `docs/SITE_ARCHITECTURE.md` (route table + new mechanism section).

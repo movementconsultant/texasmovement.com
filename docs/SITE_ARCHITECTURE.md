@@ -5,7 +5,7 @@
 | Route | File | Purpose |
 |---|---|---|
 | `/` | `src/pages/index.astro` | Homepage — plain-language ecosystem placeholder/hub (see "Homepage" below). |
-| `/lanes` | `src/pages/lanes.astro` | Full lane directory: every property, description, status, live link or "building" note. |
+| `/lanes` | `src/pages/lanes.astro` | Ecosystem map: Core (TMI itself), Founder layer (Alexander Mathai), and 9 verticals, each with a Building/Private badge and a one-line description. As of the ecosystem-verticals pass (see `docs/MIGRATION_INVENTORY.md`), every card is intentionally non-interactive — no vertical is currently presented as a live, clickable destination. |
 | `/privacy` | `src/pages/privacy.astro` | Honest stub — states plainly that policy content is pending. |
 | `/terms` | `src/pages/terms.astro` | Honest stub — same as `/privacy`. |
 | `/accessibility` | `src/pages/accessibility.astro` | Accessibility statement, including what has and hasn't been audited. |
@@ -24,10 +24,12 @@ four sections:
    media, technology, and disciplined execution"), grounded in `ORG.tagline` / `ORG.boilerplate`.
 2. **`#building` — "What we are building"** — a few sentences on the real lane structure, sourced
    from each `PROPERTIES[key].role` string.
-3. **`#ecosystem` — "Explore the ecosystem"** — lists the 9 non-`tmi`, non-`founder` properties in
-   `PROPERTY_ORDER`. Live ones (`isLiveProperty(key) === true`) render as real links; building
-   ones render as plain text + an "In development" badge. This reuses the exact live/building gate
-   `DivisionCard.astro` already applies on `/lanes` — see `docs/BRAND_SYSTEM.md`.
+3. **`#ecosystem` — "Explore the ecosystem"** — lists the 9 vertical entries from
+   `ECOSYSTEM_MAP` (`src/lib/site.ts`), the same presentation-only badge list `/lanes` uses. Every
+   entry renders as plain text + a "In development" or "Private" badge — none are links. This is a
+   deliberate, explicit editorial decision (not derived from `PROPERTIES[key].status`): as of the
+   ecosystem-verticals pass, no vertical is presented as live from this hub regardless of whether
+   its own site happens to be deployed elsewhere. See `docs/MIGRATION_INVENTORY.md`.
 4. **`#contact` — the one primary-CTA slot** — renders `<a class="btn">{cta.label}</a>` ONLY when
    `verifiedGeneralContact()` (`src/lib/site.ts`) returns non-null. Currently `null`
    (`VERIFIED_INBOXES` is empty), so this section does not render at all. See "Primary CTA gating"
@@ -53,6 +55,29 @@ places so it can't silently regress:
 
 To move a property from `building` to `live`: flip its `status` in `ecosystem.ts`. No template
 change is needed anywhere in this repo — every rendering path re-derives from `isLiveProperty()`.
+
+## The `ECOSYSTEM_MAP` presentation layer (Building / Private badges)
+
+A second, separate layer on top of the mechanism above, added for the ecosystem-verticals pass
+(see `docs/MIGRATION_INVENTORY.md`). `ECOSYSTEM_MAP` (`src/lib/site.ts`) is an explicit editorial
+decision by the site owner about how `/lanes` and the homepage's "Explore the ecosystem" section
+*present* each property's build state — independent of, and currently stricter than,
+`PROPERTIES[key].status`. It does **not** modify `packages/constants` or create a second
+registry of URLs/CTAs/routing — only two small pieces of presentation data per property (a
+`"building" | "private"` badge and a one-line blurb).
+
+Consequences:
+- Every card on `/lanes` and in the homepage's ecosystem teaser is non-interactive (no `<a>`, no
+  `<button>`, no `tabindex`) — none are currently marked as safe to link, regardless of
+  `PROPERTIES[key].status`.
+- `liveFooterFor()` (above) now ALSO excludes any property marked `"private"` in `ECOSYSTEM_MAP`
+  (currently `founderlink` and `health`) from the global footer, even though both have
+  `status: "live"` — a private property may appear only in the static `/lanes` mention, never in
+  global navigation. `isPrivateProperty(key)` is the predicate; use it anywhere a property is
+  about to be rendered as a nav/footer link.
+- This layer is intentionally separate from the real lifecycle status so that reversing it later
+  (once a specific vertical is ready to be presented as live) is a small, explicit, reviewable
+  change to `ECOSYSTEM_MAP` — not a silent side effect of some other refactor.
 
 ## The `VERIFIED_INBOXES` / primary-CTA gating mechanism
 

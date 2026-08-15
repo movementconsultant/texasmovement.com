@@ -1,9 +1,12 @@
 ---
-// Sticky site header. Includes an accessible mobile nav disclosure — the
+// Sticky site header. Includes an accessible nav disclosure — the
 // live production site's `nav { display: none }` under 900px with NO
 // alternative is a known a11y gap (see DESIGN_SYSTEM.md); this replaces it
 // with a real <button aria-expanded> + keyboard-reachable panel.
-import { PROPERTIES } from "@/lib/site";
+//
+// FounderLink is intentionally NOT linked here: it's marked "private" in
+// ECOSYSTEM_MAP (src/lib/site.ts) and per that policy may appear only in
+// the static /lanes ecosystem-map mention, never in global navigation.
 ---
 
 <header>
@@ -28,10 +31,8 @@ import { PROPERTIES } from "@/lib/site";
       </button>
 
       <nav class="primary-nav" id="primary-nav" aria-label="Primary" data-open="false">
-        <a href="/lanes">Core Lanes</a>
-        <a href="/lanes#product-lanes">Product</a>
-        <a href="/#ecosystem">Ecosystem</a>
-        <a href={PROPERTIES.founderlink.url}>FounderLink</a>
+        <a href="/lanes">Ecosystem Map</a>
+        <a href="/#ecosystem">Verticals</a>
       </nav>
     </div>
   </div>

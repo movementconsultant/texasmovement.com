@@ -638,27 +638,16 @@ p {
   margin-bottom: 4px;
 }
 
-/* Homepage "Explore the ecosystem" grid — live properties render as
-   .teaser-item--link (a real <a>), building properties render as a plain
+/* Homepage "Explore the ecosystem" grid — every entry is a non-interactive
    .teaser-item div + .division-status badge (same badge class DivisionCard
-   uses on /lanes for the identical building-status treatment). */
+   uses on /lanes for the identical building/private-status treatment). None
+   of these are links: no vertical is currently presented as live. */
 .ecosystem-name {
   font-family: "Space Grotesk", sans-serif;
   font-size: 0.98rem;
   font-weight: 600;
   margin: 2px 0 10px;
   display: block;
-}
-
-a.teaser-item--link {
-  display: block;
-  cursor: pointer;
-}
-
-a.teaser-item--link:hover,
-a.teaser-item--link:focus-visible {
-  border-color: var(--ink);
-  background: var(--panel);
 }
 
 .contact-cta {

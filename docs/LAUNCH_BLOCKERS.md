@@ -124,21 +124,29 @@ anywhere under `src/pages`, `public/`, generated `dist/`, sitemap, robots, or JS
       still correctly excluded from `organizationJsonLd().sameAs` (via `publishableAccounts()`'s
       TBD filter) regardless of whether any page renders them directly.
 
-## Property-status gating (blocks: 3 lane cards being clickable on `/lanes`)
+## Ecosystem-map presentation (blocks: every card on `/lanes` and the homepage's ecosystem
+section being clickable)
 
-- [ ] Distribution, Reparations, and Social are `status: "building"` in
-      `packages/constants/src/ecosystem.ts`. Per the common brief, only `status: "live"` properties
-      may appear as nav/link destinations. Their full label/title/description copy IS shown on
-      `/lanes` (nothing was cut), but their "Website →" links are rendered as plain text with a
-      "Building — not yet live" note instead of a clickable `<a>`. **Note:** the old live site
-      linked all three of these as normal clickable links (and they may in fact already resolve on
-      GitHub Pages today) — this is a deliberate tightening to match the manifest's status field,
-      not a sign those domains are broken. Flip this the moment the owner updates their `status` to
-      `"live"` in `ecosystem.ts` — no template change needed, `isLiveProperty()` picks it up
-      automatically. The homepage's "Explore the ecosystem" section (added in Pass 2) applies the
-      exact same `isLiveProperty()` gate to the same three properties, labeled "In development"
-      there instead of "Building — not yet live" (shorter copy for a more compact grid) — both
-      labels update the moment `status` flips to `"live"`.
+- [ ] **Superseded as of the ecosystem-verticals pass.** Previously only Distribution, Reparations,
+      and Social (the `status: "building"` properties) were non-clickable, everything else linked
+      out normally. The owner has since supplied an explicit "approved ecosystem presentation"
+      marking ALL 11 entries (TMI itself, Alexander Mathai, and all 9 verticals) as `Building` or
+      `Private` — none as live/available — so every card on both `/lanes` and the homepage's
+      "Explore the ecosystem" section is now non-interactive, regardless of the individual
+      property's own `status` field in `ecosystem.ts` (that field is unchanged and remains the real
+      deployment-lifecycle source of truth for other purposes — see `ECOSYSTEM_MAP` in
+      `docs/SITE_ARCHITECTURE.md`). To make a specific vertical clickable again: update its badge
+      to reflect a real "verified, public, lifecycle-approved" state in `ECOSYSTEM_MAP`
+      (`src/lib/site.ts`) — an explicit, reviewable, one-entry change.
+- [ ] **Open question, not resolved this pass:** the global footer (`liveFooterFor()`) still links
+      Founder (`alexandermathai.com`) and several `Building`-badged live-status properties
+      (Consulting, Performance, HERO, Media) — only `Private`-badged properties (FounderLink,
+      Health) were removed from the footer, per the explicit "not visible in global navigation"
+      rule for Private properties. Whether the footer should also stop linking `Building`-badged
+      properties (to fully match the "nothing presented as live" posture of the ecosystem map
+      itself) was out of scope for this pass — it touches a site-wide component, not `/lanes` or
+      the homepage specifically — and is flagged here for an explicit owner decision rather than
+      guessed at.
 
 ## Content/data reconciliation (informational — owner decision needed, doesn't block the build)
 

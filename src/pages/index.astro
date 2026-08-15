@@ -2,30 +2,19 @@
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
 import { pageTitle } from "@tmi/constants";
-import { PROPERTIES, isLiveProperty, verifiedGeneralContact } from "@/lib/site";
-import type { PropertyKey } from "@tmi/constants";
+import { PROPERTIES, ECOSYSTEM_MAP, verifiedGeneralContact } from "@/lib/site";
 
 const title = pageTitle("tmi", "Systems for people who move");
 const description =
   "Texas Movement International operates at the intersection of performance, culture, media, technology, and disciplined execution.";
 
-// The full lane grid (with descriptions, live/building status) lives on
-// /lanes — see DivisionCard.astro there for the canonical "building" card
-// treatment this section's live/plain-text split is deliberately reusing.
-// tmi (this site) and founder (a separate person's site, alexandermathai.com)
-// are excluded here for the same reason /lanes excludes them from its grid.
-const ECOSYSTEM_ORDER: readonly PropertyKey[] = [
-  "consulting",
-  "founderlink",
-  "performance",
-  "health",
-  "hero",
-  "media",
-  "distribution",
-  "reparations",
-  "social",
-];
-const laneBadges = ECOSYSTEM_ORDER.map((k) => PROPERTIES[k].label.toUpperCase()).join(" · ");
+// The full ecosystem map (core, founder layer, and every vertical, each with
+// its Building/Private badge) lives on /lanes — this section is a shorter,
+// consistent teaser of the same ECOSYSTEM_MAP data (src/lib/site.ts), never
+// a second, independently-maintained list. Every entry here is
+// non-interactive, same as /lanes: nothing is presented as live.
+const verticals = ECOSYSTEM_MAP.filter((e) => e.group === "vertical");
+const laneBadges = verticals.map((v) => PROPERTIES[v.key].label.toUpperCase()).join(" · ");
 
 // Conditional primary CTA. See src/lib/site.ts — verifiedGeneralContact()
 // returns null until hello@texasmovement.com is added to VERIFIED_INBOXES,
@@ -88,10 +77,10 @@ const cta = verifiedGeneralContact();
         <Eyebrow>WHAT WE ARE BUILDING</Eyebrow>
         <h2>A system, not a single product.</h2>
         <p>
-          Each lane does one clearly defined job and reports to the same operating standard. Consulting builds systems and AI workflows for founders and operators; Performance and Health handle movement training, evaluation, and recovery education; Media documents the work and Distribution handles rights and platform operations; HERO is the retail and product lane; Reparations is a research and systems-design lane on economic repair; Social is the public events layer. FounderLink is the intake point that routes new work to whichever lane fits — or says plainly if there isn't one yet.
+          Each vertical does one clearly defined job and reports to the same operating standard. Consulting builds digital ecosystem strategy and brand architecture; Performance handles training and athletic development; Media documents the work; HERO is the consumer product lane; Distribution handles content and partnership infrastructure; Social is the public conversation layer. FounderLink, Health, and Reparations are intentionally private for now.
         </p>
         <p>
-          Some of these lanes are live today. Others are still being built out, and are named honestly below rather than linked before they're ready.
+          Every vertical below is being built out deliberately, one at a time — named honestly rather than presented as available before it's ready. See the full <a href="/lanes" style="border-bottom: 1px solid var(--ink); color: var(--ink);">ecosystem map</a> for how it fits together.
         </p>
       </div>
     </section>
@@ -102,23 +91,20 @@ const cta = verifiedGeneralContact();
         <Eyebrow>EXPLORE THE ECOSYSTEM</Eyebrow>
         <h2>Find your lane.</h2>
         <p>
-          Live lanes link out directly below. Lanes still in development are named, not linked, until they're ready — the same rule the full <a href="/lanes" style="border-bottom: 1px solid var(--ink); color: var(--ink);">lane map</a> follows.
+          Nine verticals, none presented as live yet. Most are still being built; a few are
+          intentionally private for now. Full detail, including the institutional core and founder
+          layer, lives on the <a href="/lanes" style="border-bottom: 1px solid var(--ink); color: var(--ink);">ecosystem map</a>.
         </p>
 
         <div class="teaser-list">
-          {ECOSYSTEM_ORDER.map((key) => {
-            const property = PROPERTIES[key];
-            const live = isLiveProperty(key);
-            return live ? (
-              <a class="teaser-item teaser-item--link" href={property.url}>
-                <div class="division-label">{property.label}</div>
-                <div class="ecosystem-name">{property.name} <span aria-hidden="true">→</span></div>
-              </a>
-            ) : (
+          {verticals.map((v) => {
+            const property = PROPERTIES[v.key];
+            const statusText = v.badge === "private" ? "Private" : "In development";
+            return (
               <div class="teaser-item">
                 <div class="division-label">{property.label}</div>
                 <div class="ecosystem-name">{property.name}</div>
-                <span class="division-status">In development</span>
+                <span class="division-status">{statusText}</span>
               </div>
             );
           })}
