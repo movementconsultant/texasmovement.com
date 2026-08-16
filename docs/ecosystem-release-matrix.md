@@ -1,5 +1,13 @@
 # TMI ecosystem release matrix
 
+> **2026-08-16 terminology clarification** (Mark 2.1): "Live candidate" everywhere in this
+> document means *eligible to pursue release only after every required gate and explicit owner
+> authorization are complete* — it does not mean currently live, and neither hub row below has
+> ever been deployed. This note doesn't change any classification or finding already recorded
+> here; see `docs/mark-2-1-hub-release-control-packet.md` "Terminology reconciliation" for the
+> full canonical definitions (also covering "Building," "External storefront / internally
+> unaudited," and "Route under TMI").
+
 Snapshot as of the Mark 2 ecosystem-wide release sprint. Covers every repository the
 `movementconsultant` GitHub organization actually contains — confirmed via a live repository
 listing at the start of this sprint: **exactly 10 repositories exist**, no more. Any property

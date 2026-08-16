@@ -1,5 +1,11 @@
 # Mark 2 ecosystem handoff
 
+> **2026-08-16 terminology clarification** (Mark 2.1): "Live candidate" below means *eligible to
+> pursue release only after every required gate and explicit owner authorization are complete* —
+> not currently live. This note doesn't change any finding already recorded in this document; see
+> `docs/mark-2-1-hub-release-control-packet.md` for the full gate-by-gate evidence ledger and the
+> canonical terminology definitions.
+
 Companion to `docs/ecosystem-release-matrix.md` (this repo). That file is the row-by-row data;
 this file is the narrative handoff — read both before making a launch decision for any TMI
 property.
