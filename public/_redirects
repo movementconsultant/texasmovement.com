@@ -13,3 +13,9 @@
 # No path-level redirects are needed for this release. Add entries here in
 # the form `/<old-path> /<new-path> 301` if a future restructuring moves a
 # real, indexed path.
+
+# Apex domain (texasmovement.com) is canonical. www.texasmovement.com redirects
+# permanently here. This rule only takes effect once www.texasmovement.com is also
+# added as a custom domain on the same Cloudflare Pages project — until then it has no
+# effect and causes no harm.
+https://www.texasmovement.com/* https://texasmovement.com/:splat 301!
