@@ -1,0 +1,59 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { hubRoute } from "@/lib/hub-routes";
+
+const title = pageTitle("tmi", "Consulting");
+const description =
+  "Texas Movement Consulting is a future advisory and systems capability lane. Building — not yet live. No engagement pathway is active.";
+const posture = hubRoute("/consulting")!.postureLabel!;
+---
+
+<Layout title={title} description={description} path="/consulting">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>CONSULTING</Eyebrow>
+        <h1>Texas Movement Consulting.</h1>
+        <span class="division-status">{posture}</span>
+        <p>
+          Consulting is the future advisory and systems capability lane of Texas Movement
+          International: turning operational and technical expertise into repeatable, documented
+          systems rather than one-off advice. That focus area is described below at a category
+          level only — this page is not an active engagement channel.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>FOCUS AREAS</Eyebrow>
+        <h2>Where this lane is headed.</h2>
+        <p>
+          The planned scope covers a small number of service areas, each still in a capability-
+          framework stage rather than a packaged offer: AI and workflow strategy, digital ecosystem
+          and web architecture, digital brand systems, and process automation. Each is intended to
+          follow one neutral method — diagnose the real constraint, design a system for it, document
+          the system, and only then measure it — rather than a generic engagement template.
+        </p>
+        <div class="divisions-grid">
+          <div class="division">
+            <div class="division-label">FUTURE PROOF / CASE-STUDY MODULE</div>
+            <div class="division-title">Not yet populated.</div>
+            <p class="division-body">
+              No client name, result, metric, or testimonial appears on this page. A real case study
+              will only be added once one exists and is confirmed for publication.
+            </p>
+          </div>
+        </div>
+        <div class="stub-note">
+          Engagement pathways are not active. There is no inquiry form, booking link, calendar,
+          pricing, availability statement, or contact route on this page. See the
+          <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest of Texas
+          Movement International.
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

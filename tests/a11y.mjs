@@ -48,7 +48,21 @@ const server = createServer(async (req, res) => {
   }
 });
 
-const ROUTES = ["/", "/lanes", "/privacy", "/terms", "/accessibility"];
+const ROUTES = [
+  "/",
+  "/lanes",
+  "/about",
+  "/ecosystem",
+  "/consulting",
+  "/media",
+  "/performance",
+  "/distribution",
+  "/hero",
+  "/partners",
+  "/privacy",
+  "/terms",
+  "/accessibility",
+];
 
 async function main() {
   await new Promise((resolve) => server.listen(PORT, resolve));

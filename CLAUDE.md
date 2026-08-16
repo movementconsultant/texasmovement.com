@@ -13,6 +13,17 @@ deploys exactly one property: `texasmovement.com` itself. It does not own or bui
 `*.texasmovement.com` sub-properties (Consulting, Performance, Media, etc.) — those are separate
 repos, out of scope here.
 
+> **2026-08-16 clarification (Mark 4):** the sentence above describes `@tmi/constants`'
+> aspirational, still-vendored multi-repo model (one subdomain/repo per vertical) and remains
+> accurate as a description of that package. The owner's actual current infrastructure direction
+> has since simplified to exactly two canonical Cloudflare Pages projects/repositories
+> (`texasmovement.com` and `alexandermathai.com`). Per that direction, this repo now also hosts a
+> small set of local, safely-inert route scaffolds for several verticals — `/consulting`, `/media`,
+> `/performance`, `/distribution`, `/partners` — as real paths under `texasmovement.com` itself, not
+> as separate subdomain deployments. See `docs/mark-4-tmi-hub-route-specification.md` for the full
+> route inventory and safeguards. This note does not change `@tmi/constants` itself (still not
+> edited speculatively, per rule 7 below) — only this file's own description of current practice.
+
 Current state: this is a **placeholder/hub launch**, not the finished business site. It is
 honest about what's live, what's still being built, and what isn't confirmed yet — see
 `docs/IMPLEMENTATION_STATUS.md` for a snapshot and `docs/LAUNCH_BLOCKERS.md` for exactly what's

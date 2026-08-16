@@ -4,9 +4,18 @@
 // alternative is a known a11y gap (see DESIGN_SYSTEM.md); this replaces it
 // with a real <button aria-expanded> + keyboard-reachable panel.
 //
-// FounderLink is intentionally NOT linked here: it's marked "private" in
-// ECOSYSTEM_MAP (src/lib/site.ts) and per that policy may appear only in
-// the static /lanes ecosystem-map mention, never in global navigation.
+// Primary nav is sourced from navRoutes() (src/lib/hub-routes.ts) — the
+// Mark 4 hub-route registry — rather than hand-written here, so there is
+// exactly one place that decides which routes are nav-eligible. FounderLink,
+// Health, Social/Gather, and Reparations are intentionally NOT linked here
+// (marked "private"/purpose-undefined in ECOSYSTEM_MAP, src/lib/site.ts) and
+// per that policy may appear only in the static /ecosystem and /lanes
+// mentions, never in global navigation. HERO, Distribution, and Partners are
+// real local routes (see hub-routes.ts) but are deliberately kept out of
+// primary nav per the owner's exact Mark 4 nav instruction — reachable only
+// via internal links from /ecosystem.
+import { navRoutes } from "@/lib/hub-routes";
+const navItems = navRoutes();
 ---
 
 <header>
@@ -31,8 +40,7 @@
       </button>
 
       <nav class="primary-nav" id="primary-nav" aria-label="Primary" data-open="false">
-        <a href="/lanes">Ecosystem Map</a>
-        <a href="/#ecosystem">Verticals</a>
+        {navItems.map((item) => <a href={item.path}>{item.navLabel}</a>)}
       </nav>
     </div>
   </div>

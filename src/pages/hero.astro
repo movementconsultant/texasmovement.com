@@ -1,0 +1,35 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { hubRoute } from "@/lib/hub-routes";
+
+const title = pageTitle("tmi", "HERO");
+const description =
+  "HERO is a separate, externally operated storefront/property. Its catalog, checkout, and claims are not audited or verified from this hub.";
+const posture = hubRoute("/hero")!.postureLabel!;
+---
+
+<Layout title={title} description={description} path="/hero">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>HERO</Eyebrow>
+        <h1>HERO.</h1>
+        <span class="division-status">{posture}</span>
+        <p>
+          HERO is a separate, externally operated storefront and product property associated with
+          the Texas Movement International ecosystem. It is not built, hosted, or maintained in this
+          repository, and this page is not a directory, storefront, or product listing.
+        </p>
+        <div class="stub-note">
+          HERO's product catalog, pricing, checkout, fulfillment, policies, support channel, current
+          availability, and any product claim have not been audited or verified from this hub. None
+          of that information is reproduced, summarized, or linked here. Nothing on this page should
+          be read as confirming that HERO's storefront is operating, that any product is available,
+          or that any claim made elsewhere about HERO is accurate.
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

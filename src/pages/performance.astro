@@ -1,0 +1,59 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { hubRoute } from "@/lib/hub-routes";
+
+const title = pageTitle("tmi", "Performance");
+const description =
+  "Texas Movement Performance is a future, non-clinical movement and training lane. Building — not yet live. No coaching, medical, or enrollment offer is active.";
+const posture = hubRoute("/performance")!.postureLabel!;
+---
+
+<Layout title={title} description={description} path="/performance">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>PERFORMANCE</Eyebrow>
+        <h1>Texas Movement Performance.</h1>
+        <span class="division-status">{posture}</span>
+        <p>
+          Performance is the future movement, training, and athletic-development lane of Texas
+          Movement International. Its scope is explicitly non-clinical: it is not a medical,
+          diagnostic, treatment, or rehabilitation service, and nothing on this page should be read
+          as any of those.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>SCOPE AND THEMES</Eyebrow>
+        <h2>Where this lane is headed.</h2>
+        <p>
+          Planned thematic categories, at an educational, non-medical level only: strength and
+          conditioning, general movement quality, sprint mechanics, and combat-sport-adjacent
+          preparation. Any future program referenced from this site is a placeholder until it is
+          actually built, staffed, and reviewed.
+        </p>
+        <div class="divisions-grid">
+          <div class="division">
+            <div class="division-label">SCOPE BOUNDARY</div>
+            <div class="division-title">Not a medical or clinical service.</div>
+            <p class="division-body">
+              This page contains no training plan, medical guidance, diagnosis, treatment, or
+              injury-prevention claim, and no coaching enrollment, outcome claim, testimonial,
+              efficacy claim, or pricing. A licensed clinician should be consulted for medical
+              concerns.
+            </p>
+          </div>
+        </div>
+        <div class="stub-note">
+          There is no coaching enrollment path, form, or contact route on this page. See the
+          <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest of Texas
+          Movement International.
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

@@ -5,8 +5,27 @@ export const prerender = true;
 
 // This site's own indexable pages. Legal stub pages ARE included — they're
 // real, reachable pages with honest "content pending" language, not broken
-// routes, so there's no reason to hide them from a production sitemap.
-const ROUTES = ["/", "/lanes", "/privacy", "/terms", "/accessibility"];
+// routes, so there's no reason to hide them from a production sitemap. The
+// Mark 4 hub routes (/about, /ecosystem, /consulting, /media, /performance,
+// /distribution, /hero, /partners) follow the same rule: each is a real,
+// reachable page with restrained "Building"/"external, unaudited" language,
+// not a broken or misleading route, so they're included here too — subject
+// to the same PUBLIC_PREVIEW gating as every other route below.
+const ROUTES = [
+  "/",
+  "/lanes",
+  "/about",
+  "/ecosystem",
+  "/consulting",
+  "/media",
+  "/performance",
+  "/distribution",
+  "/hero",
+  "/partners",
+  "/privacy",
+  "/terms",
+  "/accessibility",
+];
 
 // PUBLIC_PREVIEW convention: this build ships with PUBLIC_PREVIEW=true, so
 // the sitemap is generated with ZERO indexable URLs (an empty <urlset>)

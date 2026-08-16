@@ -1,0 +1,57 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { hubRoute } from "@/lib/hub-routes";
+
+const title = pageTitle("tmi", "Media");
+const description =
+  "Texas Movement Media is a future editorial and media-discovery lane. Building — not yet live. No programming is presented as currently active.";
+const posture = hubRoute("/media")!.postureLabel!;
+---
+
+<Layout title={title} description={description} path="/media">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>MEDIA</Eyebrow>
+        <h1>Texas Movement Media.</h1>
+        <span class="division-status">{posture}</span>
+        <p>
+          Media is the future editorial and documentation lane of Texas Movement International —
+          the part of the ecosystem responsible for recording and explaining the work, not
+          performing it. The publishing architecture below is a plan, not a live channel directory.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>PLANNED PROGRAMMING</Eyebrow>
+        <h2>Where this lane is headed.</h2>
+        <p>
+          Planned programming categories, all still concepts rather than a published schedule:
+          sports and performance culture, systems and founder-perspective commentary, and
+          behind-the-build documentation of the rest of the ecosystem. Any future series or playlist
+          concept referenced from this site will be explicitly marked planned until it exists.
+        </p>
+        <div class="divisions-grid">
+          <div class="division">
+            <div class="division-label">PLACEHOLDER MODULE</div>
+            <div class="division-title">Programming architecture — not yet built.</div>
+            <p class="division-body">
+              No view count, subscriber figure, platform link, channel link, or embedded video
+              appears on this page. Nothing here should be read as a statement that programming is
+              currently active.
+            </p>
+          </div>
+        </div>
+        <div class="stub-note">
+          There is no newsletter signup, sponsorship solicitation, or contact route on this page.
+          See the <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest
+          of Texas Movement International.
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
