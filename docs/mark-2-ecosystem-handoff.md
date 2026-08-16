@@ -30,11 +30,15 @@ See `docs/ecosystem-release-matrix.md` for the full table. Summary:
   rebuilds with zero live deployment.
 - **Building/Private** (3): FounderLink, Health, Reparations — minimal intentional shells, no CTA,
   no contact route, correctly non-public.
-- **Reserve** (1): HERO — no accessible repository exists in the `movementconsultant` GitHub
-  organization (confirmed via a live listing of all 10 org repositories at the start of this
-  sprint).
+- **External storefront / internally unaudited** (1): HERO — no repository exists in this
+  `movementconsultant` GitHub organization (confirmed via a live listing of all 10 org
+  repositories at the start of this sprint). This label reflects the owner's indication that a
+  real HERO product/commerce presence exists outside this org's repos — it has not been
+  independently located, reached, or audited from this session, so it is not treated as Reserve
+  (bare name, nothing real yet) nor as any launch-ready status.
 
-No vertical is classified Live, Route, or Archive. No ambiguous statuses.
+No vertical is classified Live, Route, Building-as-launch-ready, or Archive without independent
+verification behind it. No ambiguous statuses.
 
 ## Changes made during this session
 
@@ -64,9 +68,10 @@ Every commit SHA above was independently verified against the live GitHub PR hea
 ## Repositories inaccessible or blocked
 
 - **HERO Footwear & Performance**: no repository exists in the `movementconsultant` organization.
-  This is a hard blocker to any work on this vertical, unresolved across this entire project —
-  the owner needs to either create the repository or point this session at wherever it actually
-  lives.
+  Owner has clarified a real external storefront/commerce presence exists elsewhere — this session
+  has not located, reached, or audited it. This remains a hard blocker to any code-level work on
+  this vertical; the owner needs to point this session (or a future one) at wherever that
+  storefront actually lives before any audit is possible.
 - **`tmi-constants` (shared package repo)**: still cannot be created — persistent GitHub App `403
   Resource not accessible by integration`. Every repo that needs the shared constants pattern
   currently vendors its own local copy of `@tmi/constants` instead. Unrelated to any single
@@ -78,7 +83,9 @@ re-verified this sprint.
 
 ## What must not be launched
 
-- **HERO** — no repo, no content, nothing to launch.
+- **HERO** — external storefront, internally unaudited from this ecosystem's engineering side;
+  nothing here to launch, and it must not be linked from or represented on either hub site until
+  the audit evidence described below exists.
 - **Consulting, Media, Performance, Distribution, Social** — all Building. Real, clean rebuilds,
   but none has a Cloudflare Pages project connected or any evidence of a live deployment. None
   should be represented as live, operating, or available anywhere (including in either hub site's
@@ -91,26 +98,43 @@ re-verified this sprint.
 - Any unverified social/external link across every property in this ecosystem — none should be
   enabled without a human manually opening the URL and confirming it.
 
-## Ecosystem-map integrity finding (not fixed — flagged for owner)
+## Ecosystem-map integrity finding — clarified by owner
 
 Cross-checking `ECOSYSTEM_MAP` in `src/lib/site.ts` (this repo) against the actual repository
-inventory found one inconsistency: HERO carries `badge: "building"` in `ECOSYSTEM_MAP`, and its
-`/lanes` card shows the generic "This is being built. It is not yet open." treatment — but **no
-HERO repository exists anywhere in the `movementconsultant` organization**, so there is no actual
-digital build in progress to describe. Per this sprint's own governance definitions
-(`docs/ecosystem-governance.md`, and the task brief's own explicit default: "HERO: Reserve unless
-an accessible repo and real destination are found"), a property with no repo, no content, and no
-build should be Reserve, not Building — Building specifically requires "a real repo and active
-work."
+inventory had originally found HERO's `badge: "building"` inconsistent with "no repo exists
+anywhere for it." The owner has since clarified the correct framing: HERO is a real, existing
+**external storefront** (product/commerce presence) that this ecosystem's engineering side has
+not audited — not a bare name reservation, and not a digital build-in-progress in the sense the
+"building" badge's `/lanes` copy ("This is being built. It is not yet open.") implies for every
+other vertical. Neither label was a perfect fit, which is why this was raised rather than guessed.
 
-This was **not changed this pass**. `ECOSYSTEM_MAP` changes require Alexander's explicit approval
-per this repo's own `CLAUDE.md`, and it's plausible HERO is a real, already-operating business
-(alexandermathai.com's own content references "three product generations, 35+ products") that
-simply lacks a digital property yet — in which case "Building" (in the sense of "the business is
-real, the site isn't built") may be the owner's intended framing, distinct from a bare name
-reservation. This is exactly the kind of judgment call that needs the owner's decision, not an
-agent's guess: either confirm HERO is a real operating business and the "Building" badge stands as
-intentional shorthand, or downgrade the badge to reflect that no digital work has actually begun.
+**`ECOSYSTEM_MAP`'s `badge: "building"` value itself was NOT changed this pass** — that still
+requires Alexander's explicit approval per this repo's own `CLAUDE.md`, and the internal
+Live/Route/Building/Reserve/Archive vocabulary in `docs/ecosystem-governance.md` doesn't yet have
+a clean slot for "real business, unaudited external property, no repo here." Only this session's
+own audit documentation (`docs/ecosystem-release-matrix.md`, this file) now labels HERO "External
+storefront / internally unaudited" instead of "Reserve," per the owner's explicit instruction.
+
+**Audit evidence required before HERO can be linked from, or repositioned on, either hub site:**
+
+1. The actual storefront/property URL or repository location, supplied by the owner — this
+   session could not discover it and did not attempt to reach any unconfirmed commerce platform.
+2. Confirmation of what platform it runs on (e.g. Shopify, a separate hosted site) and whether
+   this GitHub organization has — or should have — any source-of-truth repo for it at all, or
+   whether it is intentionally managed entirely outside this ecosystem's Astro/Cloudflare Pages
+   pattern.
+3. A content/claims audit of that storefront against this ecosystem's governance rules
+   (`docs/ecosystem-governance.md`): no unverified claims, no fabricated metrics, working
+   commerce/checkout function actually confirmed rather than assumed.
+4. An accessibility and basic technical-health pass equivalent to what every other vertical in
+   this ecosystem received this sprint (or a documented reason that standard doesn't apply to an
+   externally-hosted property).
+5. Explicit owner sign-off that the storefront is ready to be referenced as more than a plain-text
+   mention — the same bar every other vertical's link/CTA is held to elsewhere in this ecosystem.
+
+Until all five exist, HERO should continue to render as non-clickable/plain-text wherever it
+currently appears (already the case on both hub sites and in `ECOSYSTEM_MAP`) — this finding does
+not change that current safe behavior, only the internal documentation's classification label.
 
 ## Exact Cloudflare preview steps
 
@@ -163,8 +187,9 @@ Full detail lives in each hub's own `docs/mark-2-production-release-report.md`. 
 3. Owner sign-off on the 7 flagged public claims on alexandermathai.com.
 4. Contact-form backend decisions for both hubs (connect a real backend, or supply a verified
    alternate contact address).
-5. Locate/create the HERO repository so that vertical can finally be audited and classified
-   beyond Reserve.
+5. Owner supplies the real HERO storefront location so the five audit-evidence items in
+   "Ecosystem-map integrity finding — clarified by owner" can be worked through and that vertical
+   classified beyond "External storefront / internally unaudited."
 6. Begin the legal/medical-compliance review flagged for Health, and the legal/reputational review
    flagged for Reparations — both explicitly called out as heavier than the generic stub-page
    review, before either vertical's copy expands beyond its current one-sentence blurb.
