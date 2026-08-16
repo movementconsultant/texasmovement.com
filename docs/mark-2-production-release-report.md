@@ -60,11 +60,25 @@ gate and was run verbatim, twice (once before and once after the `_redirects` ch
 
 ## Cloudflare Pages project
 
-**Not determinable from repository configuration.** `wrangler.toml` exists
-(`name = "texasmovement-com"`, `pages_build_output_dir = "dist"`) but this is scaffolding, not
-evidence of a connected project — its own comment states "no Cloudflare account/project has been
-connected by this build." This environment has no Cloudflare credentials or CLI session, so no
-existing project name, custom-domain binding, or preview URL could be confirmed.
+**Correction (later pass, same day):** a connected project DOES exist, contrary to the
+`wrangler.toml` comment (which was accurate when written, before a project was connected) —
+discovered via the GitHub Checks API and the Cloudflare Pages bot's PR comment, not via any
+Cloudflare credentials (this environment still has none). Project name **`texasmovement`**,
+Cloudflare account `c98bb3dd9f79a1a49ad9af7c44cd1259`. Every push to this PR's branch triggers a
+real preview build automatically; the latest (commit `5f56304`) completed successfully:
+
+- Preview URL: `https://5b4879bf.texasmovement.pages.dev`
+- Cloudflare dashboard log: `https://dash.cloudflare.com/?to=/c98bb3dd9f79a1a49ad9af7c44cd1259/pages/view/texasmovement/5b4879bf-3641-426b-b692-71b505c9d2b4`
+
+**This environment could not fetch or inspect the content of the preview URL** — both `curl` and
+the `WebFetch` tool return an egress-proxy block (`EGRESS_BLOCKED`) for `*.pages.dev` domains,
+consistent with this environment's general no-web-access posture throughout this whole project.
+So: the project's existence, name, and build-success status are confirmed (via authenticated
+GitHub data); the actual rendered output of the preview (robots meta, canonical, link behavior)
+is **not** independently verified from this session.
+
+No custom-domain binding for `texasmovement.com` itself could be confirmed or denied — the
+Cloudflare dashboard link above is the way to check that, not available from this environment.
 
 ## Branch to deploy
 
@@ -123,8 +137,11 @@ release per the release defaults; it's the repo's own documented, correct behavi
 
 ## Owner verification items still required
 
-1. **Cloudflare Pages project/domain binding** — same gap as alexandermathai.com; not
-   determinable from this environment.
+1. **Cloudflare Pages custom-domain binding** — the project itself is confirmed to exist
+   (`texasmovement`, see "Cloudflare Pages project" above) and is auto-deploying previews
+   successfully. What's still unconfirmed from this environment: whether `texasmovement.com` and
+   `www.texasmovement.com` are already bound as custom domains on that project, and its
+   production-branch setting. Check the Cloudflare dashboard link above.
 2. **`hello@texasmovement.com` verification** — the three operational preconditions in
    `docs/LAUNCH_BLOCKERS.md` (mailbox provisioned, test email received, monitoring confirmed) must
    all be true before adding it to `VERIFIED_INBOXES`.
@@ -143,8 +160,10 @@ release per the release defaults; it's the repo's own documented, correct behavi
 
 ## Exact production checklist
 
-1. Confirm/create the Cloudflare Pages project for this repo; build command `npm run build`,
-   output directory `dist`.
+1. Project already exists (`texasmovement`, confirmed this session) and is auto-deploying preview
+   builds successfully. Confirm its build command is `npm run build` and output directory `dist`
+   in the Cloudflare dashboard (not verified from this environment — the automatic preview builds
+   succeeding is strong evidence this is already correct).
 2. Merge `claude/texas-movement-rebuild-pq14fo` (commit `bf88255`) into `main` — only after the
    owner's explicit release approval.
 3. Set `PUBLIC_PREVIEW=false` on the Cloudflare Pages **production** environment only.
@@ -197,9 +216,17 @@ release per the release defaults; it's the repo's own documented, correct behavi
 
 ## Cloudflare Pages preview check
 
-**Not performed — no preview deployment exists to inspect.** Same situation as
-alexandermathai.com: no Cloudflare credentials in this environment, `wrangler.toml` is scaffolding
-only, and no evidence of an existing connected project was found. The exact action needed: the
-owner (or someone with Cloudflare dashboard access) connects this repo to a Cloudflare Pages
-project, producing a real, inspectable preview URL for `claude/texas-movement-rebuild-pq14fo`
-before any production DNS work proceeds.
+**Corrected (later pass, same day): a preview deployment does exist, and its existence/build
+success was confirmed — its content could not be inspected.** A Cloudflare Pages project
+(`texasmovement`) is already connected and auto-deploys this branch on every push; the GitHub
+Checks API and the Cloudflare Pages bot's PR comment confirm the latest push (commit `5f56304`)
+built and deployed successfully to `https://5b4879bf.texasmovement.pages.dev`. Both `curl` and the
+`WebFetch` tool were tried against this URL from this session and both returned an egress-proxy
+block (`EGRESS_BLOCKED`) — this sandbox cannot reach `*.pages.dev` domains, so the required
+content checks (indexable robots/meta in production mode, no preview-host leaks, only-verified-
+links-active, honest contact-path behavior) could **not** be performed against the live preview
+from this environment. **The exact action needed: someone with unrestricted network access (or
+the Cloudflare dashboard itself) opens the preview URL above and confirms those same checks that
+were already verified against the local build output** (see "Final test results and commands
+run") — the local-build results should match, but that's an assumption pending real confirmation,
+not a substitute for it.
