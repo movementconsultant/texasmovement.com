@@ -3,30 +3,62 @@ import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import { mediaEntrySchema } from "../src/lib/media-schema";
 
-// Narrow Mark 9 safety net for the local TMM media content collection and
-// the /media route/components that render it. Checks the JSON records
-// against the same zod schema src/content.config.ts uses at build time
-// (proving "the collection validates and can be loaded"), plus PAGE/
-// COMPONENT SOURCE for forbidden patterns — the same style already
-// established in tests/hub-routes.test.ts. The generic dist/ scan in
-// scripts/check-public-output.mjs still runs against this route's actual
-// built output as part of `npm run build` / `npm run ci`.
+// Narrow safety net for the local TMM media content collection and the
+// /media route/components that render it. Mark 9 seeded three fully inert
+// single-item placeholders; Mark 10 replaced them with three owner-authorized
+// "destination-index" records (static, multi-platform source links, no
+// individual media items). Checks the JSON records against the same zod
+// schema src/content.config.ts uses at build time (proving "the collection
+// validates and can be loaded"), plus PAGE/COMPONENT SOURCE for forbidden
+// patterns — the same style already established in tests/hub-routes.test.ts.
+// The generic dist/ scan in scripts/check-public-output.mjs still runs
+// against this route's actual built output as part of `npm run build` /
+// `npm run ci`.
 
 const ROOT = join(new URL(".", import.meta.url).pathname, "..");
 const MEDIA_CONTENT_DIR = join(ROOT, "src", "content", "media");
 
 const EXPECTED_IDS = [
-  "tmm-youtube-placeholder",
-  "tmi-substack-placeholder",
-  "founder-short-form-placeholder",
+  "tmm-platform-destinations",
+  "tmi-editorial-destination",
+  "founder-avm-media-destinations",
 ];
+
+// Only these owner-authorized (handle, url) pairs may ever appear across the
+// whole collection — proves every rendered URL is handle-derived per the
+// Mark 10 URL construction rules, never guessed, scraped, or invented.
+const ALLOWED_LIVE_URLS = new Set([
+  "https://youtube.com/@texasmovementmedia",
+  "https://youtube.com/@texasmovementperformance",
+  "https://instagram.com/tmmediausa",
+  "https://tiktok.com/@texasmovementmedia",
+  "https://texasmovement.substack.com",
+  "https://youtube.com/@tmipresident",
+  "https://instagram.com/alexanderofnazareth",
+  "https://tiktok.com/@alexandervmathai",
+]);
 
 function loadEntry(id: string) {
   const raw = readFileSync(join(MEDIA_CONTENT_DIR, `${id}.json`), "utf8");
   return JSON.parse(raw);
 }
 
-describe("media content collection has exactly the three Mark 9 seeded placeholders", () => {
+function urlPattern(platform: string): RegExp {
+  switch (platform) {
+    case "YouTube":
+      return /^https:\/\/youtube\.com\/@[a-z0-9._-]+$/;
+    case "Instagram":
+      return /^https:\/\/instagram\.com\/[a-z0-9._-]+$/;
+    case "TikTok":
+      return /^https:\/\/tiktok\.com\/@[a-z0-9._-]+$/;
+    case "Substack":
+      return /^https:\/\/[a-z0-9-]+\.substack\.com$/;
+    default:
+      throw new Error(`No known URL pattern for platform: ${platform}`);
+  }
+}
+
+describe("media content collection has exactly the three Mark 10 destination-index records", () => {
   it("src/content/media/ contains exactly three JSON files", () => {
     const files = readdirSync(MEDIA_CONTENT_DIR).filter((f) => f.endsWith(".json"));
     expect(files.sort()).toEqual(EXPECTED_IDS.map((id) => `${id}.json`).sort());
@@ -48,34 +80,42 @@ describe("media content collection has exactly the three Mark 9 seeded placehold
   });
 });
 
-describe("every seeded record is a fully inert, unmistakable placeholder", () => {
+describe("every seeded record is a static, owner-approved destination-index record", () => {
   for (const id of EXPECTED_IDS) {
-    it(`${id} carries every required placeholder-safety status`, () => {
+    it(`${id} carries every required destination-index status`, () => {
       const d = loadEntry(id);
-      expect(d.status).toBe("placeholder");
-      expect(d.linkMode).toBe("no-link");
+      expect(d.status).toBe("approved-static-index");
+      expect(d.linkMode).toBe("destination-index");
+      // canonicalUrl/publicationDate are single-item fields — not applicable
+      // to a multi-platform destination-index record.
       expect(d.canonicalUrl).toBeNull();
       expect(d.canonicalUrlStatus).toBe("placeholder");
       expect(d.publicationDate).toBeNull();
       expect(d.publicationDateStatus).toBe("placeholder");
       expect(d.imageStatus).toBe("no-image");
       expect(d.claimsStatus).toBe("no-claims-rendered");
-      expect(d.editorialStatus).toBe("placeholder");
-      expect(d.ownerApprovalStatus).toBe("pending");
-      expect(d.publicDisplayStatus).toBe("placeholder-public-index");
+      expect(d.editorialStatus).toBe("approved-for-static-index");
+      expect(d.ownerApprovalStatus).toBe("approved-static-index");
+      expect(d.publicDisplayStatus).toBe("approved-static-index");
       expect(d.crossAttributionStatus).toBe("prohibited-pending-per-item-approval");
-      expect(d.rightsStatus).toBe("absent");
-      expect(d.transcriptStatus).toBe("absent");
-      expect(d.accessibilityStatus).toBe("pending");
-    });
-
-    it(`${id} title contains the required "Owner Review Required" disclosure, and summary discloses review/approval is still required`, () => {
-      const d = loadEntry(id);
-      expect(d.title).toContain("Owner Review Required");
-      expect(/review|approval/i.test(d.summary)).toBe(true);
-      expect(/require/i.test(d.summary)).toBe(true);
+      expect(Array.isArray(d.destinations)).toBe(true);
+      expect(d.destinations.length).toBeGreaterThan(0);
     });
   }
+
+  it("no seeded record has sourceClass HERO — HERO is strictly out of scope for Mark 10", () => {
+    for (const id of EXPECTED_IDS) {
+      const d = loadEntry(id);
+      expect(d.sourceClass).not.toBe("HERO");
+    }
+  });
+
+  it("no seeded record or its destinations mention HERO/herofootwear anywhere", () => {
+    for (const id of EXPECTED_IDS) {
+      const haystack = JSON.stringify(loadEntry(id));
+      expect(/hero/i.test(haystack)).toBe(false);
+    }
+  });
 
   it("no seeded record contains a metric, view count, subscriber count, or follower figure", () => {
     for (const id of EXPECTED_IDS) {
@@ -85,6 +125,62 @@ describe("every seeded record is a fully inert, unmistakable placeholder", () =>
         false,
       );
     }
+  });
+});
+
+describe("every destination URL is derived only from an owner-authorized handle, never guessed", () => {
+  for (const id of EXPECTED_IDS) {
+    it(`${id}: each destination with a URL matches its platform's exact construction pattern`, () => {
+      const d = loadEntry(id);
+      for (const dest of d.destinations) {
+        if (dest.url === null) {
+          expect(dest.urlStatus).toBe("inert-missing-evidence");
+          continue;
+        }
+        expect(dest.urlStatus).toBe("owner-supplied");
+        expect(dest.url).toMatch(urlPattern(dest.platform));
+        expect(ALLOWED_LIVE_URLS.has(dest.url)).toBe(true);
+      }
+    });
+  }
+
+  it("every live URL across the whole collection is in the owner-authorized allow-list (no invented URLs)", () => {
+    const seen = new Set<string>();
+    for (const id of EXPECTED_IDS) {
+      const d = loadEntry(id);
+      for (const dest of d.destinations) {
+        if (dest.url !== null) seen.add(dest.url);
+      }
+    }
+    expect(seen).toEqual(ALLOWED_LIVE_URLS);
+  });
+
+  it("LinkedIn and Facebook destinations always render inert (no URL) anywhere in the collection", () => {
+    for (const id of EXPECTED_IDS) {
+      const d = loadEntry(id);
+      for (const dest of d.destinations) {
+        if (dest.platform === "LinkedIn" || dest.platform === "Facebook") {
+          expect(dest.url).toBeNull();
+          expect(dest.urlStatus).toBe("inert-missing-evidence");
+        }
+      }
+    }
+  });
+
+  it("no destination URL anywhere contains linkedin.com or facebook.com as a live link", () => {
+    for (const id of EXPECTED_IDS) {
+      const d = loadEntry(id);
+      for (const dest of d.destinations) {
+        if (dest.url !== null) {
+          expect(/linkedin\.com|facebook\.com/i.test(dest.url)).toBe(false);
+        }
+      }
+    }
+  });
+
+  it("founder-avm-media-destinations keeps founder sourceClass distinct from TMI/TMM", () => {
+    const d = loadEntry("founder-avm-media-destinations");
+    expect(d.sourceClass).toBe("founder-AVM");
   });
 });
 
@@ -108,6 +204,8 @@ describe("no media component or the /media route contains a forbidden conversion
     ["analytics/tracking snippet", /\b(gtag|ga\(|dataLayer|fbq\()\b/],
     ["a platform SDK/OAuth reference", /\b(oauth|clientId|client_secret|apiKey)\b/i],
     ["a subscribe/follow CTA phrase", /\b(subscribe now|follow us|watch now|listen now)\b/i],
+    ["a raw <img> tag pulling a remote image", /<img[\s>]/i],
+    ["a <button> used for an external destination", /<button[\s>]/i],
   ];
 
   for (const file of FILES_TO_SCAN) {
@@ -119,7 +217,7 @@ describe("no media component or the /media route contains a forbidden conversion
     });
   }
 
-  it("MediaCard.astro gates its external link on every required field, not a single flag", () => {
+  it("MediaCard.astro gates its single-item external link on every required field, not a single flag", () => {
     const source = readFileSync(join(ROOT, "src/components/media/MediaCard.astro"), "utf8");
     for (const requiredCondition of [
       'd.linkMode === "owner-supplied-external-link"',
@@ -133,6 +231,27 @@ describe("no media component or the /media route contains a forbidden conversion
         requiredCondition,
       );
     }
+  });
+
+  it("MediaCard.astro gates its destination-index links on record status plus a per-destination check", () => {
+    const source = readFileSync(join(ROOT, "src/components/media/MediaCard.astro"), "utf8");
+    for (const requiredCondition of [
+      'd.linkMode === "destination-index"',
+      'd.status !== "placeholder"',
+      'd.publicDisplayStatus === "approved-static-index"',
+      'd.ownerApprovalStatus === "approved-static-index"',
+      'dest.urlStatus === "owner-supplied"',
+    ]) {
+      expect(
+        source,
+        `MediaCard.astro missing destination-index gate condition: ${requiredCondition}`,
+      ).toContain(requiredCondition);
+    }
+  });
+
+  it("MediaCard.astro never renders a destination link without also checking isSafeHttpUrl", () => {
+    const source = readFileSync(join(ROOT, "src/components/media/MediaCard.astro"), "utf8");
+    expect(source).toContain("isSafeHttpUrl(dest.url)");
   });
 
   it("MediaCard.astro only renders publicationDate when publicationDateStatus is evidenced", () => {
@@ -164,6 +283,13 @@ describe("no media component or the /media route contains a forbidden conversion
         codeOnly.includes(`"${forbidden}`),
         `MediaStatus.astro contains forbidden word in executable code: ${forbidden}`,
       ).toBe(false);
+    }
+  });
+
+  it("src/pages/media.astro references the new Mark 10 destination-index record ids in display order", () => {
+    const source = readFileSync(join(ROOT, "src/pages/media.astro"), "utf8");
+    for (const id of EXPECTED_IDS) {
+      expect(source).toContain(id);
     }
   });
 });

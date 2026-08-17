@@ -6,10 +6,27 @@
 // src/content.config.ts (at Astro build time) and by tests/media-index.test.ts
 // (under plain vitest, which has no Astro Vite plugin configured and
 // cannot resolve "astro:content" on its own). See
-// docs/mark-9-controlled-tmm-feed-implementation.md for the schema
-// rationale and docs/internal/mark-9-media-placeholder-owner-update-guide.md
-// for how an owner replaces a placeholder with real reviewed material.
+// docs/mark-9-controlled-tmm-feed-implementation.md for the original
+// single-item schema rationale and docs/mark-10-controlled-media-destination-population.md
+// for the Mark 10 `destinations[]` extension (multi-platform static source
+// indexes) and docs/internal/mark-9-media-placeholder-owner-update-guide.md /
+// docs/internal/mark-10-media-destination-owner-review.md for how an owner
+// reviews or corrects a record.
 import { z } from "astro/zod";
+
+// One platform destination inside a "destination-index" record's
+// destinations[] array. `url` is null and `urlStatus` is
+// "inert-missing-evidence" whenever the owner has not supplied a confirmed
+// URL slug (e.g. LinkedIn/Facebook profile slugs never guessed from a
+// display name) — MediaCard.astro renders no link at all for such an entry,
+// only a plain-text "Owner URL required" status.
+export const mediaDestinationSchema = z.object({
+  platform: z.string(),
+  handle: z.string(),
+  url: z.url().nullable(),
+  urlStatus: z.enum(["owner-supplied", "inert-missing-evidence"]),
+  linkText: z.string(),
+});
 
 export const mediaEntrySchema = z.object({
   id: z.string(),
@@ -48,7 +65,8 @@ export const mediaEntrySchema = z.object({
     "internal-only",
     "approved-static-index",
   ]),
-  linkMode: z.enum(["no-link", "owner-supplied-external-link"]),
+  linkMode: z.enum(["no-link", "owner-supplied-external-link", "destination-index"]),
+  destinations: z.array(mediaDestinationSchema).optional(),
   imageStatus: z.enum(["no-image", "local-approved-image"]),
   imageAlt: z.string(),
   crossAttributionStatus: z.enum([

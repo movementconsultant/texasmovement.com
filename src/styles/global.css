@@ -575,6 +575,32 @@ p {
   border-bottom-color: var(--ink);
 }
 
+.media-card-destinations {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.media-card-destinations a {
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
+}
+
+.media-card-destinations a:hover {
+  border-bottom-color: var(--ink);
+}
+
+.media-card-destination-inert {
+  color: var(--ink-soft);
+}
+
 .media-status-list {
   list-style: none;
   display: flex;

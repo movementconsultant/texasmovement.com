@@ -1,0 +1,59 @@
+{
+  "id": "tmm-platform-destinations",
+  "slug": "tmm-platform-destinations",
+  "status": "approved-static-index",
+  "sourceClass": "TMM",
+  "sourceLabel": "Texas Movement Media",
+  "platform": "Multiple (see destinations)",
+  "format": "static source destination index",
+  "title": "Texas Movement Media",
+  "summary": "Owner-authorized Texas Movement Media destinations for future editorial review and static source reference.",
+  "publicationDate": null,
+  "publicationDateStatus": "placeholder",
+  "canonicalUrl": null,
+  "canonicalUrlStatus": "placeholder",
+  "transcriptStatus": "absent",
+  "accessibilityStatus": "reviewed",
+  "rightsStatus": "owner-asserted",
+  "claimsStatus": "no-claims-rendered",
+  "editorialStatus": "approved-for-static-index",
+  "ownerApprovalStatus": "approved-static-index",
+  "publicDisplayStatus": "approved-static-index",
+  "linkMode": "destination-index",
+  "destinations": [
+    {
+      "platform": "YouTube",
+      "handle": "texasmovementmedia",
+      "url": "https://youtube.com/@texasmovementmedia",
+      "urlStatus": "owner-supplied",
+      "linkText": "Texas Movement Media on YouTube"
+    },
+    {
+      "platform": "YouTube",
+      "handle": "texasmovementperformance",
+      "url": "https://youtube.com/@texasmovementperformance",
+      "urlStatus": "owner-supplied",
+      "linkText": "Texas Movement Performance on YouTube"
+    },
+    {
+      "platform": "Instagram",
+      "handle": "tmmediausa",
+      "url": "https://instagram.com/tmmediausa",
+      "urlStatus": "owner-supplied",
+      "linkText": "Texas Movement Media on Instagram"
+    },
+    {
+      "platform": "TikTok",
+      "handle": "texasmovementmedia",
+      "url": "https://tiktok.com/@texasmovementmedia",
+      "urlStatus": "owner-supplied",
+      "linkText": "Texas Movement Media on TikTok"
+    }
+  ],
+  "imageStatus": "no-image",
+  "imageAlt": "No media thumbnail or platform logo is displayed. Destinations below are text links only.",
+  "crossAttributionStatus": "prohibited-pending-per-item-approval",
+  "attributionNote": "Handles owner-authorized per Mark 10 task brief, cross-referencing docs/internal/mark-8-1-source-identity-reconciliation.json source IDs TMM-SRC-001/002/003. Account ownership, media rights, and individual content facts are not independently verified — URLs are constructed only from standard platform profile-URL patterns applied to owner-supplied handles, never guessed or scraped.",
+  "internalOnlyNotes": "Mark 10 destination-index record, superseding the Mark 9 single-item placeholder previously at this collection slot (tmm-youtube-placeholder.json, removed). canonicalUrl/canonicalUrlStatus/publicationDate/publicationDateStatus are not applicable to a destination-index record — see destinations[] instead. See docs/internal/mark-10-media-destination-owner-review.md for the owner review checklist covering these four destinations.",
+  "updatedAt": "2026-08-16"
+}

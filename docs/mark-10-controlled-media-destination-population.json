@@ -1,0 +1,164 @@
+{
+  "title": "Mark 10 Controlled TMM and Founder Media Feed Population (Handle-Locked Edition)",
+  "updatedAt": "2026-08-17",
+  "partA_phaseShiftRecord": {
+    "supersededRestrictions": [
+      "Placeholder only (Mark 9's linkMode: no-link default).",
+      "Do not add external links (Marks 7/8/8.1).",
+      "Non-rendered media record (Mark 8's intake-registry framing)."
+    ],
+    "supersessionScope": [
+      "src/content/media/ (the local media content collection)",
+      "src/content.config.ts",
+      "src/lib/media-schema.ts",
+      "src/pages/media.astro",
+      "src/components/media/MediaCard.astro",
+      "src/components/media/MediaStatus.astro",
+      "src/components/media/MediaGrid.astro"
+    ],
+    "stillInForce": [
+      "No API/RSS/webhook/scraping/OAuth/embed/analytics/automated-feed of any kind.",
+      "No account modification, login, or verification.",
+      "No new platform, subdomain, newsletter, form, booking, checkout, sponsorship, or conversion funnel.",
+      "No merge, deploy, domain-binding, Cloudflare, DNS, or Pages change.",
+      "No individual-media-item population (dates, per-item titles, metrics, images, embeds)."
+    ]
+  },
+  "partB_ownerAuthorizedSourceInventory": [
+    {
+      "sourceClass": "TMM",
+      "platform": "YouTube",
+      "handle": "texasmovementmedia",
+      "url": "https://youtube.com/@texasmovementmedia",
+      "urlStatus": "owner-supplied"
+    },
+    {
+      "sourceClass": "TMM",
+      "platform": "YouTube",
+      "handle": "texasmovementperformance",
+      "url": "https://youtube.com/@texasmovementperformance",
+      "urlStatus": "owner-supplied"
+    },
+    {
+      "sourceClass": "TMM",
+      "platform": "Instagram",
+      "handle": "tmmediausa",
+      "url": "https://instagram.com/tmmediausa",
+      "urlStatus": "owner-supplied"
+    },
+    {
+      "sourceClass": "TMM",
+      "platform": "TikTok",
+      "handle": "texasmovementmedia",
+      "url": "https://tiktok.com/@texasmovementmedia",
+      "urlStatus": "owner-supplied"
+    },
+    {
+      "sourceClass": "TMI",
+      "platform": "Substack",
+      "handle": "TexasMovement",
+      "url": "https://texasmovement.substack.com",
+      "urlStatus": "owner-supplied"
+    },
+    {
+      "sourceClass": "founder-AVM",
+      "platform": "YouTube",
+      "handle": "tmipresident",
+      "url": "https://youtube.com/@tmipresident",
+      "urlStatus": "owner-supplied"
+    },
+    {
+      "sourceClass": "founder-AVM",
+      "platform": "Instagram",
+      "handle": "alexanderofnazareth",
+      "url": "https://instagram.com/alexanderofnazareth",
+      "urlStatus": "owner-supplied"
+    },
+    {
+      "sourceClass": "founder-AVM",
+      "platform": "TikTok",
+      "handle": "AlexandervMathai",
+      "url": "https://tiktok.com/@alexandervmathai",
+      "urlStatus": "owner-supplied"
+    },
+    {
+      "sourceClass": "founder-AVM",
+      "platform": "LinkedIn",
+      "handle": "Alexander Mathai",
+      "url": null,
+      "urlStatus": "inert-missing-evidence",
+      "reasonNotRendered": "texasmovement.com's scripts/check-public-output.mjs hard-fails the build on any 'linkedin.com' string in dist/ output, unconditionally. Weakening that guard was out of scope."
+    },
+    {
+      "sourceClass": "founder-AVM",
+      "platform": "Facebook",
+      "handle": "Alexander Mathai",
+      "url": null,
+      "urlStatus": "inert-missing-evidence",
+      "reasonNotRendered": "No Facebook URL slug exists anywhere in this repository's local evidence; guessing a slug from a display name is explicitly prohibited."
+    },
+    {
+      "sourceClass": "HERO",
+      "platform": "YouTube/Instagram/TikTok",
+      "handle": "herofootwear / herofootwearusa / herofootwear",
+      "url": null,
+      "urlStatus": "not-processed",
+      "reasonNotRendered": "Explicitly declared strictly out of scope in the Mark 10 brief. No HERO record, destination, or handle was created."
+    }
+  ],
+  "urlConstructionMethod": {
+    "youtube": "youtube.com/@[handle]",
+    "instagram": "instagram.com/[handle]",
+    "tiktok": "tiktok.com/@[handle]",
+    "substack": "[handle].substack.com",
+    "caseNormalization": "URL path segments lowercased per platform convention; owner-supplied display casing preserved only in linkText and the handle field, never in the URL itself.",
+    "linkedinFacebook": "URL slug never guessed from a display name. Renders inert 'Owner URL required' status when no confirmed slug exists in local evidence."
+  },
+  "partD_schemaExtension": {
+    "file": "src/lib/media-schema.ts",
+    "newExport": "mediaDestinationSchema (platform, handle, url: nullable, urlStatus enum[owner-supplied|inert-missing-evidence], linkText)",
+    "newField": "destinations: array of mediaDestinationSchema, optional",
+    "newLinkModeValue": "destination-index",
+    "priorValuesUnchanged": ["no-link", "owner-supplied-external-link"]
+  },
+  "partE_publicRenderingRules": {
+    "recordLevelGate": "linkMode === 'destination-index' AND status !== 'placeholder' AND publicDisplayStatus === 'approved-static-index' AND ownerApprovalStatus === 'approved-static-index'",
+    "perDestinationGate": "urlStatus === 'owner-supplied' AND isSafeHttpUrl(url)",
+    "inertFallback": "'{platform}: Owner URL required' plain text, never a link or button",
+    "noRemoteAssets": true,
+    "noIndividualItemIndexing": true,
+    "staticOnly": "astro/loaders glob() reads only local committed JSON files at build time; zero network requests"
+  },
+  "partF_alexandermathaiComBlocker": {
+    "attempted": false,
+    "filesRead": 0,
+    "filesModified": 0,
+    "blockerFile": "scripts/postbuild-guard.mjs",
+    "blockerMechanism": "Unconditional build failure if any SOCIAL_DOMAINS substring (linkedin.com, youtube.com, instagram.com, tiktok.com, facebook.com, others) appears anywhere in dist/ output, independent of any verified flag.",
+    "existingFounderHandleData": "src/data/social.ts already has the Mark 10 founder handle set (LinkedIn, YouTube tmipresident, Instagram alexanderofnazareth, TikTok alexandervmathai; no Facebook entry) with verified: false on every entry.",
+    "resolution": "Reported as a blocker per the Mark 10 brief's own escape valve ('stop founder-site changes and report the blocker; TMI work may continue if safe'). Guard was not weakened."
+  },
+  "partG_validation": {
+    "typecheck": "0 errors, 0 warnings, 0 hints (33 files)",
+    "testUnit": "77 passed, 0 failed",
+    "checkConstants": "0 errors (pre-existing unrelated drift warnings only, unchanged)",
+    "buildDefault": "13 pages, postbuild guard 0 errors",
+    "buildPublicPreviewFalse": "13 pages, postbuild guard 0 errors",
+    "ci": "all green",
+    "testA11y": "0 axe-core violations across all 13 routes including /media",
+    "manualDistInspection": "Exactly 8 external <a> links in dist/media/index.html, matching the 8 owner-supplied destinations in partB. Zero linkedin.com, zero facebook.com, zero HERO handle, zero <img>/<iframe>/<form>/mailto:/tel: anywhere in the route's own markup.",
+    "preexistingUnrelatedFinding": "A sitewide Organization JSON-LD schema block (untouched by this diff, predates Mark 10) lists HERO URLs in its sameAs array on every page including /media. Not introduced by this pass; not part of the media content collection."
+  },
+  "notAuthorizedByThisPass": [
+    "API/RSS integration",
+    "media embeds",
+    "individual-media-item population",
+    "account modification",
+    "claims expansion",
+    "conversion activation",
+    "merge",
+    "deployment",
+    "domain binding",
+    "publishing"
+  ]
+}

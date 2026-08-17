@@ -5,10 +5,18 @@
 // Deliberately does NOT render: dates (unless publicationDateStatus is
 // "evidenced"), metrics, follower/view/subscriber counts, author biography,
 // badges, ratings, "new"/"latest" timestamps, platform status, or a remote
-// image of any kind. An outbound link renders ONLY when every one of the six
-// conditions below is independently true — never on the presence of a single
-// field alone. No entry seeded in this pass satisfies these conditions, so no
-// entry in this pass renders a link or a button.
+// image/logo of any kind. Two independent link surfaces exist, each gated on
+// multiple simultaneous conditions — never on the presence of a single field
+// alone:
+//   1. A single canonicalUrl (linkMode: "owner-supplied-external-link") —
+//      the original Mark 9 single-item gate, unchanged.
+//   2. A destinations[] array (linkMode: "destination-index", added in
+//      Mark 10) — a record-level gate (status/publicDisplayStatus/
+//      ownerApprovalStatus) plus a PER-DESTINATION gate (urlStatus must be
+//      "owner-supplied" and the URL must be a syntactically valid http(s)
+//      string). A destination that fails its own gate (e.g. LinkedIn/
+//      Facebook with no confirmed slug) renders as plain "Owner URL
+//      required" text — never a link, never a button.
 import MediaStatus from "./MediaStatus.astro";
 import type { CollectionEntry } from "astro:content";
 
@@ -20,7 +28,7 @@ const { entry } = Astro.props;
 const d = entry.data;
 
 // Defensive URL check — only ever used to gate rendering, never trusted blindly.
-function isSafeHttpUrl(value: string | null): value is string {
+function isSafeHttpUrl(value: string | null | undefined): value is string {
   if (!value) return false;
   try {
     const u = new URL(value);
@@ -37,6 +45,20 @@ const canRenderExternalLink =
   d.publicDisplayStatus === "approved-static-index" &&
   d.ownerApprovalStatus === "approved-static-index" &&
   d.status !== "placeholder";
+
+const destinationIndexRecordApproved =
+  d.linkMode === "destination-index" &&
+  d.status !== "placeholder" &&
+  d.publicDisplayStatus === "approved-static-index" &&
+  d.ownerApprovalStatus === "approved-static-index" &&
+  Array.isArray(d.destinations);
+
+const renderableDestinations = destinationIndexRecordApproved
+  ? d.destinations!.map((dest) => ({
+      ...dest,
+      canRenderLink: dest.urlStatus === "owner-supplied" && isSafeHttpUrl(dest.url),
+    }))
+  : [];
 
 const canRenderDate = d.publicationDateStatus === "evidenced" && !!d.publicationDate;
 
@@ -63,5 +85,19 @@ const canRenderImage = d.imageStatus === "local-approved-image";
     <p class="media-card-links">
       <a href={d.canonicalUrl!} rel="noopener noreferrer">View source →</a>
     </p>
+  )}
+
+  {renderableDestinations.length > 0 && (
+    <ul class="media-card-destinations">
+      {renderableDestinations.map((dest) => (
+        <li>
+          {dest.canRenderLink ? (
+            <a href={dest.url!} rel="noopener noreferrer">{dest.linkText}</a>
+          ) : (
+            <span class="media-card-destination-inert">{dest.platform}: Owner URL required</span>
+          )}
+        </li>
+      ))}
+    </ul>
   )}
 </article>

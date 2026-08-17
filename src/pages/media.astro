@@ -8,15 +8,15 @@ import { getCollection } from "astro:content";
 
 const title = pageTitle("tmi", "Media");
 const description =
-  "Texas Movement Media's editorial index shows structural placeholder records pending owner review. Building — not yet live. No external destination, date, or media is published or verified yet.";
+  "Texas Movement Media's editorial index lists owner-authorized static source destinations for Texas Movement Media, Texas Movement editorial, and founder-associated media. These are source links only — no individual media items, dates, metrics, or embeds are published yet.";
 const posture = hubRoute("/media")!.postureLabel!;
 
-// Fixed display order matching the Mark 9 seed order (TMM, then TMI, then
+// Fixed display order matching the Mark 10 seed order (TMM, then TMI, then
 // founder/AVM) rather than relying on the content loader's filesystem order.
 const DISPLAY_ORDER = [
-  "tmm-youtube-placeholder",
-  "tmi-substack-placeholder",
-  "founder-short-form-placeholder",
+  "tmm-platform-destinations",
+  "tmi-editorial-destination",
+  "founder-avm-media-destinations",
 ];
 const allMediaEntries = await getCollection("media");
 const mediaEntries = DISPLAY_ORDER.map((id) => allMediaEntries.find((e) => e.id === id)).filter(
@@ -71,21 +71,24 @@ const mediaEntries = DISPLAY_ORDER.map((id) => allMediaEntries.find((e) => e.id 
     <section id="records" class="section">
       <div class="wrap">
         <Eyebrow>EDITORIAL INDEX RECORDS</Eyebrow>
-        <h2>Structural placeholders, pending owner review.</h2>
+        <h2>Owner-authorized source destinations.</h2>
         <p>
-          This index uses owner-review media records. External destinations, rights, source
-          metadata, accessibility materials, and editorial status are enabled only when
-          individually reviewed. Texas Movement Media is an editorial and media-distribution
-          function within Texas Movement International — not a separate platform, outlet,
-          channel, publisher, account, domain, or feed service.
+          Each record below is a static, owner-authorized source destination — not a feed, not an
+          individual media item, and not a live or automated listing. Links are fixed at build
+          time from a local, owner-reviewed data file; nothing here is fetched from any platform
+          API, RSS feed, or embed. Texas Movement Media is an editorial and media-distribution
+          function within Texas Movement International — not a separate platform, outlet, channel,
+          publisher, account, domain, or feed service. Founder-associated destinations are
+          separately attributed and are not automatically Texas Movement International or Texas
+          Movement Media editorial content.
         </p>
         <MediaGrid entries={mediaEntries} />
         <div class="stub-note">
-          Every record above is a structural placeholder: it is not linked to an external
-          platform, and it must not be treated as current, verified, or active media. See
-          docs/internal/mark-9-media-placeholder-owner-update-guide.md (repository documentation,
-          not published on this site) for how each record can later be replaced with real,
-          reviewed material.
+          These are source-level destination links only: no individual video, post, or episode is
+          indexed, dated, described, or embedded here yet, and no follower, view, or subscriber
+          figure is shown. See docs/internal/mark-10-media-destination-owner-review.md (repository
+          documentation, not published on this site) for the owner review checklist covering these
+          destinations.
         </div>
       </div>
     </section>
