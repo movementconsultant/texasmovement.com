@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
 import MediaGrid from "@/components/media/MediaGrid.astro";
+import LatestSignalRail from "@/components/media/LatestSignalRail.astro";
 import { pageTitle } from "@tmi/constants";
 import { hubRoute } from "@/lib/hub-routes";
 import { getCollection } from "astro:content";
@@ -87,13 +88,31 @@ const destinationGroups = groupDestinationsBySourceClass(confirmedDestinations);
         ))}
 
         <div class="stub-note">
-          Source destinations are static references only: no individual video, post, or episode is
-          indexed, dated, described, or embedded here, and no follower, view, or subscriber figure
-          is shown anywhere on this page. Individual media content is governed separately, under its
-          own review gates, and has not begun. See
-          docs/internal/mark-11-media-source-confirmation-and-review.md (repository documentation,
-          not published on this site) for the owner review checklist covering these destinations.
+          In this section, source destinations are static references only: no individual video,
+          post, or episode is indexed, dated, described, or embedded, and no follower, view, or
+          subscriber figure is shown. Full editorial approval for an individual media item is
+          governed separately, under its own review gates, and no item has cleared that process
+          yet. See docs/internal/mark-11-media-source-confirmation-and-review.md (repository
+          documentation, not published on this site) for the owner review checklist covering these
+          destinations.
         </div>
+      </div>
+    </section>
+
+    <section id="latest-signal" class="section section--panel" aria-labelledby="latest-signal-heading">
+      <div class="wrap">
+        <Eyebrow>LATEST SIGNAL</Eyebrow>
+        <h2 id="latest-signal-heading">Automatically retrieved, not individually reviewed.</h2>
+        <p>
+          Unlike the confirmed destinations above, this list is fetched at build time from the TMM
+          YouTube channels' own feeds — title, date, and a direct link only, never a thumbnail,
+          description, or metric. Individual items here have not passed the full editorial review
+          (G-M1 through G-M8) that governs a published media item; they are automatically retrieved
+          references, not an editorial judgment about any specific video. See
+          docs/mark-13-latest-signal-implementation.md (repository documentation, not published on
+          this site) for the governance basis for this exception.
+        </p>
+        <LatestSignalRail />
       </div>
     </section>
   </main>

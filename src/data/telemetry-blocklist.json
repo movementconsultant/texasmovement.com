@@ -1,0 +1,7 @@
+{
+  "_comment": "Emergency kill switch for the /media 'Latest Signal' telemetry rail (Mark 13/14 governance decision, mirrored from alexandermathai.com's src/data/blocklist.json). Add a video ID below to instantly hide that item from the rail on the next build/deploy, without touching code or breaking the rest of the stream. See docs/mark-13-latest-signal-implementation.md 'Kill switch'.",
+  "youtube": {
+    "_comment": "YouTube video IDs (the yt:videoId value, e.g. 'dQw4w9WgXcQ') to hide from the Latest Signal rail.",
+    "blockedVideoIds": []
+  }
+}
