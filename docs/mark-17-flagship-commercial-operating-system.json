@@ -1,0 +1,163 @@
+{
+  "mark": 17,
+  "title": "TMI Flagship Commercial Operating System, UX Performance Baseline, and Proof-Readiness Architecture",
+  "repository": "movementconsultant/texasmovement.com",
+  "branch": "claude/mark-18-tmi-furnishing",
+  "scope": "documentation-only, internal decision architecture, no offer activated",
+  "boundaryRule": "Current industry guidance can inform TMI's private operating baseline. It does not establish that TMI is certified, compliant, secure, safe, effective, qualified, operational, ready for public use, or authorized to make public claims.",
+  "companionDocs": {
+    "deliveryBlueprint": "docs/internal/mark-17-digital-ecosystem-audit-delivery-blueprint.md",
+    "proofReadiness": "docs/internal/mark-17-proof-readiness-and-case-study-gates.md",
+    "uxPerformanceBaseline": "docs/internal/mark-17-ux-performance-baseline-plan.md",
+    "weeklyScorecard": "docs/internal/mark-17-weekly-operating-scorecard.md",
+    "visionGraphicBrief": "docs/internal/mark-17-future-firm-vision-graphic-brief.md"
+  },
+  "strategicFraming": "Platform advantage (integrated infrastructure + cultural intelligence), not a proven claim of leadership, superiority, compliance, safety, qualification, performance, financial success, results, or operational maturity. Immediate objective: define one narrow flagship consulting engagement, not vertical expansion.",
+  "flagshipWorkingLabel": "Digital Ecosystem Audit",
+  "methodologyShape": "Audit -> Architect -> Build -> Compound",
+  "flagshipDecisionMatrix": [
+    {
+      "hypothesis": "Digital Ecosystem Audit and Architecture",
+      "relationshipToFlagship": "candidate flagship",
+      "conversionPosture": "inactive",
+      "readiness": "internal definition only",
+      "ownerDecisionRequired": "whether to formally designate as flagship and finalize working title"
+    },
+    {
+      "hypothesis": "AI/Workflow Strategy",
+      "relationshipToFlagship": "delivery module",
+      "conversionPosture": "inactive",
+      "readiness": "internal definition only",
+      "ownerDecisionRequired": "whether this ever becomes a standalone offer or stays a module"
+    },
+    {
+      "hypothesis": "Modern Web and Brand Systems",
+      "relationshipToFlagship": "delivery module",
+      "conversionPosture": "inactive",
+      "readiness": "internal definition only",
+      "ownerDecisionRequired": "whether Build-phase work is ever offered independent of a prior Audit/Architect engagement"
+    },
+    {
+      "hypothesis": "Documentation and Operating-System Design",
+      "relationshipToFlagship": "delivery module",
+      "conversionPosture": "inactive",
+      "readiness": "internal definition only",
+      "ownerDecisionRequired": "whether this is ever offered independently"
+    },
+    {
+      "hypothesis": "Automation Opportunity Mapping",
+      "relationshipToFlagship": "delivery module",
+      "conversionPosture": "inactive",
+      "readiness": "internal definition only",
+      "ownerDecisionRequired": "whether this is ever offered independently of a full Audit"
+    },
+    {
+      "hypothesis": "Founder/Operator Advisory",
+      "relationshipToFlagship": "deferred/hold",
+      "conversionPosture": "inactive",
+      "readiness": "not ready",
+      "ownerDecisionRequired": "whether to ever pursue this at all, held until flagship proof exists"
+    }
+  ],
+  "defaultRecommendationIsNotAnOwnerDecision": true,
+  "defaultRecommendation": {
+    "flagship": "Digital Ecosystem Audit and Architecture",
+    "modulesNotSeparatelyMarketed": ["AI/Workflow Strategy", "Modern Web and Brand Systems", "Documentation and Operating-System Design", "Automation Opportunity Mapping"],
+    "deferredHold": ["Founder/Operator Advisory"]
+  },
+  "deliveryPhasesSummary": {
+    "audit": "property inventory, current-state map, risk/opportunity register - no guaranteed finding",
+    "architect": "future-state IA, roadmap - no build commitment or ROI claim",
+    "build": "scope only after separate written approval - no automatic development/deployment",
+    "compound": "documentation, governance review, measurement plan - no recurring support/SLA unless separately defined"
+  },
+  "idealBuyerModel": {
+    "currentServiceStatus": "TMI does not currently serve, represent, or have results for any buyer category",
+    "allowedTargetCategories": [
+      "founder-led organizations", "independent creators", "public-facing talent",
+      "athletes/artists/journalists/entertainers/speakers with a bounded systems/brand/media need",
+      "culture-facing organizations building owned digital infrastructure"
+    ],
+    "budgetPricing": "intentionally undecided",
+    "futureIntake": "inactive",
+    "highRiskEscalation": "any restricted-domain touchpoint (Health/therapy/tensegrity/legal-political/athlete injury) escalates to docs/internal/mark-16-restricted-domain-boundary-addendum.md, never handled as ordinary Consulting"
+  },
+  "scopeExclusionMatrixSummary": {
+    "inScopeResponsibilities": [
+      "ecosystem mapping", "architecture", "documentation", "digital-surface review",
+      "content/system governance", "AI/workflow opportunity assessment",
+      "implementation planning", "controlled future build support (separately approved only)"
+    ],
+    "permanentExclusions": [
+      "legal representation or advice", "medical/therapeutic/clinical/rehab/diagnosis/treatment/injury-prevention advice",
+      "tax/financial/investment/insurance advice", "security/compliance certification",
+      "platform/account recovery", "emergency support", "guaranteed business/revenue/traffic/conversion/ranking/social-reach/fundraising/media/athletic/product results",
+      "regulated professional services", "political/campaign services", "representation/endorsement/talent management",
+      "product fulfillment or commerce operation (mirrors existing PR-HERO-001 boundary)"
+    ],
+    "conditionalExclusions": [
+      "paid-media management", "payment/data/identity administration without a defined responsibility model",
+      "app/agent/custom-software delivery without separate approved scope", "unbounded support"
+    ]
+  },
+  "proofReadinessSummary": {
+    "principle": "No customer/client claim, testimonial, result, logo, name, metric, or story may be invented or displayed before actual evidence and permission exist",
+    "firstThreeEngagementsPlan": [
+      "Engagement 1: internal process validation",
+      "Engagement 2: refined delivery and consent/permission capture",
+      "Engagement 3: candidate for a high-quality evidence-based case study"
+    ]
+  },
+  "uxPerformanceBaselineSummary": {
+    "futureTargetsOnly": { "LCP": "around or under 2.5s", "INP": "around or under 200ms", "CLS": "around or under 0.1" },
+    "noScoreOrFieldDataClaimedThisPass": true,
+    "noAnalyticsOrRUMAdded": true,
+    "usabilityTestsScheduledThisPass": 0
+  },
+  "weeklyScorecardSections": [
+    "Commercial foundation", "Proof and media", "Product/technical health",
+    "Operating discipline", "Personal founder operating layer"
+  ],
+  "visionGraphicBrief": {
+    "status": "text-only brief, no image generated or added in this pass",
+    "structure": {
+      "center": "TMI Operating Core",
+      "innerRing": "Audit -> Architect -> Build -> Compound",
+      "primaryLanes": ["Consulting", "Media", "Performance", "Distribution", "Partners"],
+      "founderLayer": "AVM Founder Systems Archive",
+      "externalCommerceBoundary": "HERO / separately operated commerce boundary",
+      "governedRestrictedRing": ["Health", "FounderLink", "Social/Gather", "Reparations"],
+      "underlay": "Evidence -> Governance -> Operations -> Public Surface"
+    }
+  },
+  "nonRenderedConfirmation": {
+    "docsDirectoryImportedBySource": false,
+    "docsDirectoryInContentCollectionBasePaths": false,
+    "contentCollectionBasePaths": ["./src/content/media", "./src/content/verticals"],
+    "method": "grep across src/ and astro.config.mjs before writing this pass's files"
+  },
+  "validation": {
+    "typecheckCommand": "npm run typecheck",
+    "unitTestCommand": "npm run test:unit",
+    "forbiddenWordSweepTerms": [
+      "outperform", "beat", "best", "leading", "premier", "proven", "evidence-based",
+      "compliant", "certified", "secure", "safe", "effective", "scalable", "transformative",
+      "guarantee", "legal", "medical", "clinical", "therapy", "treatment", "live", "active",
+      "available", "service", "client", "results", "revenue", "checkout", "payment",
+      "public", "authorized"
+    ],
+    "sweepResultRule": "every occurrence must be internal, conditional, prohibited, evidence-gated, owner-review-gated, or explicitly non-assertive"
+  },
+  "explicitNonActions": [
+    "no offer activated, no commercial copy published, no pricing set, no contact enabled",
+    "no intake created, no clients accepted, no contract created, no payment connected, no infrastructure deployed",
+    "no superiority/performance/outcome claim made against any competitor category",
+    "no health/therapy/sprint/tensegrity/rehabilitation/injury/treatment/medical/clinical/legal/political/reparations/product-performance/athlete/financial/professional-service claim created",
+    "no litigation/financial-recovery/damages/opponent/political/protected-group/controversy research conducted",
+    "no legal evidence, financial evidence, case material, discovery, sensitive personal data, credentials, or client data created or stored",
+    "no dependency, package, lockfile, remote asset, external font/image, script, analytics, tracking, cookie, API, RSS, embed, iframe, or fetch added",
+    "no graphic generated, no image added, no public design changed",
+    "Mark 13 visual system, Mark 15/16 source registers referenced only, not modified",
+    "Cloudflare, DNS, domain, deployment, main branch, PR metadata, and alexandermathai.com untouched"
+  ]
+}
