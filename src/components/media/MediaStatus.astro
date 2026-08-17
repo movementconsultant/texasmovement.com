@@ -1,0 +1,50 @@
+---
+// src/components/media/MediaStatus.astro
+//
+// Renders restrained, text-based (never color-only) status lines for one
+// media entry. Every phrase here is deliberately drawn from a small,
+// reviewed vocabulary — never "Live," "Available now," "Watch," "Listen,"
+// "Follow," "Subscribe," "Published," "Latest," "Verified," or "Official."
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"media">;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+
+const editorialStatusText: Record<typeof d.editorialStatus, string> = {
+  placeholder: "Structural placeholder — not yet reviewed",
+  "internal-review-required": "Internal review required",
+  "approved-for-static-index": "Approved for static index",
+};
+
+const ownerApprovalText: Record<typeof d.ownerApprovalStatus, string> = {
+  pending: "Owner review required",
+  "owner-confirmation-required": "Owner confirmation required",
+  "approved-static-index": "Owner approved",
+};
+
+const linkModeText: Record<typeof d.linkMode, string> = {
+  "no-link": "No external destination enabled",
+  "owner-supplied-external-link": "External destination enabled (owner-supplied)",
+};
+
+// "Metadata pending review" shows whenever any of the underlying metadata
+// fields hasn't reached its own fully-reviewed terminal value — true for
+// every placeholder seeded in this pass.
+const metadataPending =
+  d.publicationDateStatus !== "evidenced" ||
+  d.canonicalUrlStatus !== "owner-supplied" ||
+  d.transcriptStatus !== "supplied" ||
+  d.accessibilityStatus !== "reviewed" ||
+  d.rightsStatus !== "approved-for-static-index";
+---
+
+<ul class="media-status-list">
+  <li class="media-status-item">{editorialStatusText[d.editorialStatus]}</li>
+  <li class="media-status-item">{ownerApprovalText[d.ownerApprovalStatus]}</li>
+  <li class="media-status-item">{linkModeText[d.linkMode]}</li>
+  {metadataPending && <li class="media-status-item">Metadata pending review</li>}
+</ul>

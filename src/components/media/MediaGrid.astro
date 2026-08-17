@@ -1,0 +1,25 @@
+---
+// src/components/media/MediaGrid.astro
+//
+// Renders a responsive, semantic list of media entries — never a
+// social-feed interface, autoplay carousel, or platform embed. Reuses the
+// existing .divisions-grid layout pattern (src/styles/global.css) already
+// proven across every other route in this repository, so no new grid
+// abstraction was introduced.
+import MediaCard from "./MediaCard.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entries: CollectionEntry<"media">[];
+}
+
+const { entries } = Astro.props;
+---
+
+<ul class="media-grid divisions-grid">
+  {entries.map((entry) => (
+    <li class="media-grid-item">
+      <MediaCard entry={entry} />
+    </li>
+  ))}
+</ul>

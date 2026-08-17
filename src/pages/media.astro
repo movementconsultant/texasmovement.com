@@ -1,13 +1,27 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
+import MediaGrid from "@/components/media/MediaGrid.astro";
 import { pageTitle } from "@tmi/constants";
 import { hubRoute } from "@/lib/hub-routes";
+import { getCollection } from "astro:content";
 
 const title = pageTitle("tmi", "Media");
 const description =
-  "Texas Movement Media is a future editorial and media-discovery lane. Building — not yet live. No programming is presented as currently active.";
+  "Texas Movement Media's editorial index shows structural placeholder records pending owner review. Building — not yet live. No external destination, date, or media is published or verified yet.";
 const posture = hubRoute("/media")!.postureLabel!;
+
+// Fixed display order matching the Mark 9 seed order (TMM, then TMI, then
+// founder/AVM) rather than relying on the content loader's filesystem order.
+const DISPLAY_ORDER = [
+  "tmm-youtube-placeholder",
+  "tmi-substack-placeholder",
+  "founder-short-form-placeholder",
+];
+const allMediaEntries = await getCollection("media");
+const mediaEntries = DISPLAY_ORDER.map((id) => allMediaEntries.find((e) => e.id === id)).filter(
+  (e) => e !== undefined,
+);
 ---
 
 <Layout title={title} description={description} path="/media">
@@ -50,6 +64,28 @@ const posture = hubRoute("/media")!.postureLabel!;
           There is no newsletter signup, sponsorship solicitation, or contact route on this page.
           See the <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest
           of Texas Movement International.
+        </div>
+      </div>
+    </section>
+
+    <section id="records" class="section">
+      <div class="wrap">
+        <Eyebrow>EDITORIAL INDEX RECORDS</Eyebrow>
+        <h2>Structural placeholders, pending owner review.</h2>
+        <p>
+          This index uses owner-review media records. External destinations, rights, source
+          metadata, accessibility materials, and editorial status are enabled only when
+          individually reviewed. Texas Movement Media is an editorial and media-distribution
+          function within Texas Movement International — not a separate platform, outlet,
+          channel, publisher, account, domain, or feed service.
+        </p>
+        <MediaGrid entries={mediaEntries} />
+        <div class="stub-note">
+          Every record above is a structural placeholder: it is not linked to an external
+          platform, and it must not be treated as current, verified, or active media. See
+          docs/internal/mark-9-media-placeholder-owner-update-guide.md (repository documentation,
+          not published on this site) for how each record can later be replaced with real,
+          reviewed material.
         </div>
       </div>
     </section>

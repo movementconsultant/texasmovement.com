@@ -1,0 +1,67 @@
+---
+// src/components/media/MediaCard.astro
+//
+// Renders one media entry as a static, non-interactive-by-default card.
+// Deliberately does NOT render: dates (unless publicationDateStatus is
+// "evidenced"), metrics, follower/view/subscriber counts, author biography,
+// badges, ratings, "new"/"latest" timestamps, platform status, or a remote
+// image of any kind. An outbound link renders ONLY when every one of the six
+// conditions below is independently true — never on the presence of a single
+// field alone. No entry seeded in this pass satisfies these conditions, so no
+// entry in this pass renders a link or a button.
+import MediaStatus from "./MediaStatus.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"media">;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+
+// Defensive URL check — only ever used to gate rendering, never trusted blindly.
+function isSafeHttpUrl(value: string | null): value is string {
+  if (!value) return false;
+  try {
+    const u = new URL(value);
+    return u.protocol === "https:" || u.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+const canRenderExternalLink =
+  d.linkMode === "owner-supplied-external-link" &&
+  isSafeHttpUrl(d.canonicalUrl) &&
+  d.canonicalUrlStatus === "owner-supplied" &&
+  d.publicDisplayStatus === "approved-static-index" &&
+  d.ownerApprovalStatus === "approved-static-index" &&
+  d.status !== "placeholder";
+
+const canRenderDate = d.publicationDateStatus === "evidenced" && !!d.publicationDate;
+
+const canRenderImage = d.imageStatus === "local-approved-image";
+---
+
+<article class="media-card">
+  <p class="media-card-format">{d.format} · {d.platform}</p>
+
+  {canRenderImage && (
+    <p class="media-card-image-note">Approved local image — not yet wired in this pass.</p>
+  )}
+  {!canRenderImage && <p class="media-card-image-note">{d.imageAlt}</p>}
+
+  <h3 class="media-card-title">{d.title}</h3>
+  <p class="media-card-summary">{d.summary}</p>
+  <p class="media-card-source">Source label: {d.sourceLabel}</p>
+
+  {canRenderDate && <p class="media-card-date">{d.publicationDate}</p>}
+
+  <MediaStatus entry={entry} />
+
+  {canRenderExternalLink && (
+    <p class="media-card-links">
+      <a href={d.canonicalUrl!} rel="noopener noreferrer">View source →</a>
+    </p>
+  )}
+</article>
