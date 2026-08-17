@@ -1,0 +1,98 @@
+---
+// src/pages/verticals/[slug].astro
+//
+// Mark 18 — the "Manifesto" template: renders one entry from the new
+// `verticals` content collection (src/content.config.ts). Distinct from,
+// and does not replace, the existing ECOSYSTEM_MAP/HUB_ROUTES presentation
+// systems (src/lib/site.ts, src/lib/hub-routes.ts) — see the collection
+// definition's own comment for why the three aren't reconciled here.
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("verticals");
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"verticals">;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+const STATUS_LABEL: Record<typeof data.status, string> = {
+  live: "Live",
+  "in-dev": "In development",
+  private: "Private",
+};
+
+const title = pageTitle("tmi", data.title);
+const description = `${data.title} — ${data.thesis}`.slice(0, 155);
+---
+
+<Layout title={title} description={description} path={`/verticals/${entry.id}`}>
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>MANIFESTO</Eyebrow>
+        <h1>{data.title}.</h1>
+        <span class="division-status">{STATUS_LABEL[data.status]}</span>
+        <p>{data.thesis}</p>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>BLUEPRINT</Eyebrow>
+        <h2>The operational model.</h2>
+        <p>{data.blueprint}</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap manifesto-body">
+        <Content />
+      </div>
+      <div class="wrap">
+        <div class="stub-note">
+          This manifesto is a content-architecture template (Mark 18) — its presence here does not
+          change this vertical's status elsewhere on the site (see the ecosystem map and this
+          route's own status badge above, which are the actual source of truth for site-wide
+          badges/nav/footer eligibility).
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .manifesto-body :global(h2) {
+    margin-top: 24px;
+  }
+
+  .manifesto-body :global(p) {
+    color: var(--ink-soft);
+    margin-top: 10px;
+  }
+
+  .manifesto-body :global(ul),
+  .manifesto-body :global(ol) {
+    margin-top: 10px;
+    padding-left: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--ink-soft);
+  }
+
+  .manifesto-body :global(li) {
+    list-style: disc;
+  }
+</style>

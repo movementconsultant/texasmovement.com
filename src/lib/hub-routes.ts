@@ -18,8 +18,12 @@
 // *.texasmovement.com subdomain. Never pass PROPERTIES[key].url for any of
 // these paths; use the local path string directly.
 //
-// Every route is safely inert by construction: no route below links to any
-// external destination, form, booking flow, checkout, or contact channel.
+// Every route below is safely inert by construction, with one deliberate
+// exception added in Mark 18: /contact is a real contact form, gated behind
+// PUBLIC_CONTACT_ENDPOINT (unset in every build this repository runs today,
+// which keeps it fully inert) — see docs/mark-18-contact-intake-implementation.md.
+// No other route links to any external destination, form, booking flow, or
+// checkout.
 
 /** Exact, restrained status line shown near the top of a route that
  *  describes a future capability rather than the current, accurate state
@@ -43,6 +47,7 @@ export interface HubRoute {
 export const HUB_ROUTES: readonly HubRoute[] = [
   { path: "/about", navLabel: "About", postureLabel: null },
   { path: "/ecosystem", navLabel: "Ecosystem", postureLabel: null },
+  { path: "/contact", navLabel: "Contact", postureLabel: null },
   { path: "/consulting", navLabel: "Consulting", postureLabel: "Building — not yet live" },
   { path: "/media", navLabel: "Media", postureLabel: "Building — not yet live" },
   { path: "/performance", navLabel: "Performance", postureLabel: "Building — not yet live" },

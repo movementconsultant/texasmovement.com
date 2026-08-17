@@ -17,6 +17,7 @@ const ROOT = join(new URL(".", import.meta.url).pathname, "..");
 const FILE_FOR_PATH: Record<string, string> = {
   "/about": "about.astro",
   "/ecosystem": "ecosystem.astro",
+  "/contact": "contact.astro",
   "/consulting": "consulting.astro",
   "/media": "media.astro",
   "/performance": "performance.astro",
@@ -32,7 +33,7 @@ function sourceFor(path: string): string {
 }
 
 describe("HUB_ROUTES registry matches the routes this task was scoped to implement", () => {
-  it("has exactly the eight Mark 4 paths, each mapped to a real source file", () => {
+  it("has exactly the eight Mark 4 paths plus Mark 18's /contact, each mapped to a real source file", () => {
     const paths = HUB_ROUTES.map((r) => r.path).sort();
     expect(paths).toEqual(Object.keys(FILE_FOR_PATH).sort());
     for (const path of paths) {
@@ -56,7 +57,12 @@ describe("no new hub route contains a live conversion or submission surface", ()
     ["an actionable booking/checkout CTA phrase", /\b(book now|add to cart|buy now|enroll now|sign up now|shop now)\b/i],
   ];
 
-  for (const path of HUB_ROUTES.map((r) => r.path)) {
+  // /contact is the one deliberate exception (see hub-routes.ts header comment):
+  // a real, gated contact form. It has its own dedicated inert-by-default
+  // coverage (Mark 18 checks in scripts/check-public-output.mjs check 7 and
+  // the guard's dist/ scan), so it's excluded from this zero-conversion-
+  // surface sweep rather than weakening the sweep itself.
+  for (const path of HUB_ROUTES.map((r) => r.path).filter((p) => p !== "/contact")) {
     it(`${path} contains none of the forbidden conversion/submission patterns`, () => {
       const source = sourceFor(path);
       for (const [label, pattern] of FORBIDDEN_PATTERNS) {
@@ -134,11 +140,12 @@ describe("no page presents Health, FounderLink, Social/Gather, or Reparations as
   });
 });
 
-describe("primary navigation matches the owner's exact Mark 4 instruction", () => {
-  it("navRoutes() returns exactly About, Ecosystem, Consulting, Media, Performance, in that order", () => {
+describe("primary navigation matches the owner's exact Mark 4 instruction, plus Mark 18's Contact addition", () => {
+  it("navRoutes() returns exactly About, Ecosystem, Contact, Consulting, Media, Performance, in that order", () => {
     expect(navRoutes().map((r) => r.navLabel)).toEqual([
       "About",
       "Ecosystem",
+      "Contact",
       "Consulting",
       "Media",
       "Performance",
