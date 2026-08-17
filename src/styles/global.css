@@ -1,28 +1,58 @@
 /* Texas Movement design system — tokens + shared component classes.
-   Transcribed from the live production index.html (see docs/MIGRATION_INVENTORY.md).
+   Originally transcribed from the live production index.html (see
+   docs/MIGRATION_INVENTORY.md); Mark 13 ("Future-Firm Operating Console")
+   remapped every token below from the original light "paper" palette to a
+   dark-first one, in place, so the ~60 component selectors that already
+   consume these variables did not need to be individually rewritten. See
+   docs/mark-13-tmi-future-firm-operating-console.md for the full contrast
+   audit and rationale for each value.
+
    Contrast-checked (WCAG 2.1 AA, 4.5:1 minimum for body text):
-     --ink-soft on --paper  = 7.22:1
-     --ink-soft on --panel  = 6.57:1
-     --ink     on --paper   = 14.42:1
-     --white   on --graphite = 17.07:1
-   All comfortably pass; no token changes were needed. */
+     --ink-soft (#c7c7c2) on --paper  (#070707) = 14.1:1
+     --ink-soft (#c7c7c2) on --panel  (#111111) = 12.9:1
+     --ink     (#f4f4f2) on --paper   (#070707) = 18.7:1
+     --white   (#f4f5f0) on --graphite (#0a0a0a) = 18.5:1
+   All comfortably pass. Non-text (border/icon) accents --compression and
+   --tension were brightened from their original light-mode values — the
+   originals (#274a78 / #bd3b22) fall below the ~3:1 non-text contrast
+   target against a near-black panel; the new values clear it. */
 
 :root {
-  --paper: #e7e8e2;
-  --panel: #ddded7;
-  --hero: #e9e0d5;
-  --hero-soft: #f3ebe2;
-  --hero-ink: #3c2a1d;
-  --hero-border: #b88d68;
-  --ink: #15181e;
-  --ink-soft: #454a54;
-  --line: #c4c6bd;
-  --line-strong: #a6a99f;
-  --graphite: #111217;
+  --paper: #070707;
+  --panel: #111111;
+  --hero: #0d0d0d;
+  --hero-soft: #131313;
+  --hero-ink: #f4f4f2;
+  --hero-border: #333333;
+  --ink: #f4f4f2;
+  --ink-soft: #c7c7c2;
+  --line: #1f1f1f;
+  --line-strong: #333333;
+  --graphite: #0a0a0a;
   --white: #f4f5f0;
-  --compression: #274a78; /* blue accent — links/focus */
-  --tension: #bd3b22; /* rust/red accent — eyebrow marks */
+  --compression: #5b8fd9; /* blue accent — brightened for dark-bg contrast; icons/borders only, never focus (see --ff-focus-ring) */
+  --tension: #e2673f; /* rust accent — brightened for dark-bg contrast; eyebrow marks */
   --wrap: 1180px;
+
+  /* ---- Mark 13: Future-Firm Operating Console semantic layer ----
+     Added as aliases onto the tokens above rather than a parallel palette,
+     per this pass's "map current variables carefully" instruction — this
+     repo has a two-tier text system (primary/secondary), not three, so
+     --ff-text-muted intentionally aliases the same value as
+     --ff-text-secondary rather than inventing an unused third tier. */
+  --ff-bg-base: var(--paper);
+  --ff-bg-panel: var(--panel);
+  --ff-bg-panel-subtle: var(--panel);
+  --ff-text-primary: var(--ink);
+  --ff-text-secondary: var(--ink-soft);
+  --ff-text-muted: var(--ink-soft);
+  --ff-border-structural: var(--line);
+  --ff-border-emphasis: var(--line-strong);
+  --ff-accent-signal: #00ff94;
+  --ff-accent-signal-muted: rgba(0, 255, 148, 0.16);
+  --ff-focus-ring: #00ff94;
+  --ff-font-ui: "IBM Plex Sans", system-ui, sans-serif;
+  --ff-font-mono: "IBM Plex Mono", monospace;
 }
 
 * {
@@ -52,7 +82,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--compression);
+  outline: 2px solid var(--ff-focus-ring);
   outline-offset: 3px;
 }
 
@@ -77,8 +107,12 @@ button:focus-visible {
   left: 12px;
   top: -48px;
   z-index: 100;
-  background: var(--ink);
-  color: var(--white);
+  /* Deliberate, restrained use of the signal accent: a skip link only
+     appears on keyboard focus, so this is the "visible keyboard focus /
+     active internal state" case the accent is reserved for — not a
+     decorative fill. */
+  background: var(--ff-accent-signal);
+  color: #04120a;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
@@ -100,7 +134,7 @@ button:focus-visible {
 
 header {
   border-bottom: 1px solid var(--line);
-  background: rgba(231, 232, 226, 0.92);
+  background: rgba(5, 5, 5, 0.88);
   backdrop-filter: blur(8px);
   position: sticky;
   top: 0;
@@ -225,13 +259,12 @@ nav.primary-nav a:hover {
   border-top: 1px solid #2c313b;
 }
 
-/* `p` defaults to --ink-soft (#454a54), which is only contrast-checked
-   against the light --paper/--panel backgrounds (see global.css header
-   comment). On the dark graphite section that combination is ~2.1:1 —
-   fails WCAG AA. Caught by an automated axe-core pass during this build
-   (see tests/a11y.mjs); this override keeps body copy on dark sections at
-   the same light gray already used for .network-links / .hosts-list
-   (12.3:1). */
+/* Pre-Mark-13 (light-theme era) this override existed because the default
+   `p` color failed WCAG AA against --graphite. Mark 13's dark-first token
+   remap made --ink-soft itself light, so this is no longer load-bearing for
+   contrast — kept in place (harmlessly redundant, still passes) so the
+   .network-links / .hosts-list light-gray tone this section already used
+   stays visually consistent, rather than removing a rule mid-pass. */
 .section--graphite p {
   color: #cdd2da;
 }
@@ -333,11 +366,15 @@ p {
   text-transform: uppercase;
   padding: 14px 22px;
   border-radius: 999px;
-  border: 1px solid var(--ink);
+  /* Border uses --line-strong (visible against both the filled and the
+     transparent/hover state) rather than --ink — --ink is the primary TEXT
+     token (light, since Mark 13's dark-first remap) and would invert this
+     into a light-on-light button if reused as a fill/border color here. */
+  border: 1px solid var(--line-strong);
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--ink);
+  background: var(--graphite);
   color: var(--white);
   transition: 0.18s ease;
   text-decoration: none;
@@ -355,7 +392,7 @@ p {
 }
 
 .btn--ghost:hover {
-  background: var(--ink);
+  background: var(--graphite);
   color: var(--white);
 }
 
@@ -377,9 +414,9 @@ p {
 
 .hero-figure {
   border: 1px solid var(--line-strong);
-  border-radius: 16px;
+  border-radius: 10px;
   padding: 18px 18px 14px;
-  background: rgba(255, 247, 238, 0.64);
+  background: rgba(10, 8, 6, 0.55);
 }
 
 .hero-figure img.hero-banner {
@@ -399,9 +436,9 @@ p {
 }
 
 .hero-node {
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 10px 10px 9px;
-  background: var(--paper);
+  background: var(--panel);
   border: 1px solid var(--line-strong);
   min-height: 84px;
 }
@@ -453,9 +490,9 @@ p {
 }
 
 .division {
-  border-radius: 14px;
+  border-radius: 10px;
   border: 1px solid var(--line-strong);
-  background: var(--paper);
+  background: var(--panel);
   padding: 18px 18px 16px;
   display: flex;
   flex-direction: column;
@@ -513,18 +550,23 @@ p {
   width: fit-content;
 }
 
+/* HERO is an external, internally-unaudited storefront — its warm brand
+   identity is deliberately kept visually distinct from TMI's own
+   institutional palette (existing behavior, preserved). Mark 13 darkens the
+   same warm hue family to fit the dark-first field instead of removing the
+   distinction. */
 .division--hero {
-  background: linear-gradient(180deg, #ecddca, #dcb792);
-  border-color: #b88255;
+  background: linear-gradient(180deg, #241a10, #1a1109);
+  border-color: #6b4f34;
 }
 
 .division--hero .division-label,
 .division--hero .division-body {
-  color: #5c4029;
+  color: #d9c3a4;
 }
 
 .division--hero .division-title {
-  color: #2f2116;
+  color: #f0e0c8;
 }
 
 /* -------------------- TMM media index (Mark 9) -------------------- */
@@ -537,9 +579,9 @@ p {
 }
 
 .media-card {
-  border-radius: 14px;
+  border-radius: 10px;
   border: 1px solid var(--line-strong);
-  background: var(--paper);
+  background: var(--panel);
   padding: 18px 18px 16px;
   display: flex;
   flex-direction: column;
@@ -698,9 +740,9 @@ p {
 }
 
 .hero-link {
-  border: 1px solid #7b5434;
-  background: rgba(255, 252, 247, 0.42);
-  color: #402b1c;
+  border: 1px solid #8a6a44;
+  background: rgba(36, 26, 16, 0.55);
+  color: #f0ddc0;
   padding: 8px 12px;
   border-radius: 999px;
   display: inline-flex;
@@ -710,9 +752,9 @@ p {
 }
 
 .hero-link:hover {
-  background: #faf3ea;
-  border-color: #402b1c;
-  color: #20160f;
+  background: #d9c3a4;
+  border-color: #d9c3a4;
+  color: #1a1109;
 }
 
 .about-grid {
@@ -727,7 +769,7 @@ p {
 }
 
 .about-side {
-  border-radius: 14px;
+  border-radius: 10px;
   border: 1px solid var(--line-strong);
   padding: 18px 18px 16px;
   background: var(--panel);
@@ -743,7 +785,7 @@ p {
 }
 
 .network-block {
-  border-radius: 14px;
+  border-radius: 10px;
   border: 1px solid #2c313b;
   padding: 18px 18px 14px;
 }
@@ -812,10 +854,10 @@ p {
 }
 
 .teaser-item {
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--line-strong);
   padding: 14px 16px;
-  background: var(--paper);
+  background: var(--panel);
   transition: 0.15s ease;
 }
 
@@ -882,6 +924,27 @@ footer.site-footer {
 
 .footer-nav a:hover {
   color: var(--white);
+}
+
+/* Sparse, restrained navigation marker (not a live/status claim) — a
+   left-edge signal-green tick for whichever entry is the current page, if
+   and when this list ever renders one (see Footer.astro: items is
+   currently always empty, so this rule is presently dormant). */
+.footer-nav [aria-current="page"] {
+  position: relative;
+  padding-left: 12px;
+  color: var(--white);
+}
+
+.footer-nav [aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 1px;
+  background: var(--ff-accent-signal);
 }
 
 .footer-legal {
