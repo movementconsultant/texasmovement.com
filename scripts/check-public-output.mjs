@@ -29,6 +29,13 @@
  *      isHeldPendingConfirmation() in src/lib/site.ts for the full rationale
  *      and the one-line un-hold procedure once Alexander provides the real
  *      canonical URL.
+ *   7. (Mark 18) A fetch() call whose first argument is a string literal
+ *      pointing at an absolute external URL — the shape a live contact-form
+ *      submission endpoint would take if PUBLIC_CONTACT_ENDPOINT were ever
+ *      set without a corresponding, deliberate exception added here. Mirrors
+ *      the equivalent EXTERNAL_FETCH_PATTERN check on the sibling
+ *      alexandermathai.com repo's scripts/postbuild-guard.mjs. See
+ *      docs/mark-18-contact-intake-implementation.md.
  *
  *   node scripts/check-public-output.mjs
  */
@@ -40,6 +47,10 @@ const DIST = join(ROOT, "dist");
 const CONSTANTS_ECOSYSTEM = join(ROOT, "packages", "constants", "src", "ecosystem.ts");
 const SITE_LIB = join(ROOT, "src", "lib", "site.ts");
 const TBD_SENTINEL = "__TBD__";
+
+// A fetch() call whose first argument is a string literal pointing at an
+// absolute external URL — see check 7 above.
+const EXTERNAL_FETCH_PATTERN = /fetch\s*\(\s*["'`]https?:\/\//i;
 
 const errors = [];
 const err = (m) => errors.push(m);
@@ -104,7 +115,9 @@ if (verifiedBlockMatch) {
 }
 
 /* ---------- walk dist/ --------------------------------------------------- */
-const TEXT_EXT = new Set([".html", ".xml", ".json", ".txt"]);
+// .js added in Mark 18 so check 7 (external fetch()) can actually scan
+// built client-side bundles, not just server-rendered HTML/XML/JSON/TXT.
+const TEXT_EXT = new Set([".html", ".xml", ".json", ".txt", ".js"]);
 function walk(dir, out = []) {
   for (const entry of readdirSync(dir)) {
     const p = join(dir, entry);
@@ -164,6 +177,11 @@ for (const file of textFiles) {
   // 6. no LinkedIn URL of any kind is confirmed for public output yet
   if (/linkedin\.com/i.test(content)) {
     err(`${rel}: contains a "linkedin.com" URL — no LinkedIn URL is confirmed for public output yet, see isHeldPendingConfirmation() in src/lib/site.ts`);
+  }
+
+  // 7. no fetch() call to an external URL (Mark 18 — see header comment)
+  if (EXTERNAL_FETCH_PATTERN.test(content)) {
+    err(`${rel}: contains a fetch() call targeting an external URL (unconfirmed contact-form endpoint)`);
   }
 }
 
