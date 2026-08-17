@@ -1,0 +1,37 @@
+---
+import { liveFooterFor, PROPERTIES } from "@/lib/site";
+import { LEGAL_LINKS } from "@tmi/constants";
+
+// "tmi" is this property's own key — used so the footer never links itself.
+// items is currently always empty: every property is "building" or
+// "private" in ECOSYSTEM_MAP, and liveFooterFor() only includes properties
+// explicitly marked "live" there. See src/lib/site.ts. The full
+// informational ecosystem map lives on /lanes and the homepage teaser —
+// this footer intentionally shows no property links until one is approved.
+const items = liveFooterFor("tmi");
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-meta">
+        <span>© {year} {PROPERTIES.tmi.name} · {PROPERTIES.tmi.domain}</span>
+        <nav class="footer-legal" aria-label="Legal">
+          {LEGAL_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
+        </nav>
+      </div>
+      {items.length > 0 && (
+        <nav class="footer-nav" aria-label="Ecosystem">
+          {items.map((item) =>
+            item.isCurrent ? (
+              <span aria-current="page">{item.label}</span>
+            ) : (
+              <a href={item.href}>{item.label}</a>
+            )
+          )}
+        </nav>
+      )}
+    </div>
+  </div>
+</footer>

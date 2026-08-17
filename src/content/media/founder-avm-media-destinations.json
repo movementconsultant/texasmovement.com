@@ -1,0 +1,69 @@
+{
+  "id": "founder-avm-media-destinations",
+  "slug": "founder-avm-media-destinations",
+  "status": "approved-static-index",
+  "sourceClass": "founder-AVM",
+  "sourceLabel": "Alexander Mathai",
+  "platform": "Multiple (see destinations)",
+  "format": "static source destination index",
+  "title": "Alexander Mathai — Selected Media Destinations",
+  "summary": "Owner-authorized founder media destinations. Founder-associated material is separately attributed and is not automatically Texas Movement International or Texas Movement Media editorial content.",
+  "publicationDate": null,
+  "publicationDateStatus": "placeholder",
+  "canonicalUrl": null,
+  "canonicalUrlStatus": "placeholder",
+  "transcriptStatus": "absent",
+  "accessibilityStatus": "reviewed",
+  "rightsStatus": "owner-asserted",
+  "claimsStatus": "no-claims-rendered",
+  "editorialStatus": "approved-for-static-index",
+  "ownerApprovalStatus": "approved-static-index",
+  "publicDisplayStatus": "approved-static-index",
+  "linkMode": "destination-index",
+  "destinations": [
+    {
+      "platform": "YouTube",
+      "handle": "tmipresident",
+      "url": "https://youtube.com/@tmipresident",
+      "urlStatus": "owner-supplied",
+      "linkText": "Alexander Mathai on YouTube",
+      "confirmationStatus": "owner-confirmed-source-destination"
+    },
+    {
+      "platform": "Instagram",
+      "handle": "alexanderofnazareth",
+      "url": "https://instagram.com/alexanderofnazareth",
+      "urlStatus": "owner-supplied",
+      "linkText": "Alexander Mathai on Instagram",
+      "confirmationStatus": "owner-confirmed-source-destination"
+    },
+    {
+      "platform": "TikTok",
+      "handle": "AlexandervMathai",
+      "url": "https://tiktok.com/@alexandervmathai",
+      "urlStatus": "owner-supplied",
+      "linkText": "Alexander Mathai on TikTok",
+      "confirmationStatus": "owner-confirmed-source-destination"
+    },
+    {
+      "platform": "LinkedIn",
+      "handle": "Alexander Mathai",
+      "url": null,
+      "urlStatus": "inert-missing-evidence",
+      "linkText": "Alexander Mathai on LinkedIn"
+    },
+    {
+      "platform": "Facebook",
+      "handle": "Alexander Mathai",
+      "url": null,
+      "urlStatus": "inert-missing-evidence",
+      "linkText": "Alexander Mathai on Facebook"
+    }
+  ],
+  "imageStatus": "no-image",
+  "imageAlt": "No media thumbnail or platform logo is displayed. Destinations below are text links only, except LinkedIn and Facebook, which render as inert status text.",
+  "crossAttributionStatus": "prohibited-pending-per-item-approval",
+  "attributionNote": "Handles owner-authorized per Mark 10 task brief, cross-referencing docs/internal/mark-8-1-source-identity-reconciliation.json source IDs AVM-SRC-001 (LinkedIn), AVM-SRC-002 (Facebook), AVM-SRC-003 (Instagram), AVM-SRC-004 (TikTok). YouTube/Instagram/TikTok URLs constructed from standard platform profile-URL patterns applied to the owner-supplied handles. LinkedIn and Facebook render with no URL: this repository's own scripts/check-public-output.mjs hard-fails the build on any 'linkedin.com' string appearing anywhere in dist/ output (see isHeldPendingConfirmation() in src/lib/site.ts), and no Facebook URL slug exists in any local evidence in this repository — per the Mark 10 instruction not to guess a profile slug from a display name, both stay inert with an 'Owner URL required' status until the owner supplies a confirmed slug and, for LinkedIn specifically, until that repository-wide hold is separately lifted.",
+  "internalOnlyNotes": "Mark 10 destination-index record, superseding the Mark 9 single-item placeholder previously at this collection slot (founder-short-form-placeholder.json, removed). Founder-associated media is never automatically TMI or TMM content — this record's sourceClass stays founder-AVM and crossAttributionStatus stays prohibited-pending-per-item-approval. See docs/internal/mark-10-media-destination-owner-review.md for the owner review checklist covering these five destinations, including how to supply the LinkedIn/Facebook slugs. Mark 11 (2026-08-17): the owner confirmed the three linkable destinations (YouTube, Instagram, TikTok) belong in the static index; each moved to confirmationStatus owner-confirmed-source-destination. LinkedIn and Facebook were not part of the Mark 11 confirmation (no URL exists for either) and remain urlStatus inert-missing-evidence with no confirmationStatus set; per Mark 11's own rendering rule, an entry with no renderable link no longer renders any card or inert text on /media at all — the full record, including these two entries, remains in this file for the owner's own audit trail. This confirmation is not a claim of platform verification, current activity, or individual media-item approval.",
+  "updatedAt": "2026-08-17"
+}

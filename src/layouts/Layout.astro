@@ -1,0 +1,98 @@
+---
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import "@/styles/global.css";
+import { PROPERTIES, ROBOTS } from "@tmi/constants";
+import { canonical, safeOrganizationJsonLd } from "@/lib/site";
+
+interface Props {
+  /** Full, already-computed page title (use pageTitle() from @tmi/constants). */
+  title: string;
+  /** Meta description, must respect DESCRIPTION_MAX (155 chars) — enforced at
+   *  the call site, not here, so each page can decide how to trim. */
+  description: string;
+  /** Site-relative path, e.g. "/" or "/lanes" — used for canonical + OG url. */
+  path: string;
+  /** Defaults to the tmi property's standard OG image. */
+  ogImage?: string;
+}
+
+const { title, description, path, ogImage } = Astro.props;
+
+// PUBLIC_PREVIEW convention (see docs/LAUNCH_BLOCKERS.md + PR description):
+// true for this branch's build. When true every page is noindex/nofollow,
+// no canonical tag is emitted, and sitemap.xml ships with zero indexable
+// URLs — see src/pages/sitemap.xml.ts.
+const isPreview = import.meta.env.PUBLIC_PREVIEW !== "false";
+const robots = isPreview ? ROBOTS.staging : ROBOTS.production;
+
+const canonicalUrl = canonical("tmi", path);
+const resolvedOgImage = ogImage ?? `${PROPERTIES.tmi.url}/og-tmi.png`;
+
+// Organization schema — emitted ONCE, on this property only (texasmovement.com
+// is the TMI hub). Every other property in the ecosystem must NOT duplicate
+// this. Sourced via safeOrganizationJsonLd() (src/lib/site.ts), NOT the raw
+// @tmi/constants organizationJsonLd() — the safe wrapper strips any
+// HELD_PENDING_CONFIRMATION url (currently the unconfirmed tmi-lane
+// LinkedIn URL) out of `sameAs` before it can reach public output.
+const orgJsonLd = safeOrganizationJsonLd();
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${PROPERTIES.tmi.url}#website`,
+  name: PROPERTIES.tmi.name,
+  url: PROPERTIES.tmi.url,
+  description,
+  publisher: { "@id": `${PROPERTIES.tmi.url}#org` },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    {!isPreview && <link rel="canonical" href={canonicalUrl} />}
+    <meta name="theme-color" content="#15181E" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={PROPERTIES.tmi.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Texas Movement International ecosystem diagram" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+    <meta name="twitter:image:alt" content="Texas Movement International ecosystem diagram" />
+
+    <!-- Schema.org: Organization (emitted ONCE ecosystem-wide, here only) + WebSite -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({ ...orgJsonLd, "@id": `${PROPERTIES.tmi.url}#org` })} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>

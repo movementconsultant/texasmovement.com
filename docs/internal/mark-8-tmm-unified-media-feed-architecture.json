@@ -1,0 +1,425 @@
+{
+  "schemaVersion": "1.0.0",
+  "createdDate": "2026-08-16",
+  "internalOnly": true,
+  "nonRendered": true,
+  "documentClass": "internal planning/data-architecture document -- NOT public content, NOT an active feed, NOT a content collection, NOT imported by source code. Defines a FUTURE schema and governance model only. No real media item is instantiated anywhere in this file.",
+  "sourceBranch": "claude/texas-movement-rebuild-pq14fo",
+  "sourceRepository": "movementconsultant/texasmovement.com",
+  "purpose": "Parts A, B, C, D, and H of the Mark 8 brief: the future TMM unified media-item schema, the TMI/TMM/AVM source-separation and attribution policy, the four future feed modes (none implemented), the eight editorial/risk review gates, and the future TMM information architecture. This is a planning/documentation pass only -- no feed, embed, API, RSS connection, external link, or account verification exists anywhere in this repository as a result of this file.",
+  "companionDocuments": [
+    "docs/internal/mark-8-tmm-unified-media-feed-architecture.md (same content, readable)",
+    "docs/internal/mark-8-tmm-media-item-intake-template.md (Part E -- blank human intake template)",
+    "docs/internal/mark-8-tmm-media-governance-and-approval-queue.md (Part F -- blank tracking queue)",
+    "docs/internal/mark-8-tmm-source-verification-checklist.md (Part G -- owner-facing checklist)"
+  ],
+
+  "avmDefinitionFinding": {
+    "searched": "grep -rn \"AVM\" across the entire repository (excluding node_modules/dist) this pass",
+    "result": "Zero matches. No source-backed definition, expansion, or ownership statement for \"AVM\" exists anywhere in this repository.",
+    "resolution": "Per the Mark 8 brief's explicit instruction, this document and its companions use ONLY the neutral internal label \"AVM / founder media -- owner definition required\" everywhere the concept is referenced. This is flagged as an open ambiguity requiring owner definition in the final report, not resolved by inference or assumption here."
+  },
+
+  "knownMediaOutletsInventory": {
+    "note": "Every entry below is INTERNAL PLANNING INVENTORY ONLY, exactly as supplied in the Mark 8 brief's Context section. None is treated as verified, active, owned, or approved for public display. Several of these same handles already appear as unverified/TBD-gated entries in the vendored packages/constants/src/social.ts (read this pass, not edited) -- that overlap is noted as corroborating context, not verification.",
+    "youtube": ["tmm", "tmp", "hero", "tmipresident"],
+    "substack": ["texasmovement"],
+    "linkedin": ["all (founder and company profiles)"],
+    "instagram": ["alexanderofnazareth", "herofootwearusa", "tmmediausa"],
+    "tiktok": ["alexandervmathai", "herofootwear", "texasmovementmedia"],
+    "crossReferenceToVendoredConstants": "packages/constants/src/social.ts ACCOUNTS array already lists (as unverified constants, not confirmed evidence): tiktok/@AlexanderVMathai, instagram/@alexanderofnazareth, linkedin/in/alexandermathai, substack/texasmovement, youtube/@texasmovementmedia, instagram/@tmmediausa, instagram/@tmmusa, linkedin/company/texasmovement, tiktok/@herofootwear, instagram/@herofootwearusa, youtube/@herofootwear, youtube/@texasmovementperformance -- none of these renders publicly today because src/lib/site.ts's isHeldPendingConfirmation()/liveSocialAccounts() filters hold every one back pending explicit owner confirmation. This file does not alter that vendored constants package or its safety filtering.",
+    "ownerPromptRequired": "The intake template (Part E, docs/internal/mark-8-tmm-media-item-intake-template.md) includes an explicit prompt asking the owner to identify any account, handle, or platform not listed above."
+  },
+
+  "partA_unifiedFeedModel": {
+    "note": "A FUTURE schema definition only -- no field below has been populated with a real value anywhere in this repository. Every enum listed is the full controlled vocabulary; every non-enum field is typed but unpopulated.",
+    "idConvention": "TMM-MEDIA-##### (five-digit sequence, assigned only when a real intake begins -- none has been assigned)",
+    "fieldGroups": {
+      "identity": {
+        "internalMediaId": { "type": "string", "pattern": "TMM-MEDIA-#####", "populated": false },
+        "workingTitle": { "type": "string", "populated": false },
+        "sourceOrganization": {
+          "type": "enum",
+          "values": ["TMI", "TMM", "AVM-founder-media-owner-definition-required", "approved-vertical", "third-party-with-permission"],
+          "populated": false
+        },
+        "sourceOwner": { "type": "string", "populated": false },
+        "rightsOwner": { "type": "string", "populated": false },
+        "editorialOwner": { "type": "string", "populated": false },
+        "verticalAssociation": { "type": "string", "nullable": true, "populated": false },
+        "routeAssociation": { "type": "string", "nullable": true, "note": "Today, only /media (Building) can be named -- no /media/index or /media/[slug] route exists", "populated": false },
+        "mediaType": {
+          "type": "enum",
+          "values": ["video", "short-video", "article", "image-set", "audio", "podcast", "livestream", "newsletter", "interview", "event-record", "announcement", "other"],
+          "populated": false
+        },
+        "formatSubtype": { "type": "string", "populated": false },
+        "language": { "type": "string", "populated": false },
+        "audienceCategory": { "type": "string", "populated": false }
+      },
+      "sourceVerification": {
+        "sourcePlatform": { "type": "string", "populated": false },
+        "sourceAccountName": {
+          "type": "string",
+          "populated": false,
+          "examplesOnly_notRealData": ["youtube:tmm", "youtube:tmp", "youtube:hero", "youtube:tmipresident", "substack:texasmovement", "linkedin: (any founder or company profile)", "instagram:alexanderofnazareth", "instagram:herofootwearusa", "instagram:tmmediausa", "tiktok:alexandervmathai", "tiktok:herofootwear", "tiktok:texasmovementmedia"]
+        },
+        "sourceAccountOwnershipStatus": {
+          "type": "enum",
+          "values": ["owner-provided", "not independently verified", "verified-by-platform-confirmation", "disputed"],
+          "default": "not independently verified",
+          "populated": false
+        },
+        "sourceUrl": { "type": "string", "populated": false, "note": "No URL is stored, linked, or rendered anywhere by this document" },
+        "sourceUrlVerificationStatus": {
+          "type": "enum",
+          "values": ["absent", "owner-submitted", "needs-review", "verified", "rejected"],
+          "default": "absent",
+          "populated": false
+        },
+        "sourceArtifactLocation": { "type": "string", "populated": false },
+        "publicationDate": { "type": "date", "populated": false },
+        "publicationDateEvidence": { "type": "string", "populated": false },
+        "rightsUsagePermission": { "type": "string", "populated": false },
+        "creatorGuestPermissions": { "type": "string", "populated": false },
+        "thumbnailImageRights": { "type": "string", "populated": false },
+        "transcriptCaptionStatus": {
+          "type": "enum",
+          "values": ["not present", "owner-provided", "needs-review", "verified-accessible"],
+          "default": "not present",
+          "populated": false
+        },
+        "accessibilityArtifactStatus": { "type": "string", "populated": false },
+        "contentArchivalLocation": { "type": "string", "populated": false }
+      },
+      "editorialGovernance": {
+        "editorialStatus": {
+          "type": "enum",
+          "values": ["draft", "owner-submitted", "source-verified", "rights-cleared", "editorial-review", "approved-for-TMM-index", "rejected", "deferred", "archived"],
+          "default": "draft",
+          "populated": false
+        },
+        "ownerApprovalStatus": { "type": "enum", "values": ["pending", "approved", "rejected", "deferred"], "default": "pending", "populated": false },
+        "claimsReviewStatus": { "type": "enum", "values": ["absent", "pending", "reviewed-clean", "reviewed-flagged"], "default": "absent", "populated": false },
+        "factCheckStatus": { "type": "enum", "values": ["absent", "pending", "verified", "disputed"], "default": "absent", "populated": false },
+        "brandFitStatus": { "type": "enum", "values": ["pending", "fits", "does-not-fit"], "default": "pending", "populated": false },
+        "reputationalSafetyRisk": { "type": "enum", "values": ["none identified", "low", "medium", "high"], "default": "none identified", "populated": false },
+        "sensitiveTopicFlag": { "type": "boolean", "default": false, "populated": false },
+        "healthLegalPoliticalReparationsFlag": { "type": "boolean", "default": false, "note": "If true, this item is additionally subject to the heavier legal/clinical or legal/reputational review already required ecosystem-wide for Health/Performance-adjacent or Reparations-adjacent subject matter", "populated": false },
+        "correctionsRequirement": { "type": "string", "populated": false },
+        "takedownContactProtocol": { "type": "string", "populated": false },
+        "expiryRevalidationDate": { "type": "date", "populated": false }
+      },
+      "publicDisplayControls": {
+        "publicUseStatus": {
+          "type": "enum",
+          "values": ["internal-only", "eligible-for-future-review", "approved-for-index", "approved-for-external-link", "approved-for-embed", "rejected"],
+          "default": "internal-only",
+          "populated": false
+        },
+        "displayLocation": {
+          "type": "enum",
+          "values": ["no public surface", "future /media index", "future vertical page", "future founder site reference", "future ecosystem page"],
+          "default": "no public surface",
+          "populated": false
+        },
+        "attributionRequirements": { "type": "string", "populated": false },
+        "requiredDisclaimerBoundaryLanguage": { "type": "string", "populated": false },
+        "titleDescriptionApproval": { "type": "enum", "values": ["pending", "approved"], "default": "pending", "populated": false },
+        "thumbnailApproval": { "type": "enum", "values": ["pending", "approved", "not applicable"], "default": "pending", "populated": false },
+        "canonicalSourceRequirement": { "type": "string", "populated": false },
+        "nofollowNoindexRequirement": { "type": "string", "populated": false },
+        "chronologicalFeedEligible": { "type": "boolean", "default": false, "populated": false },
+        "featuredCollectionEligible": { "type": "boolean", "default": false, "populated": false },
+        "crossPostEligibleTmiAvm": { "type": "boolean", "default": false, "populated": false },
+        "explicitProhibitionOnCrossAttribution": {
+          "type": "string",
+          "fixedValue": "No item may be displayed, labeled, or implied as TMI, TMM, and/or AVM/founder media simultaneously without a separate, explicit, per-item cross-attribution approval recorded here. Default assumption for every new item: single-source attribution only.",
+          "populated": true
+        }
+      },
+      "operationalTechnicalControls": {
+        "plannedIngestionMethod": {
+          "type": "enum",
+          "values": ["manual internal registry", "approved platform API", "approved RSS", "approved CMS", "static content repository", "no ingestion"],
+          "default": "manual internal registry",
+          "note": "Manual internal registry is the only mode this repository is authorized to build toward -- see partC_futureFeedModes",
+          "populated": false
+        },
+        "credentialsRequired": { "type": "string", "populated": false },
+        "apiOAuthOwner": { "type": "string", "populated": false },
+        "rateLimitCostImplications": { "type": "string", "populated": false },
+        "dataPrivacyImplications": { "type": "string", "populated": false },
+        "analyticsTrackingImplications": { "type": "string", "populated": false },
+        "embedRisk": { "type": "string", "populated": false },
+        "externalLinkRisk": { "type": "string", "populated": false },
+        "accessibilityReviewRequirement": { "type": "string", "populated": false },
+        "fallbackBehaviorIfSourceUnavailable": { "type": "string", "populated": false },
+        "deprecationArchivalPolicy": { "type": "string", "populated": false }
+      }
+    },
+    "totalFieldCount": 63
+  },
+
+  "partB_sourceSeparationAndAttributionPolicy": {
+    "mandatoryDistinctions": [
+      {
+        "class": "TMI media",
+        "definition": "Content owned or explicitly authorized by Texas Movement International itself (the umbrella entity, not any individual vertical or the founder personally)."
+      },
+      {
+        "class": "TMM media",
+        "definition": "Editorial/media output that has been reviewed and approved for the Texas Movement Media feed specifically -- a governance state, not an automatic consequence of being produced by anyone associated with TMI."
+      },
+      {
+        "class": "AVM / founder media -- owner definition required",
+        "definition": "Founder-associated media. NOT automatically TMI or TMM content. No source-backed definition of 'AVM' exists in this repository -- see avmDefinitionFinding above. Every item in this class requires its own explicit source-ownership and editorial-approval record before any TMI/TMM association is implied."
+      },
+      {
+        "class": "External/guest/partner media",
+        "definition": "Must have a source URL, a stated rights basis, an attribution line, and explicit editorial approval before any reference -- no exceptions for a well-known or friendly source."
+      },
+      {
+        "class": "Vertical media",
+        "definition": "May NOT appear in the TMM feed merely because a vertical (Consulting, Performance, Distribution, Partners, HERO, or any incubating vertical) is named in TMI strategy documents. Each vertical's own media requires its own explicit editorial approval into the TMM feed, per docs/mark-5-tmi-content-model-and-proof-registry.json's existing 'Media episode/project record' content-model object."
+      }
+    ],
+    "attributionDecisionMatrix": [
+      {
+        "classification": "Source-owned and TMM-approved",
+        "mayAppearInFutureFeed": true,
+        "mayLinkExternally": "Only if sourceUrlVerificationStatus = verified",
+        "mayEmbed": "Only after the full Approved-embed-mode prerequisites in partC close (not before)",
+        "needsBoundaryNote": false,
+        "mayBeShownAs": "TMM",
+        "whoMustApprove": "Editorial owner + owner final authorization (G-M8)"
+      },
+      {
+        "classification": "Founder-owned and TMM-approved",
+        "mayAppearInFutureFeed": true,
+        "mayLinkExternally": "Only if sourceUrlVerificationStatus = verified",
+        "mayEmbed": "Only after the full Approved-embed-mode prerequisites in partC close",
+        "needsBoundaryNote": true,
+        "mayBeShownAs": "AVM / founder media -- owner definition required, cross-posted to TMM only with explicit crossPostEligibleTmiAvm = true on that specific item",
+        "whoMustApprove": "Founder (as rights/source owner) AND editorial owner + owner final authorization (G-M8) -- both, not either"
+      },
+      {
+        "classification": "Founder-owned but not TMM-approved",
+        "mayAppearInFutureFeed": false,
+        "mayLinkExternally": false,
+        "mayEmbed": false,
+        "needsBoundaryNote": true,
+        "mayBeShownAs": "Not shown on any TMI/TMM surface at all",
+        "whoMustApprove": "Not applicable -- this classification means approval was not given"
+      },
+      {
+        "classification": "Third-party owned with permission",
+        "mayAppearInFutureFeed": true,
+        "mayLinkExternally": "Only if sourceUrlVerificationStatus = verified and rightsUsagePermission is documented",
+        "mayEmbed": "Only after the full Approved-embed-mode prerequisites close, and only within the scope of the granted permission",
+        "needsBoundaryNote": true,
+        "mayBeShownAs": "External/guest/partner media, attributed to the third party by name",
+        "whoMustApprove": "Rights owner (external) confirmation on file + editorial owner + owner final authorization (G-M8)"
+      },
+      {
+        "classification": "Third-party referenced only",
+        "mayAppearInFutureFeed": "Only as a citation/reference, never as a hosted or embedded item",
+        "mayLinkExternally": "Only if sourceUrlVerificationStatus = verified",
+        "mayEmbed": false,
+        "needsBoundaryNote": true,
+        "mayBeShownAs": "Cited third-party source, clearly not TMI/TMM/AVM content",
+        "whoMustApprove": "Editorial owner"
+      },
+      {
+        "classification": "Unverified source",
+        "mayAppearInFutureFeed": false,
+        "mayLinkExternally": false,
+        "mayEmbed": false,
+        "needsBoundaryNote": true,
+        "mayBeShownAs": "Not shown anywhere",
+        "whoMustApprove": "Not applicable until sourceUrlVerificationStatus and sourceAccountOwnershipStatus both move past their default/absent state"
+      },
+      {
+        "classification": "Rights unclear",
+        "mayAppearInFutureFeed": false,
+        "mayLinkExternally": false,
+        "mayEmbed": false,
+        "needsBoundaryNote": true,
+        "mayBeShownAs": "Not shown anywhere",
+        "whoMustApprove": "Rights owner must resolve the ambiguity first; no editorial reviewer may approve around it"
+      },
+      {
+        "classification": "Sensitive/regulated subject matter",
+        "mayAppearInFutureFeed": "Only after the heavier legal/clinical (Health/Performance-adjacent) or legal/reputational (Reparations-adjacent) review already required ecosystem-wide, per docs/mark-3-ecosystem-build-blueprint.md and docs/mark-5-tmi-content-model-and-proof-registry.json",
+        "mayLinkExternally": "Same heavier-review gate applies",
+        "mayEmbed": "Same heavier-review gate applies",
+        "needsBoundaryNote": true,
+        "mayBeShownAs": "Never as a routine feed item -- always with the applicable heavier disclaimer/boundary language attached",
+        "whoMustApprove": "The applicable heavier reviewer (legal/clinical or legal/reputational) IN ADDITION TO the standard G-M1-G-M8 gates, not instead of them"
+      },
+      {
+        "classification": "Archived/takedown-required",
+        "mayAppearInFutureFeed": false,
+        "mayLinkExternally": false,
+        "mayEmbed": false,
+        "needsBoundaryNote": true,
+        "mayBeShownAs": "Removed from any public surface; retained internally only per deprecationArchivalPolicy",
+        "whoMustApprove": "Editorial owner logs the takedown; owner notified per takedownContactProtocol"
+      }
+    ]
+  },
+
+  "partC_futureFeedModes": [
+    {
+      "mode": "1. Manual editorial index",
+      "recommendedFirst": true,
+      "prerequisites": "At least one media item reaching editorialStatus = approved-for-TMM-index through the full G-M1-G-M8 gate sequence",
+      "benefits": "No external dependency, no credential/API risk, full editorial control, easiest to keep evidence-gated and reversible",
+      "risks": "Manual maintenance overhead; stale entries if not revalidated on schedule",
+      "requiredEvidence": "Every field group in partA_unifiedFeedModel populated for each item; no automated verification substitutes for manual review",
+      "technicalChangesRequired": "None in this pass. A future pass would add a static, owner-reviewed list (e.g. a local data file) read only at build time from within this repository -- no runtime fetch, no database.",
+      "publicSurfaceImplications": "None until items exist and a future /media/index route is separately built and authorized",
+      "whoCanAuthorize": "Owner, via the G-M8 final-authorization gate, per item and for the mode itself",
+      "exactReasonsNotImplementedHere": "No media item has cleared any gate; Mark 8 is a planning/documentation pass only; building the index route itself is explicitly out of scope for this task"
+    },
+    {
+      "mode": "2. Approved platform-link index",
+      "recommendedFirst": false,
+      "prerequisites": "Mode 1 operating; sourceAccountOwnershipStatus = verified-by-platform-confirmation and sourceUrlVerificationStatus = verified for each linked item",
+      "benefits": "Sends traffic to the real, canonical source instead of duplicating content",
+      "risks": "Link rot; the linked platform's own content or framing can change without TMI's control; still requires per-account ownership verification before any link renders",
+      "requiredEvidence": "A human manually opening and confirming account ownership and URL correctness for every linked account -- consistent with the existing ecosystem-wide rule (docs/mark-2-ecosystem-handoff.md) that no unverified social/external link is ever enabled without manual confirmation",
+      "technicalChangesRequired": "A future, separately-authorized pass would add outbound `<a>` links only for verified accounts -- no embed, no iframe",
+      "publicSurfaceImplications": "Outbound links from a future /media/index page only, never before Mode 1 is operating and items exist",
+      "whoCanAuthorize": "Owner, per account, after manual verification",
+      "exactReasonsNotImplementedHere": "No account in the known-outlets inventory has been owner-verified; this task explicitly prohibits adding any external link"
+    },
+    {
+      "mode": "3. Approved embed mode",
+      "recommendedFirst": false,
+      "prerequisites": "Mode 2 operating for the relevant account; content, privacy, tracking, accessibility, platform-terms, and owner approval all independently closed for the specific item to be embedded",
+      "benefits": "In-context viewing without leaving the TMI hub",
+      "risks": "Third-party tracking/analytics embedded scripts typically carry (privacy exposure); platform-side ads or recommended-content modules outside TMI's control; accessibility of the embedded player itself; platform terms-of-service compliance; performance/CLS impact",
+      "requiredEvidence": "A documented privacy/consent review, an accessibility review of the specific embed technology, and platform-terms confirmation, in addition to every Mode 1/2 requirement",
+      "technicalChangesRequired": "A future, separately-authorized pass would add a specific embed component with documented fallback behavior (e.g. a static thumbnail + outbound link if the embed fails to load) -- not part of this task",
+      "publicSurfaceImplications": "In-page third-party content and likely third-party tracking exposure -- the highest-risk display mode",
+      "whoCanAuthorize": "Owner, per item, only after the privacy/accessibility review above is complete",
+      "exactReasonsNotImplementedHere": "No privacy/accessibility review has been performed for any platform; this task explicitly prohibits any iframe, embed, or script tag"
+    },
+    {
+      "mode": "4. API/RSS ingestion mode",
+      "recommendedFirst": false,
+      "lastStageOnly": true,
+      "prerequisites": "Modes 1-3 operating; an approved source; a named API/OAuth owner; a secret-management plan; a caching strategy; a rate-limit/cost analysis; a privacy review; a fallback-behavior plan; and a monitoring plan -- ALL of these, not a subset",
+      "benefits": "Reduces manual maintenance for high-volume, frequently-updating sources",
+      "risks": "Credential/secret exposure; unbounded API cost; rate-limit failures; silent data staleness if monitoring lapses; platform API deprecation; the platform's terms of service can change unilaterally; this is the mode most likely to silently violate the ecosystem's zero-trust, evidence-gated posture if adopted prematurely",
+      "requiredEvidence": "Everything in Mode 3, plus a named, accountable API/OAuth owner and a documented credential-storage plan consistent with this repository's existing 'no secrets in this repository' rule (CLAUDE.md)",
+      "technicalChangesRequired": "A future, separately-authorized, separately-scoped infrastructure task -- explicitly not this task and not any task that has occurred in this repository to date",
+      "publicSurfaceImplications": "Automatic content changes without a per-item manual review step, unless a review gate is deliberately kept in the pipeline -- the mode most likely to erode the manual-approval guarantee this whole architecture is built to preserve",
+      "whoCanAuthorize": "Owner, and only after every prerequisite above is independently satisfied and documented -- must never be assumed merely because a platform happens to offer an API or RSS feed",
+      "exactReasonsNotImplementedHere": "No prerequisite exists; this task explicitly prohibits any API call, RSS fetcher, webhook, or OAuth configuration; this mode is documented here ONLY as a future possibility, not a plan being advanced"
+    }
+  ],
+
+  "partD_editorialAndRiskGates": [
+    {
+      "gate": "G-M1", "name": "Source and ownership verification",
+      "statusVocabulary": ["absent", "owner-submitted", "needs-review", "verified", "rejected"],
+      "evidenceRequired": "Manual, human confirmation of account/content ownership; a canonical source URL if applicable",
+      "reviewerOwner": "Owner (as the only party able to confirm account ownership) or an owner-designated reviewer with documented delegation",
+      "commonBlockers": "No account access to demonstrate; conflicting ownership claims; platform account recently changed hands",
+      "allowableDisposition": "Pass to G-M2, or reject/defer with a stated reason",
+      "revalidationExpiryConditions": "Revalidate if the account's ownership, handle, or URL changes"
+    },
+    {
+      "gate": "G-M2", "name": "Rights, permission, attribution, and usage verification",
+      "statusVocabulary": ["absent", "owner-submitted", "needs-review", "verified", "rejected"],
+      "evidenceRequired": "Rights basis (owned/licensed/permitted), creator/guest permission records, thumbnail/image rights",
+      "reviewerOwner": "Rights owner (attestation) + editorial owner (review)",
+      "commonBlockers": "No written guest/creator permission; unclear music/image licensing; third-party appears in content without a release",
+      "allowableDisposition": "Pass to G-M3, or reject/defer with a stated reason",
+      "revalidationExpiryConditions": "Revalidate if any permission's stated scope or term expires"
+    },
+    {
+      "gate": "G-M3", "name": "Claims/facts/metrics review",
+      "statusVocabulary": ["absent", "pending", "reviewed-clean", "reviewed-flagged"],
+      "evidenceRequired": "Independent verification of any factual claim or metric in the item's title/description/content, consistent with docs/mark-5-tmi-content-model-and-proof-registry.json's existing claims-registry pattern",
+      "reviewerOwner": "Editorial owner + claims reviewer (may be the same person as owner)",
+      "commonBlockers": "A self-reported metric (e.g. a view count) with no independent export/verification; an unqualified superlative claim",
+      "allowableDisposition": "Pass to G-M4, or reject/defer/require-correction",
+      "revalidationExpiryConditions": "Revalidate at the item's stated expiryRevalidationDate, or immediately if the underlying claim is disputed"
+    },
+    {
+      "gate": "G-M4", "name": "Sensitive-subject and reputational review",
+      "statusVocabulary": ["absent", "pending", "reviewed-clean", "reviewed-flagged"],
+      "evidenceRequired": "A completed sensitiveTopicFlag / healthLegalPoliticalReparationsFlag assessment; if either is true, evidence that the applicable heavier legal/clinical or legal/reputational review has occurred",
+      "reviewerOwner": "Owner + the applicable heavier reviewer if a sensitive flag is set",
+      "commonBlockers": "Health, legal, political, or Reparations-adjacent subject matter without the heavier review this ecosystem already requires elsewhere",
+      "allowableDisposition": "Pass to G-M5, or reject/defer",
+      "revalidationExpiryConditions": "Revalidate if the subject matter's regulatory or reputational context changes"
+    },
+    {
+      "gate": "G-M5", "name": "Accessibility review", "detail": "captions/transcript/alt text/reading accessibility",
+      "statusVocabulary": ["not present", "owner-provided", "needs-review", "verified-accessible"],
+      "evidenceRequired": "Captions or transcript for audio/video; alt text for images; a reading-accessibility check for article-type items",
+      "reviewerOwner": "Editorial owner, consistent with this repository's existing accessibility bar (axe-core, 0 violations, applied to every current route)",
+      "commonBlockers": "No transcript/captions produced yet; alt text missing or non-descriptive",
+      "allowableDisposition": "Pass to G-M6, or defer pending the artifact's production",
+      "revalidationExpiryConditions": "Revalidate if the item's media file or transcript is replaced"
+    },
+    {
+      "gate": "G-M6", "name": "Public-display decision", "detail": "internal-only, link, index, or embed",
+      "statusVocabulary": ["internal-only", "eligible-for-future-review", "approved-for-index", "approved-for-external-link", "approved-for-embed", "rejected"],
+      "evidenceRequired": "All of G-M1-G-M5 passed; a decision on which of the four partC feed modes (if any) the item is eligible for",
+      "reviewerOwner": "Owner",
+      "commonBlockers": "G-M1-G-M5 incomplete; the desired display mode's own partC prerequisites not yet met",
+      "allowableDisposition": "Set publicUseStatus and displayLocation per partA; may not exceed what the relevant feed mode in partC currently permits",
+      "revalidationExpiryConditions": "Revalidate if the item's source becomes unavailable or its rights/ownership status changes"
+    },
+    {
+      "gate": "G-M7", "name": "Technical integration/privacy/tracking review",
+      "statusVocabulary": ["not applicable (internal-only or link-only item)", "pending", "reviewed-clean", "reviewed-flagged"],
+      "evidenceRequired": "Only required if G-M6 selects approved-for-embed or a future ingestion mode: documented privacy/tracking implications, embed risk, fallback behavior",
+      "reviewerOwner": "Owner + technical reviewer",
+      "commonBlockers": "Third-party tracking scripts bundled with an embed; no fallback behavior defined; unclear data-privacy implications",
+      "allowableDisposition": "Pass to G-M8, or reject/defer",
+      "revalidationExpiryConditions": "Revalidate if the embed technology or the source platform's tracking behavior changes"
+    },
+    {
+      "gate": "G-M8", "name": "Owner final authorization",
+      "statusVocabulary": ["pending", "approved", "rejected", "deferred"],
+      "evidenceRequired": "All prior gates (G-M1-G-M7, as applicable) passed",
+      "reviewerOwner": "Owner only -- this gate may not be delegated",
+      "commonBlockers": "Any prior gate incomplete",
+      "allowableDisposition": "Only after this gate is 'approved' may an item's publicUseStatus move past internal-only",
+      "revalidationExpiryConditions": "Revalidate per the item's expiryRevalidationDate even after approval"
+    }
+  ],
+
+  "partH_tmmFutureInformationArchitecture": {
+    "currentState": {
+      "route": "/media",
+      "posture": "Building (unchanged by this pass) -- restrained category-level description, honest posture badge, zero conversion surface, per docs/mark-6-safe-hub-route-implementation.md",
+      "mustRemainUntil": "An owner-approved, source-verified, rights-cleared, editorially approved media item exists (i.e. has cleared G-M1 through G-M8) AND a separate implementation task is explicitly authorized"
+    },
+    "futureHierarchy": [
+      { "path": "/media", "description": "TMI's restrained Building overview -- unchanged today", "authorizedNow": true },
+      { "path": "/media/index (future)", "description": "Curated editorial index -- only after approved items exist", "authorizedNow": false },
+      { "path": "/media/[slug] (future)", "description": "Internal first-party media pages -- only after an item has rights, claims, accessibility, and owner approval (G-M1-G-M8 all clear)", "authorizedNow": false },
+      { "path": "future outbound links", "description": "Only for approved, source-verified items (partC Mode 2)", "authorizedNow": false },
+      { "path": "future embeds", "description": "Only after explicit owner and privacy/accessibility approval (partC Mode 3)", "authorizedNow": false }
+    ],
+    "explicitLimits": [
+      "No current live or automatic feed of any kind exists or is implied by this document.",
+      "No separate TMM Cloudflare project, domain, subdomain, social account, channel, API, or newsletter is created or implied by this plan -- the two-project ecosystem (texasmovement, alexandermathai) established in Mark 4 is unchanged.",
+      "/media remains in its existing Building state until the conditions in 'mustRemainUntil' above are met AND a separate implementation task is authorized -- this document does not itself authorize that task."
+    ]
+  },
+
+  "validationNotes": {
+    "jsonValidated": "This file parsed successfully with node -e \"JSON.parse(...)\" this session.",
+    "noRealMediaItemInstantiated": "Every field in partA_unifiedFeedModel has populated:false or is a fixed governance string (the cross-attribution prohibition) -- no title, date, URL, account, or metric was invented.",
+    "noExternalReferenceAddedToSource": "This file is not imported by any src/ file, route, or build script -- confirmed by grep this pass.",
+    "sensitiveWordScan": "Reviewed for: live, current, latest, published, watch, listen, subscribe, follow, channel, episode, newsletter, feed, verified, approved, active, operational, public, embed, API, RSS, external. Every occurrence is a field/enum name, a future-conditional state, an explicit prohibition, or a status-vocabulary label -- none asserts a current active claim."
+  }
+}

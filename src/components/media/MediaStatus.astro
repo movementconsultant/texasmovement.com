@@ -1,0 +1,35 @@
+---
+// src/components/media/MediaStatus.astro
+//
+// Mark 11 — a compact, per-destination boundary note (3 short lines max),
+// replacing the Mark 9/10 record-level status list. Every phrase here is
+// deliberately drawn from a small, reviewed vocabulary — never "Live,"
+// "Available now," "Watch," "Listen," "Follow," "Subscribe," "Published,"
+// "Latest," "Verified," "Official," "Active," "Current," "Operational," or
+// "Platform-approved."
+interface Props {
+  confirmationStatus?:
+    | "owner-authorized-handle-derived"
+    | "owner-confirmed-source-destination"
+    | "owner-supplied-canonical-url"
+    | "owner-confirmed-canonical-url";
+}
+
+const { confirmationStatus } = Astro.props;
+
+const CONFIRMATION_TEXT: Record<string, string> = {
+  "owner-authorized-handle-derived": "Destination authorized by owner; source review pending.",
+  "owner-confirmed-source-destination": "Source destination confirmed by owner.",
+  "owner-supplied-canonical-url": "Canonical URL supplied directly by owner.",
+  "owner-confirmed-canonical-url": "Canonical URL reviewed and confirmed by owner.",
+};
+
+const confirmationText =
+  CONFIRMATION_TEXT[confirmationStatus ?? "owner-authorized-handle-derived"];
+---
+
+<ul class="media-status-list">
+  <li class="media-status-item">{confirmationText}</li>
+  <li class="media-status-item">Individual media entries are reviewed separately.</li>
+  <li class="media-status-item">No platform embed is used.</li>
+</ul>

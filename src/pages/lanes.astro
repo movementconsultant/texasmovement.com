@@ -1,0 +1,88 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import DivisionCard from "@/components/DivisionCard.astro";
+import { pageTitle } from "@tmi/constants";
+import { PROPERTIES, ECOSYSTEM_MAP, ecosystemEntry } from "@/lib/site";
+
+const title = pageTitle("tmi", "The ecosystem map");
+const description =
+  "How Texas Movement International is being built: the institutional core, the founder layer, and the verticals that will carry it into the world.";
+
+const core = ecosystemEntry("tmi")!;
+const founder = ecosystemEntry("founder")!;
+const verticals = ECOSYSTEM_MAP.filter((e) => e.group === "vertical");
+---
+
+<Layout title={title} description={description} path="/lanes">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>ECOSYSTEM MAP</Eyebrow>
+        <h1>How this is being built.</h1>
+        <p>
+          This is the full architecture of Texas Movement International — the institutional core,
+          the founder layer, and the verticals that will carry it into the world. Every part of it
+          is being built deliberately, in order, not all at once. Nothing below is a live offer —
+          it's an honest map of what exists and what's still in progress.
+        </p>
+      </div>
+    </section>
+
+    <!-- Core -->
+    <section id="core" class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>CORE</Eyebrow>
+        <h2>The institutional umbrella.</h2>
+        <div class="divisions-grid">
+          <DivisionCard
+            label={PROPERTIES.tmi.name}
+            title="Core — the institution itself."
+            body={core.blurb}
+            status={core.badge}
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Founder -->
+    <section id="founder-layer" class="section">
+      <div class="wrap">
+        <Eyebrow>FOUNDER LAYER</Eyebrow>
+        <h2>The person behind the system.</h2>
+        <div class="divisions-grid">
+          <DivisionCard
+            label={PROPERTIES.founder.name}
+            title="Founder layer."
+            body={founder.blurb}
+            status={founder.badge}
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Verticals -->
+    <section id="verticals" class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>VERTICALS</Eyebrow>
+        <h2>Where the work will live.</h2>
+        <p>
+          Nine verticals, each with one clearly defined job. Most are still being built out
+          (named honestly, not linked before they're ready); a few are intentionally private for
+          now and named only as part of this map.
+        </p>
+
+        <div class="divisions-grid">
+          {verticals.map((v) => (
+            <DivisionCard
+              label={PROPERTIES[v.key].name}
+              title={PROPERTIES[v.key].label}
+              body={v.blurb}
+              status={v.badge}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

@@ -1,0 +1,281 @@
+{
+  "packetName": "Mark 2.1 Hub Release-Control Packet",
+  "generated": "2026-08-16",
+  "sourceBranch": "claude/texas-movement-rebuild-pq14fo",
+  "sourceRepository": "movementconsultant/texasmovement.com",
+  "purpose": "Documentation-only, owner-actionable release-control system for the two Mark 2 hub candidates. Supersedes no prior document -- adds a precise gate model and evidence ledger on top of docs/ecosystem-release-matrix.md and docs/mark-2-ecosystem-handoff.md. No merge, deploy, DNS, Cloudflare, or external-service action is authorized by this file's existence.",
+  "gateModel": {
+    "G0": "Ownership and repository control",
+    "G1": "Branch/PR/review control",
+    "G2": "Deployment-provider and preview verification",
+    "G3": "Domain, DNS, custom-domain, and legacy-host conflict verification",
+    "G4": "Public-output controls: robots, sitemap, canonical, metadata, redirects",
+    "G5": "Claims, identity, and editorial approval",
+    "G6": "Conversion, contact, tracking, privacy, and operational-readiness review",
+    "G7": "Build, test, accessibility, link, and output-scan evidence",
+    "G8": "Owner release authorization"
+  },
+  "gateStatusValues": ["Completed", "Partially evidenced", "Not evidenced", "Not applicable", "Blocked by unavailable access"],
+  "terminologyReconciliation": {
+    "Live candidate": "Eligible to pursue release only after every gate below reaches Completed and G8 (owner release authorization) is explicitly granted. Does NOT mean currently live, currently deployed, or currently reachable at its production hostname. As of this packet, neither hub is live -- both are release candidates with open gates.",
+    "Building / Private/Building": "A real repository and/or active work exists; nothing is deployed to a public hostname the property claims as its own. Does not imply active services, responsiveness, enrollment, fulfillment, clinical support, legal advice, membership access, or transaction capability of any kind, regardless of any code-level readiness.",
+    "External storefront / internally unaudited": "The owner has indicated a real external property exists (e.g. HERO). Does not imply this project has verified its ownership, technical state, security, or operational status -- 'internally unaudited' means exactly that: no audit has occurred from this ecosystem's engineering side.",
+    "Route under TMI": "Describes an intended navigational/informational relationship in the ecosystem map's presentation layer. Does not imply a currently deployed route, live redirect, or reachable destination unless that specific destination independently reaches G4 Completed for its own output."
+  },
+  "hubs": {
+    "texasmovement.com": {
+      "intendedClassification": "Live (TMI umbrella / hub)",
+      "currentRecommendedClassification": "Live candidate -- release-ready pending open gates below, not currently live",
+      "repositoryAndBranchEvidence": {
+        "status": "Completed",
+        "evidence": "movementconsultant/texasmovement.com, branch claude/texas-movement-rebuild-pq14fo, HEAD a53ec59bd8fbcb758ed6fe413c3778292c674b21 (verified via git log this session). This session has push access (used it repeatedly this project).",
+        "gapToClose": "None -- repository control is established."
+      },
+      "prStateEvidence": {
+        "status": "Completed",
+        "evidence": "PR #1, state=open, draft=true, mergeable_state=clean, base=main@359f69d9b667215a7edab704254b12ac1ae99443 (unchanged since PR opened, verified via GitHub API this session), 12 commits, head matches current branch HEAD.",
+        "gapToClose": "None for current state. Taking the PR out of draft or merging requires G8."
+      },
+      "deploymentProviderEvidence": {
+        "status": "Partially evidenced",
+        "evidence": "A connected Cloudflare Pages project named 'texasmovement' (Cloudflare account id c98bb3dd9f79a1a49ad9af7c44cd1259) auto-builds this branch on every push; latest GitHub Check run for commit a53ec59 is status=completed, conclusion=success (verified via GitHub Checks API this session, not via Cloudflare credentials -- this session has none).",
+        "gapToClose": "Preview URL content has NOT been inspected -- both curl and the WebFetch tool return EGRESS_BLOCKED for *.pages.dev from this environment. Production-branch setting inside the Cloudflare project is not visible from this session. Owner or someone with Cloudflare dashboard access must open the project settings directly."
+      },
+      "domainDnsCustomDomainEvidence": {
+        "status": "Blocked by unavailable access",
+        "evidence": "public/CNAME exists in this repository (content: 'texasmovement.com'), copied verbatim into every dist/ build -- confirmed by direct file read this session. This is a legacy GitHub-Pages-era artifact.",
+        "gapToClose": "GitHub Pages enabled/disabled state for this repo is unknown (no dashboard access from this session). Whether texasmovement.com is bound as a Cloudflare Pages custom domain is unknown. Actual DNS records (A/ALIAS/CNAME) for texasmovement.com are unknown. See docs/infrastructure-owner-checklist.md (alexandermathai.com repo) and the owner evidence checklist below for the exact three checks needed."
+      },
+      "currentPublicSurfaceEvidence": {
+        "status": "Not applicable",
+        "evidence": "No production deployment is confirmed reachable at texasmovement.com from this session -- nothing here to evidence as 'current public surface' beyond the unresolved CNAME/DNS state above.",
+        "gapToClose": "Not applicable until G3 is resolved and an actual production deployment exists."
+      },
+      "indexingAndCrawlControlEvidence": {
+        "status": "Completed (code-level only)",
+        "evidence": "src/layouts/Layout.astro and src/pages/robots.txt.ts / sitemap.xml.ts tested this session, both PUBLIC_PREVIEW modes, via the repo's own `npm run ci`: preview mode emits noindex,nofollow + robots.txt Disallow: / + an empty sitemap.xml urlset; production mode (PUBLIC_PREVIEW=false) emits no noindex tag, robots.txt Allow: / + Sitemap: reference, and a 5-URL sitemap.xml. All re-verified this session against a fresh build.",
+        "gapToClose": "This evidences the code's behavior, not the deployed site's actual served output -- that requires G2's preview-inspection gap to close first, or a live production check post-launch."
+      },
+      "canonicalAndMetadataEvidence": {
+        "status": "Completed (code-level only)",
+        "evidence": "Canonical tag omitted entirely in preview mode (stricter than a leaked preview URL); real https://texasmovement.com canonical, OG, and JSON-LD in production mode -- confirmed by direct build inspection this session in both modes.",
+        "gapToClose": "Same caveat as indexing evidence above -- code-level only, not deployed-output verified."
+      },
+      "redirectAndLegacyHostingConflictEvidence": {
+        "status": "Partially evidenced",
+        "evidence": "public/_redirects contains a www.texasmovement.com -> texasmovement.com permanent (301) redirect rule, committed this project. This rule is inert until www.texasmovement.com is bound as a custom domain on the same Cloudflare Pages project.",
+        "gapToClose": "Same G3 gap -- the CNAME/GitHub-Pages conflict must be resolved before any redirect or custom-domain binding is attempted, per docs/infrastructure-owner-checklist.md's decision paths."
+      },
+      "claimsEditorialApprovalStatus": {
+        "status": "Not evidenced",
+        "evidence": "docs/LAUNCH_BLOCKERS.md documents unresolved items: hello@texasmovement.com not in VERIFIED_INBOXES (3-part operational verification incomplete); LinkedIn Company Page URL unconfirmed (two candidate URLs, neither approved); legal/org data (stateOfFormation, formationYear, mailingAddress) is TBD in packages/constants/src/org.ts.",
+        "gapToClose": "Owner confirms the general inbox is operationally live and monitored; owner supplies the correct LinkedIn Company Page URL; owner supplies real legal/organization data or explicitly defers it (currently not rendered anywhere, so it blocks nothing in the current build, only future legal-page content)."
+      },
+      "conversionDataFlowStatus": {
+        "status": "Partially evidenced",
+        "evidence": "VERIFIED_INBOXES is empty (confirmed via check-public-output.mjs's own printed state: 'verified inboxes: (none)', this session). No /contact page exists on this site by design -- the only contact surface is the homepage's primary CTA slot, which renders nothing because no inbox is verified. No fabricated address or endpoint exists anywhere in the codebase (confirmed by source grep this session).",
+        "gapToClose": "This is not a defect -- it is the correct, current, honest state. Closing it requires the same inbox verification named in claimsEditorialApprovalStatus above."
+      },
+      "analyticsTrackingStatus": {
+        "status": "Completed",
+        "evidence": "No analytics or tracking code of any kind exists in this repository's source -- confirmed by source inspection this session. No third-party script tags, no tracking pixels, no consent-management code.",
+        "gapToClose": "None -- this gate is satisfied by the current absence of any tracking. Adding analytics in the future would reopen this gate."
+      },
+      "accessibilityAndTechnicalValidationStatus": {
+        "status": "Completed",
+        "evidence": "Full `npm run ci` gate re-run this session: astro build (5 pages) in both PUBLIC_PREVIEW modes, check-public-output.mjs (0 errors both modes), check:constants --strict (0 errors), 31/31 unit tests, axe-core accessibility scan (0 violations across all 5 routes, wcag2a/wcag2aa/wcag21a/wcag21aa rule sets).",
+        "gapToClose": "None for the code as it stands. Re-run required after any future content or dependency change, per standard practice, not as an open item now."
+      },
+      "requiredOwnerDecisions": [
+        "Confirm or deny GitHub Pages is enabled for this repository",
+        "Confirm the current DNS state for texasmovement.com",
+        "Decide preserve/remove/replace for public/CNAME per docs/infrastructure-owner-checklist.md",
+        "Complete the 3-part hello@texasmovement.com operational verification, or decide the CTA stays absent",
+        "Supply the confirmed canonical LinkedIn Company Page URL",
+        "Supply or explicitly defer legal/organization data (formation year, state, mailing address)",
+        "Explicitly authorize G8 (see below) before any merge/deploy/domain step"
+      ],
+      "requiredTechnicalPrerequisites": [
+        "Cloudflare Pages custom-domain binding for texasmovement.com (owner/dashboard action, not a code change)",
+        "Cloudflare Pages custom-domain binding for www.texasmovement.com so the committed redirect activates",
+        "PUBLIC_PREVIEW=false set as a production-only environment variable on the Cloudflare Pages project",
+        "Confirmation of the Cloudflare Pages project's production-branch setting"
+      ],
+      "explicitReleaseBlockers": [
+        {"severity": "P0", "blocker": "GitHub Pages / Cloudflare Pages hosting conflict risk via public/CNAME -- unresolved, dashboard access required"},
+        {"severity": "P0", "blocker": "No owner release authorization (G8) recorded anywhere in this repository"},
+        {"severity": "P1", "blocker": "hello@texasmovement.com not operationally verified -- primary CTA absent"},
+        {"severity": "P1", "blocker": "LinkedIn Company Page URL unconfirmed"},
+        {"severity": "P2", "blocker": "Legal/organization data incomplete (blocks nothing currently rendered, blocks future legal-page content)"}
+      ],
+      "allowedPublicPostureBeforeRelease": "No public posture is currently authorized -- this repository has no confirmed live production deployment. If a preview deployment is inspected and confirmed noindex/nofollow by someone with network access, that preview may be used for internal/owner review only, never represented as a public destination.",
+      "prohibitedPublicPostureBeforeRelease": "Must not be represented as live, deployed, indexed, or reachable at texasmovement.com. Must not have any inbox, form, or CTA presented as functional. Must not have any social/LinkedIn URL presented as confirmed.",
+      "evidenceRequiredToCompleteEachGate": {
+        "G0": "Already complete.",
+        "G1": "Already complete for current state.",
+        "G2": "Screenshot or text confirmation of the Cloudflare Pages project's Settings > Builds & deployments (production branch) and Custom domains tabs, from someone with dashboard access.",
+        "G3": "Screenshot or text confirmation of GitHub repo Settings > Pages (source = None), plus DNS record export from the registrar/DNS provider, plus Cloudflare custom-domain tab state.",
+        "G4": "Once G2/G3 close and a real production URL exists, an independent fetch of that URL's robots.txt, sitemap, and page source from an environment with real network access.",
+        "G5": "Owner's explicit written confirmation (email, doc comment, or equivalent) for each item in requiredOwnerDecisions.",
+        "G6": "Owner's explicit decision on inbox verification, recorded in docs/LAUNCH_BLOCKERS.md or a successor doc.",
+        "G7": "Already complete; re-close after any future change via `npm run ci`.",
+        "G8": "A single explicit owner statement authorizing merge + deploy + domain binding, referencing this packet or its successor by commit SHA."
+      }
+    },
+    "alexandermathai.com": {
+      "intendedClassification": "Live (founder control tower)",
+      "currentRecommendedClassification": "Live candidate -- release-ready pending open gates below, not currently live",
+      "note": "This repository was NOT modified as part of producing this packet. All evidence below is read-only, drawn from local files already present in /workspace/alexandermathai.com and from GitHub API calls made this session.",
+      "repositoryAndBranchEvidence": {
+        "status": "Completed",
+        "evidence": "movementconsultant/alexandermathai.com, branch claude/founder-control-tower-rebuild, HEAD 1f753ed65371e61a5f9b22fc59e1f01b4a145923 (verified via GitHub API this session). Frozen fallback branch claude/alexander-mathai-placeholder / PR #1 confirmed untouched at f0fc58a537bf350cda28434e4e54c3a097bfb6ce.",
+        "gapToClose": "None."
+      },
+      "prStateEvidence": {
+        "status": "Completed",
+        "evidence": "PR #2, state=open, draft=true, mergeable_state=clean, base=main@3ad687933e639ee1e624f5a42b96d694d925ebb8 (unchanged), 8 commits, head matches current branch HEAD. PR #1 (fallback) independently confirmed: state=open, draft=true, unmerged, head unchanged at f0fc58a.",
+        "gapToClose": "None for current state."
+      },
+      "deploymentProviderEvidence": {
+        "status": "Partially evidenced",
+        "evidence": "A connected Cloudflare Pages project named 'alexandermathai' (same Cloudflare account id c98bb3dd9f79a1a49ad9af7c44cd1259 as texasmovement.com) auto-builds this branch on every push; latest GitHub Check run for commit 1f753ed is status=completed, conclusion=success (verified via GitHub Checks API this session).",
+        "gapToClose": "Same as texasmovement.com: preview content not inspected (EGRESS_BLOCKED), production-branch setting not visible from this session."
+      },
+      "domainDnsCustomDomainEvidence": {
+        "status": "Not evidenced",
+        "evidence": "No CNAME file exists anywhere in this repository -- confirmed by explicit search this session, so this repo carries none of texasmovement.com's specific legacy-hosting-conflict risk. public/_redirects contains a www.alexandermathai.com -> alexandermathai.com redirect rule, inert until the www subdomain is bound.",
+        "gapToClose": "Whether alexandermathai.com is bound as a Cloudflare Pages custom domain is unknown. Actual DNS records are unknown. Both require dashboard/registrar access this session does not have."
+      },
+      "currentPublicSurfaceEvidence": {
+        "status": "Not applicable",
+        "evidence": "No production deployment is confirmed reachable at alexandermathai.com from this session.",
+        "gapToClose": "Not applicable until domain binding is confirmed."
+      },
+      "indexingAndCrawlControlEvidence": {
+        "status": "Completed (code-level only)",
+        "evidence": "src/layouts/BaseLayout.astro and src/pages/robots.txt.ts, tested via a 60-test Playwright E2E suite added and run this session (38/38 preview-mode, 22/22 production-mode, both against real built output). Preview mode: noindex,nofollow on every route, robots.txt Disallow: /. Production mode: no noindex tag on any route except the intentionally-noindexed /404, robots.txt Allow: / plus Sitemap: reference.",
+        "gapToClose": "Code-level only, not deployed-output verified -- same caveat as texasmovement.com."
+      },
+      "canonicalAndMetadataEvidence": {
+        "status": "Completed (code-level only)",
+        "evidence": "Every route's canonical tag confirmed via the same E2E suite to point at https://alexandermathai.com and never localhost/pages.dev/0.0.0.0. Sitemap made lifecycle-aware this session (astro.config.mjs sitemap() filter) -- previously it emitted the full production URL list even in preview mode, a real gap found and fixed; now confirmed: no sitemap file at all in preview mode, full sitemap in production mode.",
+        "gapToClose": "Same caveat -- code-level only."
+      },
+      "redirectAndLegacyHostingConflictEvidence": {
+        "status": "Not evidenced (no known conflict, but unverified)",
+        "evidence": "www.alexandermathai.com -> alexandermathai.com redirect rule committed in public/_redirects. No CNAME/GitHub-Pages conflict risk identified for this repo specifically.",
+        "gapToClose": "Confirm no other legacy hosting configuration exists for this domain outside this repository (this session cannot check DNS or any other platform's dashboard)."
+      },
+      "claimsEditorialApprovalStatus": {
+        "status": "Not evidenced",
+        "evidence": "docs/CLAIMS_REVIEW.md and claims.registry.json (added this project, read-only reviewed this session): 41 unique claims extracted from every rendered content source. 40 are ownerDecision: pending. Exactly 1 (the site's own self-referential architecture claim) is ownerDecision: documented, as it is directly verifiable from the repository alone and asserts nothing about the founder's history or TMI's business.",
+        "gapToClose": "Owner works through docs/CLAIMS_REVIEW.md and marks each of the 40 pending claims Approve/Qualify/Remove. A separate editorial pass then applies those decisions to live copy -- neither step has occurred."
+      },
+      "conversionDataFlowStatus": {
+        "status": "Completed (inert by design)",
+        "evidence": "/contact form confirmed structurally incapable of transmitting data: no PUBLIC_CONTACT_ENDPOINT code path exists at all (removed this project), form has onsubmit=\"return false;\" (blocks native GET-with-querystring submission even without JS), and a dedicated E2E test fills all required fields, submits, and asserts no navigation/no network request/no implied-success message -- passed this session against real output.",
+        "gapToClose": "None for 'stays inert' -- that is fully evidenced. The separate, deferred decision (connect a real verified backend, or supply a verified alternate contact address) remains open and undecided, by design (see docs/mark-2-launch-plan.md 'Contact-form decision')."
+      },
+      "analyticsTrackingStatus": {
+        "status": "Completed",
+        "evidence": "No analytics/tracking code present -- confirmed by source inspection (an unused PUBLIC_PLAUSIBLE_DOMAIN env-key placeholder exists in src/data/site.ts but is read by nothing and set nowhere).",
+        "gapToClose": "None currently."
+      },
+      "accessibilityAndTechnicalValidationStatus": {
+        "status": "Completed",
+        "evidence": "astro check: 0 errors. prettier --check: clean. Build in both PUBLIC_PREVIEW modes: success, 17 pages. scripts/postbuild-guard.mjs hard checks: 0 violations both modes. Its claims-registry audit (non-blocking): all 41 registered claims found in built output, only 2 benign unmapped candidates (a copyright year, a form budget-range option). axe-core: 0 violations across 9 routes. Playwright E2E: 60/60 passed. All re-run this session.",
+        "gapToClose": "None for code as it stands. No unit-test suite exists in this repo (a pre-existing gap relative to sibling repos), not addressed this pass."
+      },
+      "requiredOwnerDecisions": [
+        "Work through all 40 pending items in docs/CLAIMS_REVIEW.md",
+        "Decide the contact-form backend path (connect a real backend, or supply a verified alternate address, or launch without one)",
+        "Manually verify each of the 11 social/ecosystem URLs before any is flipped to verified: true",
+        "Confirm the www.alexandermathai.com redirect and domain-binding plan",
+        "Explicitly authorize G8 before any merge/deploy/domain step"
+      ],
+      "requiredTechnicalPrerequisites": [
+        "Cloudflare Pages custom-domain binding for alexandermathai.com",
+        "Cloudflare Pages custom-domain binding for www.alexandermathai.com",
+        "PUBLIC_PREVIEW=false set as a production-only environment variable",
+        "Confirmation of the Cloudflare Pages project's production-branch setting"
+      ],
+      "explicitReleaseBlockers": [
+        {"severity": "P0", "blocker": "40 of 41 claims in docs/CLAIMS_REVIEW.md remain pending owner decision"},
+        {"severity": "P0", "blocker": "No owner release authorization (G8) recorded anywhere in this repository"},
+        {"severity": "P1", "blocker": "Contact-form backend decision undecided"},
+        {"severity": "P1", "blocker": "All 11 social/ecosystem URLs unverified"},
+        {"severity": "P2", "blocker": "No unit-test suite in this repo, unlike sibling repos in the ecosystem"}
+      ],
+      "allowedPublicPostureBeforeRelease": "No public posture is currently authorized -- no confirmed live production deployment exists. A confirmed-noindex preview may be used for internal/owner review only.",
+      "prohibitedPublicPostureBeforeRelease": "Must not be represented as live, deployed, or indexed. Must not present any founder claim as owner-approved. Must not present the contact form as functional. Must not present any social link as verified.",
+      "evidenceRequiredToCompleteEachGate": {
+        "G0": "Already complete.",
+        "G1": "Already complete for current state.",
+        "G2": "Same as texasmovement.com -- dashboard confirmation of production-branch and custom-domain settings.",
+        "G3": "Confirmation of custom-domain binding state and DNS records for alexandermathai.com and its www subdomain.",
+        "G4": "Independent fetch of the real deployed URL's robots.txt/sitemap/canonical once G2/G3 close.",
+        "G5": "Owner's explicit per-claim decisions recorded in docs/CLAIMS_REVIEW.md, then a separate editorial-application pass.",
+        "G6": "Owner's explicit contact-backend decision, recorded in docs/mark-2-launch-plan.md or a successor.",
+        "G7": "Already complete; re-close after any future change via the repo's own build/guard/E2E commands.",
+        "G8": "A single explicit owner statement authorizing merge + deploy + domain binding, referencing this packet or its successor by commit SHA."
+      }
+    }
+  },
+  "ownerEvidenceRequestChecklist": {
+    "githubRepositoryOwnership": [
+      "Confirm movementconsultant org ownership/admin access is retained by the intended owner",
+      "Confirm who has merge rights on texasmovement.com PR #1 and alexandermathai.com PR #2"
+    ],
+    "cloudflarePagesAndCustomDomainOwnership": [
+      "Confirm access to Cloudflare account id c98bb3dd9f79a1a49ad9af7c44cd1259 (the account both 'texasmovement' and 'alexandermathai' Pages projects were found under this session)",
+      "For each project, confirm: production branch setting, existing custom-domain bindings, environment variables currently set"
+    ],
+    "dnsAndRegistrarOwnership": [
+      "Confirm who controls DNS for texasmovement.com and alexandermathai.com",
+      "Export current A/ALIAS/CNAME records for both apex domains and their www subdomains"
+    ],
+    "currentLiveOrLegacyHostingSurfaces": [
+      "Confirm GitHub Pages Settings > Pages source for movementconsultant/texasmovement.com (the public/CNAME conflict risk)",
+      "Confirm whether any other legacy hosting (old registrar parking page, a prior static host, etc.) currently serves either domain"
+    ],
+    "searchIndexingVisibility": [
+      "If either domain has ever been indexed by a search engine previously, confirm what URLs/content are currently indexed so a launch plan can account for stale indexed content"
+    ],
+    "analyticsAndDataCollection": [
+      "Confirm whether any analytics/tracking is desired post-launch, and if so, which privacy-respecting service -- none is currently wired into either repo"
+    ],
+    "formsInboxBookingCheckoutCrmWebhooks": [
+      "Confirm hello@texasmovement.com is provisioned, receives mail, and is monitored on a stated cadence (the 3-part test in docs/LAUNCH_BLOCKERS.md, texasmovement.com)",
+      "Confirm the alexandermathai.com contact-form backend decision (Option A: connect a real service, or Option B: supply a verified alternate address)",
+      "Confirm no booking/checkout/CRM/webhook integration is expected at launch for either hub -- none exists in either repo currently"
+    ],
+    "founderClaimApprovalForAlexanderMathaiCom": [
+      "Work through all 40 pending items in alexandermathai.com's docs/CLAIMS_REVIEW.md and return an Approve/Qualify/Remove decision for each"
+    ],
+    "legalPrivacyEditorialOwnerReview": [
+      "Supply or explicitly defer texasmovement.com's legal/organization data (formation year, state, mailing address)",
+      "Confirm the canonical LinkedIn Company Page URL for texasmovement.com",
+      "Review and approve (or request changes to) the honest 'policy content pending' stub language on both hubs' /privacy (and texasmovement.com's /terms, /accessibility) pages before those pages go live indexable"
+    ]
+  },
+  "safeInterimPosture": {
+    "texasmovementCom": {
+      "mayRemainPubliclyVisible": "Nothing -- no production deployment is confirmed to exist. If/when a Cloudflare preview is inspected and confirmed noindex, it may be shared for internal owner review only.",
+      "mustRemainNonActionable": "The homepage's primary CTA slot (already renders nothing, by design, until hello@texasmovement.com is verified); every ecosystem division link (already non-clickable per ECOSYSTEM_MAP, all badges building/private).",
+      "mustNotBeRepresentedAsOperational": "TMI as an organization with a live public hub; any division as active/available/publishing beyond its current Building/Private badge; the LinkedIn presence (currently held pending confirmation and excluded from all output)."
+    },
+    "alexandermathaiCom": {
+      "preserveFrozenFallback": "claude/alexander-mathai-placeholder / PR #1 remains untouched, unmerged, and is not to be modified, closed, or deleted by any future pass unless the owner explicitly instructs otherwise.",
+      "founderClaimsStatus": "Every founder biography, metric, timeline, and credential claim (41 total, see docs/CLAIMS_REVIEW.md) remains pending owner decision. None may be treated as approved, confirmed, or launch-safe until the owner explicitly marks it so in that document.",
+      "mayRemainPubliclyVisible": "Nothing -- no production deployment is confirmed to exist. Same preview-only caveat as texasmovement.com."
+    },
+    "allNonHubVerticals": {
+      "rule": "Preserve every classification already recorded in docs/ecosystem-release-matrix.md exactly as-is: Building (Consulting, Media, Performance, Distribution, Social), Building/Private (FounderLink, Health, Reparations), External storefront / internally unaudited (HERO). Do not link to any of these from either hub as an active product, service, or destination. Both hubs' own code already enforces this (ECOSYSTEM_MAP badges, verified:false gating) -- this posture requires no new action, only continued non-action."
+    }
+  },
+  "validationNotes": {
+    "jsonValidated": "This file and docs/mark-2-1-hub-release-control-packet.json (same file) parsed successfully with node -e \"JSON.parse(...)\" this session.",
+    "sensitiveWordScan": "The companion Markdown file was grepped for: live, verified, production, operational, safe, ready, launch, deploy, approved. Every occurrence was reviewed to confirm it either names a future gate/state, is explicitly negated ('not live', 'not verified'), or refers to a real, cited piece of evidence (e.g. a GitHub Check run's own 'success' conclusion) rather than asserting the hub itself is live/safe/ready.",
+    "gitDiffScope": "Only documentation files were changed: this JSON file and its companion Markdown file, plus narrowly-scoped dated clarification notes (if any) to docs/ecosystem-release-matrix.md and docs/mark-2-ecosystem-handoff.md. No application, configuration, infrastructure, domain, form, analytics, or external-service file was modified."
+  }
+}

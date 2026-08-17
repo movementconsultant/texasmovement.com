@@ -1,0 +1,178 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+
+const title = pageTitle("tmi", "Ecosystem");
+const description =
+  "How Texas Movement International is structured: which routes are being built, which stay private for now, and which sit outside this hub entirely.";
+
+// Route-level maturity map for this page only. Deliberately NOT sourced from
+// ECOSYSTEM_MAP (src/lib/site.ts) — that registry describes the wider,
+// still-largely-unbuilt multi-repo TMI ecosystem (separate sub-property
+// repos/subdomains) and uses a 3-value badge ("building"/"private"/"live")
+// that has no slot for HERO's actual classification ("External storefront /
+// internally unaudited" — see docs/ecosystem-release-matrix.md). This page
+// instead describes the routes actually implemented in this repo (Mark 4)
+// plus the four intentionally non-public verticals and alexandermathai.com,
+// each with its own restrained, accurate status line.
+interface EcosystemRow {
+  label: string;
+  status: string;
+  body: string;
+  href: string | null;
+}
+
+const buildingRoutes: EcosystemRow[] = [
+  {
+    label: "Consulting",
+    status: "Building — planned TMI route",
+    body: "Future advisory and systems capability lane. No engagement pathway is active.",
+    href: "/consulting",
+  },
+  {
+    label: "Media",
+    status: "Building — planned TMI route",
+    body: "Future editorial and media-discovery lane. No programming is presented as currently active.",
+    href: "/media",
+  },
+  {
+    label: "Performance",
+    status: "Building — planned TMI route",
+    body: "Future non-clinical movement and training lane. No coaching or medical offer is active.",
+    href: "/performance",
+  },
+  {
+    label: "Distribution",
+    status: "Building — planned TMI route",
+    body: "Future content-distribution and media-operations capability lane, supporting Media and Consulting.",
+    href: "/distribution",
+  },
+  {
+    label: "Partners",
+    status: "Building — planned TMI route",
+    body: "Future route for strategic collaboration and partnership pathways. Pathways are not active.",
+    href: "/partners",
+  },
+];
+
+const heroRow: EcosystemRow = {
+  label: "HERO",
+  status: "External storefront / internally unaudited",
+  body: "A separate, externally operated storefront/product property. Not built or hosted in this repository, and not audited from this hub.",
+  href: "/hero",
+};
+
+const privateRows: EcosystemRow[] = [
+  {
+    label: "Health",
+    status: "Private",
+    body: "Research-stage only. No public claim, offer, contact route, or health guidance of any kind.",
+    href: null,
+  },
+  {
+    label: "FounderLink",
+    status: "Private",
+    body: "Internal, concept-stage only. No public network, membership, or intake exists.",
+    href: null,
+  },
+  {
+    label: "Social / Gather",
+    status: "Building — incubation, purpose undefined",
+    body: "Its own purpose is still the prerequisite deliverable. No community, event, or engagement promise exists.",
+    href: null,
+  },
+  {
+    label: "Reparations",
+    status: "Private",
+    body: "Future research or advocacy work only. No public claim, offer, or call to action.",
+    href: null,
+  },
+];
+---
+
+<Layout title={title} description={description} path="/ecosystem">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>ECOSYSTEM</Eyebrow>
+        <h1>How this is structured.</h1>
+        <p>
+          Texas Movement International runs on exactly one active hub repository today —
+          this site. The routes below are being built inside it, one at a time, named honestly
+          rather than presented as available before they're ready. A separate, more detailed
+          architectural map — including the institutional core and founder layer — lives on
+          <a href="/lanes">the ecosystem map</a>.
+        </p>
+      </div>
+    </section>
+
+    <section id="planned-routes" class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>PLANNED / BUILDING TMI ROUTES</Eyebrow>
+        <h2>Being built inside this hub.</h2>
+        <div class="divisions-grid">
+          {buildingRoutes.map((row) => (
+            <div class="division">
+              <div class="division-label">{row.label}</div>
+              <p class="division-body">{row.body}</p>
+              <div class="division-links">
+                <a href={row.href}>{row.label} →</a>
+              </div>
+              <span class="division-status">{row.status}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="external" class="section">
+      <div class="wrap">
+        <Eyebrow>EXTERNAL PROPERTY</Eyebrow>
+        <h2>Outside this hub, unaudited.</h2>
+        <div class="divisions-grid">
+          <div class="division">
+            <div class="division-label">{heroRow.label}</div>
+            <p class="division-body">{heroRow.body}</p>
+            <div class="division-links">
+              <a href={heroRow.href}>Read the HERO context page →</a>
+            </div>
+            <span class="division-status">{heroRow.status}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="private" class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>PRIVATE / INCUBATING</Eyebrow>
+        <h2>Not public offers.</h2>
+        <p>
+          These are named for completeness only. None has a public route, a contact path, or a
+          call to action anywhere on this site.
+        </p>
+        <div class="divisions-grid">
+          {privateRows.map((row) => (
+            <div class="division">
+              <div class="division-label">{row.label}</div>
+              <p class="division-body">{row.body}</p>
+              <span class="division-status">{row.status}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="founder-context" class="section">
+      <div class="wrap">
+        <Eyebrow>FOUNDER CONTEXT</Eyebrow>
+        <h2>alexandermathai.com.</h2>
+        <p>
+          The founder maintains a separate editorial and identity site, alexandermathai.com,
+          mentioned here for context only. It is not a TMI service route, and this page does not
+          link to it.
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>

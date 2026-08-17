@@ -1,0 +1,138 @@
+{
+  "packetName": "Mark 9 Controlled TMM Feed Implementation and Content Seeding",
+  "generated": "2026-08-16",
+  "sourceBranch": "claude/texas-movement-rebuild-pq14fo",
+  "sourceRepository": "movementconsultant/texasmovement.com",
+  "purpose": "Documents the controlled, static, build-time TMM editorial index now rendered at /media: a local content collection seeded with exactly three structural placeholder records, rendered through new Astro components with a strict, multi-condition gate on any future outbound link. This is a public-rendering implementation pass, not a production release, API integration, account-verification, or conversion pass. No real media has been verified, linked, embedded, published, or ingested.",
+  "companionDocuments": [
+    "docs/mark-9-controlled-tmm-feed-implementation.md (same content, readable)",
+    "docs/internal/mark-9-media-placeholder-owner-update-guide.md (internal-only -- exact fields/evidence an owner needs to advance a placeholder)",
+    "docs/internal/mark-8-tmm-unified-media-feed-architecture.md / .json (the governance model this implementation is a narrow, first slice of)",
+    "docs/internal/mark-8-1-source-identity-reconciliation.md / .json (the owner-asserted source labels this seed data cites)"
+  ],
+
+  "partA_phaseShiftRecord": {
+    "supersededRestrictions": [
+      "\"Do not render media data.\"",
+      "\"Keep /media only as a Building placeholder.\"",
+      "\"Do not add external links.\"",
+      "\"Do not create a media collection or public media index.\"",
+      "\"Do not create public media-card UI.\"",
+      "\"Do not create approved static link-out structures.\""
+    ],
+    "supersededScopeLimitedTo": [
+      "/media route rendering",
+      "the local 'media' data collection (src/content/media/, src/content.config.ts)",
+      "static owner-review placeholder records",
+      "the controlled, multi-condition-gated future static link-rendering capability built into MediaCard.astro (not activated by any seeded record in this pass)"
+    ],
+    "allOtherMark7Through8SafetyRestrictionsRemainInForce": true,
+    "note": "This phase shift did not authorize, and this pass did not perform: API integration, RSS/feed automation, account verification, embeds, iframes, media publication, claims approval, or any infrastructure/deployment/domain change."
+  },
+
+  "partB_collectionSchema": {
+    "location": "src/lib/media-schema.ts (zod schema) + src/content.config.ts (defineCollection, glob loader) + src/content/media/*.json (data)",
+    "loader": "astro/loaders glob({ pattern: '**/*.json', base: './src/content/media' }) -- reads local files only, at build time only. No network request of any kind.",
+    "fields": [
+      { "field": "id", "type": "string" },
+      { "field": "slug", "type": "string" },
+      { "field": "status", "values": ["placeholder", "owner-review-required", "approved-static-index"] },
+      { "field": "sourceClass", "values": ["TMI", "TMM", "founder-AVM", "HERO", "approved-vertical", "third-party-with-permission"] },
+      { "field": "sourceLabel", "type": "string" },
+      { "field": "platform", "type": "string" },
+      { "field": "format", "type": "string" },
+      { "field": "title", "type": "string" },
+      { "field": "summary", "type": "string" },
+      { "field": "publicationDate", "type": "string | null" },
+      { "field": "publicationDateStatus", "values": ["placeholder", "owner-confirmation-required", "evidenced"] },
+      { "field": "canonicalUrl", "type": "url | null" },
+      { "field": "canonicalUrlStatus", "values": ["placeholder", "owner-confirmation-required", "owner-supplied"] },
+      { "field": "transcriptStatus", "values": ["absent", "owner-review-required", "supplied"] },
+      { "field": "accessibilityStatus", "values": ["pending", "owner-review-required", "reviewed"] },
+      { "field": "rightsStatus", "values": ["absent", "owner-asserted", "owner-review-required", "approved-for-static-index"] },
+      { "field": "claimsStatus", "values": ["no-claims-rendered", "owner-review-required"] },
+      { "field": "editorialStatus", "values": ["placeholder", "internal-review-required", "approved-for-static-index"] },
+      { "field": "ownerApprovalStatus", "values": ["pending", "owner-confirmation-required", "approved-static-index"] },
+      { "field": "publicDisplayStatus", "values": ["placeholder-public-index", "internal-only", "approved-static-index"] },
+      { "field": "linkMode", "values": ["no-link", "owner-supplied-external-link"] },
+      { "field": "imageStatus", "values": ["no-image", "local-approved-image"] },
+      { "field": "imageAlt", "type": "string" },
+      { "field": "crossAttributionStatus", "values": ["prohibited-pending-per-item-approval", "owner-approved-static-index"] },
+      { "field": "attributionNote", "type": "string" },
+      { "field": "internalOnlyNotes", "type": "string (never rendered on the public page)" },
+      { "field": "updatedAt", "type": "string" }
+    ],
+    "stateProgressionExplicitDifference": {
+      "placeholder": "The default, structural-only state every field starts at. No real evidence exists yet. This is what all three seeded records use for every status field.",
+      "ownerSupplied": "The owner has entered a specific value (e.g. a canonicalUrl) -- this alone does NOT make it publicly linkable; it only means the field is no longer blank.",
+      "internallyReviewed": "An editorial/rights/accessibility/claims reviewer has checked the owner-supplied value against docs/internal/mark-8-tmm-source-verification-checklist.md and docs/internal/mark-8-tmm-unified-media-feed-architecture.md gates G-M1-G-M8.",
+      "futureApprovedStaticIndex": "The terminal state (status/editorialStatus/ownerApprovalStatus/publicDisplayStatus all reaching their strongest value) required before MediaCard.astro's link-rendering gate can ever be satisfied for that record."
+    },
+    "explicitProhibitionOnAssumedAdvancement": "No record's status field may be changed from its current value based on inference, familiarity, prior mention elsewhere, or assumption. Every status change requires the specific evidence artifact that status value represents, per docs/internal/mark-9-media-placeholder-owner-update-guide.md."
+  },
+
+  "partC_publicRenderingRules": {
+    "conditionsForRenderingNoLink": "Default. Any record where linkMode is 'no-link' (all three seeded records) renders no anchor element, no button, and no clickable surface for its source destination.",
+    "conditionsRequiredForFutureStaticExternalLinkSupport": [
+      "linkMode === 'owner-supplied-external-link'",
+      "canonicalUrl is a syntactically valid http(s) URL (checked defensively in MediaCard.astro via the URL constructor)",
+      "canonicalUrlStatus === 'owner-supplied'",
+      "publicDisplayStatus === 'approved-static-index'",
+      "ownerApprovalStatus === 'approved-static-index'",
+      "status !== 'placeholder'"
+    ],
+    "allSixConditionsRequiredSimultaneously": true,
+    "conditionsRequiredForFutureInternalDetailPage": "Not built or authorized in this pass. MediaCard.astro's own code comment states a card may use an internal link only if an actual approved /media/[slug]-equivalent route exists -- none does.",
+    "conditionsRequiredForFutureEmbedConsideration": "Not built or authorized in this pass -- see docs/internal/mark-8-tmm-unified-media-feed-architecture.json partC_futureFeedModes, Mode 3 (Approved embed mode), none of whose prerequisites have been met.",
+    "explicitProhibitionOnApiRssAutomation": "No API call, RSS fetcher, webhook, OAuth flow, or any other automatic ingestion mechanism exists anywhere in this implementation. The loader used (astro/loaders glob) reads only local files already committed to this repository at build time."
+  },
+
+  "partD_placeholderInventory": [
+    {
+      "id": "tmm-youtube-placeholder",
+      "sourceClass": "TMM", "sourceLabel": "Texasmovementmedia", "platform": "YouTube",
+      "placeholderStatus": "placeholder (every status field)",
+      "intentionallyAbsentFields": ["publicationDate", "canonicalUrl", "image", "transcript", "any metric"],
+      "whyNoExternalUrlDateImageMetricEmbedOrCta": "No owner-supplied evidence exists yet for this record's ownership, rights, publication date, or content -- rendering any of those without evidence would misrepresent an unverified assertion as a fact"
+    },
+    {
+      "id": "tmi-substack-placeholder",
+      "sourceClass": "TMI", "sourceLabel": "texasmovement", "platform": "Substack",
+      "placeholderStatus": "placeholder (every status field)",
+      "intentionallyAbsentFields": ["publicationDate", "canonicalUrl", "image", "transcript", "any metric"],
+      "whyNoExternalUrlDateImageMetricEmbedOrCta": "Same as above"
+    },
+    {
+      "id": "founder-short-form-placeholder",
+      "sourceClass": "founder-AVM", "sourceLabel": "alexandervmathai", "platform": "Instagram/TikTok",
+      "placeholderStatus": "placeholder (every status field)",
+      "intentionallyAbsentFields": ["publicationDate", "canonicalUrl", "image", "transcript", "any metric"],
+      "whyNoExternalUrlDateImageMetricEmbedOrCta": "Same as above, plus: founder-associated media is never automatically TMI/TMM content per docs/internal/mark-8-tmm-unified-media-feed-architecture.md Part B -- this record's crossAttributionStatus stays 'prohibited-pending-per-item-approval'"
+    }
+  ],
+
+  "partF_testAndReleasePosture": {
+    "commandsRunThisPass": {
+      "typecheck": "npm run typecheck -- 0 errors, 0 warnings, 0 hints (33 files)",
+      "test": "npm run test (typecheck + check:constants + test:unit) -- all green",
+      "testUnit": "npm run test:unit -- 68 passed, 0 failed (50 pre-existing + 18 new in tests/media-index.test.ts)",
+      "checkConstants": "npm run check:constants -- 0 errors, 46 pre-existing unrelated drift warnings (unchanged)",
+      "buildPreview": "npm run build -- 13 pages, postbuild guard 0 errors",
+      "buildProduction": "PUBLIC_PREVIEW=false npm run build -- 13 pages, postbuild guard 0 errors; manually confirmed zero unexpected <a> tags, correct canonical URL, correct 'index, follow' robots meta on /media",
+      "ci": "npm run ci (build + check:constants + test:unit + test:a11y) -- all green",
+      "testA11y": "npm run test:a11y -- 0 axe-core violations across all 13 routes including /media"
+    },
+    "existingReleaseBlockersUnresolved": [
+      "hello@texasmovement.com not yet operationally verified (docs/LAUNCH_BLOCKERS.md) -- unaffected by this pass",
+      "The public/CNAME legacy GitHub Pages conflict flagged since Mark 2 -- unaffected by this pass",
+      "All Mark 5/7/8 proof-registry and source-identity entries remain 'absent'/'owner-asserted', not independently verified -- unaffected by this pass"
+    ],
+    "explicitConfirmation": "This implementation does not authorize merge, domain binding, production deployment, API integration, account verification, media publication, external linking for any placeholder record, or conversion. All three seeded records remain fully inert placeholders."
+  },
+
+  "validationNotes": {
+    "jsonValidated": "This file parsed successfully with node -e \"JSON.parse(...)\" this session.",
+    "distInspectionPerformed": "Both PUBLIC_PREVIEW modes built and manually inspected: zero unexpected <a>/<img>/<iframe> tags, zero dates, zero metrics rendered on /media in either mode.",
+    "gitDiffScopeConfirmed": "git status confirms changes limited to: src/pages/media.astro, src/styles/global.css (new CSS classes only), src/components/media/ (new), src/content.config.ts (new), src/content/media/*.json (new), src/lib/media-schema.ts (new), tests/media-index.test.ts (new), plus the three Mark 9 documentation files. No other route, no package/lockfile, no infrastructure file changed."
+  }
+}

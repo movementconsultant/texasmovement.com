@@ -1,0 +1,119 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import MediaGrid from "@/components/media/MediaGrid.astro";
+import LatestSignalRail from "@/components/media/LatestSignalRail.astro";
+import { pageTitle } from "@tmi/constants";
+import { hubRoute } from "@/lib/hub-routes";
+import { getCollection } from "astro:content";
+import { getConfirmedDestinations, groupDestinationsBySourceClass } from "@/lib/media-destinations";
+
+const title = pageTitle("tmi", "Media");
+const description =
+  "Texas Movement Media's editorial index lists owner-confirmed static source destinations for Texas Movement Media, Texas Movement editorial, and founder media. These are source references only — no individual media items, dates, metrics, or embeds are published yet.";
+const posture = hubRoute("/media")!.postureLabel!;
+
+const allMediaEntries = await getCollection("media");
+const confirmedDestinations = getConfirmedDestinations(allMediaEntries);
+const destinationGroups = groupDestinationsBySourceClass(confirmedDestinations);
+---
+
+<Layout title={title} description={description} path="/media">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>MEDIA</Eyebrow>
+        <h1>Texas Movement Media.</h1>
+        <span class="division-status">{posture}</span>
+        <p>
+          Texas Movement Media (TMM) is the media and editorial-distribution function within Texas
+          Movement International — the part of the ecosystem responsible for recording and
+          explaining the work, not performing it. Below is a static source-destination index, not a
+          live channel directory or a feed.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>PLANNED PROGRAMMING</Eyebrow>
+        <h2>Where this lane is headed.</h2>
+        <p>
+          Planned programming categories, all still concepts rather than a published schedule:
+          sports and performance culture, systems and founder-perspective commentary, and
+          behind-the-build documentation of the rest of the ecosystem. Any future series or playlist
+          concept referenced from this site will be explicitly marked planned until it exists.
+        </p>
+        <div class="divisions-grid">
+          <div class="division">
+            <div class="division-label">PLACEHOLDER MODULE</div>
+            <div class="division-title">Programming architecture — not yet built.</div>
+            <p class="division-body">
+              No view count, subscriber figure, recent-post list, or embedded video appears on this
+              page. Nothing here should be read as a statement that programming is currently active.
+            </p>
+          </div>
+        </div>
+        <div class="stub-note">
+          There is no newsletter signup, sponsorship solicitation, or contact route on this page.
+          See the <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest
+          of Texas Movement International.
+        </div>
+      </div>
+    </section>
+
+    <section id="records" class="section" aria-labelledby="confirmed-destinations-heading">
+      <div class="wrap">
+        <Eyebrow>CONFIRMED SOURCE DESTINATIONS</Eyebrow>
+        <h2 id="confirmed-destinations-heading">Owner-confirmed source destinations.</h2>
+        <p>
+          Each card below is a static, owner-confirmed source destination — not a feed, not an
+          individual media item, and not a live or automated listing. Links are fixed at build time
+          from a local, owner-reviewed data file; nothing here is fetched from any platform API, RSS
+          feed, or embed. Founder-associated destinations are separately attributed and are not
+          automatically Texas Movement International or Texas Movement Media editorial content.
+        </p>
+
+        {destinationGroups.map((group) => (
+          <div class="media-source-group" aria-labelledby={`media-group-${group.sourceClass}`}>
+            <h3 id={`media-group-${group.sourceClass}`} class="media-source-group-heading">
+              {group.label}
+            </h3>
+            {group.destinations.length > 0 ? (
+              <MediaGrid destinations={group.destinations} />
+            ) : (
+              <p class="media-source-group-empty">No confirmed destinations in this group yet.</p>
+            )}
+          </div>
+        ))}
+
+        <div class="stub-note">
+          In this section, source destinations are static references only: no individual video,
+          post, or episode is indexed, dated, described, or embedded, and no follower, view, or
+          subscriber figure is shown. Full editorial approval for an individual media item is
+          governed separately, under its own review gates, and no item has cleared that process
+          yet. See docs/internal/mark-11-media-source-confirmation-and-review.md (repository
+          documentation, not published on this site) for the owner review checklist covering these
+          destinations.
+        </div>
+      </div>
+    </section>
+
+    <section id="latest-signal" class="section section--panel" aria-labelledby="latest-signal-heading">
+      <div class="wrap">
+        <Eyebrow>LATEST SIGNAL</Eyebrow>
+        <h2 id="latest-signal-heading">Automatically retrieved, not individually reviewed.</h2>
+        <p>
+          Unlike the confirmed destinations above, this list is fetched at build time from the TMM
+          YouTube channels' own feeds — title, date, and a direct link only, never a thumbnail,
+          description, or metric. Individual items here have not passed the full editorial review
+          (G-M1 through G-M8) that governs a published media item; they are automatically retrieved
+          references, not an editorial judgment about any specific video. See
+          docs/mark-13-latest-signal-implementation.md (repository documentation, not published on
+          this site) for the governance basis for this exception.
+        </p>
+        <LatestSignalRail />
+      </div>
+    </section>
+  </main>
+</Layout>

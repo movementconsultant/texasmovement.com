@@ -1,0 +1,102 @@
+---
+// src/components/media/LatestSignalRail.astro
+//
+// The "Latest Signal" rail. Renders up to 4 recent YouTube videos across
+// the two owner-confirmed TMM channels (title, date, link only — no
+// thumbnail, no metric, no description) or a static fallback note when
+// channel-ID resolution or the build-time fetch fails. Per the Mark 13/14
+// governance decision, these items are exempt from per-item G-M8 review as
+// "Raw Telemetry," conditional on the guardrails below and the visible
+// disclosure. See docs/mark-13-latest-signal-implementation.md and
+// src/lib/telemetry/youtubeSignal.ts.
+import { getLatestSignalItems } from "@/lib/telemetry/youtubeSignal";
+
+const result = await getLatestSignalItems();
+---
+
+<div class="latest-signal-rail">
+  {
+    result.status === "ok" ? (
+      <>
+        <ul class="latest-signal-list">
+          {result.items.map((item) => (
+            <li>
+              <span class="latest-signal-channel">{item.channelLabel}</span>
+              <a href={item.link} target="_blank" rel="noopener noreferrer" class="latest-signal-title">
+                {item.title}
+              </a>
+              {item.publishedAt && (
+                <time class="latest-signal-date" datetime={item.publishedAt}>
+                  {new Date(item.publishedAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </time>
+              )}
+            </li>
+          ))}
+        </ul>
+        <p class="latest-signal-disclosure">
+          Automatically retrieved from YouTube at build time — not individually reviewed. See the
+          confirmed channel destinations above for the source directly.
+        </p>
+      </>
+    ) : (
+      <div class="stub-note">
+        The Latest Signal automated index isn't available for this build. See the confirmed TMM
+        YouTube destinations above for the channels directly.
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .latest-signal-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .latest-signal-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    padding-block: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .latest-signal-channel {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .latest-signal-title {
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    text-decoration: none;
+  }
+
+  .latest-signal-title:hover {
+    border-bottom-color: var(--ink);
+  }
+
+  .latest-signal-date {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    margin-left: auto;
+  }
+
+  .latest-signal-disclosure {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-top: 10px;
+  }
+</style>

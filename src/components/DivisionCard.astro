@@ -1,0 +1,57 @@
+---
+interface LinkItem {
+  label: string;
+  href: string;
+  /** true when the destination property's status !== "live" — see
+   *  isLiveProperty() in src/lib/site.ts. Renders as plain text with a
+   *  "building" note instead of a clickable link, per the common brief's
+   *  live-only-link rule. Content (label) is still shown — nothing is
+   *  dropped, only the link is disabled until the property goes live. */
+  building?: boolean;
+}
+
+interface Props {
+  label: string;
+  title: string;
+  body: string;
+  links?: LinkItem[];
+  variant?: "default" | "hero";
+  /** Badge shown when links is empty — "building" (default) or "private" are
+   *  the only two this component actually expects to receive with no
+   *  `links`. "live" is accepted for type compatibility with
+   *  `EcosystemBadge` (src/lib/site.ts) but is not a meaningful no-links
+   *  state: a property that's genuinely live should be passed real `links`
+   *  instead, not `status="live"` with an empty array — that combination
+   *  would be a content bug at the call site, not something this component
+   *  can render correctly on its own. */
+  status?: "building" | "private" | "live";
+}
+
+const { label, title, body, links = [], variant = "default", status = "building" } = Astro.props;
+
+const linkClass = variant === "hero" ? "hero-link" : undefined;
+const statusText =
+  status === "private"
+    ? "Private — not public yet"
+    : status === "live"
+      ? "Live — see links above"
+      : "Building — not yet live";
+---
+
+<article class:list={["division", { "division--hero": variant === "hero" }]}>
+  <div class="division-label">{label}</div>
+  <div class="division-title">{title}</div>
+  <p class="division-body">{body}</p>
+  {links.length > 0 && (
+    <div class="division-links">
+      {links.map((l) =>
+        l.building ? (
+          <span class="division-status">{l.label} — building, not yet live</span>
+        ) : (
+          <a href={l.href} class={linkClass}>{l.label}</a>
+        )
+      )}
+    </div>
+  )}
+  {links.length === 0 && <span class="division-status">{statusText}</span>}
+</article>

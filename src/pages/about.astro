@@ -1,0 +1,54 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { ORG } from "@tmi/constants";
+
+const title = pageTitle("tmi", "About");
+const description =
+  "How Texas Movement International approaches its work: operating principles and an inside-out build posture, not a claims or availability page.";
+---
+
+<Layout title={title} description={description} path="/about">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>ABOUT</Eyebrow>
+        <h1>Texas Movement International.</h1>
+        <p>{ORG.boilerplate}</p>
+        <p>
+          The name covers one institutional core and a set of divisions, each responsible for one
+          clearly defined job. Not every division is public yet, and none of the pages linked from
+          this site should be read as an announcement that a service, product, membership, or
+          contact channel is currently open. See the <a href="/ecosystem">ecosystem overview</a> for
+          an honest account of what exists today and what is still being built.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>HOW THIS IS BUILT</Eyebrow>
+        <h2>Operating principles.</h2>
+        <p>
+          This organization is built inside-out: the institutional core and its internal standards
+          come first, and each public-facing division only opens once its own scope, safeguards,
+          and evidence are in place — not on a promotional timeline. A division named on this site
+          is not the same thing as a division that is open for business.
+        </p>
+        <p>
+          Category-level focus, not a single product: performance and movement, media and
+          documentation, applied systems and consulting work, and a small set of longer-horizon
+          research and community efforts that stay intentionally private until their own governance
+          is settled. Where a division's scope touches health, legal, or safety-sensitive subject
+          matter, it is held to a higher review standard before any public claim is made.
+        </p>
+        <div class="stub-note">
+          This page describes an operating approach, not a biography, a company history, or a list
+          of results. It does not include a founder biography, historical or numerical claims, or
+          any live contact path — those are handled separately, on their own approval track.
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

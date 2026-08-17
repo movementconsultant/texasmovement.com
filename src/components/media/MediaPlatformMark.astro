@@ -1,0 +1,27 @@
+---
+// src/components/media/MediaPlatformMark.astro
+//
+// Mark 11 — a restrained, text-only platform indicator (never a fetched
+// platform logo, never a platform brand color). The full platform name is
+// always shown as visible text alongside this mark elsewhere in the card,
+// so this abbreviation is decorative (aria-hidden) rather than an
+// icon-only control.
+interface Props {
+  platform: string;
+}
+
+const { platform } = Astro.props;
+
+const ABBREVIATIONS: Record<string, string> = {
+  YouTube: "YT",
+  Instagram: "IG",
+  TikTok: "TT",
+  Substack: "SUB",
+  LinkedIn: "IN",
+  Facebook: "FB",
+};
+
+const abbreviation = ABBREVIATIONS[platform] ?? platform.slice(0, 2).toUpperCase();
+---
+
+<span class="media-platform-mark" aria-hidden="true">{abbreviation}</span>

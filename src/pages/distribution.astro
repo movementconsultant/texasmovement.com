@@ -1,0 +1,56 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { hubRoute } from "@/lib/hub-routes";
+
+const title = pageTitle("tmi", "Distribution");
+const description =
+  "Texas Movement Distribution is a future content-distribution and media-operations capability lane. Building — not yet live. No service is currently active.";
+const posture = hubRoute("/distribution")!.postureLabel!;
+---
+
+<Layout title={title} description={description} path="/distribution">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>DISTRIBUTION</Eyebrow>
+        <h1>Texas Movement Distribution.</h1>
+        <span class="division-status">{posture}</span>
+        <p>
+          Distribution is a future content-distribution and media-operations capability lane — an
+          internal systems function supporting Media's and Consulting's own work, not a
+          client-facing service on its own. The description below is a neutral systems outline, not
+          an active offer.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>PLANNED CAPABILITY</Eyebrow>
+        <h2>Where this lane is headed.</h2>
+        <p>
+          Planned scope: content packaging, release operations, metadata and repurposing systems,
+          and a distribution playbook the rest of the ecosystem can reuse. No audience-growth
+          guarantee, performance metric, client-work claim, or platform integration is described or
+          implied here.
+        </p>
+        <div class="divisions-grid">
+          <div class="division">
+            <div class="division-label">PLANNED WORKFLOW MODULE</div>
+            <div class="division-title">Not yet built.</div>
+            <p class="division-body">
+              No external platform link, service package, or pricing appears on this page.
+            </p>
+          </div>
+        </div>
+        <div class="stub-note">
+          There is no contact path or intake mechanism on this page. See the
+          <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest of Texas
+          Movement International.
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

@@ -1,0 +1,310 @@
+{
+  "packetName": "Mark 4 TMI Hub Route Architecture and Safe Scaffold Specification",
+  "generated": "2026-08-16",
+  "sourceBranch": "claude/texas-movement-rebuild-pq14fo",
+  "sourceRepository": "movementconsultant/texasmovement.com",
+  "purpose": "Documents the eight new local hub routes implemented in this pass (/about, /ecosystem, /consulting, /media, /performance, /distribution, /hero, /partners): a durable, restrained information architecture for texasmovement.com that does not claim any service, contact channel, commerce, membership, event, health guidance, legal advice, or operational offering is currently active.",
+  "infrastructureContext": {
+    "canonicalCloudflarePagesProjects": [
+      {
+        "repository": "movementconsultant/texasmovement.com",
+        "cloudflarePagesProject": "texasmovement",
+        "defaultDeploymentUrl": "texasmovement.pages.dev",
+        "role": "canonical Texas Movement International umbrella hub"
+      },
+      {
+        "repository": "movementconsultant/alexandermathai.com",
+        "cloudflarePagesProject": "alexandermathai",
+        "defaultDeploymentUrl": "alexandermathai.pages.dev",
+        "role": "separate founder/editorial site, not touched by this task"
+      }
+    ],
+    "note": "Former tmi-* Cloudflare Pages projects are not present in the dashboard and are not treated as retained, available, deployed, or recoverable infrastructure anywhere in this document. This task made no Cloudflare, DNS, or deployment change of any kind.",
+    "architectureShiftFromVendoredConstants": "packages/constants/src/ecosystem.ts (vendored @tmi/constants, NOT edited by this task) models an aspirational multi-repo ecosystem with one separate subdomain/repo per vertical (e.g. consulting.texasmovement.com as its own apps/consulting deployment). The owner's Mark 4 infrastructure direction supersedes that model operationally: exactly two canonical Cloudflare Pages projects exist today, and every new route in this task is a local PATH under texasmovement.com itself (e.g. /consulting), never a link to a *.texasmovement.com subdomain. None of the eight new pages renders PROPERTIES[key].url for any vertical; every internal link uses a local path string. This is flagged as a documentation-evidence note, not silently resolved by editing the vendored constants package (CLAUDE.md rule 7: never edit packages/constants/ speculatively)."
+  },
+  "routeDecisionMatrix": [
+    {
+      "route": "/",
+      "routeStatus": "Existing, unmodified this pass",
+      "navigationStatus": "In primary nav (brand/home link) and in the header brand mark",
+      "indexabilityPosture": "Indexable in production (PUBLIC_PREVIEW=false); noindex in preview — unchanged existing behavior",
+      "conversionPosture": "One conditional CTA, present only if verifiedGeneralContact() is non-null; currently null (VERIFIED_INBOXES is empty), so no CTA renders",
+      "claimsRiskLevel": "Low — unchanged, already-reviewed content",
+      "dataRiskLevel": "None — no form, no tracking added",
+      "requiredEvidenceForFutureActiveState": "Not applicable — already the site's real homepage"
+    },
+    {
+      "route": "/about",
+      "routeStatus": "New this pass",
+      "navigationStatus": "Primary nav",
+      "indexabilityPosture": "Indexable in production; noindex in preview (via Layout.astro's existing PUBLIC_PREVIEW gate)",
+      "conversionPosture": "None — no CTA, no contact path, no form",
+      "claimsRiskLevel": "Low — reuses only already-approved ORG.boilerplate/tagline constants, no new factual claim",
+      "dataRiskLevel": "None",
+      "requiredEvidenceForFutureActiveState": "Not applicable — this is a descriptive page, not an offer; no 'active' state to reach"
+    },
+    {
+      "route": "/ecosystem",
+      "routeStatus": "New this pass",
+      "navigationStatus": "Primary nav",
+      "indexabilityPosture": "Indexable in production; noindex in preview",
+      "conversionPosture": "None — internal navigation links only, to /consulting, /media, /performance, /distribution, /partners, /hero, and /lanes; zero external links",
+      "claimsRiskLevel": "Low-medium — asserts route-maturity classifications (Building / External storefront-unaudited / Private); each classification is sourced from existing, previously-reviewed audit documents (docs/ecosystem-release-matrix.md, docs/mark-3-ecosystem-build-blueprint.md), not newly asserted",
+      "dataRiskLevel": "None",
+      "requiredEvidenceForFutureActiveState": "Not applicable — this is a map/index page; individual vertical rows have their own evidence requirements (see routes.hero, routes.consulting, etc. below)"
+    },
+    {
+      "route": "/consulting",
+      "routeStatus": "New this pass",
+      "navigationStatus": "Primary nav",
+      "indexabilityPosture": "Indexable in production; noindex in preview",
+      "conversionPosture": "None — no form, booking, email, mailto, or CRM path anywhere on the page (verified by tests/hub-routes.test.ts)",
+      "claimsRiskLevel": "Low — category-level capability description only, no client claim, outcome, testimonial, or pricing",
+      "dataRiskLevel": "None",
+      "requiredEvidenceForFutureActiveState": "See routes.consulting.requiredFutureOwnerEvidence below"
+    },
+    {
+      "route": "/media",
+      "routeStatus": "New this pass",
+      "navigationStatus": "Primary nav",
+      "indexabilityPosture": "Indexable in production; noindex in preview",
+      "conversionPosture": "None — no newsletter signup, platform link, or embedded video",
+      "claimsRiskLevel": "Low — no view count, subscriber figure, or press claim; no assertion that programming is currently active",
+      "dataRiskLevel": "None",
+      "requiredEvidenceForFutureActiveState": "See routes.media.requiredFutureOwnerEvidence below"
+    },
+    {
+      "route": "/performance",
+      "routeStatus": "New this pass",
+      "navigationStatus": "Primary nav",
+      "indexabilityPosture": "Indexable in production; noindex in preview",
+      "conversionPosture": "None — no coaching enrollment, form, or contact path",
+      "claimsRiskLevel": "Low — explicitly non-medical/non-clinical framing throughout, no outcome/efficacy claim",
+      "dataRiskLevel": "None",
+      "requiredEvidenceForFutureActiveState": "See routes.performance.requiredFutureOwnerEvidence below"
+    },
+    {
+      "route": "/distribution",
+      "routeStatus": "New this pass",
+      "navigationStatus": "Not in primary nav (owner instruction) — reachable via /ecosystem's internal link only",
+      "indexabilityPosture": "Indexable in production; noindex in preview",
+      "conversionPosture": "None — no intake mechanism, no client-work claim",
+      "claimsRiskLevel": "Low — internal-capability framing only, no audience-growth or performance-metric claim",
+      "dataRiskLevel": "None",
+      "requiredEvidenceForFutureActiveState": "See routes.distribution.requiredFutureOwnerEvidence below"
+    },
+    {
+      "route": "/hero",
+      "routeStatus": "New this pass",
+      "navigationStatus": "Not in primary nav (owner instruction) — reachable via /ecosystem's internal link only",
+      "indexabilityPosture": "Indexable in production; noindex in preview",
+      "conversionPosture": "None whatsoever — this page contains zero <a> elements of any kind (verified by tests/hub-routes.test.ts), no product display, pricing, or shopping CTA",
+      "claimsRiskLevel": "Low — the entire page is a negation/qualification statement (catalog/checkout/fulfillment/policies/support/availability/claims are explicitly stated as NOT audited or verified from this hub); asserts nothing about HERO itself",
+      "dataRiskLevel": "None",
+      "requiredEvidenceForFutureActiveState": "See routes.hero.requiredFutureOwnerEvidence below"
+    },
+    {
+      "route": "/partners",
+      "routeStatus": "New this pass",
+      "navigationStatus": "Not in primary nav (owner instruction) — reachable via /ecosystem's internal link only",
+      "indexabilityPosture": "Indexable in production; noindex in preview",
+      "conversionPosture": "None — no submission form, email, calendar link, or responsiveness promise",
+      "claimsRiskLevel": "Low — describes future collaboration categories only, no current-partner claim or partner logo",
+      "dataRiskLevel": "None",
+      "requiredEvidenceForFutureActiveState": "See routes.partners.requiredFutureOwnerEvidence below"
+    },
+    {
+      "route": "/contact (existing route)",
+      "routeStatus": "Does not exist in this repository. Not created, added, or modified by this task.",
+      "navigationStatus": "N/A",
+      "indexabilityPosture": "N/A",
+      "conversionPosture": "N/A — the closest existing analog is the homepage's single conditional CTA block, gated by verifiedGeneralContact() in src/lib/site.ts, which currently renders nothing because VERIFIED_INBOXES is empty",
+      "claimsRiskLevel": "N/A",
+      "dataRiskLevel": "N/A",
+      "requiredEvidenceForFutureActiveState": "Not in scope for this task — see docs/LAUNCH_BLOCKERS.md for the existing inbox-verification unblock steps that gate the homepage CTA"
+    },
+    {
+      "route": "existing fallback / 404 route",
+      "routeStatus": "Does not exist in this repository as a custom page. No src/pages/404.astro or equivalent was found before or added during this task.",
+      "navigationStatus": "N/A",
+      "indexabilityPosture": "N/A — Cloudflare Pages serves its own default not-found response for unmatched paths on this static site",
+      "conversionPosture": "N/A",
+      "claimsRiskLevel": "N/A",
+      "dataRiskLevel": "N/A",
+      "requiredEvidenceForFutureActiveState": "Not in scope for this task; a custom 404 page was not requested and was not added"
+    }
+  ],
+  "routes": {
+    "about": {
+      "route": "/about",
+      "intendedAudience": "General visitors seeking a high-level, restrained description of what Texas Movement International is and how it operates",
+      "currentPublicPosture": "Controlled umbrella identity page — no status banner needed, since this page describes current, accurate operating posture rather than a not-yet-active future capability",
+      "permittedContentBoundaries": "Restrained mission language sourced from already-approved ORG.boilerplate/tagline constants; operating principles; ecosystem approach; inside-out build posture; category-level focus (performance, media, applied systems, longer-horizon private research)",
+      "prohibitedContentAndConversionPaths": "No founder biography claim (that belongs to alexandermathai.com's own, separately-gated claims review); no historical or numerical claim; no client/service/product availability claim; no active contact path or external profile link",
+      "sourceFilesComponentsContentModel": "src/pages/about.astro; reuses Layout.astro, Eyebrow.astro; sources copy from @tmi/constants ORG.boilerplate (already-approved constant, not new copy)",
+      "metadataAndCrawlPosture": "pageTitle('tmi','About'); description <=155 chars; standard PUBLIC_PREVIEW-gated robots/canonical via Layout.astro; included in sitemap.xml (production mode only) and robots.txt allow-list",
+      "internalLinkPolicy": "One internal link to /ecosystem; no external links",
+      "requiredFutureOwnerEvidence": "None required for this page's current content to remain accurate — it does not describe a future offer",
+      "requiredFutureImplementationBeforeActive": "Not applicable — already describes the site's actual current operating posture",
+      "claimsProofRequirements": "None beyond the already-approved ORG constants it reuses",
+      "accessibilityAcceptanceCriteria": "One H1, logical section landmarks, no empty controls, descriptive internal link label ('ecosystem overview') — verified via axe-core (0 violations) and manual review",
+      "testCoverage": "tests/a11y.mjs (axe-core scan); tests/hub-routes.test.ts (no forbidden conversion pattern); npm run build + check-public-output.mjs (dist-level TBD/mailto/noindex/canonical scan)",
+      "releaseBlockers": "None specific to this page",
+      "explicitNonActions": "No CTA, contact path, or claim beyond already-approved boilerplate was added"
+    },
+    "ecosystem": {
+      "route": "/ecosystem",
+      "intendedAudience": "Visitors trying to understand which parts of Texas Movement International are being built, which stay private, and which sit entirely outside this hub",
+      "currentPublicPosture": "Authoritative map of current strategic architecture — no single banner; each row carries its own restrained status",
+      "permittedContentBoundaries": "Planned/building TMI routes (Consulting, Media, Performance, Distribution, Partners) shown as a group with internal links to their real pages; HERO shown as 'External storefront / internally unaudited' with an internal link to the /hero bridge page only (never to the external storefront itself); Health, FounderLink, Social/Gather, and Reparations shown as restrained, non-clickable rows; alexandermathai.com mentioned as separate founder/editorial context with no URL and no link",
+      "prohibitedContentAndConversionPaths": "No link (internal or external) to Health, FounderLink, Social/Gather, or Reparations; no statement that any vertical is operational, live, accepting members, serving clients, holding events, offering health services, or giving legal advice; no external URL for alexandermathai.com",
+      "sourceFilesComponentsContentModel": "src/pages/ecosystem.astro; a page-local EcosystemRow[] data structure (not ECOSYSTEM_MAP/PROPERTIES from @tmi/constants — see infrastructureContext.architectureShiftFromVendoredConstants above for why); reuses .divisions-grid/.division/.division-status CSS from src/styles/global.css",
+      "metadataAndCrawlPosture": "pageTitle('tmi','Ecosystem'); standard PUBLIC_PREVIEW-gated robots/canonical; included in sitemap.xml (production) and robots.txt allow-list",
+      "internalLinkPolicy": "Links to /consulting, /media, /performance, /distribution, /partners, /hero, and /lanes only; zero external links; zero links to the four private/incubating verticals",
+      "requiredFutureOwnerEvidence": "A decision on whether/how to reconcile this page's route-maturity model with ECOSYSTEM_MAP's 3-value badge enum (building/private/live) in src/lib/site.ts, which has no slot for HERO's 'External storefront / internally unaudited' classification — flagged, not resolved, in this pass",
+      "requiredFutureImplementationBeforeActive": "Not applicable — this is a map page reflecting already-documented classifications, not itself an offer",
+      "claimsProofRequirements": "Every classification traces to an existing, previously-reviewed document: docs/ecosystem-release-matrix.md (HERO's exact classification), docs/mark-3-ecosystem-build-blueprint.md (route/subdomain decisions), src/lib/site.ts ECOSYSTEM_MAP (private-vertical badges)",
+      "accessibilityAcceptanceCriteria": "One H1, five distinct section landmarks, descriptive link labels (never bare 'click here'), no empty controls — verified via axe-core (0 violations)",
+      "testCoverage": "tests/a11y.mjs; tests/hub-routes.test.ts (asserts Health/FounderLink/Social/Reparations never appear inside a division-links block, and alexandermathai.com has no href); npm run build + check-public-output.mjs",
+      "releaseBlockers": "The ECOSYSTEM_MAP badge-enum reconciliation noted above, if the owner wants this page's model unified with site.ts's existing gate rather than kept as a page-local, parallel data structure",
+      "explicitNonActions": "Did not edit ECOSYSTEM_MAP, PROPERTIES, or any @tmi/constants file to accommodate this page's classifications"
+    },
+    "consulting": {
+      "route": "/consulting",
+      "intendedAudience": "Visitors curious about a future advisory/systems-capability offer; not a lead-generation page",
+      "currentPublicPosture": "Building — not yet live",
+      "permittedContentBoundaries": "Restrained explanation of future focus (AI/workflow strategy, digital ecosystem/web architecture, digital brand systems, automation); neutral diagnose-design-document-measure method framing; non-promissory service-area headings; explicitly labeled, unpopulated future proof/case-study module; controlled statement that engagement pathways are not active",
+      "prohibitedContentAndConversionPaths": "No client claim, outcome, testimonial, pricing, active inquiry, availability statement, booking, email, mailto, form, calendar, or CRM path anywhere on the page",
+      "sourceFilesComponentsContentModel": "src/pages/consulting.astro; posture sourced from src/lib/hub-routes.ts hubRoute('/consulting').postureLabel; content ideas drawn from docs/mark-3-content-fuel-inventory.md's already-vetted Consulting pillars (not newly invented)",
+      "metadataAndCrawlPosture": "pageTitle('tmi','Consulting'); standard PUBLIC_PREVIEW-gated robots/canonical; included in sitemap.xml (production) and robots.txt allow-list",
+      "internalLinkPolicy": "One internal link to /ecosystem; zero external links",
+      "requiredFutureOwnerEvidence": "Documented service packages, proof/case-study assets (at least one real, permission-confirmed case study), intake operations, operating capacity, and commercial terms — none exist yet, per docs/mark-3-content-fuel-inventory.md's own service-catalog entry for this vertical",
+      "requiredFutureImplementationBeforeActive": "A real intake mechanism (form/booking/email), verified inbox added to VERIFIED_INBOXES, populated proof/case-study module, and owner sign-off before any conversion path is added",
+      "claimsProofRequirements": "No claim on this page requires proof today because no claim beyond category-level description is made; any future claim must go through the same claims-review pattern established for alexandermathai.com (docs/claims-governance.md, that repo)",
+      "accessibilityAcceptanceCriteria": "One H1, two section landmarks, descriptive internal link label, no empty controls — verified via axe-core (0 violations)",
+      "testCoverage": "tests/a11y.mjs; tests/hub-routes.test.ts (no mailto/tel/form/fetch/XHR/outbound-href/iframe/booking-CTA pattern; posture text sourced from registry); npm run build + check-public-output.mjs",
+      "releaseBlockers": "All items in requiredFutureOwnerEvidence — none may be worked around locally",
+      "explicitNonActions": "No form, booking flow, CRM, pricing, or contact path was added or connected"
+    },
+    "media": {
+      "route": "/media",
+      "intendedAudience": "Visitors curious about a future editorial/media-discovery lane; not a channel directory",
+      "currentPublicPosture": "Building — not yet live",
+      "permittedContentBoundaries": "Editorial mission and planned programming categories (sports/performance culture, systems/founder commentary, behind-the-build documentation); future series/playlist concepts explicitly marked planned; neutral media-system explanation; placeholder module for future work",
+      "prohibitedContentAndConversionPaths": "No unverified view count or subscriber figure, no platform/channel link, no embedded video, no press claim, no newsletter signup, no sponsorship solicitation, no assertion that programming is currently active",
+      "sourceFilesComponentsContentModel": "src/pages/media.astro; posture sourced from hub-routes.ts; content ideas drawn from docs/mark-3-content-fuel-inventory.md's Media pillars",
+      "metadataAndCrawlPosture": "pageTitle('tmi','Media'); standard PUBLIC_PREVIEW-gated robots/canonical; included in sitemap.xml (production) and robots.txt allow-list",
+      "internalLinkPolicy": "One internal link to /ecosystem; zero external links, zero platform/channel links",
+      "requiredFutureOwnerEvidence": "Independent verification of the previously-flagged 2.1M+ views figure (founder-reported, unverified from any session) before it is used as confirmed proof anywhere; a channel trailer concept, programming architecture, thumbnail framework, and episode metadata template, per docs/mark-3-content-fuel-inventory.md's minimum-fuel-tank definition for this vertical",
+      "requiredFutureImplementationBeforeActive": "Real platform links only after they are manually opened and confirmed by a human; a media kit before any sponsorship content",
+      "claimsProofRequirements": "Any future on-platform metric claim must be independently verified before use; the 2.1M+ views figure specifically must never be presented as confirmed",
+      "accessibilityAcceptanceCriteria": "One H1, two section landmarks, descriptive internal link label, no empty controls — verified via axe-core (0 violations)",
+      "testCoverage": "tests/a11y.mjs; tests/hub-routes.test.ts; npm run build + check-public-output.mjs",
+      "releaseBlockers": "All items in requiredFutureOwnerEvidence",
+      "explicitNonActions": "No platform/channel link, embedded video, or newsletter signup was added or connected"
+    },
+    "performance": {
+      "route": "/performance",
+      "intendedAudience": "Visitors curious about a future, explicitly non-clinical movement/training lane",
+      "currentPublicPosture": "Building — not yet live",
+      "permittedContentBoundaries": "Training philosophy in non-medical language; thematic categories (strength, movement, sprint, combat-sport-adjacent preparation); explicit scope boundary that this is not a medical/clinical service; future-program placeholder marked not active",
+      "prohibitedContentAndConversionPaths": "No training plan, medical guidance, treatment, diagnosis, rehabilitation, injury-prevention claim, coaching enrollment, outcome claim, testimonial, efficacy claim, pricing, form, or contact path",
+      "sourceFilesComponentsContentModel": "src/pages/performance.astro; posture sourced from hub-routes.ts; content ideas drawn from docs/mark-3-content-fuel-inventory.md's Performance pillars, which are themselves explicitly non-medical",
+      "metadataAndCrawlPosture": "pageTitle('tmi','Performance'); standard PUBLIC_PREVIEW-gated robots/canonical; included in sitemap.xml (production) and robots.txt allow-list",
+      "internalLinkPolicy": "One internal link to /ecosystem; zero external links",
+      "requiredFutureOwnerEvidence": "Documented program methodology, coach/operator availability, liability posture, intake operations, and measurable offers — none currently exist, per docs/mark-3-content-fuel-inventory.md's own service-catalog entry, which explicitly names coaching/programming as the hardest-gated commercial offer in the whole ecosystem",
+      "requiredFutureImplementationBeforeActive": "A liability waiver, scope-of-practice disclaimer, and intake-screening process before any enrollment path is added; legal review of any clinical-adjacent language before publication",
+      "claimsProofRequirements": "No medical or guaranteed-result claim, ever, without separate substantiation and legal/clinical approval",
+      "accessibilityAcceptanceCriteria": "One H1, two section landmarks, descriptive internal link label, no empty controls — verified via axe-core (0 violations)",
+      "testCoverage": "tests/a11y.mjs; tests/hub-routes.test.ts; npm run build + check-public-output.mjs",
+      "releaseBlockers": "All items in requiredFutureOwnerEvidence — this vertical's own audit already flagged it for a heavier legal review than the generic stub pass",
+      "explicitNonActions": "No training plan, medical claim, or enrollment path was added"
+    },
+    "distribution": {
+      "route": "/distribution",
+      "intendedAudience": "Internal-facing description of a future content-operations capability; not a client-facing service page",
+      "currentPublicPosture": "Building — not yet live",
+      "permittedContentBoundaries": "Neutral description of content packaging, release operations, metadata, and repurposing systems; future workflow/process module; explicitly planned service concepts",
+      "prohibitedContentAndConversionPaths": "No audience-growth guarantee, performance metric, active-service claim, client-work claim, platform integration, external platform link, contact path, or pricing",
+      "sourceFilesComponentsContentModel": "src/pages/distribution.astro; posture sourced from hub-routes.ts; content ideas drawn from docs/mark-3-content-fuel-inventory.md's Distribution pillars",
+      "metadataAndCrawlPosture": "pageTitle('tmi','Distribution'); standard PUBLIC_PREVIEW-gated robots/canonical; included in sitemap.xml (production) and robots.txt allow-list",
+      "internalLinkPolicy": "One internal link to /ecosystem; zero external links",
+      "requiredFutureOwnerEvidence": "A distribution playbook and platform-packaging checklist, both still internal-only per docs/mark-3-content-fuel-inventory.md's minimum-fuel-tank definition for this vertical, until Media's own maturity supports a public route",
+      "requiredFutureImplementationBeforeActive": "Not applicable at Stage 0 — this vertical is explicitly internal-capability-only in current planning documents, not scheduled for its own public offer",
+      "claimsProofRequirements": "Not applicable — no claim beyond internal-capability description is made",
+      "accessibilityAcceptanceCriteria": "One H1, two section landmarks, descriptive internal link label, no empty controls — verified via axe-core (0 violations)",
+      "testCoverage": "tests/a11y.mjs; tests/hub-routes.test.ts; npm run build + check-public-output.mjs",
+      "releaseBlockers": "None specific — this page is intentionally the most static/internal-facing of the five 'Building' route pages",
+      "explicitNonActions": "No platform integration, contact path, or pricing was added"
+    },
+    "hero": {
+      "route": "/hero",
+      "intendedAudience": "Visitors who encounter HERO mentioned elsewhere in the ecosystem and want a restrained explanation of what it is and isn't",
+      "currentPublicPosture": "External storefront / internally unaudited",
+      "permittedContentBoundaries": "A short, clearly qualified contextual statement that HERO is a separate external storefront/property; a statement that its catalog, checkout, fulfillment, policies, support, availability, and product claims are not audited or verified within this TMI hub",
+      "prohibitedContentAndConversionPaths": "No external storefront link, product display, product pricing, shopping CTA, checkout, inventory, fulfillment, health/performance claim, support claim, policy, product image implying availability, or verification language — this page contains zero <a> elements of any kind, verified by tests/hub-routes.test.ts",
+      "sourceFilesComponentsContentModel": "src/pages/hero.astro; posture sourced from hub-routes.ts",
+      "metadataAndCrawlPosture": "pageTitle('tmi','HERO'); standard PUBLIC_PREVIEW-gated robots/canonical; included in sitemap.xml (production) and robots.txt allow-list",
+      "internalLinkPolicy": "Zero links of any kind, internal or external — this is the one route in this pass with no navigation elements in its own body content",
+      "requiredFutureOwnerEvidence": "The five items already specified in docs/mark-2-ecosystem-handoff.md's 'Ecosystem-map integrity finding': (1) the actual storefront/property URL or repository location, supplied by the owner; (2) confirmation of what platform it runs on; (3) a content/claims audit against ecosystem governance rules; (4) an accessibility and technical-health pass equivalent to every other vertical; (5) explicit owner sign-off that the storefront is ready to be referenced as more than plain text — none of these five has changed status in this task",
+      "requiredFutureImplementationBeforeActive": "All five items above, in full, before any product link, storefront link, or verification language may be added to this page",
+      "claimsProofRequirements": "No claim about HERO's operations is made anywhere on this page — every sentence is a negation/qualification, not an assertion",
+      "accessibilityAcceptanceCriteria": "One H1, one section landmark, no empty controls, no interactive elements to test focus order on — verified via axe-core (0 violations)",
+      "testCoverage": "tests/a11y.mjs; tests/hub-routes.test.ts (explicit zero-<a>-elements assertion); npm run build + check-public-output.mjs",
+      "releaseBlockers": "All five items in requiredFutureOwnerEvidence, unchanged from the Mark 2 finding",
+      "explicitNonActions": "Did not locate, reach, verify, or link the actual HERO storefront; did not change HERO's classification anywhere else in the repository"
+    },
+    "partners": {
+      "route": "/partners",
+      "intendedAudience": "Visitors exploring a future strategic-collaboration pathway; not a submission channel",
+      "currentPublicPosture": "Building — not yet live",
+      "permittedContentBoundaries": "Clearly defined future collaboration categories (advisory, editorial/media, sponsorship, structural collaboration); a future fit/criteria framework; a non-actionable 'pathways are being defined' posture",
+      "prohibitedContentAndConversionPaths": "No partnership solicitation, contact form, email, calendar, sponsorship promise, partner logo, current-partner claim, legal/transactional term, active submission mechanism, or responsiveness promise",
+      "sourceFilesComponentsContentModel": "src/pages/partners.astro; posture sourced from hub-routes.ts; content ideas drawn from docs/mark-3-ecosystem-build-blueprint.md's own Part A entry for the Partners vertical",
+      "metadataAndCrawlPosture": "pageTitle('tmi','Partners'); standard PUBLIC_PREVIEW-gated robots/canonical; included in sitemap.xml (production) and robots.txt allow-list",
+      "internalLinkPolicy": "One internal link to /ecosystem; zero external links",
+      "requiredFutureOwnerEvidence": "Inbox ownership, response operations, privacy terms, and routing logic — none decided yet, per docs/mark-3-content-fuel-inventory.md's own service-catalog entry for this vertical, which explicitly states no intake mechanism may activate until governance is decided",
+      "requiredFutureImplementationBeforeActive": "A real intake mechanism, a verified inbox added to VERIFIED_INBOXES, and owner-approved partnership categories/criteria before any submission path is added",
+      "claimsProofRequirements": "No current-partner claim may be added without a named, confirmed partner and their explicit permission",
+      "accessibilityAcceptanceCriteria": "One H1, two section landmarks, descriptive internal link label, no empty controls — verified via axe-core (0 violations)",
+      "testCoverage": "tests/a11y.mjs; tests/hub-routes.test.ts; npm run build + check-public-output.mjs",
+      "releaseBlockers": "All items in requiredFutureOwnerEvidence",
+      "explicitNonActions": "No submission form, email, or calendar link was added or connected"
+    }
+  },
+  "navigationChanges": {
+    "before": "Header.astro hard-coded two links: 'Ecosystem Map' -> /lanes, and 'Verticals' -> /#ecosystem (a homepage anchor)",
+    "after": "Header.astro now renders navRoutes() from the new src/lib/hub-routes.ts registry: About -> /about, Ecosystem -> /ecosystem, Consulting -> /consulting, Media -> /media, Performance -> /performance, in that order. HERO, Distribution, and Partners are real routes but intentionally excluded from primary nav per the owner's exact instruction.",
+    "lanesRouteStatus": "/lanes was left completely unmodified and remains reachable — from /ecosystem's own 'see the ecosystem map' link and from its existing pre-Mark-4 entry points — even though it no longer has its own top-level nav slot. No visual or content regression was made to /lanes itself.",
+    "footerStatus": "src/components/Footer.astro was not modified. It continues to render only liveFooterFor('tmi') (currently always empty, since no ECOSYSTEM_MAP badge is 'live') plus the existing legal links — no new route was added to the footer, per the instruction that the footer may include only safe internal informational routes and none of the eight new routes was judged to belong there.",
+    "navBadgeDesignDecision": "The owner's instruction to 'use a clearly restrained Building indicator where it helps prevent an operational implication' was satisfied by each page's own prominent, unmissable on-page posture badge (reusing the existing .division-status pill styling) rather than an inline nav-label decoration — consistent with this codebase's existing pattern (DivisionCard already separates a plain link label from a separate status treatment, never decorates the link text itself). No new nav-badge CSS was added."
+  },
+  "sitemapAndA11yRouteListUpdates": {
+    "sitemapXmlTs": "src/pages/sitemap.xml.ts ROUTES array extended from 5 to 13 entries (added /about, /ecosystem, /consulting, /media, /performance, /distribution, /hero, /partners), reusing the exact same PUBLIC_PREVIEW gating already in place — zero URLs emitted in preview mode, all 13 emitted in production mode. No new claim of public-release status was made; this mirrors the pre-existing treatment of /privacy, /terms, and /accessibility.",
+    "a11yMjs": "tests/a11y.mjs ROUTES array extended the same way, from 5 to 13 entries, so the axe-core scan covers every new route."
+  },
+  "validationPerformed": {
+    "typecheck": "npm run typecheck (astro check) — 0 errors, 0 warnings, 0 hints across 26 files",
+    "buildPreview": "npm run build (PUBLIC_PREVIEW unset, defaults to preview/true) — 13 pages built, postbuild check-public-output.mjs — 0 errors",
+    "buildProduction": "PUBLIC_PREVIEW=false npm run build — 13 pages built, postbuild check-public-output.mjs — 0 errors; sitemap.xml correctly emits all 13 canonical URLs; robots.txt correctly allows and references the sitemap",
+    "checkConstants": "npm run check:constants — 0 errors (46 pre-existing hard-coded-domain drift warnings in legacy/index.html and src/lib/site.ts:273, unrelated to this task and not newly introduced)",
+    "unitTests": "npm run test:unit — 50 passed (31 pre-existing + 19 new in tests/hub-routes.test.ts), 0 failed",
+    "a11yScan": "npm run test:a11y (axe-core, wcag2a/wcag2aa/wcag21a/wcag21aa) — 0 violations across all 13 routes including all 8 new ones",
+    "fullCiGate": "npm run ci — build + check:constants + test:unit + test:a11y — all green",
+    "finalBuildStateLeftInWorkingTree": "Repository was rebuilt in default preview mode (no PUBLIC_PREVIEW override) after the production-mode validation run, matching the repo's normal at-rest state; dist/ is gitignored and not committed either way"
+  },
+  "testGapsAndSafetyBlockers": {
+    "gaps": [
+      "tests/hub-routes.test.ts checks page SOURCE, not built dist/ output, for its forbidden-conversion-pattern and posture-language assertions — this is intentional (fast, no build dependency) but means it would not catch a hypothetical bug where Astro's own rendering somehow introduced a link/form the source doesn't contain; the existing dist/-level scripts/check-public-output.mjs (run as postbuild on every build) is the safety net for actual rendered output, and it also passed with 0 errors on both new-route builds performed this pass.",
+      "No manual/assistive-technology audit beyond the automated axe-core pass was performed on the new routes, consistent with every other page in this repository (see src/pages/accessibility.astro's own stated limitation)."
+    ],
+    "blockers": "None encountered. No existing test, postbuild guard, claims check, or safety check was weakened, disabled, or worked around to make this implementation pass."
+  },
+  "documentationCorrections": [
+    {
+      "file": "CLAUDE.md",
+      "type": "dated additive clarification note, not a rewrite",
+      "reason": "CLAUDE.md's 'What this repo is' section states this repo 'does not own or build any of the *.texasmovement.com sub-properties... those are separate repos, out of scope here' — accurate under the pre-Mark-4 multi-repo-per-vertical architecture, but now in tension with the owner's explicit Mark 4 instruction to build /consulting, /media, /performance, /distribution, and /partners as local routes inside this same repo. A dated note was added directly under that sentence rather than deleting or rewriting it, since the original sentence was true when written and remains true of the vendored @tmi/constants package's own aspirational model — only the owner's actual current infrastructure direction has changed."
+    }
+  ]
+}

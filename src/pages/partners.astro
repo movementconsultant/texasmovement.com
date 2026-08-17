@@ -1,0 +1,56 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+import { hubRoute } from "@/lib/hub-routes";
+
+const title = pageTitle("tmi", "Partners");
+const description =
+  "A future TMI umbrella route for strategic collaboration and partnership pathways. Building — pathways are not active. No solicitation, intake, or contact path is live.";
+const posture = hubRoute("/partners")!.postureLabel!;
+---
+
+<Layout title={title} description={description} path="/partners">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>PARTNERS</Eyebrow>
+        <h1>Collaboration at Texas Movement International.</h1>
+        <span class="division-status">{posture}</span>
+        <p>
+          This is a future TMI umbrella route for strategic collaboration, partnerships, selected
+          media relationships, and other structural work. Pathways here are being defined; nothing
+          on this page is an active or actionable submission channel.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <Eyebrow>FUTURE COLLABORATION CATEGORIES</Eyebrow>
+        <h2>Where this is headed.</h2>
+        <p>
+          The intent is to eventually distinguish a small number of collaboration categories —
+          advisory relationships, editorial and media collaboration, sponsorship, and structural
+          partnerships — each with its own future fit and criteria framework, rather than one
+          undifferentiated "get in touch" channel.
+        </p>
+        <div class="divisions-grid">
+          <div class="division">
+            <div class="division-label">STATUS</div>
+            <div class="division-title">Pathways are being defined.</div>
+            <p class="division-body">
+              No partner logo, current-partner claim, sponsorship promise, or legal or transactional
+              term appears on this page.
+            </p>
+          </div>
+        </div>
+        <div class="stub-note">
+          There is no partnership submission form, email address, calendar link, or responsiveness
+          promise on this page. See the <a href="/ecosystem">ecosystem overview</a> for how this
+          route fits into the rest of Texas Movement International.
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

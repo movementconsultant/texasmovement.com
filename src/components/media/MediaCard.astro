@@ -1,0 +1,64 @@
+---
+// src/components/media/MediaCard.astro
+//
+// Renders one confirmed source destination as a static, non-interactive-by-
+// default preview card. Mark 9/10 versions of this component rendered a
+// whole collection record (possibly several destinations per card); Mark 11
+// flattens the page to one card per confirmed destination instead (see
+// src/lib/media-destinations.ts's getConfirmedDestinations()), so a caller
+// only ever passes a destination that ALREADY passed the record-level +
+// per-destination gate. This component still re-checks isSafeHttpUrl(url)
+// itself before rendering the anchor — defense in depth, never trusting a
+// single upstream flag, matching this repository's established pattern.
+//
+// Deliberately does NOT render: dates, view/follower/subscriber counts,
+// author biography, ratings, "new"/"latest" timestamps, platform activity
+// claims, a remote image/logo of any kind, or fake preview content (no fake
+// video frame, article headline, or profile screenshot). The only visual
+// preview is MediaPreviewArt — local, abstract, privacy-safe.
+import MediaStatus from "./MediaStatus.astro";
+import MediaPreviewArt from "./MediaPreviewArt.astro";
+import MediaPlatformMark from "./MediaPlatformMark.astro";
+import type { ConfirmedDestination } from "@/lib/media-destinations";
+import { isSafeHttpUrl } from "@/lib/media-destinations";
+
+interface Props {
+  destination: ConfirmedDestination;
+}
+
+const { destination: dest } = Astro.props;
+
+const SOURCE_CLASS_LABEL: Record<string, string> = {
+  TMM: "Texas Movement Media",
+  TMI: "Texas Movement editorial",
+  "founder-AVM": "Founder media",
+};
+
+const sourceClassLabel = SOURCE_CLASS_LABEL[dest.sourceClass] ?? dest.sourceClass;
+
+const canRenderLink = isSafeHttpUrl(dest.url);
+---
+
+<article class="media-card">
+  <MediaPreviewArt sourceClass={dest.sourceClass} sourceLabel={dest.sourceLabel} />
+
+  <p class="media-card-eyebrow">
+    <span class="media-card-source-badge">{sourceClassLabel}</span>
+    <MediaPlatformMark platform={dest.platform} />
+    <span>{dest.platform}</span>
+  </p>
+
+  <h4 class="media-card-title">{dest.sourceLabel}</h4>
+  <p class="media-card-summary">{sourceClassLabel} source destination.</p>
+
+  <MediaStatus confirmationStatus={dest.confirmationStatus} />
+
+  {canRenderLink && (
+    <p class="media-card-links">
+      <a href={dest.url} target="_blank" rel="noopener noreferrer">
+        {dest.linkText}
+        <span class="sr-only"> (opens in a new tab)</span>
+      </a>
+    </p>
+  )}
+</article>

@@ -1,0 +1,87 @@
+---
+// Sticky site header. Includes an accessible nav disclosure — the
+// live production site's `nav { display: none }` under 900px with NO
+// alternative is a known a11y gap (see DESIGN_SYSTEM.md); this replaces it
+// with a real <button aria-expanded> + keyboard-reachable panel.
+//
+// Primary nav is sourced from navRoutes() (src/lib/hub-routes.ts) — the
+// Mark 4 hub-route registry — rather than hand-written here, so there is
+// exactly one place that decides which routes are nav-eligible. FounderLink,
+// Health, Social/Gather, and Reparations are intentionally NOT linked here
+// (marked "private"/purpose-undefined in ECOSYSTEM_MAP, src/lib/site.ts) and
+// per that policy may appear only in the static /ecosystem and /lanes
+// mentions, never in global navigation. HERO, Distribution, and Partners are
+// real local routes (see hub-routes.ts) but are deliberately kept out of
+// primary nav per the owner's exact Mark 4 nav instruction — reachable only
+// via internal links from /ecosystem.
+import { navRoutes } from "@/lib/hub-routes";
+const navItems = navRoutes();
+---
+
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <a href="/" class="brand" aria-label="Texas Movement International home">
+        <span class="brand-mark">
+          <img src="/01_primary_stacked_transparent.png" alt="Texas Movement International logo" width="28" height="28" />
+        </span>
+        <span>TEXAS MOVEMENT INTERNATIONAL</span>
+      </a>
+
+      <button
+        type="button"
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-expanded="false"
+        aria-controls="primary-nav"
+      >
+        <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+        Menu
+      </button>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary" data-open="false">
+        {navItems.map((item) => <a href={item.path}>{item.navLabel}</a>)}
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById("nav-toggle");
+  const nav = document.getElementById("primary-nav");
+
+  if (toggle && nav) {
+    toggle.addEventListener("click", () => {
+      const isOpen = nav.dataset.open === "true";
+      nav.dataset.open = String(!isOpen);
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    // Close the panel after a nav link is activated (keeps behavior sane on
+    // mobile where the panel overlays content) and on Escape for keyboard users.
+    nav.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement | null)?.tagName === "A") {
+        nav.dataset.open = "false";
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && nav.dataset.open === "true") {
+        nav.dataset.open = "false";
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.focus();
+      }
+    });
+
+    // Above the 900px breakpoint the panel is always visible via CSS; keep
+    // aria-expanded truthful if the viewport crosses the breakpoint while open.
+    const mq = window.matchMedia("(min-width: 901px)");
+    mq.addEventListener("change", (e) => {
+      if (e.matches) {
+        nav.dataset.open = "false";
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+</script>

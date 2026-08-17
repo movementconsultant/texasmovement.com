@@ -1,0 +1,29 @@
+---
+interface LinkItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  label: string;
+  title: string;
+  titleHref?: string;
+  links: LinkItem[];
+  note?: string;
+}
+
+const { label, title, titleHref, links, note } = Astro.props;
+---
+
+<div class="network-block">
+  <div class="network-label">{label}</div>
+  <div class="network-title">
+    {titleHref ? <a href={titleHref}>{title}</a> : title}
+  </div>
+  {links.length > 0 && (
+    <div class="network-links">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </div>
+  )}
+  {note && <div class="hosts-list">{note}</div>}
+</div>

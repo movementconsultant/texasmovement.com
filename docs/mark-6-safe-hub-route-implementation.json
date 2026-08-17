@@ -1,0 +1,207 @@
+{
+  "packetName": "Mark 6 Safe TMI Hub Route Scaffold Implementation",
+  "generated": "2026-08-16",
+  "sourceBranch": "claude/texas-movement-rebuild-pq14fo",
+  "sourceRepository": "movementconsultant/texasmovement.com",
+  "purpose": "Documents verification that the eight route scaffolds requested by the Mark 6 brief (/about, /ecosystem, /consulting, /media, /performance, /distribution, /hero, /partners) were already implemented in the Mark 4 pass and already satisfy every Mark 6 Required/Forbidden constraint verbatim -- so this pass made no source-code, test, navigation, footer, sitemap, or robots change. This document records the verification method, the full route decision matrix, and the validation re-run performed to confirm nothing regressed.",
+  "implementationSummary": {
+    "finding": "All eight routes named in the Mark 6 brief already existed on this branch, added in the Mark 4 pass (commit 9186ca5) and unchanged since. A line-by-line comparison of each route's rendered content against Mark 6's per-route 'Required'/'Forbidden' lists found full compliance in every case -- no gap, no missing status string, no forbidden module present.",
+    "actionTaken": "No source file, test file, navigation, footer, sitemap, or robots configuration was modified. The full validation gate (typecheck, test, test:unit, check:constants, build in both PUBLIC_PREVIEW modes, ci, test:a11y) was re-run in full and confirmed green, satisfying the brief's 'run all existing relevant validation before and after implementation' instruction where before and after are identical because no implementation change was required.",
+    "whyNoNewTestsWereAdded": "Mark 6 asks for narrow tests only 'where needed' to prove a specific list of properties. Every property on that list is already proven by existing coverage: tests/hub-routes.test.ts (Mark 4, 19 tests -- forbidden-conversion-pattern scan, posture-language sourcing, HERO's zero-<a>-elements rule, the four incubation verticals' non-clickable rule, and navRoutes() nav-eligibility) plus the ecosystem-wide generic checks that already run against these same eight routes' built output: scripts/check-public-output.mjs (TBD sentinel, unverified mailto, non-live property hrefs, preview noindex, LinkedIn) and tests/a11y.mjs (0 axe-core violations across all 13 routes, these eight included). Adding a duplicate test would not close a real gap and was avoided per the instruction not to add unrelated changes."
+  },
+
+  "routeDecisionMatrix": [
+    {
+      "route": "/",
+      "purpose": "TMI homepage/umbrella entry point",
+      "currentPosture": "Existing, unmodified by this or any Mark 4-6 pass",
+      "renderedModules": "Hero section, 'what we are building' explainer, non-interactive ecosystem teaser grid, one conditional CTA slot (currently absent)",
+      "intentionallyAbsentModules": "Case study, testimonial, pricing, service catalog",
+      "navigationPlacement": "Brand/home link (implicit)",
+      "metadataCrawlPosture": "Indexable in production, noindex in preview -- unchanged",
+      "proofClaimsDependencies": "None -- carries no claim requiring proof-registry evidence",
+      "conversionDataSafetyPosture": "Absent -- the one CTA slot renders nothing while VERIFIED_INBOXES is empty",
+      "accessibilityCriteria": "One H1, main landmark, 0 axe-core violations (confirmed this pass)",
+      "validationCoverage": "tests/site.test.ts (VERIFIED_INBOXES/CTA gating), tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "hello@texasmovement.com not yet operationally verified (docs/LAUNCH_BLOCKERS.md)",
+      "explicitNonActions": "No change made in this pass"
+    },
+    {
+      "route": "/about",
+      "purpose": "Controlled umbrella identity page for TMI",
+      "currentPosture": "Building (descriptive page, no posture badge needed)",
+      "renderedModules": "Mission statement (reusing ORG.boilerplate), operating-principles module, one internal link to /ecosystem",
+      "intentionallyAbsentModules": "Founder biography, historical/numerical claims, active service/product availability statement, contact/conversion path",
+      "navigationPlacement": "Primary nav (\"About\")",
+      "metadataCrawlPosture": "pageTitle('tmi','About'); indexable in production, noindex in preview",
+      "proofClaimsDependencies": "None for current content; a future founder-context module would require PR-FOUNDER-001 (docs/mark-5-tmi-content-model-and-proof-registry.json) to clear first",
+      "conversionDataSafetyPosture": "Absent",
+      "accessibilityCriteria": "One H1, two section landmarks, descriptive internal-link label, 0 axe-core violations",
+      "validationCoverage": "tests/hub-routes.test.ts, tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "None for current content",
+      "explicitNonActions": "Did not add a founder biography or any historical/numerical claim; no change made in this pass"
+    },
+    {
+      "route": "/ecosystem",
+      "purpose": "Explain TMI architecture and the maturity of each ecosystem lane",
+      "currentPosture": "Authoritative map -- each row carries its own restrained status",
+      "renderedModules": "Planned/building TMI routes group (linked to Consulting/Media/Performance/Distribution/Partners), external-property section (HERO, linked only to /hero), private/incubating section (Health/FounderLink/Social-Gather/Reparations, non-clickable), founder-context section (alexandermathai.com, plain text, no link)",
+      "intentionallyAbsentModules": "Any link to Health, FounderLink, Social/Gather, or Reparations; any external URL for alexandermathai.com or HERO's actual storefront",
+      "navigationPlacement": "Primary nav (\"Ecosystem\")",
+      "metadataCrawlPosture": "pageTitle('tmi','Ecosystem'); indexable in production, noindex in preview",
+      "proofClaimsDependencies": "None -- every classification traces to an already-published audit document (docs/ecosystem-release-matrix.md, docs/mark-2-1-hub-release-control-packet.md), not a new claim",
+      "conversionDataSafetyPosture": "Absent",
+      "accessibilityCriteria": "One H1, five section landmarks, descriptive link labels, 0 axe-core violations",
+      "validationCoverage": "tests/hub-routes.test.ts (asserts the four private verticals never appear inside a division-links block, and alexandermathai.com has no href), tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "None",
+      "explicitNonActions": "Did not add a link to any private/incubating vertical or an external HERO/alexandermathai.com URL; no change made in this pass"
+    },
+    {
+      "route": "/consulting",
+      "purpose": "Future advisory, systems, architecture, AI/workflow, and digital brand capability lane",
+      "currentPosture": "Building — not yet live",
+      "renderedModules": "Posture badge, category-level focus-area description (AI/workflow strategy, digital ecosystem/web architecture, digital brand systems, automation), neutral diagnose-design-document-measure method framing, unpopulated future proof/case-study module, inert-pathways statement, internal link to /ecosystem",
+      "intentionallyAbsentModules": "Pricing, packages, client claims, testimonials, outcomes, contact, discovery calls, availability, proposals, forms, email",
+      "navigationPlacement": "Primary nav (\"Consulting\")",
+      "metadataCrawlPosture": "pageTitle('tmi','Consulting'); indexable in production, noindex in preview; no Service/Offer JSON-LD",
+      "proofClaimsDependencies": "PR-CONSULT-001, PR-CONSULT-002 (both 'absent' -- docs/mark-5-tmi-content-model-and-proof-registry.json)",
+      "conversionDataSafetyPosture": "Absent -- future inert prototype only, not built in this or any prior pass",
+      "accessibilityCriteria": "One H1, two section landmarks, 0 axe-core violations",
+      "validationCoverage": "tests/hub-routes.test.ts, tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "No documented service packages, proof assets, intake operations, or commercial terms exist yet",
+      "explicitNonActions": "Did not add a form, booking flow, CRM, pricing, or contact path; no change made in this pass"
+    },
+    {
+      "route": "/media",
+      "purpose": "Future editorial/media discovery and publishing-systems lane",
+      "currentPosture": "Building — not yet live",
+      "renderedModules": "Posture badge, planned-programming description (sports/performance culture, systems/founder commentary, behind-the-build documentation), unpopulated placeholder module, inert-statement note, internal link to /ecosystem",
+      "intentionallyAbsentModules": "View counts, subscriber counts, channel links, embedded video, press claims, active-programming language, newsletter signup, sponsors, social links",
+      "navigationPlacement": "Primary nav (\"Media\")",
+      "metadataCrawlPosture": "pageTitle('tmi','Media'); indexable in production, noindex in preview; no VideoObject JSON-LD",
+      "proofClaimsDependencies": "PR-MEDIA-001, PR-MEDIA-002 (both 'absent')",
+      "conversionDataSafetyPosture": "Absent",
+      "accessibilityCriteria": "One H1, two section landmarks, 0 axe-core violations",
+      "validationCoverage": "tests/hub-routes.test.ts, tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "The previously-flagged 2.1M+ views figure remains founder-reported and unverified; no platform URL has been manually confirmed",
+      "explicitNonActions": "Did not add a platform/channel link, embedded video, or newsletter signup; no change made in this pass"
+    },
+    {
+      "route": "/performance",
+      "purpose": "Future non-clinical movement, training, and performance-education lane",
+      "currentPosture": "Building — not yet live",
+      "renderedModules": "Posture badge, explicit non-clinical scope statement, thematic categories (strength/conditioning, movement quality, sprint mechanics, combat-sport-adjacent preparation) framed as educational only, explicit scope-boundary module, inert-statement note, internal link to /ecosystem",
+      "intentionallyAbsentModules": "Treatment, diagnosis, rehabilitation, injury-prevention claims, medical advice, supplement claims, personalized programming, coaching enrollment, outcomes, health guarantees",
+      "navigationPlacement": "Primary nav (\"Performance\")",
+      "metadataCrawlPosture": "pageTitle('tmi','Performance'); indexable in production, noindex in preview; no medical/health schema of any kind",
+      "proofClaimsDependencies": "PR-PERF-001, PR-PERF-002 (both 'absent')",
+      "conversionDataSafetyPosture": "Absent -- and per docs/mark-5-route-completion-specification.json, coaching/enrollment activation is explicitly out of scope for any future pass this document authorizes, without a separate governance process",
+      "accessibilityCriteria": "One H1, two section landmarks, 0 axe-core violations",
+      "validationCoverage": "tests/hub-routes.test.ts, tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "No documented methodology, coach/operator availability, liability posture, or intake operations exist -- the hardest-gated commercial offer in the ecosystem",
+      "explicitNonActions": "Did not add a training plan, medical claim, or enrollment path; no change made in this pass"
+    },
+    {
+      "route": "/distribution",
+      "purpose": "Future content-distribution and media-operations systems lane",
+      "currentPosture": "Building — not yet live",
+      "renderedModules": "Posture badge, internal-capability description (content packaging, release operations, metadata, repurposing systems), unpopulated planned-workflow module, inert-statement note, internal link to /ecosystem",
+      "intentionallyAbsentModules": "Reach, growth, audience, revenue, platform-performance, client, integration, or active-service claims",
+      "navigationPlacement": "Not in primary nav (owner instruction) -- reachable only via /ecosystem",
+      "metadataCrawlPosture": "pageTitle('tmi','Distribution'); indexable in production, noindex in preview",
+      "proofClaimsDependencies": "None -- Distribution is explicitly internal-capability-only, no public claim requiring proof",
+      "conversionDataSafetyPosture": "Absent",
+      "accessibilityCriteria": "One H1, two section landmarks, 0 axe-core violations",
+      "validationCoverage": "tests/hub-routes.test.ts, tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "None -- intentionally the most static of the five 'Building' route pages",
+      "explicitNonActions": "Did not add a platform integration, contact path, or pricing; no change made in this pass"
+    },
+    {
+      "route": "/hero",
+      "purpose": "Controlled TMI context page for the externally operated HERO property",
+      "currentPosture": "External storefront / internally unaudited",
+      "renderedModules": "Posture badge (exact required string), two-paragraph contextual/boundary statement, zero links of any kind",
+      "intentionallyAbsentModules": "Product listing, photography implying availability, pricing, inventory, shopping/cart CTA, checkout, support promises, product health/performance claims, external storefront link -- ALL of these, without exception",
+      "navigationPlacement": "Not in primary nav (owner instruction) -- reachable only via /ecosystem",
+      "metadataCrawlPosture": "pageTitle('tmi','HERO'); indexable in production, noindex in preview; no Product/Offer JSON-LD ever without a full authenticated audit",
+      "proofClaimsDependencies": "PR-HERO-001 -- the single gating entry for this route's entire future expansion; verificationStatus 'absent'; allowedRoutes and allowedFormats both empty arrays",
+      "conversionDataSafetyPosture": "Absent -- no active button or external destination anywhere on the page, verified by an explicit zero-<a>-elements test assertion",
+      "accessibilityCriteria": "One H1, one section landmark, no interactive elements, 0 axe-core violations",
+      "validationCoverage": "tests/hub-routes.test.ts (explicit zero-<a>-elements assertion, exact posture-string assertion), tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "All five Mark 2 audit-evidence items (storefront location, platform confirmation, claims audit, accessibility/technical pass, owner sign-off) remain unmet",
+      "explicitNonActions": "Did not locate, reach, verify, or link the actual HERO storefront; did not describe HERO as audited, verified, available, active, operational, safe, or approved; no change made in this pass"
+    },
+    {
+      "route": "/partners",
+      "purpose": "Future umbrella lane for strategic collaboration, selected media relationships, advisory, sponsorship, and structural collaboration",
+      "currentPosture": "Building — not yet live",
+      "renderedModules": "Posture badge, future-collaboration-categories description (advisory, editorial/media, sponsorship, structural), status module ('pathways are being defined'), inert-statement note, internal link to /ecosystem",
+      "intentionallyAbsentModules": "Current partners, logos, solicitation, sponsorship offer, contract terms, contact/email/form/calendar, response commitment",
+      "navigationPlacement": "Not in primary nav (owner instruction) -- reachable only via /ecosystem",
+      "metadataCrawlPosture": "pageTitle('tmi','Partners'); indexable in production, noindex in preview",
+      "proofClaimsDependencies": "PR-PARTNER-001 (only if a named partner is ever referenced; 'absent')",
+      "conversionDataSafetyPosture": "Absent -- future inert prototype only, not built in this or any prior pass",
+      "accessibilityCriteria": "One H1, two section landmarks, 0 axe-core violations",
+      "validationCoverage": "tests/hub-routes.test.ts, tests/a11y.mjs, scripts/check-public-output.mjs",
+      "releaseBlockers": "Inbox ownership, response operations, privacy terms, and routing logic are all undecided",
+      "explicitNonActions": "Did not add a submission form, email, or calendar link; no change made in this pass"
+    },
+    {
+      "route": "/contact",
+      "purpose": "N/A",
+      "currentPosture": "Does not exist in this repository. Not created, added, or modified by this or any prior Mark 4-6 pass.",
+      "renderedModules": "N/A",
+      "intentionallyAbsentModules": "The entire route",
+      "navigationPlacement": "N/A",
+      "metadataCrawlPosture": "N/A",
+      "proofClaimsDependencies": "N/A",
+      "conversionDataSafetyPosture": "N/A -- the closest existing analog is the homepage's single conditional CTA block, gated by verifiedGeneralContact() in src/lib/site.ts, currently absent",
+      "accessibilityCriteria": "N/A",
+      "validationCoverage": "N/A",
+      "releaseBlockers": "Out of scope for this task; see docs/LAUNCH_BLOCKERS.md for the existing inbox-verification unblock steps",
+      "explicitNonActions": "Did not create a /contact route"
+    },
+    {
+      "route": "existing fallback / 404 route",
+      "purpose": "N/A",
+      "currentPosture": "Does not exist as a custom page in this repository. No src/pages/404.astro or equivalent was found before or added during this or any prior pass.",
+      "renderedModules": "N/A",
+      "intentionallyAbsentModules": "The entire route",
+      "navigationPlacement": "N/A",
+      "metadataCrawlPosture": "N/A -- Cloudflare Pages serves its own default not-found response for unmatched paths on this static site",
+      "proofClaimsDependencies": "N/A",
+      "conversionDataSafetyPosture": "N/A",
+      "accessibilityCriteria": "N/A",
+      "validationCoverage": "N/A",
+      "releaseBlockers": "Not in scope; a custom 404 page was not requested and was not added",
+      "explicitNonActions": "Did not create a custom 404/fallback route"
+    }
+  ],
+
+  "sharedContentModelArchitecture": {
+    "registry": "src/lib/hub-routes.ts (Mark 4) -- a small, typed, local route registry (HubRoute interface: path, navLabel, postureLabel) that is the single source of truth for which routes are nav-eligible and what exact posture string each renders. Header.astro renders navRoutes() from this registry rather than a hand-written link list.",
+    "separationOfConcerns": "Consistent with the Mark 6 brief's required four-way separation: (1) neutral approved copy -- static prose written directly in each .astro page, reusing already-approved constants like ORG.boilerplate where applicable; (2) planned-only modules -- explicitly labeled 'not yet populated' / 'not yet built' placeholder divs on Consulting/Media/Performance/Distribution/Partners; (3) proof-dependent modules that remain non-rendered -- no Service module, case study, testimonial, or metric is rendered anywhere, gated behind docs/mark-5-tmi-content-model-and-proof-registry.json's proof-registry IDs which all remain 'absent'; (4) conversion modules that remain absent/inert -- no form, mailto, tel, external link, or CTA exists on any of the eight routes; the homepage's one conditional CTA slot is the sole conversion-shaped element in the entire site and renders nothing while VERIFIED_INBOXES is empty.",
+    "noCmsIntroduced": "No content-collection directory, database, remote content fetcher, or new dependency was introduced. This matches the Mark 6 instruction to avoid a generic CMS/database abstraction.",
+    "reuse": "Every route reuses Layout.astro (metadata/canonical/robots/JSON-LD), Eyebrow.astro, and the existing .section/.wrap/.divisions-grid/.division/.division-status/.stub-note CSS classes from src/styles/global.css -- no new component or CSS class was introduced for any of the eight routes."
+  },
+
+  "validationRerunThisPass": {
+    "typecheck": "npm run typecheck -- 0 errors, 0 warnings, 0 hints (27 files)",
+    "test": "npm run test (typecheck + check:constants + test:unit) -- all green",
+    "testUnit": "npm run test:unit -- 50 passed, 0 failed (unchanged count)",
+    "checkConstants": "npm run check:constants -- 0 errors, 46 pre-existing unrelated drift warnings (unchanged)",
+    "buildPreview": "npm run build -- 13 pages, postbuild guard 0 errors",
+    "buildProduction": "PUBLIC_PREVIEW=false npm run build -- 13 pages, postbuild guard 0 errors",
+    "ci": "npm run ci (build + check:constants + test:unit + test:a11y) -- all green",
+    "testA11y": "npm run test:a11y -- 0 axe-core violations across all 13 routes",
+    "workingTreeAfterValidation": "git status --short returned empty both before and after this validation pass -- zero source/test files were touched"
+  },
+
+  "documentationCorrectionsThisPass": [],
+
+  "validationNotes": {
+    "jsonValidated": "This file parsed successfully with node -e \"JSON.parse(...)\" this session.",
+    "crossCheck": "Every route and proof-registry ID referenced here matches docs/mark-5-route-completion-specification.json and docs/mark-5-tmi-content-model-and-proof-registry.json exactly -- no new route, posture string, or proof ID was introduced.",
+    "noExternalConfigChanged": "Confirmed via git diff: no astro.config.mjs, wrangler.toml, public/CNAME, public/_redirects, .env*, or any Cloudflare/DNS/Google-Workspace/analytics/social/YouTube/Udemy/HERO-storefront/payment-related file was touched by this pass."
+  }
+}

@@ -1,0 +1,27 @@
+---
+// src/components/media/MediaGrid.astro
+//
+// Renders a responsive, semantic list of confirmed source-destination
+// preview cards — never a social-feed interface, autoplay carousel, or
+// platform embed. Reuses the existing .divisions-grid layout pattern
+// (src/styles/global.css) already proven across every other route in this
+// repository, so no new grid abstraction was introduced. Mark 11: now
+// takes flattened ConfirmedDestination objects (one per rendered card)
+// instead of whole collection records.
+import MediaCard from "./MediaCard.astro";
+import type { ConfirmedDestination } from "@/lib/media-destinations";
+
+interface Props {
+  destinations: ConfirmedDestination[];
+}
+
+const { destinations } = Astro.props;
+---
+
+<ul class="media-grid divisions-grid">
+  {destinations.map((destination) => (
+    <li class="media-grid-item">
+      <MediaCard destination={destination} />
+    </li>
+  ))}
+</ul>

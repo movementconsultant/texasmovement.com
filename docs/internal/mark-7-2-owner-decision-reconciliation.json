@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "1.0.0",
+  "createdDate": "2026-08-16",
+  "internalOnly": true,
+  "nonRendered": true,
+  "documentClass": "internal owner-decision reconciliation -- NOT public content, NOT a proof-registry update, NOT a claims-registry update. Records actual owner-input presence/absence only; nothing here is inferred completion.",
+  "sourceBranch": "claude/texas-movement-rebuild-pq14fo",
+  "sourceRepository": "movementconsultant/texasmovement.com",
+  "purpose": "Reconciles the owner's completed decisions (if any) in docs/internal/mark-7-founder-evidence-intake.json and docs/internal/mark-7-1-tmi-consulting-owner-review.json against the existing content model, proof registry, route completion criteria, and claims safeguards. Per the Mark 7.2 brief's explicit branch instruction, this file is a CONCISE missing-owner-input report, not a full substantive reconciliation, because no owner decision has been entered since Mark 7.1 closed.",
+  "companionDocuments": [
+    "docs/internal/mark-7-2-owner-decision-reconciliation.md (same finding, readable)",
+    "docs/internal/mark-7-2-future-content-change-readiness.md (Section E -- per-module readiness classification for /about and /consulting)",
+    "docs/internal/mark-7-founder-evidence-intake.md / .json (unmodified -- read only)",
+    "docs/internal/mark-7-1-tmi-consulting-owner-review.md / .json (unmodified -- read only)",
+    "docs/internal/mark-7-1-proposed-about-consulting-content-delta.md (unmodified -- source of the module list this reconciliation checks)",
+    "docs/internal/mark-7-content-approval-queue.md (unmodified -- read only)"
+  ],
+
+  "inputStateFinding": {
+    "ownerFieldsFilledSinceMark71": false,
+    "method": "Every field in docs/internal/mark-7-founder-evidence-intake.json Sections A, B, G was checked programmatically: all 23 fields remain ownerDecision:'pending', verificationStatus:'absent', with evidenceSourceLocation either blank or still pointing only at the Section-G pointer references written in Mark 7 itself (docs/mark-5-owner-evidence-request-packet.md #8, not owner-supplied evidence). Every candidate/hypothesis in docs/internal/mark-7-1-tmi-consulting-owner-review.json Sections A and B was checked the same way: all 11 TMI-identity candidates remain ownerDecision:'pending', and all 6 Consulting lanes remain ownerDecisionRequired:'pending -- select, revise, or reject'.",
+    "conclusion": "TMI identity and Consulting selections remain incomplete. Per the Mark 7.2 brief, this triggers the 'if incomplete' branch: no new hypothesis worksheet was created, and this file documents only the exact fields that still need a decision or artifact."
+  },
+
+  "sectionA_ownerDecisionCompleteness": [
+    {
+      "id": "M72-A-A1", "category": "TMI positioning (owner-decision completeness)", "routeAssociation": "/about",
+      "ownerDecisionStatus": "blank/pending -- no option selected among Options 1-3 or 'own wording' in mark-7-1 checklist item A1",
+      "evidenceStatus": "not applicable -- positioning language, not a factual claim",
+      "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner selection", "requiredNextAction": "Owner answers A1", "notes": ""
+    },
+    {
+      "id": "M72-A-A2", "category": "TMI category focus (owner-decision completeness)", "routeAssociation": "/about, /ecosystem",
+      "ownerDecisionStatus": "blank/pending -- no option selected among Options 1-3 or 'own wording' in mark-7-1 checklist item A2",
+      "evidenceStatus": "not applicable", "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner selection", "requiredNextAction": "Owner answers A2", "notes": ""
+    },
+    {
+      "id": "M72-A-A3", "category": "TMI operating principles (owner-decision completeness)", "routeAssociation": "/about",
+      "ownerDecisionStatus": "blank/pending -- no set selected among Set 1, Set 2, or 'own three' in mark-7-1 checklist item A3",
+      "evidenceStatus": "not applicable", "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner selection", "requiredNextAction": "Owner answers A3", "notes": ""
+    },
+    {
+      "id": "M72-A-A4", "category": "TMI is/is-not boundary (owner-decision completeness)", "routeAssociation": "/about",
+      "ownerDecisionStatus": "blank/pending -- not approved, revised, or deferred in mark-7-1 checklist item A4",
+      "evidenceStatus": "not applicable", "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner decision", "requiredNextAction": "Owner answers A4", "notes": ""
+    },
+    {
+      "id": "M72-A-A5", "category": "TMI emphasis order (owner-decision completeness)", "routeAssociation": "/about, /ecosystem",
+      "ownerDecisionStatus": "blank/pending -- not approved, reordered, or deferred in mark-7-1 checklist item A5",
+      "evidenceStatus": "sourced from docs/mark-5-tmi-content-model-and-proof-registry.json backlog priorities, not new evidence", "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner decision", "requiredNextAction": "Owner answers A5", "notes": ""
+    },
+    {
+      "id": "M72-A-A6", "category": "Private-vertical confirmation (owner-decision completeness)", "routeAssociation": "/ecosystem",
+      "ownerDecisionStatus": "blank/pending -- default (Health/FounderLink/Social-Gather/Reparations remain private) not explicitly confirmed or changed in mark-7-1 checklist item A6",
+      "evidenceStatus": "not applicable", "publicUseStatus": "not-approved (pending) -- current site behavior already treats these as private regardless of this field",
+      "blockers": "No owner confirmation", "requiredNextAction": "Owner answers A6 (optional -- default already matches current safe state)", "notes": ""
+    },
+    {
+      "id": "M72-A-A7", "category": "TMI identity Section A overall decision (owner-decision completeness)", "routeAssociation": "/about",
+      "ownerDecisionStatus": "blank/pending -- approve/revise/defer/do-not-publish not selected in mark-7-1 checklist item A7",
+      "evidenceStatus": "not applicable", "publicUseStatus": "not-approved (pending)",
+      "blockers": "Depends on A1-A6 being answered first", "requiredNextAction": "Owner answers A7 last, after A1-A6", "notes": "Nothing in Section A may move toward /about until this field is 'approve'"
+    },
+    {
+      "id": "M72-A-B1", "category": "Consulting lane selection (owner-decision completeness)", "routeAssociation": "/consulting",
+      "ownerDecisionStatus": "blank/pending -- no lane selected among the 6 hypotheses in mark-7-1 checklist item B1",
+      "evidenceStatus": "not supplied for any of the 6 lanes", "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner selection", "requiredNextAction": "Owner answers B1 (up to 3 lanes, or 'none')", "notes": ""
+    },
+    {
+      "id": "M72-A-B2", "category": "Consulting exclusions per lane (owner-decision completeness)", "routeAssociation": "/consulting",
+      "ownerDecisionStatus": "blank/pending -- depends on B1 being answered first",
+      "evidenceStatus": "not applicable yet", "publicUseStatus": "not-approved (pending)",
+      "blockers": "B1 unanswered", "requiredNextAction": "Owner answers B1, then B2", "notes": ""
+    },
+    {
+      "id": "M72-A-B3", "category": "Consulting evidence availability (owner-decision completeness)", "routeAssociation": "/consulting",
+      "ownerDecisionStatus": "blank/pending -- none/case-study-candidate-exists/other not selected in mark-7-1 checklist item B3",
+      "evidenceStatus": "not supplied", "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner input", "requiredNextAction": "Owner answers B3", "notes": ""
+    },
+    {
+      "id": "M72-A-B4", "category": "Consulting no-commercial-activation confirmation (owner-decision completeness)", "routeAssociation": "/consulting",
+      "ownerDecisionStatus": "blank/pending -- not yet confirmed in mark-7-1 checklist item B4",
+      "evidenceStatus": "not applicable", "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner confirmation", "requiredNextAction": "Owner answers B4", "notes": "Low-effort confirmation -- recommended first item to close"
+    },
+    {
+      "id": "M72-A-B5", "category": "Consulting prohibited wording confirmation (owner-decision completeness)", "routeAssociation": "/consulting",
+      "ownerDecisionStatus": "blank/pending -- not yet confirmed in mark-7-1 checklist item B5",
+      "evidenceStatus": "not applicable", "publicUseStatus": "not-approved (pending)",
+      "blockers": "No owner confirmation", "requiredNextAction": "Owner answers B5", "notes": ""
+    }
+  ],
+
+  "contradictionsFound": [],
+  "contradictionCheckMethod": "Checked for contradictions among: selected TMI positioning vs. selected Consulting lanes vs. stated exclusions vs. evidence availability vs. current route classification vs. proof registry status vs. release blockers. Since no selection exists in any of these categories, no contradiction is possible to detect this pass -- this is a null result caused by absent input, not a confirmation of consistency.",
+
+  "sectionB_tmiPositioningReconciliation": {
+    "selectedOnePositioningStatement": null,
+    "selectedOperatingPrinciples": null,
+    "allowedPublicFramingCandidate": "None -- Options 1-3 in mark-7-1-tmi-consulting-owner-review.json sectionA_tmiIdentityCandidates remain unselected drafts, not allowed framing",
+    "prohibitedFraming": "Unchanged standing prohibitions: any historical/numerical claim, any founder-biography claim, any current-availability statement, any claim that a division is open/live/available/operating/accepting anything",
+    "routeImpact": "/about and /ecosystem only, per Mark 7.2 scope -- no other route affected",
+    "evidenceProofRequirements": "None required for pure positioning language; PR-FOUNDER-001 required only if a founder-context cross-reference is ever added",
+    "requiredEditorialLegalEntityReview": "Not yet triggered -- no candidate has reached owner approval",
+    "publicUseStatus": "not-approved (pending) -- remains pending because no owner decision exists; existing governance (docs/mark-5-tmi-content-model-and-proof-registry.json) provides no basis to assign any other designation without one"
+  },
+
+  "sectionC_consultingReconciliation": [
+    {
+      "laneId": "M71-B-LANE-01", "workingServiceName": "Digital ecosystem audit and architecture",
+      "decisionStatus": "not selected, not rejected -- pending (B1 unanswered)",
+      "intendedBuyer": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "scopeAndExclusions": "Drafted in mark-7-1 hypothesis, not owner-confirmed; exclusions (B2) not yet requested since B1 is unanswered",
+      "deliveryFormat": "Drafted hypothesis only (fixed-scope engagement) -- not owner-confirmed",
+      "proofGaps": "PR-ARCH-001 remains absent; not usable until both hubs reach release-candidate",
+      "legalContractPolicyGaps": "Engagement-terms and confidentiality templates not drafted",
+      "conversionStatus": "inactive",
+      "futureRouteModuleAssociation": "/consulting -- Service module (not built)",
+      "prohibitedClaims": "No client claim, guaranteed outcome, or specific turnaround-time claim",
+      "prerequisitesBeforePublicCopyConsideration": "B1 selection, evidence for PR-ARCH-001, engagement-terms template"
+    },
+    {
+      "laneId": "M71-B-LANE-02", "workingServiceName": "AI/workflow strategy",
+      "decisionStatus": "not selected, not rejected -- pending (B1 unanswered)",
+      "intendedBuyer": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "scopeAndExclusions": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "deliveryFormat": "Drafted hypothesis only (fixed-scope diagnostic) -- not owner-confirmed",
+      "proofGaps": "PR-CONSULT-001 remains absent -- no permission-confirmed case study exists",
+      "legalContractPolicyGaps": "Engagement-terms and confidentiality templates not drafted",
+      "conversionStatus": "inactive",
+      "futureRouteModuleAssociation": "/consulting -- Service module (not built)",
+      "prohibitedClaims": "No client name/result of any kind",
+      "prerequisitesBeforePublicCopyConsideration": "B1 selection, evidence for PR-CONSULT-001, engagement-terms template"
+    },
+    {
+      "laneId": "M71-B-LANE-03", "workingServiceName": "Modern web/brand systems",
+      "decisionStatus": "not selected, not rejected -- pending (B1 unanswered)",
+      "intendedBuyer": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "scopeAndExclusions": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "deliveryFormat": "Drafted hypothesis only -- not owner-confirmed",
+      "proofGaps": "No proof-registry ID exists for this lane; none published",
+      "legalContractPolicyGaps": "Engagement-terms template not drafted",
+      "conversionStatus": "inactive",
+      "futureRouteModuleAssociation": "/consulting -- Service module (not built)",
+      "prohibitedClaims": "No before/after claim without confirmed factual evidence",
+      "prerequisitesBeforePublicCopyConsideration": "B1 selection, a proof-registry entry would need to be created (out of scope for this pass), engagement-terms template"
+    },
+    {
+      "laneId": "M71-B-LANE-04", "workingServiceName": "Documentation and operating-system design",
+      "decisionStatus": "not selected, not rejected -- pending (B1 unanswered)",
+      "intendedBuyer": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "scopeAndExclusions": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "deliveryFormat": "Drafted hypothesis only -- not owner-confirmed",
+      "proofGaps": "No proof-registry ID exists; this lane is not in any prior Mark 3 service catalog",
+      "legalContractPolicyGaps": "Engagement-terms template not drafted",
+      "conversionStatus": "inactive",
+      "futureRouteModuleAssociation": "/consulting -- Service module (not built)",
+      "prohibitedClaims": "No time-saved or efficiency-gain claim without a real, measured example",
+      "prerequisitesBeforePublicCopyConsideration": "B1 selection; owner confirmation this is a distinct lane, not folded into Lane 01"
+    },
+    {
+      "laneId": "M71-B-LANE-05", "workingServiceName": "Automation opportunity mapping",
+      "decisionStatus": "not selected, not rejected -- pending (B1 unanswered)",
+      "intendedBuyer": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "scopeAndExclusions": "Not yet defined even at hypothesis level -- lowest-confidence lane",
+      "deliveryFormat": "Not yet defined",
+      "proofGaps": "No proof-registry ID exists; flagged 'entirely undocumented' as of Mark 5",
+      "legalContractPolicyGaps": "Engagement-terms template not drafted",
+      "conversionStatus": "inactive",
+      "futureRouteModuleAssociation": "/consulting -- Service module (not built)",
+      "prohibitedClaims": "No capability claim of any kind until the lane itself is defined",
+      "prerequisitesBeforePublicCopyConsideration": "B1 selection; the lane itself needs owner definition before scope/deliverables can even be drafted"
+    },
+    {
+      "laneId": "M71-B-LANE-06", "workingServiceName": "Founder/operator advisory",
+      "decisionStatus": "not selected, not rejected -- pending (B1 unanswered)",
+      "intendedBuyer": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "scopeAndExclusions": "Drafted in mark-7-1 hypothesis, not owner-confirmed",
+      "deliveryFormat": "Drafted hypothesis only (retainer, likely after a project track record) -- not owner-confirmed",
+      "proofGaps": "No proof-registry ID exists; depends on a project-engagement track record existing first",
+      "legalContractPolicyGaps": "Retainer terms not drafted",
+      "conversionStatus": "inactive",
+      "futureRouteModuleAssociation": "/consulting -- Service module (not built)",
+      "prohibitedClaims": "No availability, capacity, or response-time claim",
+      "prerequisitesBeforePublicCopyConsideration": "B1 selection; at least one other lane reaching a track record first"
+    }
+  ],
+
+  "sectionD_evidenceProofMapping": [
+    { "proofId": "PR-CONSULT-001", "linkedDecision": "M71-B-LANE-02 (and case-study candidate template)", "artifactStatus": "evidence not supplied", "notes": "Referenced only -- not edited. Remains 'absent' in docs/mark-5-tmi-content-model-and-proof-registry.json" },
+    { "proofId": "PR-CONSULT-002", "linkedDecision": "Consulting engagement-volume claim (Mark 7 field B-02)", "artifactStatus": "evidence not supplied", "notes": "Referenced only -- not edited" },
+    { "proofId": "PR-ARCH-001", "linkedDecision": "M71-B-LANE-01, M71-B-LANE-02", "artifactStatus": "evidence not supplied; structurally blocked until both hubs reach release-candidate", "notes": "Referenced only -- not edited" },
+    { "proofId": "PR-FOUNDER-001", "linkedDecision": "M71-A-ISIS-01 (if a founder cross-reference is ever added to /about)", "artifactStatus": "evidence not supplied; additionally gated on alexandermathai.com's own claims.registry.json, 40 of 41 entries pending as of last check", "notes": "Referenced only -- not edited, and out of this repository's control to resolve" }
+  ],
+
+  "sectionF_explicitNonActions": "No public page, proof registry, claims registry, route, metadata, conversion path, infrastructure setting, or external service was changed by this pass. docs/mark-5-tmi-content-model-and-proof-registry.json was not opened for editing. docs/internal/mark-7-founder-evidence-intake.json and docs/internal/mark-7-1-tmi-consulting-owner-review.json were read but not modified.",
+
+  "validationNotes": {
+    "jsonValidated": "This file parsed successfully with node -e \"JSON.parse(...)\" this session.",
+    "noStatusWordsUnqualified": "Every use of 'approved'/'verified'/'ready'/'active'/'operational' in this file is either negated ('not-approved', 'not selected'), a field-name label, or immediately qualified with '(pending)' and a reason.",
+    "noProofRegistryEdited": "git diff confirms docs/mark-5-tmi-content-model-and-proof-registry.json is unchanged by this pass.",
+    "sensitiveWordScan": "Reviewed for: live, verified, approved, ready, operational, active, available, client, results, guarantee, medical, legal, price, booking, contact. Every occurrence is a negated/pending state, a field-name label, or a standing prohibition restated -- none asserts a current active or approved claim."
+  }
+}
