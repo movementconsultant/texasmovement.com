@@ -1,0 +1,105 @@
+{
+  "title": "Mark 11 Confirmed Media Destinations, Privacy-Safe Preview Cards, and TMM Media UX Optimization",
+  "updatedAt": "2026-08-17",
+  "partA_phaseShiftRecord": {
+    "ownerConfirmation": "All eight Mark 10 rendered destinations are authorized source destinations and may remain in the TMM media index.",
+    "scope": ["movementconsultant/texasmovement.com"],
+    "branch": "claude/texas-movement-rebuild-pq14fo",
+    "pr": 1,
+    "prKeptDraft": true,
+    "alexandermathaiComTouched": false
+  },
+  "partB_confirmationStatusVocabulary": {
+    "owner-authorized-handle-derived": "The owner authorized a source label/handle and the URL was mechanically derived from it under a documented platform URL rule (the Mark 10 starting state).",
+    "owner-confirmed-source-destination": "The owner has reviewed this specific destination and confirms it belongs in the static index — not a claim the URL string itself was independently re-verified.",
+    "owner-supplied-canonical-url": "The owner directly supplied the canonical URL (not derived from a handle). Not used by any current record.",
+    "owner-confirmed-canonical-url": "The owner has reviewed and confirmed the exact canonical URL string. Not used by any current record.",
+    "excludedTerms": [
+      "verified",
+      "official",
+      "active",
+      "live",
+      "current",
+      "operational",
+      "platform-approved",
+      "independently-audited"
+    ],
+    "appliedToAllEightDestinations": "owner-confirmed-source-destination"
+  },
+  "partC_whatConfirmationDoesNotMean": [
+    "Does not mean platform verification of the account.",
+    "Does not mean the account is currently active, live, or publishing.",
+    "Does not mean content rights for any specific item are cleared.",
+    "Does not mean automatic TMI/TMM/AVM cross-attribution — crossAttributionStatus stays prohibited-pending-per-item-approval on every record.",
+    "Does not mean any individual media item is approved for display — gates G-M1 through G-M8 remain unmet."
+  ],
+  "partD_previewCardDesign": {
+    "components": [
+      "src/components/media/MediaCard.astro (upgraded in place — now one card per confirmed destination, not per record)",
+      "src/components/media/MediaPreviewArt.astro (new — local inline SVG + typographic monogram, source-class tinted)",
+      "src/components/media/MediaPlatformMark.astro (new — text-only platform abbreviation, decorative/aria-hidden)",
+      "src/components/media/MediaStatus.astro (rewritten — 3 short boundary lines per destination, not a record-level jargon list)",
+      "src/components/media/MediaGrid.astro (updated — renders ConfirmedDestination[] instead of collection entries)"
+    ],
+    "visualPreviewMethod": "Local inline SVG geometry (frame + two rule lines) plus a typographic monogram derived from the source label, tinted per source class using this site's own --compression/--tension accent tokens. No platform logo, remote thumbnail, fake video frame, fake post grid, or fake metric.",
+    "linkLabelConvention": "Descriptive, e.g. 'Texas Movement Media on YouTube' — never 'Click here', 'Watch', 'Follow', or 'Subscribe'.",
+    "linkAttributes": { "target": "_blank", "rel": "noopener noreferrer" },
+    "accessibleNewTabContext": "A visually-hidden '(opens in a new tab)' span accompanies every outbound link."
+  },
+  "partE_linkGateBehavior": {
+    "location": "src/lib/media-destinations.ts getConfirmedDestinations()",
+    "recordLevelGate": "linkMode === 'destination-index' AND status !== 'placeholder' AND publicDisplayStatus === 'approved-static-index' AND ownerApprovalStatus === 'approved-static-index'",
+    "perDestinationGate": "urlStatus === 'owner-supplied' AND isSafeHttpUrl(url)",
+    "defenseInDepth": "MediaCard.astro re-checks isSafeHttpUrl(url) before rendering an anchor.",
+    "failingDestinationBehavior": "Renders nothing at all — no card, no link, no inert text (changed from Mark 10, where a failing destination rendered visible inert text inside its parent record's multi-link card)."
+  },
+  "partF_sourceGroupsAndCounts": [
+    { "group": "TMM", "sectionHeading": "Texas Movement Media", "destinationCount": 4 },
+    { "group": "TMI", "sectionHeading": "Texas Movement Editorial", "destinationCount": 1 },
+    { "group": "founder-AVM", "sectionHeading": "Founder Media", "destinationCount": 3 }
+  ],
+  "totalDestinationsRendered": 8,
+  "partG_exclusions": [
+    {
+      "source": "LinkedIn (founder-AVM)",
+      "rendered": false,
+      "reason": "No confirmed URL slug in local evidence; scripts/check-public-output.mjs also hard-fails on any linkedin.com string. Entry retained in JSON with url:null, urlStatus:inert-missing-evidence, no confirmationStatus, for owner audit trail only."
+    },
+    {
+      "source": "Facebook (founder-AVM)",
+      "rendered": false,
+      "reason": "No Facebook URL slug in local evidence; guessing one from a display name is prohibited. Same audit-trail retention as LinkedIn."
+    },
+    {
+      "source": "HERO (all platforms)",
+      "rendered": false,
+      "reason": "Strictly out of scope per explicit task instruction. No HERO record, destination, preview, product, or storefront link exists anywhere in the media collection."
+    }
+  ],
+  "partH_unresolvedIndividualMediaItemRequirements": [
+    "Gates G-M1 through G-M8 (docs/internal/mark-8-tmm-unified-media-feed-architecture.md Part D) remain unmet.",
+    "No intake template has been completed for any real item.",
+    "Owner final authorization (ownerApprovalStatus, non-delegable per G-M8) has not occurred for any individual item.",
+    "editorialStatus/rightsStatus/transcriptStatus/publicationDateStatus unchanged on every record this pass."
+  ],
+  "partI_validation": {
+    "typecheck": "0 errors, 0 warnings, 0 hints (36 files)",
+    "testUnit": "84 passed, 0 failed",
+    "checkConstants": "0 errors (pre-existing unrelated drift warnings only, unchanged)",
+    "buildDefault": "13 pages, postbuild guard 0 errors",
+    "buildPublicPreviewFalse": "13 pages, postbuild guard 0 errors",
+    "ci": "all green",
+    "testA11y": "0 axe-core violations across all 13 routes including /media",
+    "manualDistInspection": "Exactly 8 .media-card elements and 8 outbound <a> links matching the 8 confirmed destinations, each with target=_blank and rel=noopener noreferrer. Zero linkedin.com/facebook.com/HERO strings. Zero new <iframe>/<form>/remote <img>/<button>. One <h1>. Correct h2>h3>h4 heading nesting. sitemap.xml/robots.txt unchanged (pre-existing sitewide Building-phase behavior)."
+  },
+  "partJ_explicitNonActions": [
+    "No embed, API call, RSS fetch, scraper, or OAuth flow added.",
+    "No platform account modified.",
+    "No Cloudflare, DNS, domain, or deployment setting changed.",
+    "No merge, deploy, or publish occurred.",
+    "alexandermathai.com not touched.",
+    "No individual media item populated.",
+    "No non-media route's content or posture changed."
+  ],
+  "ownerReminder": "After this phase completes, review every owner-confirmed source destination (see docs/internal/mark-11-media-source-confirmation-and-review.md) and correct any outdated URL, handle, classification, or relationship before any future individual-media-item phase begins."
+}

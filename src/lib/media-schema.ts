@@ -18,14 +18,42 @@ import { z } from "astro/zod";
 // destinations[] array. `url` is null and `urlStatus` is
 // "inert-missing-evidence" whenever the owner has not supplied a confirmed
 // URL slug (e.g. LinkedIn/Facebook profile slugs never guessed from a
-// display name) — MediaCard.astro renders no link at all for such an entry,
-// only a plain-text "Owner URL required" status.
+// display name) — nothing renders at all for such an entry, on this page or
+// any other.
+//
+// `confirmationStatus` (Mark 11) is a separate, narrower axis: it describes
+// how the owner's confirmation of THIS destination was obtained, never
+// whether the destination is safe to render (that's still `urlStatus` +
+// isSafeHttpUrl(), unchanged). Four controlled values only — deliberately
+// excludes "verified"/"official"/"active"/"live"/"current"/"operational"/
+// "platform-approved"/"independently-audited", none of which this repository
+// can truthfully claim about a third-party platform account:
+//   - "owner-authorized-handle-derived": the owner authorized a source
+//     label/handle and this URL was mechanically derived from it under a
+//     documented platform URL rule (the Mark 10 starting state).
+//   - "owner-confirmed-source-destination": the owner has reviewed this
+//     specific destination and confirms it belongs in the static index —
+//     not a claim that the URL string itself was independently re-verified.
+//   - "owner-supplied-canonical-url": the owner directly supplied the
+//     canonical URL (not derived from a handle).
+//   - "owner-confirmed-canonical-url": the owner has reviewed and confirmed
+//     the exact canonical URL string.
+// Optional: absent on any destination the owner has not yet reached any of
+// these states for (e.g. an inert LinkedIn/Facebook entry).
 export const mediaDestinationSchema = z.object({
   platform: z.string(),
   handle: z.string(),
   url: z.url().nullable(),
   urlStatus: z.enum(["owner-supplied", "inert-missing-evidence"]),
   linkText: z.string(),
+  confirmationStatus: z
+    .enum([
+      "owner-authorized-handle-derived",
+      "owner-confirmed-source-destination",
+      "owner-supplied-canonical-url",
+      "owner-confirmed-canonical-url",
+    ])
+    .optional(),
 });
 
 export const mediaEntrySchema = z.object({

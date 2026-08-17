@@ -5,23 +5,16 @@ import MediaGrid from "@/components/media/MediaGrid.astro";
 import { pageTitle } from "@tmi/constants";
 import { hubRoute } from "@/lib/hub-routes";
 import { getCollection } from "astro:content";
+import { getConfirmedDestinations, groupDestinationsBySourceClass } from "@/lib/media-destinations";
 
 const title = pageTitle("tmi", "Media");
 const description =
-  "Texas Movement Media's editorial index lists owner-authorized static source destinations for Texas Movement Media, Texas Movement editorial, and founder-associated media. These are source links only — no individual media items, dates, metrics, or embeds are published yet.";
+  "Texas Movement Media's editorial index lists owner-confirmed static source destinations for Texas Movement Media, Texas Movement editorial, and founder media. These are source references only — no individual media items, dates, metrics, or embeds are published yet.";
 const posture = hubRoute("/media")!.postureLabel!;
 
-// Fixed display order matching the Mark 10 seed order (TMM, then TMI, then
-// founder/AVM) rather than relying on the content loader's filesystem order.
-const DISPLAY_ORDER = [
-  "tmm-platform-destinations",
-  "tmi-editorial-destination",
-  "founder-avm-media-destinations",
-];
 const allMediaEntries = await getCollection("media");
-const mediaEntries = DISPLAY_ORDER.map((id) => allMediaEntries.find((e) => e.id === id)).filter(
-  (e) => e !== undefined,
-);
+const confirmedDestinations = getConfirmedDestinations(allMediaEntries);
+const destinationGroups = groupDestinationsBySourceClass(confirmedDestinations);
 ---
 
 <Layout title={title} description={description} path="/media">
@@ -32,9 +25,10 @@ const mediaEntries = DISPLAY_ORDER.map((id) => allMediaEntries.find((e) => e.id 
         <h1>Texas Movement Media.</h1>
         <span class="division-status">{posture}</span>
         <p>
-          Media is the future editorial and documentation lane of Texas Movement International —
-          the part of the ecosystem responsible for recording and explaining the work, not
-          performing it. The publishing architecture below is a plan, not a live channel directory.
+          Texas Movement Media (TMM) is the media and editorial-distribution function within Texas
+          Movement International — the part of the ecosystem responsible for recording and
+          explaining the work, not performing it. Below is a static source-destination index, not a
+          live channel directory or a feed.
         </p>
       </div>
     </section>
@@ -54,9 +48,8 @@ const mediaEntries = DISPLAY_ORDER.map((id) => allMediaEntries.find((e) => e.id 
             <div class="division-label">PLACEHOLDER MODULE</div>
             <div class="division-title">Programming architecture — not yet built.</div>
             <p class="division-body">
-              No view count, subscriber figure, platform link, channel link, or embedded video
-              appears on this page. Nothing here should be read as a statement that programming is
-              currently active.
+              No view count, subscriber figure, recent-post list, or embedded video appears on this
+              page. Nothing here should be read as a statement that programming is currently active.
             </p>
           </div>
         </div>
@@ -68,27 +61,38 @@ const mediaEntries = DISPLAY_ORDER.map((id) => allMediaEntries.find((e) => e.id 
       </div>
     </section>
 
-    <section id="records" class="section">
+    <section id="records" class="section" aria-labelledby="confirmed-destinations-heading">
       <div class="wrap">
-        <Eyebrow>EDITORIAL INDEX RECORDS</Eyebrow>
-        <h2>Owner-authorized source destinations.</h2>
+        <Eyebrow>CONFIRMED SOURCE DESTINATIONS</Eyebrow>
+        <h2 id="confirmed-destinations-heading">Owner-confirmed source destinations.</h2>
         <p>
-          Each record below is a static, owner-authorized source destination — not a feed, not an
-          individual media item, and not a live or automated listing. Links are fixed at build
-          time from a local, owner-reviewed data file; nothing here is fetched from any platform
-          API, RSS feed, or embed. Texas Movement Media is an editorial and media-distribution
-          function within Texas Movement International — not a separate platform, outlet, channel,
-          publisher, account, domain, or feed service. Founder-associated destinations are
-          separately attributed and are not automatically Texas Movement International or Texas
-          Movement Media editorial content.
+          Each card below is a static, owner-confirmed source destination — not a feed, not an
+          individual media item, and not a live or automated listing. Links are fixed at build time
+          from a local, owner-reviewed data file; nothing here is fetched from any platform API, RSS
+          feed, or embed. Founder-associated destinations are separately attributed and are not
+          automatically Texas Movement International or Texas Movement Media editorial content.
         </p>
-        <MediaGrid entries={mediaEntries} />
+
+        {destinationGroups.map((group) => (
+          <div class="media-source-group" aria-labelledby={`media-group-${group.sourceClass}`}>
+            <h3 id={`media-group-${group.sourceClass}`} class="media-source-group-heading">
+              {group.label}
+            </h3>
+            {group.destinations.length > 0 ? (
+              <MediaGrid destinations={group.destinations} />
+            ) : (
+              <p class="media-source-group-empty">No confirmed destinations in this group yet.</p>
+            )}
+          </div>
+        ))}
+
         <div class="stub-note">
-          These are source-level destination links only: no individual video, post, or episode is
-          indexed, dated, described, or embedded here yet, and no follower, view, or subscriber
-          figure is shown. See docs/internal/mark-10-media-destination-owner-review.md (repository
-          documentation, not published on this site) for the owner review checklist covering these
-          destinations.
+          Source destinations are static references only: no individual video, post, or episode is
+          indexed, dated, described, or embedded here, and no follower, view, or subscriber figure
+          is shown anywhere on this page. Individual media content is governed separately, under its
+          own review gates, and has not begun. See
+          docs/internal/mark-11-media-source-confirmation-and-review.md (repository documentation,
+          not published on this site) for the owner review checklist covering these destinations.
         </div>
       </div>
     </section>

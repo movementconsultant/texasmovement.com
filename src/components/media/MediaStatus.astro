@@ -1,51 +1,35 @@
 ---
 // src/components/media/MediaStatus.astro
 //
-// Renders restrained, text-based (never color-only) status lines for one
-// media entry. Every phrase here is deliberately drawn from a small,
-// reviewed vocabulary — never "Live," "Available now," "Watch," "Listen,"
-// "Follow," "Subscribe," "Published," "Latest," "Verified," or "Official."
-import type { CollectionEntry } from "astro:content";
-
+// Mark 11 — a compact, per-destination boundary note (3 short lines max),
+// replacing the Mark 9/10 record-level status list. Every phrase here is
+// deliberately drawn from a small, reviewed vocabulary — never "Live,"
+// "Available now," "Watch," "Listen," "Follow," "Subscribe," "Published,"
+// "Latest," "Verified," "Official," "Active," "Current," "Operational," or
+// "Platform-approved."
 interface Props {
-  entry: CollectionEntry<"media">;
+  confirmationStatus?:
+    | "owner-authorized-handle-derived"
+    | "owner-confirmed-source-destination"
+    | "owner-supplied-canonical-url"
+    | "owner-confirmed-canonical-url";
 }
 
-const { entry } = Astro.props;
-const d = entry.data;
+const { confirmationStatus } = Astro.props;
 
-const editorialStatusText: Record<typeof d.editorialStatus, string> = {
-  placeholder: "Structural placeholder — not yet reviewed",
-  "internal-review-required": "Internal review required",
-  "approved-for-static-index": "Approved for static index",
+const CONFIRMATION_TEXT: Record<string, string> = {
+  "owner-authorized-handle-derived": "Destination authorized by owner; source review pending.",
+  "owner-confirmed-source-destination": "Source destination confirmed by owner.",
+  "owner-supplied-canonical-url": "Canonical URL supplied directly by owner.",
+  "owner-confirmed-canonical-url": "Canonical URL reviewed and confirmed by owner.",
 };
 
-const ownerApprovalText: Record<typeof d.ownerApprovalStatus, string> = {
-  pending: "Owner review required",
-  "owner-confirmation-required": "Owner confirmation required",
-  "approved-static-index": "Owner approved",
-};
-
-const linkModeText: Record<typeof d.linkMode, string> = {
-  "no-link": "No external destination enabled",
-  "owner-supplied-external-link": "External destination enabled (owner-supplied)",
-  "destination-index": "Static source destinations listed below (owner-supplied)",
-};
-
-// "Metadata pending review" shows whenever any of the underlying metadata
-// fields hasn't reached its own fully-reviewed terminal value — true for
-// every placeholder seeded in this pass.
-const metadataPending =
-  d.publicationDateStatus !== "evidenced" ||
-  d.canonicalUrlStatus !== "owner-supplied" ||
-  d.transcriptStatus !== "supplied" ||
-  d.accessibilityStatus !== "reviewed" ||
-  d.rightsStatus !== "approved-for-static-index";
+const confirmationText =
+  CONFIRMATION_TEXT[confirmationStatus ?? "owner-authorized-handle-derived"];
 ---
 
 <ul class="media-status-list">
-  <li class="media-status-item">{editorialStatusText[d.editorialStatus]}</li>
-  <li class="media-status-item">{ownerApprovalText[d.ownerApprovalStatus]}</li>
-  <li class="media-status-item">{linkModeText[d.linkMode]}</li>
-  {metadataPending && <li class="media-status-item">Metadata pending review</li>}
+  <li class="media-status-item">{confirmationText}</li>
+  <li class="media-status-item">Individual media entries are reviewed separately.</li>
+  <li class="media-status-item">No platform embed is used.</li>
 </ul>

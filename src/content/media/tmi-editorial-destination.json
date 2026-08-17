@@ -26,13 +26,14 @@
       "handle": "TexasMovement",
       "url": "https://texasmovement.substack.com",
       "urlStatus": "owner-supplied",
-      "linkText": "Texas Movement Editorial on Substack"
+      "linkText": "Texas Movement Editorial on Substack",
+      "confirmationStatus": "owner-confirmed-source-destination"
     }
   ],
   "imageStatus": "no-image",
   "imageAlt": "No media thumbnail or platform logo is displayed. The destination below is a text link only.",
   "crossAttributionStatus": "prohibited-pending-per-item-approval",
   "attributionNote": "Handle owner-authorized per Mark 10 task brief. Substack URL constructed by case-normalizing the owner-supplied handle 'TexasMovement' to lowercase per the standard '[handle].substack.com' platform pattern (Mark 10 instruction), while this record's own display casing preserves 'TexasMovement' as supplied. Account ownership and content facts are not independently verified.",
-  "internalOnlyNotes": "Mark 10 destination-index record, superseding the Mark 9 single-item placeholder previously at this collection slot (tmi-substack-placeholder.json, removed). See docs/internal/mark-10-media-destination-owner-review.md for the owner review checklist covering this destination.",
-  "updatedAt": "2026-08-16"
+  "internalOnlyNotes": "Mark 10 destination-index record, superseding the Mark 9 single-item placeholder previously at this collection slot (tmi-substack-placeholder.json, removed). See docs/internal/mark-10-media-destination-owner-review.md for the owner review checklist covering this destination. Mark 11 (2026-08-17): the owner confirmed this destination belongs in the static index; its confirmationStatus moved to owner-confirmed-source-destination. This is a confirmation that the destination belongs in the index, not a claim of platform verification, current activity, or individual media-item approval.",
+  "updatedAt": "2026-08-17"
 }

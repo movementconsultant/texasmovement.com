@@ -13,6 +13,16 @@ Companion machine-readable file: `docs/mark-10-controlled-media-destination-popu
 `docs/internal/mark-10-media-destination-owner-review.md` (owner review checklist for the exact
 URLs rendered — not published on this site).
 
+> **Dated clarification (Mark 11, 2026-08-17):** the page architecture and rendering behavior
+> described below were superseded by Mark 11 — see `docs/mark-11-tmm-preview-card-ux-optimization.md`.
+> Two factual changes worth noting here rather than silently editing the history above: (1) the
+> eight linkable destinations described in this document are now rendered as individual preview
+> cards (one destination per card, grouped by source class), not as multiple links inside three
+> record-level cards; (2) a destination that fails its link gate (LinkedIn, Facebook) now renders
+> **nothing at all** — no card, no link, no inert "Owner URL required" text — where this document's
+> Part C/E previously described that text rendering. The underlying data and gate logic this
+> document describes are otherwise still accurate.
+
 ---
 
 ## Part A — Phase-shift record
