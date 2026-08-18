@@ -18,6 +18,10 @@ const result = await getLatestSignalItems();
   {
     result.status === "ok" ? (
       <>
+        <p class="latest-signal-live">
+          <span class="latest-signal-live-dot" aria-hidden="true"></span>
+          Live telemetry
+        </p>
         <ul class="latest-signal-list">
           {result.items.map((item) => (
             <li>
@@ -52,6 +56,24 @@ const result = await getLatestSignalItems();
 </div>
 
 <style>
+  .latest-signal-live {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .latest-signal-live-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--ff-accent-signal);
+    flex-shrink: 0;
+  }
+
   .latest-signal-list {
     list-style: none;
     display: flex;
