@@ -1,0 +1,172 @@
+---
+// src/components/SubsidiaryDossier.astro
+//
+// Mark 21 — the "Multi-Vertical Switchboard": a dense, monospace routing-
+// matrix table highlighting TMM, FounderLink, and HERO/TMP on /lanes.
+// Every MANDATE cell below is sourced from language already established and
+// owner-approved elsewhere on this site (ECOSYSTEM_MAP blurbs in
+// src/lib/site.ts, and the route body copy on /media, /performance, /hero,
+// /ecosystem) — nothing here asserts a new service, capability, or claim
+// that isn't already published. STATUS values match each property's real,
+// current ECOSYSTEM_MAP badge (see src/lib/site.ts) and hub-routes.ts
+// posture — none is marked deployed/active unless it actually is. This
+// component intentionally does not use --ff-accent-signal anywhere: per the
+// Mark 19 accent-restraint rule, Signal Green is reserved for the Contact
+// Intake button and live-telemetry indicators, not a summary table.
+
+interface DossierRow {
+  designation: string;
+  sector: string;
+  status: string;
+  mandate: string;
+  route: string | null;
+}
+
+const rows: DossierRow[] = [
+  {
+    designation: "TMM — Texas Movement Media",
+    sector: "Media / Editorial Distribution",
+    status: "Deployment Pending — not yet live",
+    mandate:
+      "Independent media, editorial series, and cultural documentation. Owner-confirmed source-destination index (YouTube, Instagram, TikTok, Substack) and automated Latest Signal rail are live at /media; full editorial programming is Deployment Pending.",
+    route: "/media",
+  },
+  {
+    designation: "FounderLink",
+    sector: "Internal Routing / Cross-Lane Coordination",
+    status: "Restricted Access — concept-stage",
+    mandate:
+      "Internal founder routing and cross-lane coordination. Concept-stage only — no public network, membership, or intake exists.",
+    route: null,
+  },
+  {
+    designation: "HERO",
+    sector: "Consumer Products / Apparel / Footwear",
+    status: "External storefront / internally unaudited",
+    mandate:
+      "Consumer products, apparel, footwear, and performance-oriented design. Externally operated; not built, hosted, or audited from this hub.",
+    route: "/hero",
+  },
+  {
+    designation: "TMP — Texas Movement Performance",
+    sector: "Training / Movement / Athletic Development",
+    status: "Deployment Pending — not yet live",
+    mandate:
+      "Non-clinical movement and training lane. No coaching, medical, or enrollment offer is active.",
+    route: "/performance",
+  },
+];
+---
+
+<div class="dossier">
+  <div class="dossier-scroll">
+    <table class="dossier-table">
+      <thead>
+        <tr>
+          <th scope="col">Designation</th>
+          <th scope="col">Sector</th>
+          <th scope="col">Status</th>
+          <th scope="col">Mandate</th>
+          <th scope="col">Route</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row) => (
+            <tr>
+              <td class="dossier-designation">{row.designation}</td>
+              <td class="dossier-sector">{row.sector}</td>
+              <td class="dossier-status">{row.status}</td>
+              <td class="dossier-mandate">{row.mandate}</td>
+              <td class="dossier-route">
+                {row.route ? <a href={row.route}>{row.route} →</a> : <span>—</span>}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="dossier-footnote">
+    Every field above matches this vertical's current, owner-approved status elsewhere on this
+    site (see the ecosystem map's badges and each route's own posture line) — this table
+    summarizes, it does not supersede.
+  </p>
+</div>
+
+<style>
+  .dossier {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dossier-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--line-strong);
+  }
+
+  .dossier-table {
+    width: 100%;
+    min-width: 52rem;
+    border-collapse: collapse;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+  }
+
+  .dossier-table th,
+  .dossier-table td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  .dossier-table thead th {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--panel);
+    border-bottom: 1px solid var(--line-strong);
+    white-space: nowrap;
+  }
+
+  .dossier-designation {
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .dossier-sector,
+  .dossier-status {
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .dossier-mandate {
+    color: var(--ink-soft);
+    min-width: 22rem;
+    line-height: 1.5;
+  }
+
+  .dossier-route a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    white-space: nowrap;
+  }
+
+  .dossier-route span {
+    color: var(--ink-soft);
+  }
+
+  .dossier-table tbody tr:nth-child(even) {
+    background: var(--panel);
+  }
+
+  .dossier-footnote {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>

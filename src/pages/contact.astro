@@ -79,6 +79,19 @@ const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? "";
 
           <div id="form-status" class="form-status stub-note" role="status" aria-live="polite" hidden></div>
         </form>
+
+        <details class="secondary-protocol">
+          <summary>Secondary Protocol</summary>
+          <div class="secondary-protocol-body">
+            <p>
+              A secondary intake channel — for encrypted routing, or for use if the primary form
+              above is unavailable — is not yet provisioned. No PGP key, backup address, or secure
+              drop link is published here yet; treat any message claiming to be one as
+              unverified. Once a real secondary channel exists, its fingerprint and address will
+              be published on this page, not sent separately.
+            </p>
+          </div>
+        </details>
       </div>
     </section>
   </main>
@@ -146,6 +159,35 @@ const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? "";
   .form-status[data-tone="pending-integration"],
   .form-status[data-tone="error"] {
     border-color: var(--tension);
+  }
+
+  .secondary-protocol {
+    max-width: 34rem;
+    margin-top: 28px;
+    border: 1px solid var(--line-strong);
+    padding: 14px 18px;
+  }
+
+  .secondary-protocol summary {
+    cursor: pointer;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .secondary-protocol-body {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .secondary-protocol-body p {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 </style>
 

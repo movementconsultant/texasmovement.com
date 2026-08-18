@@ -60,6 +60,7 @@ const ROUTES = [
   "/distribution",
   "/hero",
   "/partners",
+  "/vault",
   "/privacy",
   "/terms",
   "/accessibility",

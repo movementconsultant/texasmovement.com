@@ -30,7 +30,7 @@
  *  of the site itself. `null` is used for /about and /ecosystem, which
  *  describe current architecture rather than a not-yet-active offer. */
 export type PostureLabel =
-  | "Building — not yet live"
+  | "Deployment Pending — not yet live"
   | "External storefront / internally unaudited"
   | null;
 
@@ -48,16 +48,17 @@ export const HUB_ROUTES: readonly HubRoute[] = [
   { path: "/about", navLabel: "About", postureLabel: null },
   { path: "/ecosystem", navLabel: "Ecosystem", postureLabel: null },
   { path: "/contact", navLabel: "Contact", postureLabel: null },
-  { path: "/consulting", navLabel: "Consulting", postureLabel: "Building — not yet live" },
-  { path: "/media", navLabel: "Media", postureLabel: "Building — not yet live" },
-  { path: "/performance", navLabel: "Performance", postureLabel: "Building — not yet live" },
-  { path: "/distribution", navLabel: null, postureLabel: "Building — not yet live" },
+  { path: "/consulting", navLabel: "Consulting", postureLabel: "Deployment Pending — not yet live" },
+  { path: "/media", navLabel: "Media", postureLabel: "Deployment Pending — not yet live" },
+  { path: "/performance", navLabel: "Performance", postureLabel: "Deployment Pending — not yet live" },
+  { path: "/distribution", navLabel: null, postureLabel: "Deployment Pending — not yet live" },
   {
     path: "/hero",
     navLabel: null,
     postureLabel: "External storefront / internally unaudited",
   },
-  { path: "/partners", navLabel: null, postureLabel: "Building — not yet live" },
+  { path: "/partners", navLabel: null, postureLabel: "Deployment Pending — not yet live" },
+  { path: "/vault", navLabel: null, postureLabel: null },
 ] as const;
 
 /** Primary-nav entries only, in the order they should render. Matches the

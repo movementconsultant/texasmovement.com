@@ -29,8 +29,8 @@ const { Content } = await render(entry);
 
 const STATUS_LABEL: Record<typeof data.status, string> = {
   live: "Live",
-  "in-dev": "In development",
-  private: "Private",
+  "in-dev": "Deployment Pending",
+  private: "Restricted Access",
 };
 
 const title = pageTitle("tmi", data.title);

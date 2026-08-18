@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
 import DivisionCard from "@/components/DivisionCard.astro";
+import SubsidiaryDossier from "@/components/SubsidiaryDossier.astro";
 import { pageTitle } from "@tmi/constants";
 import { PROPERTIES, ECOSYSTEM_MAP, ecosystemEntry } from "@/lib/site";
 
@@ -26,6 +27,22 @@ const verticals = ECOSYSTEM_MAP.filter((e) => e.group === "vertical");
           is being built deliberately, in order, not all at once. Nothing below is a live offer —
           it's an honest map of what exists and what's still in progress.
         </p>
+      </div>
+    </section>
+
+    <!-- Multi-Vertical Switchboard -->
+    <section id="core-engines" class="section">
+      <div class="wrap">
+        <Eyebrow>CORE ENGINES</Eyebrow>
+        <h2>The switchboard.</h2>
+        <p>
+          Three divisions carry the ecosystem's routing load today: TMM (media and editorial
+          distribution), FounderLink (internal routing and cross-lane coordination), and the
+          HERO/TMP pairing (consumer product and performance-science). The table below is a dense
+          summary, not a new claim — every field traces back to this vertical's existing,
+          owner-approved status elsewhere on this site.
+        </p>
+        <SubsidiaryDossier />
       </div>
     </section>
 

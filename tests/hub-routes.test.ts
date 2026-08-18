@@ -24,6 +24,7 @@ const FILE_FOR_PATH: Record<string, string> = {
   "/distribution": "distribution.astro",
   "/hero": "hero.astro",
   "/partners": "partners.astro",
+  "/vault": "vault.astro",
 };
 
 function sourceFor(path: string): string {
@@ -33,7 +34,7 @@ function sourceFor(path: string): string {
 }
 
 describe("HUB_ROUTES registry matches the routes this task was scoped to implement", () => {
-  it("has exactly the eight Mark 4 paths plus Mark 18's /contact, each mapped to a real source file", () => {
+  it("has exactly the eight Mark 4 paths plus Mark 18's /contact and Mark 21's /vault, each mapped to a real source file", () => {
     const paths = HUB_ROUTES.map((r) => r.path).sort();
     expect(paths).toEqual(Object.keys(FILE_FOR_PATH).sort());
     for (const path of paths) {
@@ -93,9 +94,11 @@ describe("restrained status language is present where required", () => {
     }
   });
 
-  it("registry holds the exact required 'Building — not yet live' wording for those five routes", () => {
+  it("registry holds the exact required 'Deployment Pending — not yet live' wording for those five routes", () => {
     for (const path of ["/consulting", "/media", "/performance", "/distribution", "/partners"]) {
-      expect(HUB_ROUTES.find((r) => r.path === path)?.postureLabel).toBe("Building — not yet live");
+      expect(HUB_ROUTES.find((r) => r.path === path)?.postureLabel).toBe(
+        "Deployment Pending — not yet live",
+      );
     }
   });
 

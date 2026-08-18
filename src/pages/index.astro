@@ -99,7 +99,7 @@ const cta = verifiedGeneralContact();
         <div class="teaser-list">
           {verticals.map((v) => {
             const property = PROPERTIES[v.key];
-            const statusText = v.badge === "private" ? "Private" : "In development";
+            const statusText = v.badge === "private" ? "Restricted Access" : "Deployment Pending";
             return (
               <div class="teaser-item">
                 <div class="division-label">{property.label}</div>
