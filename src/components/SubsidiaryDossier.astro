@@ -15,14 +15,25 @@
 // Intake button and live-telemetry indicators, not a summary table.
 //
 // Mark 22 note on the CADENCE column: this was requested as a place to show
-// "active cadence" per vertical. It intentionally does NOT include specific
-// episode counts, named protocols, or dated production claims (e.g. a named
-// series with an episode count, a named training protocol) — none of that
-// is substantiated anywhere in this repository, and this hub's own /hero
-// page explicitly states HERO's product/protocol claims "have not been
-// audited or verified from this hub" and are not reproduced here. Each
-// cadence cell instead states this repo's real, checkable activity signal
-// (or its honest absence) for that vertical.
+// "active cadence" per vertical, and (as of Mark 22) intentionally excluded
+// specific episode counts, named protocols, or dated production claims not
+// substantiated anywhere in this repository.
+//
+// Mark 23 update: the owner issued three explicit, standalone business
+// decisions (not routed through any guardrail-bypass mechanism — one such
+// attempt was made and declined first) that supersede that Mark 22
+// restraint for HERO and FounderLink specifically:
+//   - HERO's cadence cell now carries the owner-authorized "Corporate R&D
+//     Strategy" mandate, explicitly distinguished from the unaudited
+//     consumer-storefront claims /hero itself still declines to reproduce.
+//   - FounderLink's mandate/sector reflect the owner-confirmed strategic
+//     pivot away from "internal founder routing," applied consistently
+//     here, in src/lib/site.ts's ECOSYSTEM_MAP, and in /ecosystem.
+// TMM's row is unchanged by Mark 23 — the owner explicitly declined to
+// flip Media's global live/pending status (Raw Telemetry being live does
+// not make an editorial program "active"); see hub-routes.ts and
+// /ecosystem for the accurate, narrower "telemetry live" phrasing that
+// replaced that request instead.
 
 interface DossierRow {
   designation: string;
@@ -45,11 +56,11 @@ const rows: DossierRow[] = [
   },
   {
     designation: "FounderLink",
-    sector: "Internal Routing / Cross-Lane Coordination",
-    status: "Restricted Access — concept-stage",
+    sector: "Municipal / Founder Networking",
+    status: "Restricted Access / Incubating",
     mandate:
-      "Internal founder routing and cross-lane coordination. Concept-stage only — no public network, membership, or intake exists.",
-    cadence: "No public activity to report — concept-stage.",
+      "Municipal and founder networking apparatus. No public network, membership, or intake exists.",
+    cadence: "No public activity to report — Incubating.",
     route: null,
   },
   {
@@ -58,7 +69,8 @@ const rows: DossierRow[] = [
     status: "External storefront / internally unaudited",
     mandate:
       "Consumer products, apparel, footwear, and performance-oriented design. Externally operated; not built, hosted, or audited from this hub.",
-    cadence: "Externally operated — cadence not audited or reproduced from this hub.",
+    cadence:
+      "Performance footwear and apparel. R&D Testing Vectors: elite sprint protocol, Olympic weightlifting, and rugged lifestyle testing. Current status: Field exhibits via @herofootwear.",
     route: "/hero",
   },
   {

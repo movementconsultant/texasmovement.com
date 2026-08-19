@@ -94,12 +94,20 @@ describe("restrained status language is present where required", () => {
     }
   });
 
-  it("registry holds the exact required 'Deployment Pending — not yet live' wording for those five routes", () => {
-    for (const path of ["/consulting", "/media", "/performance", "/distribution", "/partners"]) {
+  it("registry holds the exact required 'Deployment Pending — not yet live' wording for Consulting, Performance, Distribution, and Partners", () => {
+    for (const path of ["/consulting", "/performance", "/distribution", "/partners"]) {
       expect(HUB_ROUTES.find((r) => r.path === path)?.postureLabel).toBe(
         "Deployment Pending — not yet live",
       );
     }
+  });
+
+  it("registry holds Media's distinct Mark 23 posture — still 'Deployment Pending' (the global status is NOT flipped), with the live-telemetry clause appended rather than a bare 'not yet live'", () => {
+    const mediaPosture = HUB_ROUTES.find((r) => r.path === "/media")?.postureLabel;
+    expect(mediaPosture).toBe(
+      "Deployment Pending — Active Signal Telemetry Live via media.texasmovement.com",
+    );
+    expect(mediaPosture).toMatch(/^Deployment Pending/);
   });
 
   it("/hero sources and renders its posture from the registry, and never claims verification in its own copy", () => {

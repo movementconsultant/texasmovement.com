@@ -31,6 +31,7 @@
  *  describe current architecture rather than a not-yet-active offer. */
 export type PostureLabel =
   | "Deployment Pending — not yet live"
+  | "Deployment Pending — Active Signal Telemetry Live via media.texasmovement.com"
   | "External storefront / internally unaudited"
   | null;
 
@@ -49,7 +50,11 @@ export const HUB_ROUTES: readonly HubRoute[] = [
   { path: "/ecosystem", navLabel: "Ecosystem", postureLabel: null },
   { path: "/contact", navLabel: "Contact", postureLabel: null },
   { path: "/consulting", navLabel: "Consulting", postureLabel: "Deployment Pending — not yet live" },
-  { path: "/media", navLabel: "Media", postureLabel: "Deployment Pending — not yet live" },
+  {
+    path: "/media",
+    navLabel: "Media",
+    postureLabel: "Deployment Pending — Active Signal Telemetry Live via media.texasmovement.com",
+  },
   { path: "/performance", navLabel: "Performance", postureLabel: "Deployment Pending — not yet live" },
   { path: "/distribution", navLabel: null, postureLabel: "Deployment Pending — not yet live" },
   {
