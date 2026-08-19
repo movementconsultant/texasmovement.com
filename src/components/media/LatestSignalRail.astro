@@ -47,9 +47,23 @@ const result = await getLatestSignalItems();
         </p>
       </>
     ) : (
-      <div class="stub-note">
-        The Latest Signal automated index isn't available for this build. See the confirmed TMM
-        YouTube destinations above for the channels directly.
+      <div class="latest-signal-fallback">
+        <p class="signal-lost-line">
+          <span aria-hidden="true">&gt;</span> SIGNAL LOST // AWAITING RECONNECTION // ROUTING TO
+          SOURCE
+        </p>
+        <p class="signal-lost-description">
+          The Latest Signal automated index isn't available for this build. See the channel
+          directly:
+        </p>
+        <a
+          href="https://youtube.com/@texasmovementmedia"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="latest-signal-fallback-link"
+        >
+          Texas Movement Media on YouTube &rarr;
+        </a>
       </div>
     )
   }
@@ -135,5 +149,38 @@ const result = await getLatestSignalItems();
     font-size: 0.8rem;
     color: var(--ink-soft);
     margin-top: 10px;
+  }
+
+  /* Mark 25 — "Signal Lost" terminal state, matching AVM's LedgerRail /
+     LiveSystemsRail treatment. Signal Green here extends the same "live
+     telemetry indicator" allowance already used for the OK-state dot
+     above — this is that indicator's degraded state, not new decorative
+     accent usage. */
+  .latest-signal-fallback {
+    padding: 16px;
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .signal-lost-line {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    color: var(--ff-accent-signal);
+  }
+
+  .signal-lost-description {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .latest-signal-fallback-link {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    align-self: flex-start;
   }
 </style>

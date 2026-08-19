@@ -34,6 +34,18 @@
 // data exists anywhere in this repository (and /media's own established
 // copy says as much), and no real HERO product photography exists in this
 // repository either.
+//
+// Mark 25 — "10% Factor of Safety" hardening: smooth-scroll + focus
+// management on expand/collapse (scrollIntoView + focus the first
+// interactive element, or the panel itself as a fallback for FounderLink,
+// which has none), and the empty states above became "Raw Signal Routing"
+// CTA cards. TMM's card links directly to its real, owner-confirmed
+// YouTube URL (already linked elsewhere on this site). HERO's card does
+// NOT link directly to its TikTok/Instagram — those URLs are marked
+// verified:false in alexandermathai.com's own ecosystem data, with an
+// explicit standing rule there that unverified channel URLs render as text
+// only until verified. HERO's card instead links to /hero (this hub's own
+// safe, internal HERO context page) and shows the handles as plain text.
 
 interface DossierRow {
   id: string;
@@ -156,28 +168,38 @@ function thirdParagraph(row: DossierRow): string {
                       <p>{thirdParagraph(row)}</p>
 
                       {row.detailKind === "episodes" && (
-                        <div class="dossier-detail-block">
-                          <p class="dossier-detail-block-label">Episodes</p>
-                          <p class="dossier-detail-empty">
-                            No individual episodes are published yet. See the confirmed
-                            source-destination index and Latest Signal rail at /media.
+                        <div class="dossier-detail-block dossier-detail-block--routing">
+                          <p class="dossier-detail-block-label">Raw Signal Routing</p>
+                          <p class="dossier-routing-copy">
+                            Full editorial archive hosted externally.
                           </p>
+                          <a
+                            href="https://youtube.com/@texasmovementmedia"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="dossier-routing-link"
+                          >
+                            @texasmovementmedia on YouTube →
+                          </a>
                         </div>
                       )}
 
                       {row.detailKind === "photos" && (
-                        <div class="dossier-detail-block">
-                          <p class="dossier-detail-block-label">Photo Grid</p>
-                          <div class="dossier-photo-grid">
-                            {Array.from({ length: 6 }).map(() => (
-                              <div class="dossier-photo-slot">
-                                <span>ASSET PENDING</span>
-                              </div>
-                            ))}
-                          </div>
-                          <p class="dossier-detail-empty">
-                            No product photography is reproduced from this hub — see /hero.
+                        <div class="dossier-detail-block dossier-detail-block--routing">
+                          <p class="dossier-detail-block-label">Raw Signal Routing</p>
+                          <p class="dossier-routing-copy">
+                            Visual protocol documentation available via raw field channels.
+                            Externally operated — not audited or reproduced from this hub (per
+                            /hero); @herofootwear is not linked directly from here until a
+                            confirmed platform destination is verified for this ecosystem.
                           </p>
+                          <div class="dossier-routing-handles">
+                            <span>TIKTOK: @herofootwear</span>
+                            <span>IG: @herofootwearusa</span>
+                          </div>
+                          <a href="/hero" class="dossier-routing-link">
+                            HERO context page →
+                          </a>
                         </div>
                       )}
 
@@ -382,27 +404,55 @@ function thirdParagraph(row: DossierRow): string {
     color: var(--ink-soft);
   }
 
-  .dossier-photo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  /* Mark 25 — "Raw Signal Routing" cards, replacing the Mark 24 honest-
+     empty-state grid/list. Still no fabricated episode titles or product
+     photography — this routes to real, already-established destinations
+     instead: TMM's owner-confirmed YouTube URL (already linked elsewhere
+     on this site), and HERO's own internal /hero context page rather than
+     its unverified TikTok/Instagram URLs (marked verified:false in
+     alexandermathai.com's ecosystem data, which explicitly renders them as
+     text rather than live links until verified — see that repo's
+     DivisionCard.astro for the governance comment this mirrors). */
+  .dossier-detail-block--routing {
     gap: 8px;
   }
 
-  .dossier-photo-slot {
-    aspect-ratio: 1;
-    border: 1px dashed var(--line-strong);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 6px;
+  .dossier-routing-copy {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
   }
 
-  .dossier-photo-slot span {
+  .dossier-routing-handles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
     color: var(--ink-soft);
+  }
+
+  .dossier-routing-handles span {
+    border: 1px solid var(--line-strong);
+    padding: 4px 8px;
+  }
+
+  .dossier-routing-link {
+    align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+    padding: 8px 14px;
+    margin-top: 4px;
+  }
+
+  .dossier-routing-link:hover {
+    border-color: var(--ink);
   }
 
   .dossier-archive-link {
@@ -439,6 +489,25 @@ function thirdParagraph(row: DossierRow): string {
 </style>
 
 <script>
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Mark 25 — spatial anchoring & focus. On expand: scroll just enough to
+  // keep the newly revealed panel visible, then move focus into it (its
+  // first link/button, or the panel itself as a fallback when nothing
+  // inside is focusable — e.g. FounderLink, which has no archive link).
+  // On collapse: return focus to the row's own toggle button so keyboard
+  // users don't lose their place.
+  function focusFirstInteractive(detail: HTMLTableRowElement) {
+    const target =
+      detail.querySelector<HTMLElement>("a[href], button") ??
+      detail.querySelector<HTMLElement>(".dossier-detail-inner");
+    if (!target) return;
+    if (!target.hasAttribute("tabindex") && target.tagName !== "A" && target.tagName !== "BUTTON") {
+      target.setAttribute("tabindex", "-1");
+    }
+    target.focus({ preventScroll: true });
+  }
+
   function setOpen(id: string, open: boolean) {
     const row = document.querySelector<HTMLTableRowElement>(`.dossier-row[data-row-id="${id}"]`);
     const detail = document.querySelector<HTMLTableRowElement>(
@@ -454,6 +523,19 @@ function thirdParagraph(row: DossierRow): string {
     // the accessibility tree, without fighting the grid-height animation
     // the way `hidden` would.
     detail.inert = !open;
+
+    const settleDelay = reducedMotion ? 0 : 360; // matches the CSS transition duration
+    if (open) {
+      setTimeout(() => {
+        detail.scrollIntoView({
+          behavior: reducedMotion ? "auto" : "smooth",
+          block: "nearest",
+        });
+        focusFirstInteractive(detail);
+      }, settleDelay);
+    } else {
+      toggle.focus({ preventScroll: true });
+    }
   }
 
   document.querySelectorAll<HTMLButtonElement>(".dossier-toggle").forEach((toggle) => {
