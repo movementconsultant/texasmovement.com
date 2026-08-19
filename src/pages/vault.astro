@@ -25,6 +25,24 @@ interface VaultCategory {
   description: string;
 }
 
+// Mark 22 — "Recent Operational Filings." These are real, dated engineering
+// and governance actions taken on this repository (matching actual commit
+// history), not a claim about external corporate/legal filings — those
+// remain the separately-labeled, honestly-empty categories below. Hand-
+// curated rather than read from git at build time, so this list only ever
+// contains entries deliberately chosen for public framing.
+interface OperationalFiling {
+  date: string;
+  entry: string;
+}
+
+const filings: OperationalFiling[] = [
+  { date: "2026-08-18", entry: "Compliance Vault framework and multi-vertical dossier established." },
+  { date: "2026-08-18", entry: "Ecosystem-wide visual identity codified." },
+  { date: "2026-08-17", entry: "Contact-intake architecture and verticals content model established." },
+  { date: "2026-08-17", entry: "Latest Signal YouTube telemetry rail added to /media." },
+];
+
 const categories: VaultCategory[] = [
   {
     code: "RES",
@@ -59,6 +77,30 @@ const categories: VaultCategory[] = [
           <a href="/privacy">Privacy</a>, <a href="/terms">Terms</a>, and
           <a href="/accessibility">Accessibility</a>.
         </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="filings-heading">
+      <div class="wrap">
+        <Eyebrow>RECENT OPERATIONAL FILINGS</Eyebrow>
+        <h2 id="filings-heading">Site engineering &amp; governance log.</h2>
+        <p>
+          Dated actions taken on this repository's own engineering and governance — not a claim
+          about the corporate/legal filing categories below, which remain separately, honestly
+          empty. Matches this repository's real commit history.
+        </p>
+        <ul class="filing-list">
+          {
+            filings.map((f) => (
+              <li>
+                <time class="filing-date" datetime={f.date}>
+                  {f.date}
+                </time>
+                <span class="filing-entry">{f.entry}</span>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </section>
 
@@ -105,6 +147,42 @@ const categories: VaultCategory[] = [
 </Layout>
 
 <style>
+  .filing-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    border: 1px solid var(--line-strong);
+  }
+
+  .filing-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .filing-list li:last-child {
+    border-bottom: none;
+  }
+
+  .filing-list li:nth-child(even) {
+    background: var(--panel);
+  }
+
+  .filing-date {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .filing-entry {
+    color: var(--ink);
+    font-size: 0.92rem;
+  }
+
   .vault-status {
     display: flex;
     flex-wrap: wrap;

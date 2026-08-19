@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
+import SignalFeed from "@/components/SignalFeed.astro";
 import { pageTitle } from "@tmi/constants";
 import { PROPERTIES, ECOSYSTEM_MAP, verifiedGeneralContact } from "@/lib/site";
 
@@ -111,6 +112,8 @@ const cta = verifiedGeneralContact();
         </div>
       </div>
     </section>
+
+    <SignalFeed linkToMedia />
 
     <!-- Primary CTA — present ONLY when the general contact address is in
          VERIFIED_INBOXES (src/lib/site.ts). Absent means absent: no

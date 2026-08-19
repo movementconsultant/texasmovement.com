@@ -13,12 +13,23 @@
 // component intentionally does not use --ff-accent-signal anywhere: per the
 // Mark 19 accent-restraint rule, Signal Green is reserved for the Contact
 // Intake button and live-telemetry indicators, not a summary table.
+//
+// Mark 22 note on the CADENCE column: this was requested as a place to show
+// "active cadence" per vertical. It intentionally does NOT include specific
+// episode counts, named protocols, or dated production claims (e.g. a named
+// series with an episode count, a named training protocol) — none of that
+// is substantiated anywhere in this repository, and this hub's own /hero
+// page explicitly states HERO's product/protocol claims "have not been
+// audited or verified from this hub" and are not reproduced here. Each
+// cadence cell instead states this repo's real, checkable activity signal
+// (or its honest absence) for that vertical.
 
 interface DossierRow {
   designation: string;
   sector: string;
   status: string;
   mandate: string;
+  cadence: string;
   route: string | null;
 }
 
@@ -29,6 +40,7 @@ const rows: DossierRow[] = [
     status: "Deployment Pending — not yet live",
     mandate:
       "Independent media, editorial series, and cultural documentation. Owner-confirmed source-destination index (YouTube, Instagram, TikTok, Substack) and automated Latest Signal rail are live at /media; full editorial programming is Deployment Pending.",
+    cadence: "Only vertical with live automated telemetry — see Latest Signal on / and /media.",
     route: "/media",
   },
   {
@@ -37,6 +49,7 @@ const rows: DossierRow[] = [
     status: "Restricted Access — concept-stage",
     mandate:
       "Internal founder routing and cross-lane coordination. Concept-stage only — no public network, membership, or intake exists.",
+    cadence: "No public activity to report — concept-stage.",
     route: null,
   },
   {
@@ -45,6 +58,7 @@ const rows: DossierRow[] = [
     status: "External storefront / internally unaudited",
     mandate:
       "Consumer products, apparel, footwear, and performance-oriented design. Externally operated; not built, hosted, or audited from this hub.",
+    cadence: "Externally operated — cadence not audited or reproduced from this hub.",
     route: "/hero",
   },
   {
@@ -53,6 +67,7 @@ const rows: DossierRow[] = [
     status: "Deployment Pending — not yet live",
     mandate:
       "Non-clinical movement and training lane. No coaching, medical, or enrollment offer is active.",
+    cadence: "No active programming — research and content arm only.",
     route: "/performance",
   },
 ];
@@ -67,6 +82,7 @@ const rows: DossierRow[] = [
           <th scope="col">Sector</th>
           <th scope="col">Status</th>
           <th scope="col">Mandate</th>
+          <th scope="col">Cadence</th>
           <th scope="col">Route</th>
         </tr>
       </thead>
@@ -78,6 +94,7 @@ const rows: DossierRow[] = [
               <td class="dossier-sector">{row.sector}</td>
               <td class="dossier-status">{row.status}</td>
               <td class="dossier-mandate">{row.mandate}</td>
+              <td class="dossier-mandate">{row.cadence}</td>
               <td class="dossier-route">
                 {row.route ? <a href={row.route}>{row.route} →</a> : <span>—</span>}
               </td>
@@ -108,7 +125,7 @@ const rows: DossierRow[] = [
 
   .dossier-table {
     width: 100%;
-    min-width: 52rem;
+    min-width: 64rem;
     border-collapse: collapse;
     font-family: "IBM Plex Mono", monospace;
     font-size: 0.78rem;

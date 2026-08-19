@@ -1,0 +1,51 @@
+---
+// src/components/SignalFeed.astro
+//
+// Mark 22 — a reusable "Latest Signal" section wrapper. Renders the same
+// TMM YouTube telemetry data as src/components/media/LatestSignalRail.astro
+// (src/lib/telemetry/youtubeSignal.ts) inside a section-level Eyebrow/
+// heading, so it can be dropped onto any route (currently /media and the
+// homepage) without duplicating the fetch/fallback logic. No new data
+// source, no new claim — same "Raw Telemetry" governance as the existing
+// rail (Mark 13/14): title, date, link only, auto-retrieved, not
+// individually reviewed.
+import Eyebrow from "@/components/Eyebrow.astro";
+import LatestSignalRail from "@/components/media/LatestSignalRail.astro";
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  linkToMedia?: boolean;
+}
+
+const { eyebrow = "LATEST SIGNAL", heading = "Latest Signal.", linkToMedia = false } =
+  Astro.props;
+---
+
+<section id="latest-signal" class="section section--panel">
+  <div class="wrap">
+    <Eyebrow>{eyebrow}</Eyebrow>
+    <h2>{heading}</h2>
+    <LatestSignalRail />
+    {
+      linkToMedia && (
+        <p class="signal-feed-more">
+          <a href="/media">Full Texas Movement Media index →</a>
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .signal-feed-more {
+    margin-top: 16px;
+    font-size: 0.9rem;
+  }
+
+  .signal-feed-more a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+  }
+</style>
