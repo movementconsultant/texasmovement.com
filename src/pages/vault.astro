@@ -97,6 +97,7 @@ const categories: VaultCategory[] = [
                   {f.date}
                 </time>
                 <span class="filing-entry">{f.entry}</span>
+                <span class="filing-relative" data-iso={f.date} aria-hidden="true" />
               </li>
             ))
           }
@@ -157,10 +158,19 @@ const categories: VaultCategory[] = [
 
   .filing-list li {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     gap: 16px;
     padding: 12px 16px;
     border-bottom: 1px solid var(--line);
+  }
+
+  .filing-relative {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    margin-left: auto;
   }
 
   .filing-list li:last-child {
@@ -272,3 +282,34 @@ const categories: VaultCategory[] = [
     color: var(--ink-soft);
   }
 </style>
+
+<script>
+  // Mark 24 — progressive enhancement only. The real ISO date (.filing-date)
+  // is always rendered server-side and never removed; this just appends a
+  // live-updating relative label next to it. No-JS visitors see the exact
+  // same accurate date as before.
+  function relativeFrom(iso: string): string {
+    const then = new Date(iso).getTime();
+    const diffMs = Date.now() - then;
+    const minutes = Math.floor(diffMs / 60000);
+    if (minutes < 1) return "just now";
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  }
+
+  function tick() {
+    // Stays aria-hidden — the .filing-date <time> element is the
+    // authoritative, accessible timestamp; this is a decorative supplement.
+    document.querySelectorAll<HTMLElement>(".filing-relative[data-iso]").forEach((el) => {
+      const iso = el.dataset.iso;
+      if (!iso) return;
+      el.textContent = `· ${relativeFrom(iso)}`;
+    });
+  }
+
+  tick();
+  setInterval(tick, 60_000);
+</script>

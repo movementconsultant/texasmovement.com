@@ -391,11 +391,65 @@ p {
   background: var(--ff-accent-signal);
   color: #04120a;
   border-color: var(--ff-accent-signal);
+  animation: signal-heartbeat 60s ease-in-out infinite;
 }
 
 .btn--accent:hover {
   background: transparent;
   color: var(--ff-accent-signal);
+  animation: none;
+}
+
+/* Mark 24 — the Signal Green heartbeat. A slow (60s), subtle glow-pulse
+   applied only to elements that already carry --ff-accent-signal under the
+   Mark 19 restraint rule (the Contact Intake button, live-telemetry
+   indicator dots) — this animates existing accent usage, it does not add
+   accent to any new element. */
+@keyframes signal-heartbeat {
+  0%,
+  92%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 148, 0);
+  }
+  95% {
+    box-shadow: 0 0 12px 2px rgba(0, 255, 148, 0.45);
+  }
+}
+
+/* A faster variant for small dot indicators, where a 60s box-shadow pulse
+   reads as static — same restraint scope (telemetry dots only). */
+@keyframes signal-heartbeat-dot {
+  0%,
+  92%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 148, 0);
+    transform: scale(1);
+  }
+  95% {
+    box-shadow: 0 0 6px 2px rgba(0, 255, 148, 0.6);
+    transform: scale(1.15);
+  }
+}
+
+/* Mark 24 — telemetry cards animate in with a brief accent-tinted glow,
+   never a persistent color change (still respects accent restraint: the
+   glow uses the muted accent token and settles to the neutral resting
+   state defined by each card's own class). */
+@keyframes telemetry-card-load {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+    box-shadow: 0 0 0 1px var(--ff-accent-signal-muted);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 transparent;
+  }
 }
 
 .btn .arrow {
@@ -1016,5 +1070,15 @@ footer.site-footer {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .btn--accent,
+  .latest-signal-live-dot,
+  .latest-signal-list li,
+  .filing-live-dot,
+  .dossier-detail,
+  .dossier-toggle-icon {
+    animation: none !important;
+    transition: none !important;
   }
 }

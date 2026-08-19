@@ -22,30 +22,33 @@
 // Mark 23 update: the owner issued three explicit, standalone business
 // decisions (not routed through any guardrail-bypass mechanism — one such
 // attempt was made and declined first) that supersede that Mark 22
-// restraint for HERO and FounderLink specifically:
-//   - HERO's cadence cell now carries the owner-authorized "Corporate R&D
-//     Strategy" mandate, explicitly distinguished from the unaudited
-//     consumer-storefront claims /hero itself still declines to reproduce.
-//   - FounderLink's mandate/sector reflect the owner-confirmed strategic
-//     pivot away from "internal founder routing," applied consistently
-//     here, in src/lib/site.ts's ECOSYSTEM_MAP, and in /ecosystem.
-// TMM's row is unchanged by Mark 23 — the owner explicitly declined to
-// flip Media's global live/pending status (Raw Telemetry being live does
-// not make an editorial program "active"); see hub-routes.ts and
-// /ecosystem for the accurate, narrower "telemetry live" phrasing that
-// replaced that request instead.
+// restraint for HERO and FounderLink specifically. See git history for the
+// full record.
+//
+// Mark 24 — expand/collapse interaction. Each row's expanded MANIFESTO is
+// built only from language already established elsewhere on this site
+// (mandate + cadence + status, reworded into flowing paragraphs) — no new
+// brand-voice copy was invented for this pass. TMM's "episode list" and
+// HERO's "photo grid" render honest empty/pending states rather than
+// fabricated episode titles or placeholder stock photography: no episode
+// data exists anywhere in this repository (and /media's own established
+// copy says as much), and no real HERO product photography exists in this
+// repository either.
 
 interface DossierRow {
+  id: string;
   designation: string;
   sector: string;
   status: string;
   mandate: string;
   cadence: string;
   route: string | null;
+  detailKind: "episodes" | "photos" | "none";
 }
 
 const rows: DossierRow[] = [
   {
+    id: "tmm",
     designation: "TMM — Texas Movement Media",
     sector: "Media / Editorial Distribution",
     status: "Deployment Pending — not yet live",
@@ -53,8 +56,10 @@ const rows: DossierRow[] = [
       "Independent media, editorial series, and cultural documentation. Owner-confirmed source-destination index (YouTube, Instagram, TikTok, Substack) and automated Latest Signal rail are live at /media; full editorial programming is Deployment Pending.",
     cadence: "Only vertical with live automated telemetry — see Latest Signal on / and /media.",
     route: "/media",
+    detailKind: "episodes",
   },
   {
+    id: "founderlink",
     designation: "FounderLink",
     sector: "Municipal / Founder Networking",
     status: "Restricted Access / Incubating",
@@ -62,8 +67,10 @@ const rows: DossierRow[] = [
       "Municipal and founder networking apparatus. No public network, membership, or intake exists.",
     cadence: "No public activity to report — Incubating.",
     route: null,
+    detailKind: "none",
   },
   {
+    id: "hero",
     designation: "HERO",
     sector: "Consumer Products / Apparel / Footwear",
     status: "External storefront / internally unaudited",
@@ -72,8 +79,10 @@ const rows: DossierRow[] = [
     cadence:
       "Performance footwear and apparel. R&D Testing Vectors: elite sprint protocol, Olympic weightlifting, and rugged lifestyle testing. Current status: Field exhibits via @herofootwear.",
     route: "/hero",
+    detailKind: "photos",
   },
   {
+    id: "tmp",
     designation: "TMP — Texas Movement Performance",
     sector: "Training / Movement / Athletic Development",
     status: "Deployment Pending — not yet live",
@@ -81,8 +90,19 @@ const rows: DossierRow[] = [
       "Athletic development and training architecture. No coaching, medical, or enrollment offer is active.",
     cadence: "No active programming — research and content arm only.",
     route: "/performance",
+    detailKind: "none",
   },
 ];
+
+function thirdParagraph(row: DossierRow): string {
+  if (row.id === "tmm") {
+    return "A content-architecture manifesto template exists at /verticals/texas-movement-media, explicitly marked as an unreviewed placeholder pending owner sign-off.";
+  }
+  if (row.id === "hero") {
+    return "HERO's consumer product catalog, pricing, checkout, and availability are not audited or reproduced from this hub — see /hero for the full, standing disclaimer.";
+  }
+  return `Current status: ${row.status}.`;
+}
 ---
 
 <div class="dossier">
@@ -90,6 +110,7 @@ const rows: DossierRow[] = [
     <table class="dossier-table">
       <thead>
         <tr>
+          <th scope="col"><span class="sr-only">Expand</span></th>
           <th scope="col">Designation</th>
           <th scope="col">Sector</th>
           <th scope="col">Status</th>
@@ -100,17 +121,78 @@ const rows: DossierRow[] = [
       </thead>
       <tbody>
         {
-          rows.map((row) => (
-            <tr>
-              <td class="dossier-designation">{row.designation}</td>
-              <td class="dossier-sector">{row.sector}</td>
-              <td class="dossier-status">{row.status}</td>
-              <td class="dossier-mandate">{row.mandate}</td>
-              <td class="dossier-mandate">{row.cadence}</td>
-              <td class="dossier-route">
-                {row.route ? <a href={row.route}>{row.route} →</a> : <span>—</span>}
-              </td>
-            </tr>
+          rows.map((row, i) => (
+            <>
+              <tr class:list={["dossier-row", { "dossier-row--alt": i % 2 === 1 }]} data-row-id={row.id}>
+                <td class="dossier-toggle-cell">
+                  <button
+                    type="button"
+                    class="dossier-toggle"
+                    aria-expanded="false"
+                    aria-controls={`dossier-detail-${row.id}`}
+                    data-toggle-for={row.id}
+                  >
+                    <span class="dossier-toggle-icon" aria-hidden="true">
+                      +
+                    </span>
+                    <span class="sr-only">Expand {row.designation} detail</span>
+                  </button>
+                </td>
+                <td class="dossier-designation">{row.designation}</td>
+                <td class="dossier-sector">{row.sector}</td>
+                <td class="dossier-status">{row.status}</td>
+                <td class="dossier-mandate">{row.mandate}</td>
+                <td class="dossier-mandate">{row.cadence}</td>
+                <td class="dossier-route">
+                  {row.route ? <a href={row.route}>{row.route} →</a> : <span>—</span>}
+                </td>
+              </tr>
+              <tr class="dossier-detail" id={`dossier-detail-${row.id}`} data-detail-for={row.id}>
+                <td colspan={7} class="dossier-detail-cell">
+                  <div class="dossier-detail-wrap">
+                    <div class="dossier-detail-inner">
+                      <p>{row.mandate}</p>
+                      <p>{row.cadence}</p>
+                      <p>{thirdParagraph(row)}</p>
+
+                      {row.detailKind === "episodes" && (
+                        <div class="dossier-detail-block">
+                          <p class="dossier-detail-block-label">Episodes</p>
+                          <p class="dossier-detail-empty">
+                            No individual episodes are published yet. See the confirmed
+                            source-destination index and Latest Signal rail at /media.
+                          </p>
+                        </div>
+                      )}
+
+                      {row.detailKind === "photos" && (
+                        <div class="dossier-detail-block">
+                          <p class="dossier-detail-block-label">Photo Grid</p>
+                          <div class="dossier-photo-grid">
+                            {Array.from({ length: 6 }).map(() => (
+                              <div class="dossier-photo-slot">
+                                <span>ASSET PENDING</span>
+                              </div>
+                            ))}
+                          </div>
+                          <p class="dossier-detail-empty">
+                            No product photography is reproduced from this hub — see /hero.
+                          </p>
+                        </div>
+                      )}
+
+                      {row.route ? (
+                        <a href={row.route} class="dossier-archive-link">
+                          View Full Archive →
+                        </a>
+                      ) : (
+                        <p class="dossier-detail-empty">No public route exists yet.</p>
+                      )}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </>
           ))
         }
       </tbody>
@@ -130,6 +212,15 @@ const rows: DossierRow[] = [
     gap: 12px;
   }
 
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
   .dossier-scroll {
     overflow-x: auto;
     border: 1px solid var(--line-strong);
@@ -137,7 +228,7 @@ const rows: DossierRow[] = [
 
   .dossier-table {
     width: 100%;
-    min-width: 64rem;
+    min-width: 68rem;
     border-collapse: collapse;
     font-family: "IBM Plex Mono", monospace;
     font-size: 0.78rem;
@@ -159,6 +250,43 @@ const rows: DossierRow[] = [
     background: var(--panel);
     border-bottom: 1px solid var(--line-strong);
     white-space: nowrap;
+  }
+
+  .dossier-toggle-cell {
+    width: 2.5rem;
+    padding-inline: 8px !important;
+  }
+
+  .dossier-toggle {
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--ink);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dossier-toggle:hover {
+    border-color: var(--ink);
+  }
+
+  .dossier-toggle-icon {
+    transition: transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .dossier-row.is-open .dossier-toggle-icon {
+    transform: rotate(45deg);
+  }
+
+  .dossier-row {
+    cursor: pointer;
   }
 
   .dossier-designation {
@@ -190,12 +318,167 @@ const rows: DossierRow[] = [
     color: var(--ink-soft);
   }
 
-  .dossier-table tbody tr:nth-child(even) {
+  .dossier-row--alt {
     background: var(--panel);
+  }
+
+  /* ---- Expand/collapse panel ---- */
+
+  .dossier-detail-cell {
+    padding: 0 !important;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .dossier-detail-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+  }
+
+  .dossier-detail.is-open .dossier-detail-wrap {
+    grid-template-rows: 1fr;
+  }
+
+  .dossier-detail-inner {
+    overflow: hidden;
+    min-height: 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dossier-detail.is-open .dossier-detail-inner {
+    padding: 20px;
+  }
+
+  .dossier-detail-inner p {
+    color: var(--ink-soft);
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 42rem;
+  }
+
+  .dossier-detail-block {
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dossier-detail-block-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .dossier-detail-empty {
+    font-size: 0.85rem !important;
+    color: var(--ink-soft);
+  }
+
+  .dossier-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+    gap: 8px;
+  }
+
+  .dossier-photo-slot {
+    aspect-ratio: 1;
+    border: 1px dashed var(--line-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6px;
+  }
+
+  .dossier-photo-slot span {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+
+  .dossier-archive-link {
+    align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+    padding: 8px 14px;
+  }
+
+  .dossier-archive-link:hover {
+    border-color: var(--ink);
   }
 
   .dossier-footnote {
     font-size: 0.78rem;
     color: var(--ink-soft);
   }
+
+  /* Simpler interaction on mobile: instant toggle, no smooth animation. */
+  @media (max-width: 40rem) {
+    .dossier-detail-wrap {
+      transition: none;
+    }
+
+    .dossier-toggle-icon {
+      transition: none;
+    }
+  }
 </style>
+
+<script>
+  function setOpen(id: string, open: boolean) {
+    const row = document.querySelector<HTMLTableRowElement>(`.dossier-row[data-row-id="${id}"]`);
+    const detail = document.querySelector<HTMLTableRowElement>(
+      `.dossier-detail[data-detail-for="${id}"]`,
+    );
+    const toggle = document.querySelector<HTMLButtonElement>(`[data-toggle-for="${id}"]`);
+    if (!row || !detail || !toggle) return;
+
+    row.classList.toggle("is-open", open);
+    detail.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    // `inert` keeps the collapsed panel's link out of tab order and out of
+    // the accessibility tree, without fighting the grid-height animation
+    // the way `hidden` would.
+    detail.inert = !open;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".dossier-toggle").forEach((toggle) => {
+    const id = toggle.dataset.toggleFor;
+    if (!id) return;
+    toggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      setOpen(id, !isOpen);
+    });
+  });
+
+  document.querySelectorAll<HTMLTableRowElement>(".dossier-row").forEach((row) => {
+    const id = row.dataset.rowId;
+    if (!id) return;
+    row.addEventListener("click", () => {
+      const toggle = document.querySelector<HTMLButtonElement>(`[data-toggle-for="${id}"]`);
+      const isOpen = toggle?.getAttribute("aria-expanded") === "true";
+      setOpen(id, !isOpen);
+    });
+  });
+
+  // Start every detail row inert (collapsed) so its link isn't reachable
+  // by keyboard until expanded.
+  document.querySelectorAll<HTMLTableRowElement>(".dossier-detail").forEach((detail) => {
+    detail.inert = true;
+  });
+</script>
