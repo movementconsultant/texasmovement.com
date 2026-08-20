@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "prebuild": "node scripts/fetch-media-thumbnails.mjs",
     "build": "astro build",
     "postbuild": "node scripts/check-public-output.mjs",
     "preview": "astro preview",
@@ -28,6 +29,7 @@
     "@astrojs/check": "^0.9.4",
     "@axe-core/playwright": "^4.13.0",
     "@types/node": "^22.20.1",
+    "esbuild": "^0.28.2",
     "playwright": "^1.62.1",
     "typescript": "^5.9.0",
     "vitest": "^4.1.10"
