@@ -5,10 +5,14 @@ import { extractEntries, videoIdFromLink } from "../src/lib/telemetry/youtubeSig
 import { sanitizeTitle, safeIsoDate, decodeEntities } from "../src/lib/telemetry/text";
 
 // Mark 13/14 "Latest Signal" telemetry rail — narrow safety net proving the
-// Ticker Tape Guardrails (title/date/link only, never a metric/thumbnail/
-// description) are enforced in code, independent of whether this test run
-// can actually reach YouTube's servers. See
-// docs/mark-13-latest-signal-implementation.md.
+// Ticker Tape Guardrails (title/date/link, never a metric or description)
+// are enforced in code, independent of whether this test run can actually
+// reach YouTube's servers. See docs/mark-13-latest-signal-implementation.md.
+//
+// Mark 26 amends the thumbnail guardrail specifically (thumbnails are now
+// authorized — self-hosted, source-derived from the confirmed feed, never
+// hotlinked or fabricated); see the "self-hosted thumbnails" describe
+// block below for the tests proving that amendment's own conditions.
 
 const ROOT = join(new URL(".", import.meta.url).pathname, "..");
 
@@ -137,7 +141,6 @@ describe("no telemetry file contains a forbidden pattern or leaks a guardrail-ex
     ["tel: link", /tel:/i],
     ["an <iframe>", /<iframe[\s>]/i],
     ["a <form> element", /<form[\s>]/i],
-    ["an <img> tag (no remote thumbnails on this rail)", /<img[\s>]/i],
     ["XMLHttpRequest usage", /XMLHttpRequest/],
     ["analytics/tracking snippet", /\b(gtag|ga\(|dataLayer|fbq\()\b/],
     ["a platform SDK/OAuth reference", /\b(oauth|clientId|client_secret|apiKey)\b/i],
@@ -180,6 +183,56 @@ describe("no telemetry file contains a forbidden pattern or leaks a guardrail-ex
     const source = readFileSync(join(ROOT, "src/lib/telemetry/fetchWithTimeout.ts"), "utf8");
     expect(source).toContain("catch (err)");
     expect(source).toContain("return null");
+  });
+});
+
+describe("Mark 26 — self-hosted thumbnails on the Latest Signal rail only", () => {
+  const railSource = readFileSync(
+    join(ROOT, "src/components/media/LatestSignalRail.astro"),
+    "utf8",
+  );
+
+  it("renders an <img> with alt text, explicit width/height, and loading=lazy", () => {
+    expect(railSource).toMatch(/<img[\s\S]*?alt={item\.title}/);
+    expect(railSource).toContain('width="168"');
+    expect(railSource).toContain('height="94"');
+    expect(railSource).toContain('loading="lazy"');
+  });
+
+  it("is grayscale by default with a hover-to-color transition, never a drop shadow", () => {
+    expect(railSource).toMatch(/filter:\s*grayscale\(1\)/);
+    expect(railSource).toMatch(/filter:\s*grayscale\(0\)/);
+    expect(railSource).not.toMatch(/box-shadow\s*:\s*(?!none)/);
+  });
+
+  it("never hotlinks youtube.com or ytimg.com — the <img> src is always the self-hosted local path", () => {
+    expect(railSource).not.toMatch(/src=.*ytimg\.com/);
+    expect(railSource).not.toMatch(/src=.*youtube\.com/);
+    expect(railSource).toContain("/media-thumbnails/");
+  });
+
+  it("still forbids an <iframe> or any other platform embed", () => {
+    expect(railSource).not.toMatch(/<iframe[\s>]/i);
+  });
+
+  it("renders a placeholder block (never a broken image) when a thumbnail file is missing", () => {
+    expect(railSource).toContain("latest-signal-thumb--placeholder");
+    expect(railSource).toMatch(/latest-signal-thumb-placeholder-text[\s\S]*?\{item\.title\}/);
+  });
+
+  it("fetch-media-thumbnails.mjs never fails the build — the top-level run is caught", () => {
+    const scriptSource = readFileSync(join(ROOT, "scripts/fetch-media-thumbnails.mjs"), "utf8");
+    expect(scriptSource).toMatch(/main\(\)\.catch/);
+  });
+
+  it("fetch-media-thumbnails.mjs writes into the gitignored public/media-thumbnails/ directory", () => {
+    const gitignore = readFileSync(join(ROOT, ".gitignore"), "utf8");
+    expect(gitignore).toContain("public/media-thumbnails/");
+  });
+
+  it("runs as a prebuild step, before astro build, so files exist before Astro copies public/", () => {
+    const pkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"));
+    expect(pkg.scripts.prebuild).toContain("fetch-media-thumbnails.mjs");
   });
 });
 

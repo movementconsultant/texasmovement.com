@@ -12,13 +12,22 @@
 //
 // Ticker Tape Guardrails (Mark 14, applied here the same as
 // alexandermathai.com's Ledger/Live Systems rails): only title, date, and
-// a link ever render — no thumbnail, no description, no metric. This is
+// a link ever render — no description, no metric. Mark 14's guardrail
+// table listed "ONLY: Title, Date, and a link" for Substack/YouTube,
 // deliberately narrower than the Mark 13 brief's original "thumbnail"
-// mention: Mark 14's guardrail table lists "ONLY: Title, Date, and a
-// link" for Substack/YouTube, and fetching/hotlinking a remote thumbnail
-// image would also reopen the "no remote thumbnail" restriction every
-// prior Mark (9-12) held on this route. See the implementation doc for the
-// full reasoning.
+// mention, specifically to keep every prior Mark's (9-12) "no remote
+// thumbnail" restriction intact.
+//
+// Mark 26 explicitly amends that one restriction, for this rail only: a
+// thumbnail is now authorized because it is factual, source-derived
+// imagery (the video ID this module already extracts from the confirmed
+// Atom feed, used to build-time-fetch and self-host a real frame from that
+// specific video — see scripts/fetch-media-thumbnails.mjs) rather than an
+// invented or fabricated visual, which is what the original restriction
+// existed to prevent. This module's own return shape (LatestSignalItem)
+// is unchanged by that amendment — the thumbnail lookup is entirely local
+// to LatestSignalRail.astro (existsSync against the pre-fetched file), not
+// a new field returned from here.
 import { safeFetch } from "./fetchWithTimeout";
 import { resolveChannelId } from "./youtubeChannelId";
 import { sanitizeTitle, safeIsoDate } from "./text";

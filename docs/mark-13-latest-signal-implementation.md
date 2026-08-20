@@ -28,21 +28,35 @@ the sibling Substack/GitHub rails built the same pass under the same governance 
 
 | Field shown | Fields never shown | Enforced in |
 |---|---|---|
-| Title, date, link (per video) | Thumbnail, description, view/subscriber/like count | `src/lib/telemetry/youtubeSignal.ts` `extractEntries()` — only `<title>`/`<link rel="alternate">`/`<published>` are ever read from the Atom feed; the `LatestSignalItem` interface has no field for anything else |
+| Title, date, link, self-hosted thumbnail (per video) | Description, view/subscriber/like count | `src/lib/telemetry/youtubeSignal.ts` `extractEntries()` — only `<title>`/`<link rel="alternate">`/`<published>` are ever read from the Atom feed; the `LatestSignalItem` interface has no field for anything else. The thumbnail is looked up separately in `LatestSignalRail.astro` from files `scripts/fetch-media-thumbnails.mjs` already wrote to disk. |
 
 ## On thumbnails
 
 The owner's original Mark 13 evidence said "authorized to fetch thumbnail, title, link, date" for
-YouTube. This implementation deliberately does **not** fetch or render a thumbnail, for two
-reasons recorded here rather than silently deviating:
+YouTube. This implementation originally did **not** fetch or render a thumbnail, for two reasons
+recorded here rather than silently deviating:
 
 1. Mark 14's own "Ticker Tape Guardrails" table, written specifically to resolve the G-M8 tension
    this feature raised, lists the narrower "ONLY: Title, Date, and a link" for Substack/YouTube —
    read as the more recent and more specific instruction on exactly this point.
 2. Every prior Mark on this route (9 through 12) held a consistent, repeated "no remote thumbnail
    or OG image fetching" line — fetching and hotlinking a remote YouTube thumbnail would reopen
-   that restriction for this route specifically. Text-only stays consistent with the rest of
+   that restriction for this route specifically. Text-only stayed consistent with the rest of
    `/media`'s existing design (Mark 11's local, abstract `MediaPreviewArt` — never a fetched image).
+
+**Mark 26 update:** the owner issued an explicit, standalone policy amendment lifting restriction
+#2 above for this rail specifically — a thumbnail is now authorized because it is factual,
+source-derived imagery (fetched from `i.ytimg.com` using the video ID already extracted from the
+confirmed Atom feed), not an invented or fabricated visual, which is what the restriction existed
+to prevent. Restriction #1 (no metric/description) and the separate, still-standing "no remote
+thumbnail" rule on `MediaPreviewArt`'s confirmed-destination cards are both unchanged — this
+amendment is scoped to the Latest Signal rail only. Implementation: `scripts/fetch-media-thumbnails.mjs`
+runs as an npm `prebuild` step (before `astro build`) and downloads each video's thumbnail to
+`public/media-thumbnails/{videoId}.jpg`; the rendered HTML always references that local path, never
+`i.ytimg.com` directly, so no request leaks to YouTube on page load. A video whose thumbnail
+wasn't fetched (network failure, or none attempted) renders the same static per-item placeholder
+block it always would have — never a broken image icon. See `tests/latest-signal.test.ts`'s
+"Mark 26 — self-hosted thumbnails" block for the enforcement tests.
 
 ## Channel ID resolution — unofficial, fragile, disclosed
 
