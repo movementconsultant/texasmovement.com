@@ -53,15 +53,18 @@ const ROUTES = [
   "/lanes",
   "/about",
   "/ecosystem",
+  "/contact",
   "/consulting",
   "/media",
   "/performance",
   "/distribution",
   "/hero",
   "/partners",
+  "/vault",
   "/privacy",
   "/terms",
   "/accessibility",
+  "/verticals/texas-movement-media",
 ];
 
 async function main() {

@@ -14,6 +14,7 @@
 // for how an owner replaces a placeholder with real reviewed material.
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 import { mediaEntrySchema } from "@/lib/media-schema";
 
 export { mediaEntrySchema };
@@ -23,4 +24,21 @@ const media = defineCollection({
   schema: mediaEntrySchema,
 });
 
-export const collections = { media };
+// Mark 18 — "Vertical Manifestos": a new, additional content layer for the
+// 11 TMI ecosystem verticals, distinct from the existing presentation-only
+// ECOSYSTEM_MAP (src/lib/site.ts) and HUB_ROUTES (src/lib/hub-routes.ts)
+// systems. This collection holds a vertical's own long-form thesis and
+// operational blueprint; ECOSYSTEM_MAP/HUB_ROUTES still govern the
+// site-wide status badges and nav/footer eligibility. Reconciling the
+// three systems into one is a future, separate decision — not made here.
+const verticals = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/verticals" }),
+  schema: z.object({
+    title: z.string(),
+    status: z.enum(["live", "in-dev", "private"]),
+    thesis: z.string().describe("The vertical's core philosophy, one to a few sentences"),
+    blueprint: z.string().describe("The operational model, one to a few sentences"),
+  }),
+});
+
+export const collections = { media, verticals };

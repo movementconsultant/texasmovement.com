@@ -1,0 +1,121 @@
+{
+  "mark": 15,
+  "title": "External Standards Adoption Framework and Evidence-Governance Architecture",
+  "repository": "movementconsultant/texasmovement.com",
+  "branch": "claude/mark-18-tmi-furnishing",
+  "scope": "documentation-only",
+  "companionDocs": {
+    "verticalStandardsMatrix": "docs/internal/mark-15-vertical-standards-evidence-matrix.md",
+    "sourceReviewTemplate": "docs/internal/mark-15-standards-source-review-template.md",
+    "publicClaimsBoundaryGuide": "docs/internal/mark-15-public-claims-boundary-guide.md",
+    "originalFrameworkGraphicBrief": "docs/internal/mark-15-original-framework-graphic-brief.md"
+  },
+  "purpose": "Where a TMI vertical lacks proprietary research, verified outcomes, proprietary methodology, clinical evidence, legal authority, or owner-approved proof, its internal OPERATING standard defaults to a reviewed industry best-practice baseline. This never becomes a public claim without a separate owner decision and real operational readiness.",
+  "adoptionHierarchy": [
+    {
+      "tier": 1,
+      "name": "Proprietary TMI evidence",
+      "requirement": "Owner-provided artifact + governance review (existing proof-registry pattern)",
+      "mustNot": "be assumed, inferred, or backfilled from a general standard"
+    },
+    {
+      "tier": 2,
+      "name": "Independently substantiated evidence",
+      "requirement": "Third-party research/standards/guidance reviewed for relevance, date, authority, jurisdiction, limitations, applicability",
+      "mustNot": "be presented as proprietary TMI evidence, research, or methodology"
+    },
+    {
+      "tier": 3,
+      "name": "Industry best-practice baseline",
+      "requirement": "Used internally only, specifically because Tier 1/2 evidence is absent",
+      "mustNot": "imply certification, compliance, outcome assurance, or professional qualification"
+    },
+    {
+      "tier": 4,
+      "name": "Owner decision and operational reality gate",
+      "requirement": "Actual team, process, systems, policies, staffing, insurance, legal review, support capacity, privacy posture, AND evidence must all be in place, AND the owner must explicitly decide",
+      "mustNot": "ever be skipped before any public promise"
+    }
+  ],
+  "requiredFieldsPerCandidate": [
+    "vertical", "operatingDomain", "internalDecisionPurpose", "candidateSourceClass",
+    "sourceAuthorityJurisdiction", "publicationUpdateDate", "scopeAndApplicability",
+    "evidenceQuality", "knownLimitations", "requiredSubjectMatterReview",
+    "requiredLegalPrivacySafetyReview", "tmiImplementationStatus", "publicWordingStatus",
+    "revalidationDate", "ownerDecision", "explicitNonClaimStatement"
+  ],
+  "implementationStatusValues": [
+    "not reviewed", "considering", "internal reference", "adopted internally",
+    "implementation evidenced", "candidate for public-review", "rejected", "retired"
+  ],
+  "publicWordingStatusValues": ["prohibited", "internal-only", "owner-review-required", "not applicable"],
+  "currentPopulationState": "Every candidate row in the internal matrix is 'not reviewed' with public wording status 'prohibited'. No external standard has been researched, selected, or adopted in this pass.",
+  "verticalStandardsMatrixSummary": [
+    { "area": "Consulting", "riskLevel": "Medium", "publicClaimProhibition": "prohibited by default", "publicSurface": "TMI route (/consulting, Building)" },
+    { "area": "Performance (general education)", "riskLevel": "High", "publicClaimProhibition": "prohibited by default", "publicSurface": "TMI route (/performance, Building)" },
+    { "area": "Tensegrity / sprint technique / athlete therapy", "riskLevel": "Highest - restricted domain", "publicClaimProhibition": "absolute prohibition pending specialist/legal review", "publicSurface": "no public surface (private research only, if pursued)" },
+    { "area": "Health", "riskLevel": "Highest - restricted domain", "publicClaimProhibition": "absolute prohibition pending specialist/legal review", "publicSurface": "no public surface currently" },
+    { "area": "Media", "riskLevel": "Medium", "publicClaimProhibition": "prohibited by default", "publicSurface": "TMI route (/media, Building)" },
+    { "area": "Distribution", "riskLevel": "Medium", "publicClaimProhibition": "prohibited by default", "publicSurface": "TMI route (/distribution, Building)" },
+    { "area": "Social / Gather", "riskLevel": "High (event/safety)", "publicClaimProhibition": "prohibited by default", "publicSurface": "no public surface currently (private/incubation)" },
+    { "area": "Reparations", "riskLevel": "High (legal/political/research)", "publicClaimProhibition": "prohibited by default", "publicSurface": "no public surface beyond one existing approved blurb" },
+    { "area": "HERO / commerce", "riskLevel": "High (external, unaudited)", "publicClaimProhibition": "prohibited by default, stricter than most - no assertion without authenticated audit", "publicSurface": "external storefront / internally unaudited" },
+    { "area": "Speaking engagements", "riskLevel": "Medium", "publicClaimProhibition": "prohibited by default", "publicSurface": "no dedicated public surface currently" },
+    { "area": "Apps and online services", "riskLevel": "High (privacy/security)", "publicClaimProhibition": "prohibited by default", "publicSurface": "future app - no public surface today" },
+    { "area": "Checkout and conversion experience", "riskLevel": "High (payment/consent)", "publicClaimProhibition": "not applicable - no activation in any pass to date", "publicSurface": "no public surface; not applicable to any current TMI hub route" }
+  ],
+  "publicClaimsBoundaryCategories": [
+    "1. Safe internal planning language",
+    "2. Potential future public language requiring approval",
+    "3. Prohibited public language without direct evidence",
+    "4. High-risk language requiring specialist/legal/clinical review",
+    "5. Statements that must never be inferred from industry best practices alone"
+  ],
+  "originalFrameworkGraphicBrief": {
+    "status": "text-only brief, no image generated or added in this pass",
+    "structure": {
+      "center": "TMI Operating Core",
+      "innerRing": ["Consulting", "Media", "Performance", "Distribution", "Partners"],
+      "outerGovernedRing": ["Health", "FounderLink", "Social/Gather", "Reparations"],
+      "connectedFounderLayer": "AVM / Founder Systems Archive",
+      "externalCommerceBoundary": "HERO / external storefront, internally unaudited",
+      "underlay": "Evidence -> Governance -> Operations -> Public Surface"
+    },
+    "explicitExclusions": [
+      "metrics/counters/statistics", "live/status indicators or activity feeds",
+      "countdowns or dates", "athlete/patient/medical imagery", "political imagery",
+      "LA28/Olympic/Paralympic imagery or marks", "third-party or standards-body logos",
+      "baked-in claims or slogans", "copy of any real external standard's diagram"
+    ],
+    "visualDirection": "dark-first future-firm operating console: near-black field, structural panel lines, restrained signal-green accent, original abstract topology, systems-map clarity"
+  },
+  "nonRenderedConfirmation": {
+    "docsDirectoryImportedBySource": false,
+    "docsDirectoryInContentCollectionBasePaths": false,
+    "contentCollectionBasePaths": ["./src/content/media", "./src/content/verticals"],
+    "existingDocsReferencesInSource": "plain-text comments or literal <code>docs/FILENAME.md</code> strings only, never imports/fetches/routes",
+    "method": "grep across src/ and astro.config.mjs before writing this pass's files"
+  },
+  "validation": {
+    "typecheckCommand": "npm run typecheck",
+    "unitTestCommand": "npm run test:unit",
+    "forbiddenWordSweepTerms": [
+      "compliant", "certified", "evidence-based", "proven", "safe", "effective",
+      "therapeutic", "treatment", "medical", "clinical", "legal", "guaranteed",
+      "best practice", "live", "operational", "available", "checkout", "payment",
+      "speaking", "app", "service", "public"
+    ],
+    "sweepResultRule": "every occurrence must be internal, conditional, prohibited, evidence-gated, or owner-review language"
+  },
+  "explicitNonActions": [
+    "no external standard researched, selected, retrieved, or adopted",
+    "no public route, component, content collection, schema, navigation, metadata, structured data, sitemap, or robots file changed",
+    "no test, dependency, lockfile, build config, or infrastructure file changed",
+    "no image generated or added",
+    "no vertical, form, checkout, service, appointment, treatment, app, or external integration activated",
+    "no Cloudflare, DNS, domain, deployment, or GitHub setting touched",
+    "no PR metadata changed; PR #2 draft/base/state left exactly as found",
+    "main branch untouched",
+    "alexandermathai.com (AVM PR #1 and PR #3) not modified"
+  ]
+}

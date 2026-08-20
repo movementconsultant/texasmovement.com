@@ -18,6 +18,10 @@ const result = await getLatestSignalItems();
   {
     result.status === "ok" ? (
       <>
+        <p class="latest-signal-live">
+          <span class="latest-signal-live-dot" aria-hidden="true"></span>
+          Live telemetry
+        </p>
         <ul class="latest-signal-list">
           {result.items.map((item) => (
             <li>
@@ -43,15 +47,48 @@ const result = await getLatestSignalItems();
         </p>
       </>
     ) : (
-      <div class="stub-note">
-        The Latest Signal automated index isn't available for this build. See the confirmed TMM
-        YouTube destinations above for the channels directly.
+      <div class="latest-signal-fallback">
+        <p class="signal-lost-line">
+          <span aria-hidden="true">&gt;</span> SIGNAL LOST // AWAITING RECONNECTION // ROUTING TO
+          SOURCE
+        </p>
+        <p class="signal-lost-description">
+          The Latest Signal automated index isn't available for this build. See the channel
+          directly:
+        </p>
+        <a
+          href="https://youtube.com/@texasmovementmedia"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="latest-signal-fallback-link"
+        >
+          Texas Movement Media on YouTube &rarr;
+        </a>
       </div>
     )
   }
 </div>
 
 <style>
+  .latest-signal-live {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .latest-signal-live-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--ff-accent-signal);
+    flex-shrink: 0;
+    animation: signal-heartbeat-dot 60s ease-in-out infinite;
+  }
+
   .latest-signal-list {
     list-style: none;
     display: flex;
@@ -67,6 +104,20 @@ const result = await getLatestSignalItems();
     gap: 10px;
     padding-block: 10px;
     border-bottom: 1px solid var(--line);
+    animation: telemetry-card-load 0.5s ease-out both;
+  }
+
+  .latest-signal-list li:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .latest-signal-list li:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .latest-signal-list li:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .latest-signal-list li:nth-child(4) {
+    animation-delay: 0.24s;
   }
 
   .latest-signal-channel {
@@ -98,5 +149,38 @@ const result = await getLatestSignalItems();
     font-size: 0.8rem;
     color: var(--ink-soft);
     margin-top: 10px;
+  }
+
+  /* Mark 25 — "Signal Lost" terminal state, matching AVM's LedgerRail /
+     LiveSystemsRail treatment. Signal Green here extends the same "live
+     telemetry indicator" allowance already used for the OK-state dot
+     above — this is that indicator's degraded state, not new decorative
+     accent usage. */
+  .latest-signal-fallback {
+    padding: 16px;
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .signal-lost-line {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    color: var(--ff-accent-signal);
+  }
+
+  .signal-lost-description {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .latest-signal-fallback-link {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    align-self: flex-start;
   }
 </style>

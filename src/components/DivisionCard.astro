@@ -32,10 +32,10 @@ const { label, title, body, links = [], variant = "default", status = "building"
 const linkClass = variant === "hero" ? "hero-link" : undefined;
 const statusText =
   status === "private"
-    ? "Private — not public yet"
+    ? "Restricted Access — not public yet"
     : status === "live"
       ? "Live — see links above"
-      : "Building — not yet live";
+      : "Deployment Pending — not yet live";
 ---
 
 <article class:list={["division", { "division--hero": variant === "hero" }]}>
@@ -46,7 +46,7 @@ const statusText =
     <div class="division-links">
       {links.map((l) =>
         l.building ? (
-          <span class="division-status">{l.label} — building, not yet live</span>
+          <span class="division-status">{l.label} — deployment pending, not yet live</span>
         ) : (
           <a href={l.href} class={linkClass}>{l.label}</a>
         )

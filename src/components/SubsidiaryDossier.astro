@@ -1,0 +1,566 @@
+---
+// src/components/SubsidiaryDossier.astro
+//
+// Mark 21 — the "Multi-Vertical Switchboard": a dense, monospace routing-
+// matrix table highlighting TMM, FounderLink, and HERO/TMP on /lanes.
+// Every MANDATE cell below is sourced from language already established and
+// owner-approved elsewhere on this site (ECOSYSTEM_MAP blurbs in
+// src/lib/site.ts, and the route body copy on /media, /performance, /hero,
+// /ecosystem) — nothing here asserts a new service, capability, or claim
+// that isn't already published. STATUS values match each property's real,
+// current ECOSYSTEM_MAP badge (see src/lib/site.ts) and hub-routes.ts
+// posture — none is marked deployed/active unless it actually is. This
+// component intentionally does not use --ff-accent-signal anywhere: per the
+// Mark 19 accent-restraint rule, Signal Green is reserved for the Contact
+// Intake button and live-telemetry indicators, not a summary table.
+//
+// Mark 22 note on the CADENCE column: this was requested as a place to show
+// "active cadence" per vertical, and (as of Mark 22) intentionally excluded
+// specific episode counts, named protocols, or dated production claims not
+// substantiated anywhere in this repository.
+//
+// Mark 23 update: the owner issued three explicit, standalone business
+// decisions (not routed through any guardrail-bypass mechanism — one such
+// attempt was made and declined first) that supersede that Mark 22
+// restraint for HERO and FounderLink specifically. See git history for the
+// full record.
+//
+// Mark 24 — expand/collapse interaction. Each row's expanded MANIFESTO is
+// built only from language already established elsewhere on this site
+// (mandate + cadence + status, reworded into flowing paragraphs) — no new
+// brand-voice copy was invented for this pass. TMM's "episode list" and
+// HERO's "photo grid" render honest empty/pending states rather than
+// fabricated episode titles or placeholder stock photography: no episode
+// data exists anywhere in this repository (and /media's own established
+// copy says as much), and no real HERO product photography exists in this
+// repository either.
+//
+// Mark 25 — "10% Factor of Safety" hardening: smooth-scroll + focus
+// management on expand/collapse (scrollIntoView + focus the first
+// interactive element, or the panel itself as a fallback for FounderLink,
+// which has none), and the empty states above became "Raw Signal Routing"
+// CTA cards. TMM's card links directly to its real, owner-confirmed
+// YouTube URL (already linked elsewhere on this site). HERO's card does
+// NOT link directly to its TikTok/Instagram — those URLs are marked
+// verified:false in alexandermathai.com's own ecosystem data, with an
+// explicit standing rule there that unverified channel URLs render as text
+// only until verified. HERO's card instead links to /hero (this hub's own
+// safe, internal HERO context page) and shows the handles as plain text.
+
+interface DossierRow {
+  id: string;
+  designation: string;
+  sector: string;
+  status: string;
+  mandate: string;
+  cadence: string;
+  route: string | null;
+  detailKind: "episodes" | "photos" | "none";
+}
+
+const rows: DossierRow[] = [
+  {
+    id: "tmm",
+    designation: "TMM — Texas Movement Media",
+    sector: "Media / Editorial Distribution",
+    status: "Deployment Pending — not yet live",
+    mandate:
+      "Independent media, editorial series, and cultural documentation. Owner-confirmed source-destination index (YouTube, Instagram, TikTok, Substack) and automated Latest Signal rail are live at /media; full editorial programming is Deployment Pending.",
+    cadence: "Only vertical with live automated telemetry — see Latest Signal on / and /media.",
+    route: "/media",
+    detailKind: "episodes",
+  },
+  {
+    id: "founderlink",
+    designation: "FounderLink",
+    sector: "Municipal / Founder Networking",
+    status: "Restricted Access / Incubating",
+    mandate:
+      "Municipal and founder networking apparatus. No public network, membership, or intake exists.",
+    cadence: "No public activity to report — Incubating.",
+    route: null,
+    detailKind: "none",
+  },
+  {
+    id: "hero",
+    designation: "HERO",
+    sector: "Consumer Products / Apparel / Footwear",
+    status: "External storefront / internally unaudited",
+    mandate:
+      "Consumer products, apparel, footwear, and performance-oriented design. Externally operated; not built, hosted, or audited from this hub.",
+    cadence:
+      "Performance footwear and apparel. R&D Testing Vectors: elite sprint protocol, Olympic weightlifting, and rugged lifestyle testing. Current status: Field exhibits via @herofootwear.",
+    route: "/hero",
+    detailKind: "photos",
+  },
+  {
+    id: "tmp",
+    designation: "TMP — Texas Movement Performance",
+    sector: "Training / Movement / Athletic Development",
+    status: "Deployment Pending — not yet live",
+    mandate:
+      "Athletic development and training architecture. No coaching, medical, or enrollment offer is active.",
+    cadence: "No active programming — research and content arm only.",
+    route: "/performance",
+    detailKind: "none",
+  },
+];
+
+function thirdParagraph(row: DossierRow): string {
+  if (row.id === "tmm") {
+    return "A content-architecture manifesto template exists at /verticals/texas-movement-media, explicitly marked as an unreviewed placeholder pending owner sign-off.";
+  }
+  if (row.id === "hero") {
+    return "HERO's consumer product catalog, pricing, checkout, and availability are not audited or reproduced from this hub — see /hero for the full, standing disclaimer.";
+  }
+  return `Current status: ${row.status}.`;
+}
+---
+
+<div class="dossier">
+  <div class="dossier-scroll">
+    <table class="dossier-table">
+      <thead>
+        <tr>
+          <th scope="col"><span class="sr-only">Expand</span></th>
+          <th scope="col">Designation</th>
+          <th scope="col">Sector</th>
+          <th scope="col">Status</th>
+          <th scope="col">Mandate</th>
+          <th scope="col">Cadence</th>
+          <th scope="col">Route</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row, i) => (
+            <>
+              <tr class:list={["dossier-row", { "dossier-row--alt": i % 2 === 1 }]} data-row-id={row.id}>
+                <td class="dossier-toggle-cell">
+                  <button
+                    type="button"
+                    class="dossier-toggle"
+                    aria-expanded="false"
+                    aria-controls={`dossier-detail-${row.id}`}
+                    data-toggle-for={row.id}
+                  >
+                    <span class="dossier-toggle-icon" aria-hidden="true">
+                      +
+                    </span>
+                    <span class="sr-only">Expand {row.designation} detail</span>
+                  </button>
+                </td>
+                <td class="dossier-designation">{row.designation}</td>
+                <td class="dossier-sector">{row.sector}</td>
+                <td class="dossier-status">{row.status}</td>
+                <td class="dossier-mandate">{row.mandate}</td>
+                <td class="dossier-mandate">{row.cadence}</td>
+                <td class="dossier-route">
+                  {row.route ? <a href={row.route}>{row.route} →</a> : <span>—</span>}
+                </td>
+              </tr>
+              <tr class="dossier-detail" id={`dossier-detail-${row.id}`} data-detail-for={row.id}>
+                <td colspan={7} class="dossier-detail-cell">
+                  <div class="dossier-detail-wrap">
+                    <div class="dossier-detail-inner">
+                      <p>{row.mandate}</p>
+                      <p>{row.cadence}</p>
+                      <p>{thirdParagraph(row)}</p>
+
+                      {row.detailKind === "episodes" && (
+                        <div class="dossier-detail-block dossier-detail-block--routing">
+                          <p class="dossier-detail-block-label">Raw Signal Routing</p>
+                          <p class="dossier-routing-copy">
+                            Full editorial archive hosted externally.
+                          </p>
+                          <a
+                            href="https://youtube.com/@texasmovementmedia"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="dossier-routing-link"
+                          >
+                            @texasmovementmedia on YouTube →
+                          </a>
+                        </div>
+                      )}
+
+                      {row.detailKind === "photos" && (
+                        <div class="dossier-detail-block dossier-detail-block--routing">
+                          <p class="dossier-detail-block-label">Raw Signal Routing</p>
+                          <p class="dossier-routing-copy">
+                            Visual protocol documentation available via raw field channels.
+                            Externally operated — not audited or reproduced from this hub (per
+                            /hero); @herofootwear is not linked directly from here until a
+                            confirmed platform destination is verified for this ecosystem.
+                          </p>
+                          <div class="dossier-routing-handles">
+                            <span>TIKTOK: @herofootwear</span>
+                            <span>IG: @herofootwearusa</span>
+                          </div>
+                          <a href="/hero" class="dossier-routing-link">
+                            HERO context page →
+                          </a>
+                        </div>
+                      )}
+
+                      {row.route ? (
+                        <a href={row.route} class="dossier-archive-link">
+                          View Full Archive →
+                        </a>
+                      ) : (
+                        <p class="dossier-detail-empty">No public route exists yet.</p>
+                      )}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="dossier-footnote">
+    Every field above matches this vertical's current, owner-approved status elsewhere on this
+    site (see the ecosystem map's badges and each route's own posture line) — this table
+    summarizes, it does not supersede.
+  </p>
+</div>
+
+<style>
+  .dossier {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .dossier-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--line-strong);
+  }
+
+  .dossier-table {
+    width: 100%;
+    min-width: 68rem;
+    border-collapse: collapse;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+  }
+
+  .dossier-table th,
+  .dossier-table td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  .dossier-table thead th {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--panel);
+    border-bottom: 1px solid var(--line-strong);
+    white-space: nowrap;
+  }
+
+  .dossier-toggle-cell {
+    width: 2.5rem;
+    padding-inline: 8px !important;
+  }
+
+  .dossier-toggle {
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--ink);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dossier-toggle:hover {
+    border-color: var(--ink);
+  }
+
+  .dossier-toggle-icon {
+    transition: transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .dossier-row.is-open .dossier-toggle-icon {
+    transform: rotate(45deg);
+  }
+
+  .dossier-row {
+    cursor: pointer;
+  }
+
+  .dossier-designation {
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .dossier-sector,
+  .dossier-status {
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .dossier-mandate {
+    color: var(--ink-soft);
+    min-width: 22rem;
+    line-height: 1.5;
+  }
+
+  .dossier-route a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    white-space: nowrap;
+  }
+
+  .dossier-route span {
+    color: var(--ink-soft);
+  }
+
+  .dossier-row--alt {
+    background: var(--panel);
+  }
+
+  /* ---- Expand/collapse panel ---- */
+
+  .dossier-detail-cell {
+    padding: 0 !important;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .dossier-detail-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+  }
+
+  .dossier-detail.is-open .dossier-detail-wrap {
+    grid-template-rows: 1fr;
+  }
+
+  .dossier-detail-inner {
+    overflow: hidden;
+    min-height: 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dossier-detail.is-open .dossier-detail-inner {
+    padding: 20px;
+  }
+
+  .dossier-detail-inner p {
+    color: var(--ink-soft);
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 42rem;
+  }
+
+  .dossier-detail-block {
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dossier-detail-block-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .dossier-detail-empty {
+    font-size: 0.85rem !important;
+    color: var(--ink-soft);
+  }
+
+  /* Mark 25 — "Raw Signal Routing" cards, replacing the Mark 24 honest-
+     empty-state grid/list. Still no fabricated episode titles or product
+     photography — this routes to real, already-established destinations
+     instead: TMM's owner-confirmed YouTube URL (already linked elsewhere
+     on this site), and HERO's own internal /hero context page rather than
+     its unverified TikTok/Instagram URLs (marked verified:false in
+     alexandermathai.com's ecosystem data, which explicitly renders them as
+     text rather than live links until verified — see that repo's
+     DivisionCard.astro for the governance comment this mirrors). */
+  .dossier-detail-block--routing {
+    gap: 8px;
+  }
+
+  .dossier-routing-copy {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .dossier-routing-handles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+  }
+
+  .dossier-routing-handles span {
+    border: 1px solid var(--line-strong);
+    padding: 4px 8px;
+  }
+
+  .dossier-routing-link {
+    align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+    padding: 8px 14px;
+    margin-top: 4px;
+  }
+
+  .dossier-routing-link:hover {
+    border-color: var(--ink);
+  }
+
+  .dossier-archive-link {
+    align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+    padding: 8px 14px;
+  }
+
+  .dossier-archive-link:hover {
+    border-color: var(--ink);
+  }
+
+  .dossier-footnote {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+
+  /* Simpler interaction on mobile: instant toggle, no smooth animation. */
+  @media (max-width: 40rem) {
+    .dossier-detail-wrap {
+      transition: none;
+    }
+
+    .dossier-toggle-icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Mark 25 — spatial anchoring & focus. On expand: scroll just enough to
+  // keep the newly revealed panel visible, then move focus into it (its
+  // first link/button, or the panel itself as a fallback when nothing
+  // inside is focusable — e.g. FounderLink, which has no archive link).
+  // On collapse: return focus to the row's own toggle button so keyboard
+  // users don't lose their place.
+  function focusFirstInteractive(detail: HTMLTableRowElement) {
+    const target =
+      detail.querySelector<HTMLElement>("a[href], button") ??
+      detail.querySelector<HTMLElement>(".dossier-detail-inner");
+    if (!target) return;
+    if (!target.hasAttribute("tabindex") && target.tagName !== "A" && target.tagName !== "BUTTON") {
+      target.setAttribute("tabindex", "-1");
+    }
+    target.focus({ preventScroll: true });
+  }
+
+  function setOpen(id: string, open: boolean) {
+    const row = document.querySelector<HTMLTableRowElement>(`.dossier-row[data-row-id="${id}"]`);
+    const detail = document.querySelector<HTMLTableRowElement>(
+      `.dossier-detail[data-detail-for="${id}"]`,
+    );
+    const toggle = document.querySelector<HTMLButtonElement>(`[data-toggle-for="${id}"]`);
+    if (!row || !detail || !toggle) return;
+
+    row.classList.toggle("is-open", open);
+    detail.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    // `inert` keeps the collapsed panel's link out of tab order and out of
+    // the accessibility tree, without fighting the grid-height animation
+    // the way `hidden` would.
+    detail.inert = !open;
+
+    const settleDelay = reducedMotion ? 0 : 360; // matches the CSS transition duration
+    if (open) {
+      setTimeout(() => {
+        detail.scrollIntoView({
+          behavior: reducedMotion ? "auto" : "smooth",
+          block: "nearest",
+        });
+        focusFirstInteractive(detail);
+      }, settleDelay);
+    } else {
+      toggle.focus({ preventScroll: true });
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".dossier-toggle").forEach((toggle) => {
+    const id = toggle.dataset.toggleFor;
+    if (!id) return;
+    toggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      setOpen(id, !isOpen);
+    });
+  });
+
+  document.querySelectorAll<HTMLTableRowElement>(".dossier-row").forEach((row) => {
+    const id = row.dataset.rowId;
+    if (!id) return;
+    row.addEventListener("click", () => {
+      const toggle = document.querySelector<HTMLButtonElement>(`[data-toggle-for="${id}"]`);
+      const isOpen = toggle?.getAttribute("aria-expanded") === "true";
+      setOpen(id, !isOpen);
+    });
+  });
+
+  // Start every detail row inert (collapsed) so its link isn't reachable
+  // by keyboard until expanded.
+  document.querySelectorAll<HTMLTableRowElement>(".dossier-detail").forEach((detail) => {
+    detail.inert = true;
+  });
+</script>

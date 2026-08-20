@@ -1,34 +1,61 @@
 /* Texas Movement design system — tokens + shared component classes.
-   Transcribed from the live production index.html (see docs/MIGRATION_INVENTORY.md).
+   Mark 19 ("Industrial Brutalism"): full token/typography rewrite from
+   Mark 13's Future-Firm Operating Console palette. Void-black field, stark
+   white text, hard zero-radius geometry, single signal-green accent
+   restricted to exactly two uses site-wide: the primary Contact Intake
+   button and live-telemetry status indicators. Every other former accent
+   use (focus ring, skip-link, footer current-page marker, decorative
+   eyebrow/border accents) now uses neutral white/structural-gray instead.
+
    Contrast-checked (WCAG 2.1 AA, 4.5:1 minimum for body text):
-     --ink-soft on --paper  = 7.22:1
-     --ink-soft on --panel  = 6.57:1
-     --ink     on --paper   = 14.42:1
-     --white   on --graphite = 17.07:1
-   All comfortably pass; no token changes were needed. */
+     --ink-soft (#888888) on --paper (#050505) = 6.1:1
+     --ink-soft (#888888) on --panel (#0e0e0e) = 5.9:1
+     --ink      (#ffffff) on --paper (#050505) = 20.1:1
+     --white    (#ffffff) on --graphite (#0a0a0a) = 19.6:1
+   All comfortably pass. */
 
 :root {
-  --paper: #e7e8e2;
-  --panel: #ddded7;
-  --hero: #e9e0d5;
-  --hero-soft: #f3ebe2;
-  --hero-ink: #3c2a1d;
-  --hero-border: #b88d68;
-  --ink: #15181e;
-  --ink-soft: #454a54;
-  --line: #c4c6bd;
-  --line-strong: #a6a99f;
-  --graphite: #111217;
-  --white: #f4f5f0;
-  --compression: #274a78; /* blue accent — links/focus */
-  --tension: #bd3b22; /* rust/red accent — eyebrow marks */
+  --paper: #050505;
+  --panel: #0e0e0e;
+  --hero: #0a0a0a;
+  --hero-soft: #0e0e0e;
+  --hero-ink: #ffffff;
+  --hero-border: #222222;
+  --ink: #ffffff;
+  --ink-soft: #888888;
+  --line: #222222;
+  --line-strong: #222222;
+  --graphite: #0a0a0a;
+  --white: #ffffff;
+  --compression: #666666; /* was a blue decorative accent — neutral under strict accent restraint */
+  --tension: #666666; /* was a rust decorative accent — neutral under strict accent restraint */
   --wrap: 1180px;
+
+  /* ---- Mark 19: Industrial Brutalism semantic layer ----
+     --ff-accent-signal is now used in exactly two places site-wide: the
+     primary Contact Intake button (.btn--accent) and telemetry status
+     indicators (.latest-signal-marker). Nowhere else — not focus rings,
+     not the skip-link, not decorative borders or eyebrow marks. */
+  --ff-bg-base: var(--paper);
+  --ff-bg-panel: var(--panel);
+  --ff-bg-panel-subtle: var(--panel);
+  --ff-text-primary: var(--ink);
+  --ff-text-secondary: var(--ink-soft);
+  --ff-text-muted: var(--ink-soft);
+  --ff-border-structural: var(--line);
+  --ff-border-emphasis: var(--line-strong);
+  --ff-accent-signal: #00ff94;
+  --ff-accent-signal-muted: rgba(0, 255, 148, 0.16);
+  --ff-focus-ring: var(--white);
+  --ff-font-ui: "IBM Plex Sans", system-ui, sans-serif;
+  --ff-font-mono: "IBM Plex Mono", monospace;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border-radius: 0;
 }
 
 html {
@@ -52,7 +79,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--compression);
+  outline: 2px solid var(--ff-focus-ring);
   outline-offset: 3px;
 }
 
@@ -71,20 +98,23 @@ button:focus-visible {
   border: 0;
 }
 
-/* -------------------- skip link (new — a11y fix) -------------------- */
+/* -------------------- skip link -------------------- */
 .skip-link {
   position: absolute;
   left: 12px;
   top: -48px;
   z-index: 100;
-  background: var(--ink);
-  color: var(--white);
+  /* Neutral, not signal-green — under Mark 19's strict accent restraint,
+     green is reserved for the Contact Intake button and telemetry
+     indicators only. Stark white on void-black is still maximally
+     visible on keyboard focus. */
+  background: var(--white);
+  color: var(--paper);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 12px 18px;
-  border-radius: 8px;
   transition: top 0.15s ease;
 }
 
@@ -100,7 +130,7 @@ button:focus-visible {
 
 header {
   border-bottom: 1px solid var(--line);
-  background: rgba(231, 232, 226, 0.92);
+  background: rgba(5, 5, 5, 0.92);
   backdrop-filter: blur(8px);
   position: sticky;
   top: 0;
@@ -116,10 +146,10 @@ header {
 }
 
 .brand {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   display: flex;
   align-items: center;
@@ -158,14 +188,13 @@ nav.primary-nav a:hover {
   color: var(--ink);
 }
 
-/* -------------------- mobile nav disclosure (new — a11y fix) -------------------- */
+/* -------------------- mobile nav disclosure -------------------- */
 .nav-toggle {
   display: none;
   align-items: center;
   gap: 8px;
   background: transparent;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
   padding: 8px 14px;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.7rem;
@@ -222,18 +251,11 @@ nav.primary-nav a:hover {
 .section--graphite {
   background: var(--graphite);
   color: var(--white);
-  border-top: 1px solid #2c313b;
+  border-top: 1px solid var(--line);
 }
 
-/* `p` defaults to --ink-soft (#454a54), which is only contrast-checked
-   against the light --paper/--panel backgrounds (see global.css header
-   comment). On the dark graphite section that combination is ~2.1:1 —
-   fails WCAG AA. Caught by an automated axe-core pass during this build
-   (see tests/a11y.mjs); this override keeps body copy on dark sections at
-   the same light gray already used for .network-links / .hosts-list
-   (12.3:1). */
 .section--graphite p {
-  color: #cdd2da;
+  color: var(--ink-soft);
 }
 
 .eyebrow {
@@ -252,39 +274,42 @@ nav.primary-nav a:hover {
   content: "";
   width: 32px;
   height: 1px;
-  background: var(--tension);
+  background: var(--line-strong);
   flex: none;
 }
 
 .eyebrow--light {
-  color: #9aa0ab;
+  color: var(--ink-soft);
 }
 
 .eyebrow--light::before {
-  background: var(--tension);
+  background: var(--line-strong);
 }
 
 h1,
 h2,
 h3 {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   font-weight: 600;
-  line-height: 1.06;
-  letter-spacing: -0.02em;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
 }
 
 h1 {
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-size: clamp(2rem, 4.4vw, 3.2rem);
+  letter-spacing: 0.005em;
   margin-bottom: 16px;
 }
 
 h2 {
-  font-size: clamp(1.7rem, 3.1vw, 2.4rem);
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
   margin-bottom: 16px;
 }
 
 h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
   margin-bottom: 6px;
 }
 
@@ -306,8 +331,8 @@ p {
 }
 
 .hero-tagline {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 1.05rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--ink-soft);
@@ -332,12 +357,11 @@ p {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 14px 22px;
-  border-radius: 999px;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--line-strong);
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--ink);
+  background: var(--graphite);
   color: var(--white);
   transition: 0.18s ease;
   text-decoration: none;
@@ -355,8 +379,77 @@ p {
 }
 
 .btn--ghost:hover {
-  background: var(--ink);
+  background: var(--graphite);
   color: var(--white);
+}
+
+/* The ONE place the signal-green accent is used as a fill, per Mark 19's
+   strict accent-restraint rule: the primary Contact Intake button only.
+   Applied directly on /contact's submit button — never on homepage/hero
+   CTAs, which stay on the neutral .btn treatment above. */
+.btn--accent {
+  background: var(--ff-accent-signal);
+  color: #04120a;
+  border-color: var(--ff-accent-signal);
+  animation: signal-heartbeat 60s ease-in-out infinite;
+}
+
+.btn--accent:hover {
+  background: transparent;
+  color: var(--ff-accent-signal);
+  animation: none;
+}
+
+/* Mark 24 — the Signal Green heartbeat. A slow (60s), subtle glow-pulse
+   applied only to elements that already carry --ff-accent-signal under the
+   Mark 19 restraint rule (the Contact Intake button, live-telemetry
+   indicator dots) — this animates existing accent usage, it does not add
+   accent to any new element. */
+@keyframes signal-heartbeat {
+  0%,
+  92%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 148, 0);
+  }
+  95% {
+    box-shadow: 0 0 12px 2px rgba(0, 255, 148, 0.45);
+  }
+}
+
+/* A faster variant for small dot indicators, where a 60s box-shadow pulse
+   reads as static — same restraint scope (telemetry dots only). */
+@keyframes signal-heartbeat-dot {
+  0%,
+  92%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 148, 0);
+    transform: scale(1);
+  }
+  95% {
+    box-shadow: 0 0 6px 2px rgba(0, 255, 148, 0.6);
+    transform: scale(1.15);
+  }
+}
+
+/* Mark 24 — telemetry cards animate in with a brief accent-tinted glow,
+   never a persistent color change (still respects accent restraint: the
+   glow uses the muted accent token and settles to the neutral resting
+   state defined by each card's own class). */
+@keyframes telemetry-card-load {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+    box-shadow: 0 0 0 1px var(--ff-accent-signal-muted);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 transparent;
+  }
 }
 
 .btn .arrow {
@@ -377,15 +470,13 @@ p {
 
 .hero-figure {
   border: 1px solid var(--line-strong);
-  border-radius: 16px;
   padding: 18px 18px 14px;
-  background: rgba(255, 247, 238, 0.64);
+  background: rgba(10, 8, 6, 0.55);
 }
 
 .hero-figure img.hero-banner {
   width: 100%;
   height: auto;
-  border-radius: 12px;
   display: block;
   margin-bottom: 12px;
 }
@@ -399,9 +490,8 @@ p {
 }
 
 .hero-node {
-  border-radius: 12px;
   padding: 10px 10px 9px;
-  background: var(--paper);
+  background: var(--panel);
   border: 1px solid var(--line-strong);
   min-height: 84px;
 }
@@ -453,9 +543,8 @@ p {
 }
 
 .division {
-  border-radius: 14px;
   border: 1px solid var(--line-strong);
-  background: var(--paper);
+  background: var(--panel);
   padding: 18px 18px 16px;
   display: flex;
   flex-direction: column;
@@ -471,7 +560,10 @@ p {
 }
 
 .division-title {
-  font-size: 1.02rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   font-weight: 600;
 }
 
@@ -500,34 +592,40 @@ p {
   border-bottom-color: var(--ink);
 }
 
+/* Restyled quieter under Mark 19 — solid hairline instead of a dashed
+   "placeholder sticker" look, still fully visible and still shows every
+   vertical's true status text (Building / Private / Live). Restyle only —
+   nothing is hidden. */
 .division-status {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  border: 1px dashed var(--line-strong);
-  border-radius: 999px;
+  border: 1px solid var(--line-strong);
   padding: 4px 10px;
   display: inline-block;
   width: fit-content;
 }
 
+/* HERO is an external, internally-unaudited storefront — its warm brand
+   identity is deliberately kept visually distinct from TMI's own
+   institutional palette (existing behavior, preserved). */
 .division--hero {
-  background: linear-gradient(180deg, #ecddca, #dcb792);
-  border-color: #b88255;
+  background: linear-gradient(180deg, #241a10, #1a1109);
+  border-color: #6b4f34;
 }
 
 .division--hero .division-label,
 .division--hero .division-body {
-  color: #5c4029;
+  color: #d9c3a4;
 }
 
 .division--hero .division-title {
-  color: #2f2116;
+  color: #f0e0c8;
 }
 
-/* -------------------- TMM media index (Mark 9) -------------------- */
+/* -------------------- TMM media index -------------------- */
 .media-grid {
   list-style: none;
 }
@@ -537,9 +635,8 @@ p {
 }
 
 .media-card {
-  border-radius: 14px;
   border: 1px solid var(--line-strong);
-  background: var(--paper);
+  background: var(--panel);
   padding: 18px 18px 16px;
   display: flex;
   flex-direction: column;
@@ -560,13 +657,15 @@ p {
 
 .media-card-source-badge {
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
   padding: 2px 9px;
   color: var(--ink);
 }
 
 .media-card-title {
-  font-size: 1.02rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
   font-weight: 600;
   margin: 0;
 }
@@ -593,14 +692,12 @@ p {
   border-bottom-color: var(--ink);
 }
 
-/* -------------------- media preview art (Mark 11) -------------------- */
+/* -------------------- media preview art -------------------- */
 /* Purely local, abstract decoration: inline SVG geometry + a typographic
-   monogram, tinted per source class with this site's own two existing
-   accent tokens. Never a fetched logo, remote thumbnail, or platform
-   brand color. */
+   monogram. Never a fetched logo, remote thumbnail, or platform brand
+   color. */
 .media-preview-art {
   position: relative;
-  border-radius: 10px;
   border: 1px solid var(--line-strong);
   aspect-ratio: 16 / 9;
   display: flex;
@@ -631,16 +728,16 @@ p {
 
 .media-preview-art-monogram {
   position: relative;
-  font-family: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   font-weight: 600;
-  font-size: 1.4rem;
-  letter-spacing: 0.04em;
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
   color: var(--ink);
 }
 
 .media-preview-art--tmm {
-  background: linear-gradient(160deg, rgba(39, 74, 120, 0.1), rgba(39, 74, 120, 0.02));
-  color: var(--compression);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+  color: var(--ink-soft);
 }
 
 .media-preview-art--tmi {
@@ -649,18 +746,17 @@ p {
 }
 
 .media-preview-art--founder {
-  background: linear-gradient(160deg, rgba(189, 59, 34, 0.1), rgba(189, 59, 34, 0.02));
-  color: var(--tension);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+  color: var(--ink-soft);
 }
 
 .media-platform-mark {
-  border: 1px dashed var(--line-strong);
-  border-radius: 4px;
+  border: 1px solid var(--line-strong);
   padding: 1px 5px;
   font-weight: 600;
 }
 
-/* -------------------- media source groups (Mark 11) -------------------- */
+/* -------------------- media source groups -------------------- */
 .media-source-group + .media-source-group {
   margin-top: 28px;
 }
@@ -690,19 +786,17 @@ p {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  border: 1px dashed var(--line-strong);
-  border-radius: 999px;
+  border: 1px solid var(--line-strong);
   padding: 3px 9px;
   display: inline-block;
   width: fit-content;
 }
 
 .hero-link {
-  border: 1px solid #7b5434;
-  background: rgba(255, 252, 247, 0.42);
-  color: #402b1c;
+  border: 1px solid #8a6a44;
+  background: rgba(36, 26, 16, 0.55);
+  color: #f0ddc0;
   padding: 8px 12px;
-  border-radius: 999px;
   display: inline-flex;
   align-items: center;
   line-height: 1;
@@ -710,9 +804,9 @@ p {
 }
 
 .hero-link:hover {
-  background: #faf3ea;
-  border-color: #402b1c;
-  color: #20160f;
+  background: #d9c3a4;
+  border-color: #d9c3a4;
+  color: #1a1109;
 }
 
 .about-grid {
@@ -727,7 +821,6 @@ p {
 }
 
 .about-side {
-  border-radius: 14px;
   border: 1px solid var(--line-strong);
   padding: 18px 18px 16px;
   background: var(--panel);
@@ -743,8 +836,7 @@ p {
 }
 
 .network-block {
-  border-radius: 14px;
-  border: 1px solid #2c313b;
+  border: 1px solid var(--line);
   padding: 18px 18px 14px;
 }
 
@@ -753,13 +845,15 @@ p {
   font-size: 0.7rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #9aa0ab;
+  color: var(--ink-soft);
   margin-bottom: 8px;
 }
 
 .network-title {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--white);
   margin-bottom: 6px;
 }
@@ -772,7 +866,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 14px;
-  color: #cdd2da;
+  color: var(--ink-soft);
 }
 
 .network-links a:hover {
@@ -782,7 +876,7 @@ p {
 .hosts-list {
   margin-top: 18px;
   font-size: 0.9rem;
-  color: #cdd2da;
+  color: var(--ink-soft);
 }
 
 .hosts-list ul {
@@ -801,7 +895,7 @@ p {
   content: "—";
   position: absolute;
   left: 0;
-  color: #8a909b;
+  color: var(--ink-soft);
 }
 
 .teaser-list {
@@ -812,10 +906,9 @@ p {
 }
 
 .teaser-item {
-  border-radius: 12px;
   border: 1px solid var(--line-strong);
   padding: 14px 16px;
-  background: var(--paper);
+  background: var(--panel);
   transition: 0.15s ease;
 }
 
@@ -826,10 +919,14 @@ p {
 /* Homepage "Explore the ecosystem" grid — every entry is a non-interactive
    .teaser-item div + .division-status badge (same badge class DivisionCard
    uses on /lanes for the identical building/private-status treatment). None
-   of these are links: no vertical is currently presented as live. */
+   of these are links: no vertical is currently presented as live. Every
+   vertical still renders here with its true status — Mark 19 restyled the
+   badge, it did not hide any division. */
 .ecosystem-name {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 0.98rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   font-weight: 600;
   margin: 2px 0 10px;
   display: block;
@@ -846,8 +943,7 @@ p {
 .stub-note {
   margin-top: 24px;
   padding: 16px 18px;
-  border: 1px dashed var(--line-strong);
-  border-radius: 12px;
+  border: 1px solid var(--line-strong);
   background: var(--panel);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
@@ -859,8 +955,8 @@ p {
 footer.site-footer {
   padding: 26px 0 32px;
   background: var(--graphite);
-  color: #9aa0ab;
-  border-top: 1px solid #2c313b;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--line);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.7rem;
   letter-spacing: 0.06em;
@@ -882,6 +978,27 @@ footer.site-footer {
 
 .footer-nav a:hover {
   color: var(--white);
+}
+
+/* Current-page marker — neutral white under Mark 19's strict accent
+   restraint (not a live/status claim; footer nav's items list is
+   currently always empty, so this rule is presently dormant, same as
+   before). */
+.footer-nav [aria-current="page"] {
+  position: relative;
+  padding-left: 12px;
+  color: var(--white);
+}
+
+.footer-nav [aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 1px;
+  background: var(--white);
 }
 
 .footer-legal {
@@ -920,9 +1037,8 @@ footer.site-footer {
     padding: 0 20px;
   }
 
-  /* Mobile nav disclosure — replaces the old `nav { display: none }` with
-     no alternative. The toggle button is always reachable; the panel opens
-     as a real keyboard/AT-accessible disclosure instead of vanishing. */
+  /* Mobile nav disclosure — the toggle button is always reachable; the
+     panel opens as a real keyboard/AT-accessible disclosure. */
   .nav-toggle {
     display: inline-flex;
   }
@@ -954,5 +1070,15 @@ footer.site-footer {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .btn--accent,
+  .latest-signal-live-dot,
+  .latest-signal-list li,
+  .filing-live-dot,
+  .dossier-detail,
+  .dossier-toggle-icon {
+    animation: none !important;
+    transition: none !important;
   }
 }

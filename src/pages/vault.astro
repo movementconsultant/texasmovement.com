@@ -1,0 +1,315 @@
+---
+// src/pages/vault.astro
+//
+// Mark 21 — the "Compliance Vault": a terminal-styled document-repository
+// framework. Deliberately does NOT claim that any corporate resolution,
+// estate document, or audit trail is actually indexed here — no such
+// document exists in this repository, and this project's standing rule
+// (Mark 15: "no claim TMI is certified/compliant" without evidence) applies
+// to this page exactly as it does everywhere else. Every category below
+// renders its real, current record count (zero) and an honest ingestion
+// status instead of a fabricated document list. The visual system (Void
+// Black/Panel Grey, hard 1px borders, monospace, zero border-radius) is
+// what carries the "administrative baseline" posture — not the copy.
+import Layout from "@/layouts/Layout.astro";
+import Eyebrow from "@/components/Eyebrow.astro";
+import { pageTitle } from "@tmi/constants";
+
+const title = pageTitle("tmi", "Vault");
+const description =
+  "TMI's administrative document-governance framework: a structural index for corporate resolutions, estate documentation, and compliance audit trails. No documents are indexed yet.";
+
+interface VaultCategory {
+  code: string;
+  label: string;
+  description: string;
+}
+
+// Mark 22 — "Recent Operational Filings." These are real, dated engineering
+// and governance actions taken on this repository (matching actual commit
+// history), not a claim about external corporate/legal filings — those
+// remain the separately-labeled, honestly-empty categories below. Hand-
+// curated rather than read from git at build time, so this list only ever
+// contains entries deliberately chosen for public framing.
+interface OperationalFiling {
+  date: string;
+  entry: string;
+}
+
+const filings: OperationalFiling[] = [
+  { date: "2026-08-18", entry: "Compliance Vault framework and multi-vertical dossier established." },
+  { date: "2026-08-18", entry: "Ecosystem-wide visual identity codified." },
+  { date: "2026-08-17", entry: "Contact-intake architecture and verticals content model established." },
+  { date: "2026-08-17", entry: "Latest Signal YouTube telemetry rail added to /media." },
+];
+
+const categories: VaultCategory[] = [
+  {
+    code: "RES",
+    label: "Corporate Resolutions",
+    description: "Board- and owner-level resolutions governing TMI's institutional core.",
+  },
+  {
+    code: "EST",
+    label: "Estate Documentation",
+    description: "Founder estate and succession-planning records affecting TMI's ownership chain.",
+  },
+  {
+    code: "AUD",
+    label: "Compliance Audit Trails",
+    description: "Dated records of internal reviews against the standards register (see /accessibility).",
+  },
+];
+---
+
+<Layout title={title} description={description} path="/vault">
+  <main id="main">
+    <section class="section section--tight">
+      <div class="wrap">
+        <Eyebrow>GOVERNANCE</Eyebrow>
+        <h1>Compliance Vault.</h1>
+        <p>
+          This is TMI's administrative document-governance framework — the structural index that
+          real corporate resolutions, estate documentation, and compliance audit trails will be
+          filed under once the owner ingests them. It is a framework, not an archive: no document
+          is indexed here yet, and nothing on this page is a claim of certification, audited
+          status, or legal review. TMI's actual published governance pages are
+          <a href="/privacy">Privacy</a>, <a href="/terms">Terms</a>, and
+          <a href="/accessibility">Accessibility</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="filings-heading">
+      <div class="wrap">
+        <Eyebrow>RECENT OPERATIONAL FILINGS</Eyebrow>
+        <h2 id="filings-heading">Site engineering &amp; governance log.</h2>
+        <p>
+          Dated actions taken on this repository's own engineering and governance — not a claim
+          about the corporate/legal filing categories below, which remain separately, honestly
+          empty. Matches this repository's real commit history.
+        </p>
+        <ul class="filing-list">
+          {
+            filings.map((f) => (
+              <li>
+                <time class="filing-date" datetime={f.date}>
+                  {f.date}
+                </time>
+                <span class="filing-entry">{f.entry}</span>
+                <span class="filing-relative" data-iso={f.date} aria-hidden="true" />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--panel">
+      <div class="wrap">
+        <div class="vault-status">
+          <span class="vault-status-item"
+            ><span class="vault-status-key">FRAMEWORK</span><span class="vault-status-value"
+              >ACTIVE</span
+            ></span
+          >
+          <span class="vault-status-item"
+            ><span class="vault-status-key">DOCUMENT INDEX</span><span class="vault-status-value"
+              >EMPTY</span
+            ></span
+          >
+          <span class="vault-status-item"
+            ><span class="vault-status-key">INGESTION</span><span class="vault-status-value"
+              >AWAITING OWNER</span
+            ></span
+          >
+        </div>
+
+        <div class="vault-grid">
+          {
+            categories.map((cat) => (
+              <div class="vault-record">
+                <div class="vault-record-head">
+                  <span class="vault-record-code">[{cat.code}]</span>
+                  <span class="vault-record-label">{cat.label}</span>
+                </div>
+                <p class="vault-record-description">{cat.description}</p>
+                <div class="vault-record-footer">
+                  <span>RECORDS INDEXED: 0</span>
+                  <span>STATUS: AWAITING OWNER INGESTION</span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .filing-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    border: 1px solid var(--line-strong);
+  }
+
+  .filing-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .filing-relative {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    margin-left: auto;
+  }
+
+  .filing-list li:last-child {
+    border-bottom: none;
+  }
+
+  .filing-list li:nth-child(even) {
+    background: var(--panel);
+  }
+
+  .filing-date {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .filing-entry {
+    color: var(--ink);
+    font-size: 0.92rem;
+  }
+
+  .vault-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+    margin-bottom: 24px;
+  }
+
+  .vault-status-item {
+    flex: 1 1 12rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--panel);
+    padding: 12px 16px;
+  }
+
+  .vault-status-key {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .vault-status-value {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .vault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 16px;
+  }
+
+  .vault-record {
+    border: 1px solid var(--line-strong);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .vault-record-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .vault-record-code {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+
+  .vault-record-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .vault-record-description {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .vault-record-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+</style>
+
+<script>
+  // Mark 24 — progressive enhancement only. The real ISO date (.filing-date)
+  // is always rendered server-side and never removed; this just appends a
+  // live-updating relative label next to it. No-JS visitors see the exact
+  // same accurate date as before.
+  function relativeFrom(iso: string): string {
+    const then = new Date(iso).getTime();
+    const diffMs = Date.now() - then;
+    const minutes = Math.floor(diffMs / 60000);
+    if (minutes < 1) return "just now";
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  }
+
+  function tick() {
+    // Stays aria-hidden — the .filing-date <time> element is the
+    // authoritative, accessible timestamp; this is a decorative supplement.
+    document.querySelectorAll<HTMLElement>(".filing-relative[data-iso]").forEach((el) => {
+      const iso = el.dataset.iso;
+      if (!iso) return;
+      el.textContent = `· ${relativeFrom(iso)}`;
+    });
+  }
+
+  tick();
+  setInterval(tick, 60_000);
+</script>

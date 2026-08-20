@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
 
 // This is a fully static content site (platform: "astro-cloudflare" per
 // @tmi/constants ecosystem.ts). A purely static `output: "static"` Astro
@@ -22,4 +23,5 @@ export default defineConfig({
   build: {
     format: "directory",
   },
+  integrations: [mdx()],
 });

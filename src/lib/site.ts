@@ -164,7 +164,7 @@ export const ECOSYSTEM_MAP: readonly EcosystemMapEntry[] = [
     key: "founderlink",
     group: "vertical",
     badge: "private",
-    blurb: "Internal founder routing and cross-lane coordination.",
+    blurb: "Municipal and founder networking apparatus.",
   },
   {
     key: "distribution",
