@@ -58,6 +58,18 @@ wasn't fetched (network failure, or none attempted) renders the same static per-
 block it always would have — never a broken image icon. See `tests/latest-signal.test.ts`'s
 "Mark 26 — self-hosted thumbnails" block for the enforcement tests.
 
+**Mark 27 update:** the same amendment and recipe were extended, unmodified, to a second surface —
+the TMM row's expansion panel in `SubsidiaryDossier.astro` on `/lanes`. `getTmmDossierEpisodes()`
+(new in this module) reuses `fetchChannelEntries()`/`filterAndSort()` — factored out of
+`getLatestSignalItems()` for this purpose — to return the TMM channel's latest 3 episodes only
+(never TMP's, since this rail's own `MAX_ITEMS=4` cross-channel cap could otherwise crowd TMM
+videos out before a post-hoc filter ever saw them). `scripts/fetch-media-thumbnails.mjs` was
+extended, not reimplemented, to prefetch thumbnails for the union of both entry points' video IDs.
+When no TMM episode data is available, the panel falls back to the existing Mark 25 "Raw Signal
+Routing" CTA card unchanged — still an honest empty state, never fabricated episode data. See
+`tests/dossier-episodes.test.ts` for the enforcement tests, and
+`src/components/SubsidiaryDossier.astro`'s own header comment for the full record.
+
 ## Channel ID resolution — unofficial, fragile, disclosed
 
 No official, unauthenticated API exists to resolve a YouTube `@handle` to its channel ID (the

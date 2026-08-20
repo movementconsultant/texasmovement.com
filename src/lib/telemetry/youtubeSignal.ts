@@ -28,6 +28,15 @@
 // is unchanged by that amendment — the thumbnail lookup is entirely local
 // to LatestSignalRail.astro (existsSync against the pre-fetched file), not
 // a new field returned from here.
+//
+// Mark 27 extends the same amendment to the TMM row of SubsidiaryDossier.astro
+// on /lanes: `getTmmDossierEpisodes()` below reuses this module's existing
+// per-channel fetch/parse/blocklist pipeline (factored out into
+// `fetchChannelEntries()` and `filterAndSort()` so both entry points share
+// one implementation) to return the TMM channel's latest episodes only —
+// never TMP's — for that panel's thumbnail cards. See
+// scripts/fetch-media-thumbnails.mjs, which now prefetches thumbnails for
+// the union of both entry points' video IDs.
 import { safeFetch } from "./fetchWithTimeout";
 import { resolveChannelId } from "./youtubeChannelId";
 import { sanitizeTitle, safeIsoDate } from "./text";
@@ -83,32 +92,31 @@ export function videoIdFromLink(link: string): string | null {
   return match ? match[1] : null;
 }
 
-export async function getLatestSignalItems(): Promise<LatestSignalResult> {
-  const allItems: LatestSignalItem[] = [];
+async function fetchChannelEntries(channel: { handle: string; label: string }): Promise<LatestSignalItem[]> {
+  const channelId = await resolveChannelId(channel.handle);
+  if (!channelId) return [];
 
-  for (const channel of CHANNELS) {
-    const channelId = await resolveChannelId(channel.handle);
-    if (!channelId) continue;
+  const feedResult = await safeFetch(
+    `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
+    { headers: { Accept: "application/atom+xml, application/xml, text/xml" } },
+  );
+  if (!feedResult) return [];
 
-    const feedResult = await safeFetch(
-      `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
-      { headers: { Accept: "application/atom+xml, application/xml, text/xml" } },
-    );
-    if (!feedResult) continue;
-
-    try {
-      allItems.push(...extractEntries(feedResult.text, channel.label));
-    } catch (err) {
-      console.warn(`[latest-signal] failed to parse feed for ${channel.handle} — skipping. (${err})`);
-    }
+  try {
+    return extractEntries(feedResult.text, channel.label);
+  } catch (err) {
+    console.warn(`[latest-signal] failed to parse feed for ${channel.handle} — skipping. (${err})`);
+    return [];
   }
+}
 
-  if (allItems.length === 0) {
+function filterAndSort(items: LatestSignalItem[], limit: number): LatestSignalResult {
+  if (items.length === 0) {
     return { status: "fallback", items: [] };
   }
 
   const blockedVideoIds = new Set<string>(blocklist.youtube?.blockedVideoIds ?? []);
-  const filtered = allItems.filter((item) => {
+  const filtered = items.filter((item) => {
     const videoId = videoIdFromLink(item.link);
     return !videoId || !blockedVideoIds.has(videoId);
   });
@@ -119,5 +127,27 @@ export async function getLatestSignalItems(): Promise<LatestSignalResult> {
 
   filtered.sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
 
-  return { status: "ok", items: filtered.slice(0, MAX_ITEMS) };
+  return { status: "ok", items: filtered.slice(0, limit) };
+}
+
+export async function getLatestSignalItems(): Promise<LatestSignalResult> {
+  const allItems: LatestSignalItem[] = [];
+  for (const channel of CHANNELS) {
+    allItems.push(...(await fetchChannelEntries(channel)));
+  }
+  return filterAndSort(allItems, MAX_ITEMS);
+}
+
+// Mark 27 — TMM-only episodes for the SubsidiaryDossier.astro expansion
+// panel on /lanes. Deliberately a separate entry point rather than filtering
+// getLatestSignalItems()'s output: that function's MAX_ITEMS=4 cap applies
+// across both channels combined, so TMP's videos could crowd out TMM's
+// before a post-hoc filter ever saw them. This fetches the TMM
+// ("texasmovementmedia") channel only, so a "latest 3" request is always the
+// TMM channel's actual latest 3, never a subset of some other channel's cap.
+export async function getTmmDossierEpisodes(limit = 3): Promise<LatestSignalResult> {
+  const tmmChannel = CHANNELS.find((channel) => channel.handle === "texasmovementmedia");
+  if (!tmmChannel) return { status: "fallback", items: [] };
+  const items = await fetchChannelEntries(tmmChannel);
+  return filterAndSort(items, limit);
 }
