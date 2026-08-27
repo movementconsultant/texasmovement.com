@@ -31,9 +31,16 @@
 // package.json as of this Mark so this script doesn't rely on hoisting)
 // bundles it in memory instead, with zero changes to the source module.
 //
+// Mark 27 extends this same script (per the owner's explicit "reuse the
+// exact Mark 26 recipe" instruction) to also prefetch thumbnails for
+// getTmmDossierEpisodes() — the TMM-only "latest 3" feed the
+// SubsidiaryDossier.astro expansion panel on /lanes renders. The two
+// sources' items are merged and deduped by video ID before fetching, since
+// they can and often will overlap with Latest Signal's TMM items.
+//
 // This script is a best-effort enhancement and must NEVER fail the build:
 // every fetch failure is caught individually and simply means no thumbnail
-// file is written for that video, which LatestSignalRail.astro already
+// file is written for that video, which the calling component already
 // handles by rendering a static per-item placeholder instead of a broken
 // image. The script always exits 0.
 
@@ -93,11 +100,22 @@ async function main() {
     return;
   }
 
-  const { getLatestSignalItems, videoIdFromLink } = mod;
-  const result = await getLatestSignalItems();
+  const { getLatestSignalItems, getTmmDossierEpisodes, videoIdFromLink } = mod;
+  const [latestSignal, dossierEpisodes] = await Promise.all([
+    getLatestSignalItems(),
+    getTmmDossierEpisodes(3),
+  ]);
 
-  if (result.status !== "ok" || result.items.length === 0) {
-    console.log("[media-thumbnails] Latest Signal has no items this build — nothing to prefetch.");
+  const itemsByVideoId = new Map();
+  for (const item of [...latestSignal.items, ...dossierEpisodes.items]) {
+    const videoId = videoIdFromLink(item.link);
+    if (videoId && !itemsByVideoId.has(videoId)) {
+      itemsByVideoId.set(videoId, item);
+    }
+  }
+
+  if (itemsByVideoId.size === 0) {
+    console.log("[media-thumbnails] no Latest Signal or dossier episode items this build — nothing to prefetch.");
     return;
   }
 
@@ -106,12 +124,7 @@ async function main() {
   let fetched = 0;
   let skipped = 0;
 
-  for (const item of result.items) {
-    const videoId = videoIdFromLink(item.link);
-    if (!videoId) {
-      skipped += 1;
-      continue;
-    }
+  for (const [videoId] of itemsByVideoId) {
     const destPath = join(THUMB_DIR, `${videoId}.jpg`);
     if (existsSync(destPath)) {
       fetched += 1; // already present from a previous run in this environment

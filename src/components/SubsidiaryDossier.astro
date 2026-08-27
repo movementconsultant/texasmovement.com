@@ -46,6 +46,34 @@
 // explicit standing rule there that unverified channel URLs render as text
 // only until verified. HERO's card instead links to /hero (this hub's own
 // safe, internal HERO context page) and shows the handles as plain text.
+//
+// Mark 27 — TMM episode thumbnail cards, reusing the exact Mark 26 recipe
+// (see src/components/media/LatestSignalRail.astro and
+// scripts/fetch-media-thumbnails.mjs, which this component now also draws
+// from): getTmmDossierEpisodes() returns the TMM channel's latest 3 videos
+// from the confirmed Atom feed; each renders as a self-hosted thumbnail
+// card (image + title + date, linking to the real YouTube watch URL) with
+// the identical grayscale-hover, hard-border, no-hotlink, and per-item
+// placeholder-fallback treatment as the /media rail. When no episode data
+// is available (fetch/parse failure, or this sandbox's lack of network
+// access), the panel falls back to the Mark 25 "Raw Signal Routing" CTA
+// card unchanged — still an honest empty state, never fabricated episode
+// data. HERO's photo grid and the FounderLink/TMP panels are untouched by
+// this Mark; they still need real assets that don't exist in this
+// repository.
+import { getTmmDossierEpisodes, videoIdFromLink } from "@/lib/telemetry/youtubeSignal";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+const THUMB_DIR = join(process.cwd(), "public", "media-thumbnails");
+
+function thumbnailSrc(link: string): string | null {
+  const videoId = videoIdFromLink(link);
+  if (!videoId) return null;
+  return existsSync(join(THUMB_DIR, `${videoId}.jpg`)) ? `/media-thumbnails/${videoId}.jpg` : null;
+}
+
+const tmmEpisodes = await getTmmDossierEpisodes(3);
 
 interface DossierRow {
   id: string;
@@ -167,7 +195,68 @@ function thirdParagraph(row: DossierRow): string {
                       <p>{row.cadence}</p>
                       <p>{thirdParagraph(row)}</p>
 
-                      {row.detailKind === "episodes" && (
+                      {row.detailKind === "episodes" && tmmEpisodes.status === "ok" && tmmEpisodes.items.length > 0 && (
+                        <div class="dossier-detail-block dossier-detail-block--episodes">
+                          <p class="dossier-detail-block-label">Latest Episodes</p>
+                          <ul class="dossier-episode-list">
+                            {tmmEpisodes.items.map((episode) => {
+                              const thumb = thumbnailSrc(episode.link);
+                              return (
+                                <li class="dossier-episode">
+                                  <a
+                                    href={episode.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="dossier-episode-link"
+                                  >
+                                    {thumb ? (
+                                      <img
+                                        src={thumb}
+                                        width="168"
+                                        height="94"
+                                        loading="lazy"
+                                        alt={episode.title}
+                                        class="dossier-episode-thumb"
+                                      />
+                                    ) : (
+                                      <span
+                                        class="dossier-episode-thumb dossier-episode-thumb--placeholder"
+                                        aria-hidden="true"
+                                      >
+                                        <span class="dossier-episode-thumb-placeholder-text">
+                                          {episode.title}
+                                        </span>
+                                      </span>
+                                    )}
+                                    <span class="dossier-episode-meta">
+                                      <span class="dossier-episode-title">{episode.title}</span>
+                                      {episode.publishedAt && (
+                                        <time class="dossier-episode-date" datetime={episode.publishedAt}>
+                                          {new Date(episode.publishedAt).toLocaleDateString("en-US", {
+                                            year: "numeric",
+                                            month: "short",
+                                            day: "numeric",
+                                          })}
+                                        </time>
+                                      )}
+                                    </span>
+                                  </a>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                          <a
+                            href="https://youtube.com/@texasmovementmedia"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="dossier-routing-link"
+                          >
+                            @texasmovementmedia on YouTube →
+                          </a>
+                        </div>
+                      )}
+
+                      {row.detailKind === "episodes" && (tmmEpisodes.status !== "ok" || tmmEpisodes.items.length === 0) && (
                         <div class="dossier-detail-block dossier-detail-block--routing">
                           <p class="dossier-detail-block-label">Raw Signal Routing</p>
                           <p class="dossier-routing-copy">
@@ -415,6 +504,98 @@ function thirdParagraph(row: DossierRow): string {
      DivisionCard.astro for the governance comment this mirrors). */
   .dossier-detail-block--routing {
     gap: 8px;
+  }
+
+  /* Mark 27 — TMM episode thumbnail cards, same brutalist treatment as
+     the Mark 26 /media Latest Signal rail: hard 1px border in
+     --line-strong (no literal --border token exists in this codebase),
+     0px radius (inherited from the global reset), no drop shadow,
+     grayscale-by-default with color-on-hover, explicit width/height to
+     prevent layout shift, loading="lazy", alt = video title. */
+  .dossier-detail-block--episodes {
+    gap: 10px;
+  }
+
+  .dossier-episode-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dossier-episode-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .dossier-episode-thumb {
+    width: 168px;
+    height: 94px;
+    flex-shrink: 0;
+    border: 1px solid var(--line-strong);
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1);
+    transition: filter 0.25s ease;
+  }
+
+  .dossier-episode-link:hover .dossier-episode-thumb {
+    filter: grayscale(0);
+  }
+
+  .dossier-episode-thumb--placeholder {
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .dossier-episode-thumb-placeholder-text {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    color: var(--ink-soft);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .dossier-episode-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .dossier-episode-title {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: 1px solid transparent;
+  }
+
+  .dossier-episode-link:hover .dossier-episode-title {
+    border-bottom-color: var(--ink);
+  }
+
+  .dossier-episode-date {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dossier-episode-thumb {
+      transition: none;
+    }
   }
 
   .dossier-routing-copy {
