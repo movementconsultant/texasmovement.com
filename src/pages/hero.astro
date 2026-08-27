@@ -1,12 +1,13 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
+import HeroProductCarousel from "@/components/HeroProductCarousel.astro";
 import { pageTitle } from "@tmi/constants";
 import { hubRoute } from "@/lib/hub-routes";
 
 const title = pageTitle("tmi", "HERO");
 const description =
-  "HERO is a separate, externally operated storefront/property. Its catalog, checkout, and claims are not audited or verified from this hub.";
+  "HERO is Texas Movement International's consumer product lane. Its storefront, checkout, fulfillment, and account systems run entirely on Shopify — the catalog below is fetched from HERO's own public product feed at build time.";
 const posture = hubRoute("/hero")!.postureLabel!;
 ---
 
@@ -18,18 +19,20 @@ const posture = hubRoute("/hero")!.postureLabel!;
         <h1>HERO.</h1>
         <span class="division-status">{posture}</span>
         <p>
-          HERO is a separate, externally operated storefront and product property associated with
-          the Texas Movement International ecosystem. It is not built, hosted, or maintained in this
-          repository, and this page is not a directory, storefront, or product listing.
+          HERO is Texas Movement International's consumer product lane — footwear, apparel, and
+          performance-oriented design. Its storefront domain is hero.texasmovement.com, and its
+          checkout, fulfillment, policies, support channel, and account systems are hosted entirely
+          on Shopify — nothing here processes a payment or handles personal data.
         </p>
         <div class="stub-note">
-          HERO's product catalog, pricing, checkout, fulfillment, policies, support channel, current
-          availability, and any product claim have not been audited or verified from this hub. None
-          of that information is reproduced, summarized, or linked here. Nothing on this page should
-          be read as confirming that HERO's storefront is operating, that any product is available,
-          or that any claim made elsewhere about HERO is accurate.
+          The catalog below is fetched at build time from HERO's own public product feed and
+          self-hosted — no product image on this page is loaded from Shopify's servers when you
+          visit. Current pricing, availability, and checkout happen only on HERO's own storefront;
+          each product card links there directly.
         </div>
       </div>
     </section>
+
+    <HeroProductCarousel />
   </main>
 </Layout>

@@ -94,12 +94,22 @@ describe("restrained status language is present where required", () => {
     }
   });
 
-  it("registry holds the exact required 'Deployment Pending — not yet live' wording for Consulting, Performance, Distribution, and Partners", () => {
-    for (const path of ["/consulting", "/performance", "/distribution", "/partners"]) {
+  it("registry holds the exact required 'Deployment Pending — not yet live' wording for Performance, Distribution, and Partners", () => {
+    for (const path of ["/performance", "/distribution", "/partners"]) {
       expect(HUB_ROUTES.find((r) => r.path === path)?.postureLabel).toBe(
         "Deployment Pending — not yet live",
       );
     }
+  });
+
+  // Mark 28 — owner-authorized policy amendment: Consulting's diagnostic
+  // intake is now open (a real CTA routes to /contact, on both the
+  // homepage and /consulting itself), so it's no longer "Deployment
+  // Pending — not yet live" like its Mark 4 siblings above.
+  it("registry holds Consulting's distinct Mark 28 posture, not the shared 'Deployment Pending — not yet live' wording", () => {
+    const consultingPosture = HUB_ROUTES.find((r) => r.path === "/consulting")?.postureLabel;
+    expect(consultingPosture).toBe("Diagnostic Intake Open — qualified operators");
+    expect(consultingPosture).not.toBe("Deployment Pending — not yet live");
   });
 
   it("registry holds Media's distinct Mark 23 posture — still 'Deployment Pending' (the global status is NOT flipped), with the live-telemetry clause appended rather than a bare 'not yet live'", () => {
@@ -119,10 +129,14 @@ describe("restrained status language is present where required", () => {
     expect(/\bis verified\b/i.test(source)).toBe(false);
   });
 
-  it("registry holds the exact required 'External storefront / internally unaudited' wording for /hero", () => {
-    expect(HUB_ROUTES.find((r) => r.path === "/hero")?.postureLabel).toBe(
-      "External storefront / internally unaudited",
-    );
+  // Mark 28 — owner-authorized policy amendment: HERO's public product
+  // feed is now build-time-fetched and self-hosted (see
+  // src/lib/commerce/heroProducts.ts and HeroProductCarousel.astro), so
+  // /hero no longer holds the original "internally unaudited" wording.
+  it("registry holds HERO's distinct Mark 28 posture, not the original 'External storefront / internally unaudited' wording", () => {
+    const heroPosture = HUB_ROUTES.find((r) => r.path === "/hero")?.postureLabel;
+    expect(heroPosture).toBe("Confirmed Storefront — Public Catalog Live");
+    expect(heroPosture).not.toBe("External storefront / internally unaudited");
   });
 });
 

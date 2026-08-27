@@ -2,10 +2,14 @@
    Mark 19 ("Industrial Brutalism"): full token/typography rewrite from
    Mark 13's Future-Firm Operating Console palette. Void-black field, stark
    white text, hard zero-radius geometry, single signal-green accent
-   restricted to exactly two uses site-wide: the primary Contact Intake
-   button and live-telemetry status indicators. Every other former accent
-   use (focus ring, skip-link, footer current-page marker, decorative
-   eyebrow/border accents) now uses neutral white/structural-gray instead.
+   originally restricted to exactly two uses site-wide: the primary Contact
+   Intake button and live-telemetry status indicators. Mark 28
+   (owner-authorized) added one explicit third use — the homepage
+   ConsultingCTA's primary button, a second entry point to that same
+   /contact intake path — see .btn--accent's own comment. Every other
+   former accent use (focus ring, skip-link, footer current-page marker,
+   decorative eyebrow/border accents) still uses neutral white/structural-
+   gray instead.
 
    Contrast-checked (WCAG 2.1 AA, 4.5:1 minimum for body text):
      --ink-soft (#888888) on --paper (#050505) = 6.1:1
@@ -32,10 +36,16 @@
   --wrap: 1180px;
 
   /* ---- Mark 19: Industrial Brutalism semantic layer ----
-     --ff-accent-signal is now used in exactly two places site-wide: the
-     primary Contact Intake button (.btn--accent) and telemetry status
-     indicators (.latest-signal-marker). Nowhere else — not focus rings,
-     not the skip-link, not decorative borders or eyebrow marks. */
+     --ff-accent-signal was originally restricted to exactly two places
+     site-wide: the primary Contact Intake button (.btn--accent) and
+     telemetry status indicators (.latest-signal-marker, and by the same
+     pattern the "Signal Lost" fallback lines in LatestSignalRail.astro,
+     SubsidiaryDossier.astro, and HeroProductCarousel.astro). Mark 28
+     (owner-authorized policy amendment) added one explicit third use: the
+     homepage ConsultingCTA's primary button, which routes to the same real
+     /contact intake path — see .btn--accent's own comment below. Still
+     nowhere else — not focus rings, not the skip-link, not decorative
+     borders or eyebrow marks. */
   --ff-bg-base: var(--paper);
   --ff-bg-panel: var(--panel);
   --ff-bg-panel-subtle: var(--panel);
@@ -383,10 +393,16 @@ p {
   color: var(--white);
 }
 
-/* The ONE place the signal-green accent is used as a fill, per Mark 19's
-   strict accent-restraint rule: the primary Contact Intake button only.
-   Applied directly on /contact's submit button — never on homepage/hero
-   CTAs, which stay on the neutral .btn treatment above. */
+/* Per Mark 19's strict accent-restraint rule, the signal-green accent fill
+   was originally used in exactly one place: the primary Contact Intake
+   button on /contact's submit button — never on homepage/hero CTAs, which
+   stayed on the neutral .btn treatment above.
+
+   Mark 28 (owner-authorized policy amendment) added one explicit second
+   fill use: the homepage ConsultingCTA's primary "Request Diagnostic
+   Brief" button, which routes to that same real /contact intake path — a
+   second entry point to the same destination, not a new, unrelated accent
+   use. Still applied nowhere else. */
 .btn--accent {
   background: var(--ff-accent-signal);
   color: #04120a;

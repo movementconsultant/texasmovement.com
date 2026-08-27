@@ -6,6 +6,11 @@ dist/
 # regenerated fresh on every build, never committed.
 public/media-thumbnails/
 
+# Mark 28 — HERO product images, generated at build time by the same
+# scripts/fetch-media-thumbnails.mjs; regenerated fresh on every build,
+# never committed.
+public/hero-products/
+
 # dependencies
 node_modules/
 
