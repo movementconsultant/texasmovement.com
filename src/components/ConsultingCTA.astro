@@ -1,0 +1,92 @@
+---
+// src/components/ConsultingCTA.astro
+//
+// Mark 28 — explicit owner policy amendment: Consulting's existing,
+// already-published category-level content (src/pages/consulting.astro) is
+// elevated to a homepage section, immediately after the hero section. This
+// is a real status change, not just a copy addition — consulting.astro's
+// own posture and copy were updated in the same pass (see
+// src/lib/hub-routes.ts's PostureLabel and src/pages/consulting.astro) to
+// stop asserting "no engagement pathway is active," since this section's
+// CTA now provides one. The exact headline/subhead/CTA copy below is the
+// owner's own, given verbatim.
+//
+// Signal Green (--ff-accent-signal) on the primary button is a deliberate,
+// explicit exception to Mark 19's original "restricted to exactly two uses
+// site-wide" accent-restraint rule (see src/styles/global.css's `.btn--accent`
+// comment, updated in this same pass) — the button routes to /contact, the
+// same real intake path the original rule's "Contact Intake button" use
+// case describes, just from a second entry point. No other new element on
+// this site uses the accent.
+---
+
+<section id="consulting-cta" class="section consulting-cta">
+  <div class="wrap consulting-cta-inner">
+    <p class="consulting-cta-eyebrow">CONSULTING</p>
+    <h2 class="consulting-cta-headline">Systems for people who move.</h2>
+    <p class="consulting-cta-subhead">
+      Texas Movement Consulting builds AI-powered operating systems for founders and institutions.
+      Diagnostic intake available for qualified operators.
+    </p>
+    <div class="consulting-cta-actions">
+      <a class="btn btn--accent" href="/contact">
+        Request Diagnostic Brief <span class="arrow">→</span>
+      </a>
+      <a class="consulting-cta-secondary" href="/consulting">View Consulting Architecture →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .consulting-cta {
+    background: var(--paper);
+    border-block: 1px solid var(--line-strong);
+  }
+
+  .consulting-cta-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .consulting-cta-eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .consulting-cta-headline {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    max-width: 24ch;
+  }
+
+  .consulting-cta-subhead {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+
+  .consulting-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-top: 6px;
+  }
+
+  .consulting-cta-secondary {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .consulting-cta-secondary:hover {
+    border-bottom-color: var(--ink);
+  }
+</style>

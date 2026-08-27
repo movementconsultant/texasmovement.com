@@ -1,0 +1,237 @@
+---
+// src/components/HeroProductCarousel.astro
+//
+// Mark 28 — explicit owner policy amendment: build-time fetch of HERO's
+// public Shopify product feed (https://hero.texasmovement.com/products.json)
+// is authorized, "identical in principle to the YouTube thumbnail work in
+// Mark 26." Reuses that exact recipe: src/lib/commerce/heroProducts.ts
+// never throws, scripts/fetch-media-thumbnails.mjs self-hosts each
+// product's first image to public/hero-products/{handle}.jpg at build time
+// (before `astro build`, for the same public/→dist/ copy-timing reason
+// documented there), and this component looks up the local file via
+// existsSync — the rendered <img> never points at Shopify's CDN. A missing
+// image renders a monospace placeholder block, matching the Mark 26/27
+// per-item fallback pattern exactly. If the whole feed fetch failed (no
+// network, rate limit, or /products.json returned nothing usable), the
+// component renders a single "Visit HERO Store" card in the same
+// Void-Black/hard-border "Signal Lost" terminal aesthetic already used by
+// the telemetry rails' fallback state (see LatestSignalRail.astro) — never
+// a broken carousel.
+//
+// No JS carousel library: horizontal scrolling is plain CSS scroll-snap.
+// "Shop Now" links point at the real hero.texasmovement.com product page —
+// this is a legitimate outbound destination link (the same pattern already
+// used for the dossier's real YouTube links), not an image hotlink; only
+// the <img> src is required to be self-hosted.
+import { getHeroProducts, heroProductUrl } from "@/lib/commerce/heroProducts";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+const PRODUCTS_DIR = join(process.cwd(), "public", "hero-products");
+
+function localImageSrc(handle: string): string | null {
+  return existsSync(join(PRODUCTS_DIR, `${handle}.jpg`)) ? `/hero-products/${handle}.jpg` : null;
+}
+
+const result = await getHeroProducts(4);
+---
+
+<section class="hero-carousel-section" aria-labelledby="hero-carousel-heading">
+  <div class="wrap">
+    <p class="hero-carousel-eyebrow" id="hero-carousel-heading">HERO</p>
+    {
+      result.status === "ok" && result.products.length > 0 ? (
+        <ul class="hero-carousel-track">
+          {result.products.map((product) => {
+            const img = localImageSrc(product.handle);
+            return (
+              <li class="hero-product-card">
+                {img ? (
+                  <img
+                    src={img}
+                    width="220"
+                    height="220"
+                    loading="lazy"
+                    alt={product.title}
+                    class="hero-product-thumb"
+                  />
+                ) : (
+                  <span class="hero-product-thumb hero-product-thumb--placeholder" aria-hidden="true">
+                    <span class="hero-product-thumb-placeholder-text">{product.title}</span>
+                  </span>
+                )}
+                <span class="hero-product-title">{product.title}</span>
+                {product.price && <span class="hero-product-price">{product.price}</span>}
+                <a
+                  href={heroProductUrl(product.handle)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hero-product-link"
+                >
+                  Shop Now →
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <div class="hero-carousel-fallback">
+          <p class="signal-lost-line">
+            <span aria-hidden="true">&gt;</span> SIGNAL LOST // AWAITING RECONNECTION // ROUTING TO
+            SOURCE
+          </p>
+          <p class="signal-lost-description">The HERO product feed isn't available for this build.</p>
+          <a
+            href="https://hero.texasmovement.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hero-store-link"
+          >
+            Visit HERO Store →
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .hero-carousel-section {
+    background: var(--paper);
+    padding-block: 32px;
+  }
+
+  .hero-carousel-eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+
+  /* Horizontal scroll-snap carousel — no JS library. */
+  .hero-carousel-track {
+    list-style: none;
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+
+  .hero-product-card {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid var(--line-strong);
+    padding: 12px;
+  }
+
+  /* Same brutalist thumbnail treatment as the Mark 26/27 telemetry
+     thumbnails: hard border, 0px radius (inherited global reset),
+     grayscale by default, full color on hover, explicit width/height,
+     loading="lazy", alt = product title. */
+  .hero-product-thumb {
+    width: 100%;
+    height: 220px;
+    border: 1px solid var(--line-strong);
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1);
+    transition: filter 0.25s ease;
+  }
+
+  .hero-product-card:hover .hero-product-thumb {
+    filter: grayscale(0);
+  }
+
+  .hero-product-thumb--placeholder {
+    background: var(--panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .hero-product-thumb-placeholder-text {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    color: var(--ink-soft);
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-product-thumb {
+      transition: none;
+    }
+  }
+
+  .hero-product-title {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .hero-product-price {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+
+  .hero-product-link {
+    margin-top: 4px;
+    align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .hero-product-link:hover {
+    border-bottom-color: var(--ink);
+  }
+
+  /* Same "Signal Lost" terminal fallback aesthetic as
+     LatestSignalRail.astro's fallback state (Mark 25). */
+  .hero-carousel-fallback {
+    padding: 16px;
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .signal-lost-line {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    color: var(--ff-accent-signal);
+  }
+
+  .signal-lost-description {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .hero-store-link {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    align-self: flex-start;
+  }
+</style>

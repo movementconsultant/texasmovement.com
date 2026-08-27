@@ -18,10 +18,23 @@
 // *.texasmovement.com subdomain. Never pass PROPERTIES[key].url for any of
 // these paths; use the local path string directly.
 //
-// Every route below is safely inert by construction, with one deliberate
-// exception added in Mark 18: /contact is a real contact form, gated behind
-// PUBLIC_CONTACT_ENDPOINT (unset in every build this repository runs today,
-// which keeps it fully inert) — see docs/mark-18-contact-intake-implementation.md.
+// Every route below is safely inert by construction, with three deliberate
+// exceptions:
+//   - /contact (Mark 18): a real contact form, gated behind
+//     PUBLIC_CONTACT_ENDPOINT (unset in every build this repository runs
+//     today, which keeps it fully inert) — see
+//     docs/mark-18-contact-intake-implementation.md.
+//   - /consulting (Mark 28, owner-authorized policy amendment): now links
+//     out to /contact via a real "Request Diagnostic Brief" CTA (also
+//     surfaced on the homepage — see ConsultingCTA.astro). No inquiry form
+//     lives on /consulting itself; it routes to the same gated /contact
+//     path above.
+//   - /hero (Mark 28, owner-authorized policy amendment): now renders
+//     HeroProductCarousel.astro, which build-time-fetches HERO's public
+//     Shopify product feed and links out to real hero.texasmovement.com
+//     product pages — see src/lib/commerce/heroProducts.ts. Checkout,
+//     fulfillment, and account systems remain entirely on Shopify; nothing
+//     here processes payment or personal data.
 // No other route links to any external destination, form, booking flow, or
 // checkout.
 
@@ -33,6 +46,8 @@ export type PostureLabel =
   | "Deployment Pending — not yet live"
   | "Deployment Pending — Active Signal Telemetry Live via media.texasmovement.com"
   | "External storefront / internally unaudited"
+  | "Diagnostic Intake Open — qualified operators"
+  | "Confirmed Storefront — Public Catalog Live"
   | null;
 
 export interface HubRoute {
@@ -49,7 +64,7 @@ export const HUB_ROUTES: readonly HubRoute[] = [
   { path: "/about", navLabel: "About", postureLabel: null },
   { path: "/ecosystem", navLabel: "Ecosystem", postureLabel: null },
   { path: "/contact", navLabel: "Contact", postureLabel: null },
-  { path: "/consulting", navLabel: "Consulting", postureLabel: "Deployment Pending — not yet live" },
+  { path: "/consulting", navLabel: "Consulting", postureLabel: "Diagnostic Intake Open — qualified operators" },
   {
     path: "/media",
     navLabel: "Media",
@@ -60,7 +75,7 @@ export const HUB_ROUTES: readonly HubRoute[] = [
   {
     path: "/hero",
     navLabel: null,
-    postureLabel: "External storefront / internally unaudited",
+    postureLabel: "Confirmed Storefront — Public Catalog Live",
   },
   { path: "/partners", navLabel: null, postureLabel: "Deployment Pending — not yet live" },
   { path: "/vault", navLabel: null, postureLabel: null },

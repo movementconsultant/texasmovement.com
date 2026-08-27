@@ -15,8 +15,7 @@
 // one of the build's early steps, before any page is rendered (verified
 // empirically this pass — a file written to public/ from inside an Astro
 // page's frontmatter during `astro build` did NOT end up in dist/). Any
-// thumbnail files must already exist in public/media-thumbnails/ before
-// `astro build` starts.
+// image files must already exist under public/ before `astro build` starts.
 //
 // Reuses the existing, already-tested video-ID/Atom-feed logic in
 // src/lib/telemetry/youtubeSignal.ts (getLatestSignalItems,
@@ -38,11 +37,21 @@
 // sources' items are merged and deduped by video ID before fetching, since
 // they can and often will overlap with Latest Signal's TMM items.
 //
+// Mark 28 extends this same script again (per the owner's explicit "Add to
+// the existing prebuild script" instruction) with a second, independent
+// job: prefetching HERO product images from
+// https://hero.texasmovement.com/products.json (see
+// src/lib/commerce/heroProducts.ts). This is a different domain and a
+// different data shape from the YouTube job above, so it's implemented as
+// its own self-contained section (own module loader, own fetch/write loop)
+// wrapped in its own try/catch — a failure fetching HERO's product feed
+// must never block or skip the YouTube thumbnail prefetch, and vice versa.
+//
 // This script is a best-effort enhancement and must NEVER fail the build:
-// every fetch failure is caught individually and simply means no thumbnail
-// file is written for that video, which the calling component already
-// handles by rendering a static per-item placeholder instead of a broken
-// image. The script always exits 0.
+// every fetch failure is caught individually and simply means no image
+// file is written for that item, which the calling component already
+// handles by rendering a static placeholder instead of a broken image.
+// The script always exits 0.
 
 import esbuild from "esbuild";
 import { writeFile, mkdir } from "node:fs/promises";
@@ -52,31 +61,31 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const THUMB_DIR = join(ROOT, "public", "media-thumbnails");
+const HERO_PRODUCTS_DIR = join(ROOT, "public", "hero-products");
 const FETCH_TIMEOUT_MS = 8000;
 
-async function loadYoutubeSignalModule() {
+async function bundleModule(entryRelPath, tmpFileName) {
   const result = await esbuild.build({
-    entryPoints: [join(ROOT, "src/lib/telemetry/youtubeSignal.ts")],
+    entryPoints: [join(ROOT, entryRelPath)],
     bundle: true,
     platform: "node",
     format: "esm",
     write: false,
   });
   const code = result.outputFiles[0].text;
-  const tmpFile = join(ROOT, "node_modules", ".mark26-youtube-signal-bundle.mjs");
+  const tmpFile = join(ROOT, "node_modules", tmpFileName);
   await mkdir(join(ROOT, "node_modules"), { recursive: true });
   await writeFile(tmpFile, code);
   return import(`file://${tmpFile}?t=${Date.now()}`);
 }
 
-async function fetchThumbnail(videoId) {
-  const url = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+async function fetchImageBuffer(url) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
     const response = await fetch(url, { signal: controller.signal });
     if (!response.ok) {
-      console.warn(`[media-thumbnails] ${url} responded ${response.status} — skipping.`);
+      console.warn(`[prebuild-images] ${url} responded ${response.status} — skipping.`);
       return null;
     }
     const buffer = Buffer.from(await response.arrayBuffer());
@@ -84,17 +93,28 @@ async function fetchThumbnail(videoId) {
     return buffer;
   } catch (err) {
     const reason = err instanceof Error ? err.message : String(err);
-    console.warn(`[media-thumbnails] ${url} fetch failed (${reason}) — skipping.`);
+    console.warn(`[prebuild-images] ${url} fetch failed (${reason}) — skipping.`);
     return null;
   } finally {
     clearTimeout(timer);
   }
 }
 
-async function main() {
+async function writeIfMissing(destPath, url) {
+  if (existsSync(destPath)) return "cached";
+  const bytes = await fetchImageBuffer(url);
+  if (!bytes) return "skipped";
+  await writeFile(destPath, bytes);
+  return "fetched";
+}
+
+async function prefetchYoutubeThumbnails() {
   let mod;
   try {
-    mod = await loadYoutubeSignalModule();
+    mod = await bundleModule(
+      "src/lib/telemetry/youtubeSignal.ts",
+      ".mark26-youtube-signal-bundle.mjs",
+    );
   } catch (err) {
     console.warn(`[media-thumbnails] could not load youtubeSignal.ts (${err}) — skipping thumbnail prefetch entirely.`);
     return;
@@ -125,23 +145,73 @@ async function main() {
   let skipped = 0;
 
   for (const [videoId] of itemsByVideoId) {
-    const destPath = join(THUMB_DIR, `${videoId}.jpg`);
-    if (existsSync(destPath)) {
-      fetched += 1; // already present from a previous run in this environment
-      continue;
-    }
-    const bytes = await fetchThumbnail(videoId);
-    if (!bytes) {
-      skipped += 1;
-      continue;
-    }
-    await writeFile(destPath, bytes);
-    fetched += 1;
+    const outcome = await writeIfMissing(
+      join(THUMB_DIR, `${videoId}.jpg`),
+      `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    );
+    if (outcome === "skipped") skipped += 1;
+    else fetched += 1;
   }
 
   console.log(`[media-thumbnails] ${fetched} thumbnail(s) available, ${skipped} will use the placeholder fallback.`);
 }
 
+async function prefetchHeroProductImages() {
+  let mod;
+  try {
+    mod = await bundleModule(
+      "src/lib/commerce/heroProducts.ts",
+      ".mark28-hero-products-bundle.mjs",
+    );
+  } catch (err) {
+    console.warn(`[hero-products] could not load heroProducts.ts (${err}) — skipping product image prefetch entirely.`);
+    return;
+  }
+
+  const { getHeroProducts } = mod;
+  const result = await getHeroProducts(4);
+
+  if (result.status !== "ok" || result.products.length === 0) {
+    console.log("[hero-products] no HERO products this build — nothing to prefetch.");
+    return;
+  }
+
+  await mkdir(HERO_PRODUCTS_DIR, { recursive: true });
+
+  let fetched = 0;
+  let skipped = 0;
+
+  for (const product of result.products) {
+    if (!product.imageUrl) {
+      skipped += 1;
+      continue;
+    }
+    const outcome = await writeIfMissing(
+      join(HERO_PRODUCTS_DIR, `${product.handle}.jpg`),
+      product.imageUrl,
+    );
+    if (outcome === "skipped") skipped += 1;
+    else fetched += 1;
+  }
+
+  console.log(`[hero-products] ${fetched} product image(s) available, ${skipped} will use the placeholder fallback.`);
+}
+
+async function main() {
+  // Each job is isolated: a failure in one must never block or skip the
+  // other (different domain, different data shape, independently owned).
+  try {
+    await prefetchYoutubeThumbnails();
+  } catch (err) {
+    console.warn(`[media-thumbnails] unexpected error (${err}) — continuing without YouTube thumbnails.`);
+  }
+  try {
+    await prefetchHeroProductImages();
+  } catch (err) {
+    console.warn(`[hero-products] unexpected error (${err}) — continuing without HERO product images.`);
+  }
+}
+
 main().catch((err) => {
-  console.warn(`[media-thumbnails] unexpected error (${err}) — continuing without thumbnails.`);
+  console.warn(`[prebuild-images] unexpected error (${err}) — continuing without prefetched images.`);
 });

@@ -2,6 +2,8 @@
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
 import SignalFeed from "@/components/SignalFeed.astro";
+import ConsultingCTA from "@/components/ConsultingCTA.astro";
+import HeroProductCarousel from "@/components/HeroProductCarousel.astro";
 import { pageTitle } from "@tmi/constants";
 import { PROPERTIES, ECOSYSTEM_MAP, verifiedGeneralContact } from "@/lib/site";
 
@@ -71,6 +73,14 @@ const cta = verifiedGeneralContact();
         </aside>
       </div>
     </section>
+
+    <!-- Mark 28 — Consulting CTA + HERO product carousel, in that order,
+         immediately after the hero section and above the "What we are
+         building" teaser. See ConsultingCTA.astro and
+         HeroProductCarousel.astro for the governance/implementation
+         context. -->
+    <ConsultingCTA />
+    <HeroProductCarousel />
 
     <!-- What we are building -->
     <section id="building" class="section section--panel">

@@ -1,10 +1,16 @@
 // src/lib/telemetry/fetchWithTimeout.ts
 //
-// Build-time-only network helper for the "Latest Signal" YouTube rail.
-// Never used client-side — every call site is Astro frontmatter, which
-// executes only during `astro build` / `astro dev`, never in the browser.
-// See docs/mark-13-latest-signal-implementation.md for the governance
-// context (owner-authorized build-time fetch, Mark 13/14).
+// Build-time-only network helper, originally written for the "Latest
+// Signal" YouTube rail and broadened in Mark 28 to also serve
+// src/lib/commerce/heroProducts.ts's HERO product-feed fetch — both are
+// owner-authorized, build-time-only, source-derived data fetches with the
+// identical never-throw/graceful-fallback contract, so this one helper is
+// shared rather than duplicated. Never used client-side — every call site
+// is Astro frontmatter or a prebuild script, which execute only during
+// `astro build` / `astro dev` / the npm `prebuild` step, never in the
+// browser. See docs/mark-13-latest-signal-implementation.md for the
+// YouTube governance context (owner-authorized build-time fetch, Mark
+// 13/14).
 //
 // Design constraint, matching alexandermathai.com's telemetry rails: this
 // function must NEVER throw and must NEVER let a slow/unreachable source
