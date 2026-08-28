@@ -24,11 +24,17 @@
 //     PUBLIC_CONTACT_ENDPOINT (unset in every build this repository runs
 //     today, which keeps it fully inert) — see
 //     docs/mark-18-contact-intake-implementation.md.
-//   - /consulting (Mark 28, owner-authorized policy amendment): now links
-//     out to /contact via a real "Request Diagnostic Brief" CTA (also
-//     surfaced on the homepage — see ConsultingCTA.astro). No inquiry form
-//     lives on /consulting itself; it routes to the same gated /contact
-//     path above.
+//   - /consulting (Mark 28, extended Mark 29, both owner-authorized policy
+//     amendments): links out to /contact via a real "Request Diagnostic
+//     Brief" CTA (Mark 28; also surfaced on the homepage — see
+//     ConsultingCTA.astro), and (Mark 29) now has real "Purchase [Tier]"
+//     buttons on its three pricing tiers — see PurchaseButton.astro and
+//     workers/stripe-checkout/. Every purchase button is gated behind
+//     PUBLIC_STRIPE_CHECKOUT_ENDPOINT (unset in every build this repository
+//     runs today, which keeps checkout fully inert and renders a static
+//     "Contact to Purchase" link instead); no inquiry form lives on
+//     /consulting's own markup either way — the real conversion surfaces
+//     live entirely in the delegated PurchaseButton component.
 //   - /hero (Mark 28, owner-authorized policy amendment): now renders
 //     HeroProductCarousel.astro, which build-time-fetches HERO's public
 //     Shopify product feed and links out to real hero.texasmovement.com

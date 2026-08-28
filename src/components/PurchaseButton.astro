@@ -1,0 +1,186 @@
+---
+// src/components/PurchaseButton.astro
+//
+// Mark 29 — "Purchase [Tier]" CTA for each Consulting pricing tier.
+// Real payment functionality: on click, POSTs { tier } to
+// PUBLIC_STRIPE_CHECKOUT_ENDPOINT (the deployed Stripe checkout Worker —
+// see workers/stripe-checkout/) and redirects to the returned Stripe
+// Checkout Session URL on success. Every failure mode degrades to a
+// working link, never a broken button:
+//   - PUBLIC_STRIPE_CHECKOUT_ENDPOINT unset at build time (the default in
+//     every build this repo runs today) → renders a plain "Contact to
+//     Purchase" link to /contact instead of a JS-driven button. No fetch
+//     call exists in this state at all.
+//   - Endpoint configured but the request fails (network error, or the
+//     Worker itself has no STRIPE_SECRET_KEY configured and returns an
+//     error) → the button re-enables and shows an inline status message
+//     pointing at the "Questions? Email first" link below it, rather than
+//     hanging or silently failing.
+// A dev-mode console.warn fires when the endpoint is unset, per the
+// owner's explicit "Add console warning in dev mode when Stripe key
+// missing" instruction.
+export interface Props {
+  tierId: "diagnostic" | "systems-build" | "retainer";
+  tierName: string;
+}
+const { tierId, tierName } = Astro.props;
+const checkoutEndpoint = import.meta.env.PUBLIC_STRIPE_CHECKOUT_ENDPOINT ?? "";
+
+if (import.meta.env.DEV && !checkoutEndpoint) {
+  console.warn(
+    `[PurchaseButton] PUBLIC_STRIPE_CHECKOUT_ENDPOINT is not set — "${tierName}" will render as a static "Contact to Purchase" fallback link instead of a live Stripe Checkout button.`,
+  );
+}
+---
+
+{
+  checkoutEndpoint ? (
+    <div class="purchase-cta">
+      <button
+        type="button"
+        class="btn-purchase"
+        data-tier={tierId}
+        data-checkout-endpoint={checkoutEndpoint}
+      >
+        Purchase {tierName}
+      </button>
+      <p class="purchase-status" role="status" aria-live="polite" hidden />
+      <a href="/contact" class="purchase-secondary-link">
+        Questions? Email first →
+      </a>
+    </div>
+  ) : (
+    <div class="purchase-cta">
+      <a href="/contact" class="btn-purchase btn-purchase--fallback">
+        Contact to Purchase
+      </a>
+      <a href="/contact" class="purchase-secondary-link">
+        Questions? Email first →
+      </a>
+    </div>
+  )
+}
+
+<style>
+  .purchase-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  /* Mark 29 — Signal Green fill on a purchase/payment action, per the
+     owner's explicit spec. Same design-system tokens as the Mark 19/28
+     accent-restraint amendments (--ff-accent-signal, --paper as "Void
+     Black"), scoped to its own class rather than reusing global .btn--accent
+     since this button's hover behavior is a deliberate full color-invert
+     (Void Black bg / Signal Green text), not .btn--accent's transparent-bg
+     hover. */
+  .btn-purchase {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border: 1px solid var(--ff-accent-signal);
+    background: var(--ff-accent-signal);
+    color: var(--paper);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-purchase:hover,
+  .btn-purchase:focus-visible {
+    background: var(--paper);
+    color: var(--ff-accent-signal);
+  }
+
+  .btn-purchase:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .purchase-status {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+
+  .purchase-secondary-link {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .purchase-secondary-link:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-purchase {
+      transition: none;
+    }
+  }
+
+  /* Mobile-responsive sizing: full-width, comfortable tap target. */
+  @media (max-width: 40rem) {
+    .btn-purchase,
+    .btn-purchase--fallback {
+      width: 100%;
+      padding: 14px 20px;
+    }
+  }
+</style>
+
+<script>
+  // No define:vars here deliberately: every button instance reads its own
+  // tier/endpoint off its own data-* attributes, so this script's content
+  // is identical across all three tier instances on the page and Astro
+  // dedupes it to a single copy rather than tripling the listener setup.
+  document.querySelectorAll<HTMLButtonElement>(".btn-purchase[data-tier]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const tier = button.dataset.tier;
+      const endpoint = button.dataset.checkoutEndpoint;
+      if (!tier || !endpoint) return;
+
+      const statusEl = button.parentElement?.querySelector<HTMLElement>(".purchase-status");
+      const setStatus = (message: string) => {
+        if (!statusEl) return;
+        statusEl.hidden = false;
+        statusEl.textContent = message;
+      };
+
+      button.disabled = true;
+      setStatus("Redirecting to secure checkout…");
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ tier }),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (response.ok && result.url) {
+          window.location.href = result.url;
+          return;
+        }
+        setStatus(
+          result.error || "Checkout is temporarily unavailable — please use the email link below.",
+        );
+      } catch {
+        setStatus("Checkout is temporarily unavailable — please use the email link below.");
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>

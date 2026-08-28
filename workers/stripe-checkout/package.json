@@ -1,0 +1,16 @@
+{
+  "name": "tmi-stripe-checkout-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Standalone Cloudflare Worker for the Consulting Stripe Checkout flow, shared by texasmovement.com and alexandermathai.com — not part of either Astro site's build or dependency tree.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250101.0",
+    "typescript": "^5.9.0",
+    "wrangler": "^3.90.0"
+  }
+}

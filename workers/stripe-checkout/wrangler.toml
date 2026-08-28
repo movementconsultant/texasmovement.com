@@ -1,0 +1,41 @@
+# Cloudflare Worker deployment config — NOT deployed by this session (no
+# Cloudflare account access, and no real Stripe account/keys, exist in the
+# environment this was written in). Review, fill in the placeholders below,
+# and deploy yourself — see README.md.
+#
+# This Worker is shared by BOTH texasmovement.com/consulting and
+# alexandermathai.com/consulting — one Texas Movement Consulting practice,
+# one Stripe checkout, per the owner's explicit Mark 29 decision. Deploy it
+# once; point both sites' PUBLIC_STRIPE_CHECKOUT_ENDPOINT at the same URL.
+
+name = "tmi-stripe-checkout"
+main = "src/worker.ts"
+compatibility_date = "2025-01-01"
+
+# Non-secret configuration. Edit these directly.
+[vars]
+ALLOWED_ORIGINS = "https://texasmovement.com,https://alexandermathai.com"
+NOTIFY_EMAIL = "movementconsultant@gmail.com"
+FROM_EMAIL = "intake@texasmovement.com"
+
+# Secrets — never put these here. Set with:
+#   wrangler secret put STRIPE_SECRET_KEY
+#   wrangler secret put STRIPE_WEBHOOK_SECRET
+#   wrangler secret put RESEND_API_KEY
+# (Read via `env.STRIPE_SECRET_KEY` / `env.STRIPE_WEBHOOK_SECRET` /
+# `env.RESEND_API_KEY` in src/worker.ts.)
+
+# Per-tier Stripe Price IDs — set only AFTER creating the real Products in
+# your own Stripe dashboard. Until all three are set, POST / for that tier
+# returns a clean "temporarily unavailable" error instead of a broken
+# checkout. See src/worker.ts's header comment for why no Price ID or
+# dollar amount is hardcoded anywhere in this Worker. Uncomment and fill
+# in under [vars] above once you have real Price IDs:
+#   STRIPE_PRICE_DIAGNOSTIC = "price_REPLACE_WITH_REAL_DIAGNOSTIC_PRICE_ID"
+#   STRIPE_PRICE_SYSTEMS_BUILD = "price_REPLACE_WITH_REAL_SYSTEMS_BUILD_PRICE_ID"
+#   STRIPE_PRICE_RETAINER = "price_REPLACE_WITH_REAL_RETAINER_PRICE_ID"
+
+# Route this Worker to a path once ready, e.g.:
+# [[routes]]
+# pattern = "texasmovement.com/api/create-checkout-session"
+# zone_name = "texasmovement.com"
