@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
 import PurchaseButton from "@/components/PurchaseButton.astro";
+import KeynoteReferralLink from "@/components/KeynoteReferralLink.astro";
 import { pageTitle } from "@tmi/constants";
 import { hubRoute } from "@/lib/hub-routes";
 import { CONSULTING_TIERS } from "@/lib/commerce/consultingTiers";
@@ -16,6 +17,15 @@ import { CONSULTING_TIERS } from "@/lib/commerce/consultingTiers";
 // including the disclosed gap that real Stripe Price IDs were never
 // provided to this build (referenced only via env vars the owner fills in
 // after creating the real Products in their own Stripe dashboard).
+//
+// Mark 31 — "Quiet Authority" scalpel pass. Two owner-provided sections
+// added ("Who It's For" fit/no-fit framing, and a condensed "How It Works"
+// principles grid); one subtle secondary referral link added (keynote/
+// speaking → alexandermathai.com, delegated to KeynoteReferralLink.astro);
+// tier price lines annotated with each engagement's commitment shape. No
+// FAQ or Early Childhood AI Toolkit content exists anywhere in this
+// repo's history to remove — verified against full git history across
+// both this repo and alexandermathai.com before writing any of this.
 
 const title = pageTitle("tmi", "Consulting");
 const description =
@@ -27,6 +37,13 @@ const whatYouGet = [
   "Documented decision record that survives team changes",
   "AI workflow implementation with your team co-owning the build",
   "Ongoing operator support for founders who need systems stewardship",
+];
+
+const howItWorks = [
+  "Systems before narrative",
+  "Document the decisions",
+  "Legally in-bounds",
+  "Built for serious work",
 ];
 ---
 
@@ -67,6 +84,42 @@ const whatYouGet = [
       </div>
     </section>
 
+    <section class="section" aria-labelledby="fit-heading">
+      <div class="wrap">
+        <Eyebrow>WHO THIS IS FOR</Eyebrow>
+        <h2 id="fit-heading">Fit matters more than budget.</h2>
+        <div class="fit-grid">
+          <div class="fit-block">
+            <p class="fit-label">Good fit</p>
+            <p>
+              Founder-led companies from 1–20 people — service businesses, clinics, agencies — with
+              real revenue at stake and a named decision-maker ready to act on what the diagnostic
+              finds.
+            </p>
+          </div>
+          <div class="fit-block">
+            <p class="fit-label">Not a fit</p>
+            <p>
+              Idea-stage projects, vague requests without a defined problem, or engagements without
+              a single accountable owner on your side.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--panel" aria-labelledby="how-heading">
+      <div class="wrap">
+        <Eyebrow>HOW IT WORKS</Eyebrow>
+        <h2 id="how-heading">Four principles.</h2>
+        <ul class="principles-grid">
+          {howItWorks.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
     <section id="tiers" class="section" aria-labelledby="tiers-heading">
       <div class="wrap">
         <Eyebrow>ENGAGEMENT TIERS</Eyebrow>
@@ -75,7 +128,9 @@ const whatYouGet = [
         <div class="tiers-grid">
           <article class="tier-card" aria-labelledby="tier-diagnostic-heading">
             <h3 id="tier-diagnostic-heading">Tier 1 · Diagnostic</h3>
-            <p class="tier-price">{CONSULTING_TIERS[0].priceRange}</p>
+            <p class="tier-price">
+              {CONSULTING_TIERS[0].priceRange} <span class="tier-price-note">one-time · 30 days</span>
+            </p>
             <p class="tier-summary">
               A structured, four-week engagement that turns undocumented operational knowledge into
               a prioritized systems roadmap.
@@ -98,7 +153,9 @@ const whatYouGet = [
 
           <article class="tier-card" aria-labelledby="tier-systems-build-heading">
             <h3 id="tier-systems-build-heading">Tier 2 · Systems Build</h3>
-            <p class="tier-price">{CONSULTING_TIERS[1].priceRange}</p>
+            <p class="tier-price">
+              {CONSULTING_TIERS[1].priceRange} <span class="tier-price-note">scoped project</span>
+            </p>
             <p class="tier-summary">
               Implementation of the roadmap: real systems built, tested, and documented alongside
               your team, not handed off as a slide deck.
@@ -121,7 +178,9 @@ const whatYouGet = [
 
           <article class="tier-card" aria-labelledby="tier-retainer-heading">
             <h3 id="tier-retainer-heading">Tier 3 · Operator Retainer</h3>
-            <p class="tier-price">{CONSULTING_TIERS[2].priceRange}</p>
+            <p class="tier-price">
+              {CONSULTING_TIERS[2].priceRange} <span class="tier-price-note">3-month minimum</span>
+            </p>
             <p class="tier-summary">
               Ongoing systems stewardship for operators who need ongoing calibration, not a one-time
               engagement.
@@ -160,9 +219,12 @@ const whatYouGet = [
         <div class="stub-note">
           Pricing above reflects each tier's published range; the exact amount for a given
           engagement is confirmed before checkout. There is still no booking link, calendar, or
-          availability statement on this page beyond the purchase and contact routes above. See the
-          <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest of Texas
-          Movement International.
+          availability statement on this page beyond the purchase and contact routes above. See
+          the <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest of
+          Texas Movement International.
+        </div>
+        <div class="keynote-referral-row">
+          <KeynoteReferralLink />
         </div>
       </div>
     </section>
@@ -194,11 +256,66 @@ const whatYouGet = [
     color: var(--ink-soft);
   }
 
+  .fit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-top: 28px;
+  }
+
+  .fit-block p:not(.fit-label) {
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+
+  .fit-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  @media (max-width: 40rem) {
+    .fit-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+
+  .principles-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    margin-top: 28px;
+    padding: 0;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+  }
+
+  .principles-grid li {
+    background: var(--panel);
+    padding: 22px 20px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  @media (max-width: 40rem) {
+    .principles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .tiers-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    gap: 20px;
-    margin-top: 16px;
+    gap: 28px;
+    margin-top: 32px;
   }
 
   .tier-card {
@@ -220,6 +337,14 @@ const whatYouGet = [
     margin-top: 4px;
   }
 
+  .tier-price-note {
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+  }
+
   .tier-summary {
     font-size: 0.9rem;
     color: var(--ink-soft);
@@ -234,5 +359,9 @@ const whatYouGet = [
     text-transform: uppercase;
     color: var(--ink);
     margin-top: 10px;
+  }
+
+  .keynote-referral-row {
+    margin-top: 20px;
   }
 </style>
