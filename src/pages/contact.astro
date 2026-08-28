@@ -192,6 +192,23 @@ const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? "";
 </style>
 
 <script define:vars={{ contactEndpoint }}>
+  // Mark 30 — optional query-param prefill for the message field, so a CTA
+  // elsewhere on the site (e.g. the homepage's Black-Owned Business banner,
+  // ?topic=black-owned-rebuild) can pre-fill useful context without a
+  // dedicated subject field. Purely a client-side convenience: it never
+  // sends anything on its own, and every other inert-by-default behavior
+  // below (no live endpoint configured -> nothing is sent) is unchanged.
+  const TOPIC_PREFILLS = {
+    "black-owned-rebuild": "Subject: Black-Owned Business Website Rebuild ($500 flat)\n\n",
+  };
+  const topic = new URLSearchParams(window.location.search).get("topic");
+  if (topic && TOPIC_PREFILLS[topic]) {
+    const messageField = document.getElementById("field-message");
+    if (messageField && !messageField.value) {
+      messageField.value = TOPIC_PREFILLS[topic];
+    }
+  }
+
   const form = document.getElementById("contact-form");
   const statusEl = document.getElementById("form-status");
 

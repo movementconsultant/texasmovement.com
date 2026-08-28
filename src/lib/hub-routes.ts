@@ -18,7 +18,7 @@
 // *.texasmovement.com subdomain. Never pass PROPERTIES[key].url for any of
 // these paths; use the local path string directly.
 //
-// Every route below is safely inert by construction, with three deliberate
+// Every route below is safely inert by construction, with four deliberate
 // exceptions:
 //   - /contact (Mark 18): a real contact form, gated behind
 //     PUBLIC_CONTACT_ENDPOINT (unset in every build this repository runs
@@ -35,6 +35,16 @@
 //     product pages — see src/lib/commerce/heroProducts.ts. Checkout,
 //     fulfillment, and account systems remain entirely on Shopify; nothing
 //     here processes payment or personal data.
+//   - /ecosystem (Mark 30, owner-authorized policy reversal): its
+//     "FOUNDER CONTEXT" section previously stated this page "does not link
+//     to" alexandermathai.com. The owner has now explicitly authorized a
+//     real cross-property link there (and a matching "Founder Dossier"
+//     card on the homepage — see FounderBridge.astro), so that claim was
+//     corrected. The outbound href itself is rendered by the imported
+//     FounderContextLink.astro component (sourced from
+//     PROPERTIES.founder.url), keeping ecosystem.astro's own literal
+//     source free of a direct http(s) href, same pattern as /consulting
+//     and /hero above.
 // No other route links to any external destination, form, booking flow, or
 // checkout.
 

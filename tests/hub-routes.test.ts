@@ -158,9 +158,10 @@ describe("no page presents Health, FounderLink, Social/Gather, or Reparations as
     }
   });
 
-  it("/ecosystem mentions alexandermathai.com as context only, with no href to it", () => {
+  it("/ecosystem mentions alexandermathai.com and delegates its real link to FounderContextLink (Mark 30), keeping no direct href in its own source", () => {
     const source = sourceFor("/ecosystem");
     expect(source).toContain("alexandermathai.com");
+    expect(source).toContain("FounderContextLink");
     expect(source).not.toMatch(/href\s*=\s*["']https?:\/\/alexandermathai\.com/i);
   });
 });

@@ -6,7 +6,9 @@
    Intake button and live-telemetry status indicators. Mark 28
    (owner-authorized) added one explicit third use — the homepage
    ConsultingCTA's primary button, a second entry point to that same
-   /contact intake path — see .btn--accent's own comment. Every other
+   /contact intake path. Mark 30 (owner-authorized) added a fourth use —
+   the homepage BlackOwnedBanner's "Claim Your Slot" button, a third entry
+   point to that same /contact path — see .btn--accent's own comment. Every other
    former accent use (focus ring, skip-link, footer current-page marker,
    decorative eyebrow/border accents) still uses neutral white/structural-
    gray instead.
@@ -402,7 +404,16 @@ p {
    fill use: the homepage ConsultingCTA's primary "Request Diagnostic
    Brief" button, which routes to that same real /contact intake path — a
    second entry point to the same destination, not a new, unrelated accent
-   use. Still applied nowhere else. */
+   use.
+
+   Mark 30 (owner-authorized policy amendment) added one explicit third
+   fill use: the homepage BlackOwnedBanner's "Claim Your Slot" button,
+   which also routes to /contact (with a query-param prefill — see
+   BlackOwnedBanner.astro and src/pages/contact.astro). Per the owner's own
+   spec ("Signal Green accent on the CTA button" only), the banner's
+   eyebrow text and section border stay on the neutral --ink-soft/--line-
+   strong tokens — still no accent on eyebrows, decorative borders, or
+   hovers anywhere else. */
 .btn--accent {
   background: var(--ff-accent-signal);
   color: #04120a;

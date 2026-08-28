@@ -1,0 +1,150 @@
+---
+// src/components/FounderBridge.astro
+//
+// Mark 30 — explicit owner policy amendment. Prior to this Mark, no page on
+// this site rendered a live, clickable link to alexandermathai.com: /lanes'
+// founder-layer DivisionCard row passes no `links` prop, and /ecosystem's
+// "FOUNDER CONTEXT" section stated outright "this page does not link to
+// it." The owner has now explicitly authorized a real cross-property link
+// from the homepage, and directed /ecosystem's now-false "does not link to
+// it" line to be corrected in the same pass (see src/pages/ecosystem.astro
+// and src/pages/index.astro).
+//
+// The href is sourced from PROPERTIES.founder.url (@tmi/constants via
+// src/lib/site.ts) rather than hardcoded, and only renders because that
+// entry's status is already "live" (set before this Mark) — the same
+// isLiveProperty()/postbuild-guard gate every other real outbound link on
+// this site goes through. Name/title/mandate copy below is the owner's own,
+// given verbatim for this Mark; it does not duplicate or override
+// PROPERTIES.founder.role.
+import { PROPERTIES } from "@/lib/site";
+
+const founder = PROPERTIES.founder;
+---
+
+<section id="founder-bridge" class="section founder-bridge">
+  <div class="wrap founder-bridge-inner">
+    <div class="founder-bridge-card">
+      <div class="founder-bridge-monogram" aria-hidden="true">AVM</div>
+      <div class="founder-bridge-body">
+        <p class="founder-bridge-label">FOUNDER DOSSIER — CROSS-PROPERTY LINK</p>
+        <h2 class="founder-bridge-name">{founder.name}</h2>
+        <p class="founder-bridge-title">Founder &amp; President</p>
+        <p class="founder-bridge-mandate">
+          Systems architect and operator building Texas Movement International's multi-vertical
+          infrastructure.
+        </p>
+        <a class="founder-bridge-cta" href={founder.url} target="_blank" rel="noopener noreferrer">
+          View Founder Profile <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .founder-bridge {
+    background: var(--paper);
+  }
+
+  .founder-bridge-card {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+    /* Thin accent border, isolated to this card's left edge only — the
+       "subtle visual cue" the owner asked for to signal a cross-property
+       link, without reopening Mark 19's general accent-restraint rule
+       (still no fill, no glow, no hover-accent anywhere in this
+       component). */
+    border-left: 3px solid var(--ff-accent-signal);
+  }
+
+  .founder-bridge-monogram {
+    flex-shrink: 0;
+    width: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    border-right: 1px solid var(--line-strong);
+  }
+
+  .founder-bridge-body {
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .founder-bridge-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .founder-bridge-name {
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    margin: 2px 0 0;
+  }
+
+  .founder-bridge-title {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .founder-bridge-mandate {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    max-width: 52ch;
+    margin: 4px 0 6px;
+  }
+
+  .founder-bridge-cta {
+    align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .founder-bridge-cta:hover {
+    border-bottom-color: var(--ink);
+  }
+
+  .founder-bridge-cta .arrow {
+    transition: transform 0.18s ease;
+  }
+
+  .founder-bridge-cta:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 40rem) {
+    .founder-bridge-card {
+      flex-direction: column;
+    }
+
+    .founder-bridge-monogram {
+      width: 100%;
+      padding: 8px 0;
+      border-right: none;
+      border-bottom: 1px solid var(--line-strong);
+    }
+  }
+</style>
