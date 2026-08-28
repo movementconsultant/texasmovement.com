@@ -4,6 +4,8 @@ import Eyebrow from "@/components/Eyebrow.astro";
 import SignalFeed from "@/components/SignalFeed.astro";
 import ConsultingCTA from "@/components/ConsultingCTA.astro";
 import HeroProductCarousel from "@/components/HeroProductCarousel.astro";
+import FounderBridge from "@/components/FounderBridge.astro";
+import BlackOwnedBanner from "@/components/BlackOwnedBanner.astro";
 import { pageTitle } from "@tmi/constants";
 import { PROPERTIES, ECOSYSTEM_MAP, verifiedGeneralContact } from "@/lib/site";
 
@@ -74,6 +76,11 @@ const cta = verifiedGeneralContact();
       </div>
     </section>
 
+    <!-- Mark 30 — $500 Black-Owned Business rebuild offer, immediately
+         below the hero section per the owner's spec. See
+         BlackOwnedBanner.astro for the governance/implementation context. -->
+    <BlackOwnedBanner />
+
     <!-- Mark 28 — Consulting CTA + HERO product carousel, in that order,
          immediately after the hero section and above the "What we are
          building" teaser. See ConsultingCTA.astro and
@@ -81,6 +88,12 @@ const cta = verifiedGeneralContact();
          context. -->
     <ConsultingCTA />
     <HeroProductCarousel />
+
+    <!-- Mark 30 — Founder Bridge: a real, owner-authorized cross-property
+         link to alexandermathai.com, placed between the hero/revenue
+         sections above and the ecosystem/lanes sections below. See
+         FounderBridge.astro for the full governance note. -->
+    <FounderBridge />
 
     <!-- What we are building -->
     <section id="building" class="section section--panel">

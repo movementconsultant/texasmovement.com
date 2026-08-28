@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
+import FounderContextLink from "@/components/FounderContextLink.astro";
 import { pageTitle } from "@tmi/constants";
 
 const title = pageTitle("tmi", "Ecosystem");
@@ -168,10 +169,11 @@ const privateRows: EcosystemRow[] = [
         <Eyebrow>FOUNDER CONTEXT</Eyebrow>
         <h2>alexandermathai.com.</h2>
         <p>
-          The founder maintains a separate editorial and identity site, alexandermathai.com,
-          mentioned here for context only. It is not a TMI service route, and this page does not
-          link to it.
+          The founder maintains a separate editorial and identity site, alexandermathai.com. It is
+          not a TMI service route — it is Alexander Mathai's own property, covering founder
+          authority, selected thinking, speaking, and ecosystem navigation.
         </p>
+        <FounderContextLink />
       </div>
     </section>
 

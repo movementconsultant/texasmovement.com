@@ -1,0 +1,84 @@
+---
+// src/components/BlackOwnedBanner.astro
+//
+// Mark 30 — owner-authorized promotional banner for a $500 flat-rate Astro
+// site rebuild, scoped for Black-owned businesses. Exact copy given
+// verbatim by the owner. The CTA routes to /contact with
+// ?topic=black-owned-rebuild, which pre-fills a subject line in the
+// message field client-side (see the script in src/pages/contact.astro) —
+// /contact itself still has no subject field and no live endpoint unless
+// PUBLIC_CONTACT_ENDPOINT is set, same inert-by-default behavior as every
+// other CTA on this site.
+---
+
+<section id="black-owned-offer" class="section black-owned-banner">
+  <div class="wrap black-owned-banner-inner">
+    <div class="black-owned-banner-main">
+      <p class="black-owned-banner-eyebrow">LIMITED OFFER</p>
+      <h2 class="black-owned-banner-headline">
+        Black-Owned Business Website Rebuild — $500 flat.
+      </h2>
+      <p class="black-owned-banner-subhead">
+        Full Astro site rebuild with your branding, content, and deployment. Limited availability.
+        Scoped for service businesses, boutiques, and operators ready to ship.
+      </p>
+      <a class="btn btn--accent" href="/contact?topic=black-owned-rebuild">
+        Claim Your Slot <span class="arrow">→</span>
+      </a>
+    </div>
+    <p class="black-owned-banner-fineprint">
+      Offer valid for Black-owned businesses. Includes design, build, and deployment. Excludes
+      ongoing retainer or custom integrations. Limited to 5 slots per quarter.
+    </p>
+  </div>
+</section>
+
+<style>
+  .black-owned-banner {
+    background: var(--paper);
+    border-block: 1px solid var(--line-strong);
+  }
+
+  .black-owned-banner-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .black-owned-banner-main {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .black-owned-banner-eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .black-owned-banner-headline {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    max-width: 32ch;
+  }
+
+  .black-owned-banner-subhead {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 56ch;
+  }
+
+  .black-owned-banner-fineprint {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    margin-top: 4px;
+  }
+</style>

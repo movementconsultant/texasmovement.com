@@ -1,0 +1,46 @@
+---
+// src/components/FounderContextLink.astro
+//
+// Mark 30 — the real, owner-authorized outbound link to alexandermathai.com
+// for /ecosystem's "FOUNDER CONTEXT" section. Delegated to its own
+// component so /ecosystem.astro's own literal source stays free of a
+// direct http(s) href — the same "no conversion surface in the page's own
+// source" architecture already used by ConsultingCTA.astro and
+// HeroProductCarousel.astro (see tests/hub-routes.test.ts's forbidden-
+// pattern sweep, and src/lib/hub-routes.ts's header comment). The href is
+// sourced from PROPERTIES.founder.url, not hardcoded.
+import { PROPERTIES } from "@/lib/site";
+
+const founder = PROPERTIES.founder;
+---
+
+<a href={founder.url} target="_blank" rel="noopener noreferrer" class="founder-context-link">
+  Visit alexandermathai.com <span class="arrow">→</span>
+</a>
+
+<style>
+  .founder-context-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .founder-context-link:hover {
+    border-bottom-color: var(--ink);
+  }
+
+  .founder-context-link .arrow {
+    transition: transform 0.18s ease;
+  }
+
+  .founder-context-link:hover .arrow {
+    transform: translateX(3px);
+  }
+</style>
