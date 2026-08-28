@@ -1,0 +1,47 @@
+---
+// src/components/KeynoteReferralLink.astro
+//
+// Mark 31 — a subtle, secondary text link from /consulting to
+// alexandermathai.com for keynote/speaking inquiries, per the owner's
+// explicit "single CTA path" instruction: /consulting's one primary,
+// inescapable CTA stays "Request Diagnostic Brief" (→ /contact); this is
+// a small, de-emphasized referral link, not a competing call-to-action.
+// Delegated to its own component so consulting.astro's own literal source
+// stays free of a direct http(s) href — required because /consulting is
+// covered by tests/hub-routes.test.ts's zero-conversion-surface sweep
+// (same reasoning as ConsultingCTA.astro and HeroProductCarousel.astro).
+// The href is sourced from PROPERTIES.founder.url, not hardcoded.
+//
+// Known, disclosed duplication: this Mark was branched off Mark 29's
+// still-unmerged claude/mark-29-consulting-commerce (a genuine dependency
+// — /consulting's tiers and PurchaseButton only exist there), not off
+// Mark 30's separately unmerged branch, which independently added an
+// equivalent FounderContextLink.astro for /ecosystem. Once both branches
+// merge, these two small components should be consolidated into one
+// shared link component — left as a follow-up rather than creating an
+// artificial dependency between two otherwise-independent Marks.
+import { PROPERTIES } from "@/lib/site";
+
+const founder = PROPERTIES.founder;
+---
+
+<a href={founder.url} target="_blank" rel="noopener noreferrer" class="keynote-referral-link">
+  Keynote &amp; speaking inquiries — alexandermathai.com
+</a>
+
+<style>
+  .keynote-referral-link {
+    display: inline-block;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .keynote-referral-link:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+</style>
