@@ -67,16 +67,16 @@ export interface HubRoute {
 }
 
 export const HUB_ROUTES: readonly HubRoute[] = [
-  { path: "/about", navLabel: "About", postureLabel: null },
-  { path: "/ecosystem", navLabel: "Ecosystem", postureLabel: null },
+  { path: "/consulting", navLabel: "Engagements", postureLabel: "Diagnostic Intake Open — qualified operators" },
+  { path: "/about", navLabel: "Systems", postureLabel: null },
   { path: "/contact", navLabel: "Contact", postureLabel: null },
-  { path: "/consulting", navLabel: "Consulting", postureLabel: "Diagnostic Intake Open — qualified operators" },
+  { path: "/ecosystem", navLabel: null, postureLabel: null },
   {
     path: "/media",
-    navLabel: "Media",
+    navLabel: null,
     postureLabel: "Deployment Pending — Active Signal Telemetry Live via media.texasmovement.com",
   },
-  { path: "/performance", navLabel: "Performance", postureLabel: "Deployment Pending — not yet live" },
+  { path: "/performance", navLabel: null, postureLabel: "Deployment Pending — not yet live" },
   { path: "/distribution", navLabel: null, postureLabel: "Deployment Pending — not yet live" },
   {
     path: "/hero",
@@ -87,10 +87,15 @@ export const HUB_ROUTES: readonly HubRoute[] = [
   { path: "/vault", navLabel: null, postureLabel: null },
 ] as const;
 
-/** Primary-nav entries only, in the order they should render. Matches the
- *  owner's exact Mark 4 instruction: "Primary navigation may include:
- *  About, Ecosystem, Consulting, Media, Performance." HERO, Distribution,
- *  and Partners are deliberately excluded from this list. */
+/** Primary-nav entries only, in the order they should render. Mark 32
+ *  (owner-authorized "Quiet Authority" de-clutter) replaced the Mark 4
+ *  six-item nav with exactly three: Engagements (/consulting, renamed
+ *  from "Consulting" — this is where the pricing tiers live), Systems
+ *  (/about, renamed from "About" — /about's own copy is "operating
+ *  principles," the closest existing route to the owner's "Systems /
+ *  Philosophy" framing), and Contact. Ecosystem, Media, and Performance
+ *  are no longer nav-eligible; their routes are untouched and still
+ *  reachable by direct URL and from /ecosystem's own internal links. */
 export function navRoutes(): readonly HubRoute[] {
   return HUB_ROUTES.filter((r) => r.navLabel !== null);
 }
