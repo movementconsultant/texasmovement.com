@@ -75,8 +75,11 @@ function loadDotEnv() {
   return out;
 }
 const dotenv = loadDotEnv();
-const publicPreviewRaw = process.env.PUBLIC_PREVIEW ?? dotenv.PUBLIC_PREVIEW ?? "true";
-const isPreview = publicPreviewRaw !== "false";
+// Mark 33 — matches src/layouts/Layout.astro's fallback-direction reversal:
+// only the literal string "true" means preview now; unset/anything else
+// means production. See that file's Mark 33 comment for the full record.
+const publicPreviewRaw = process.env.PUBLIC_PREVIEW ?? dotenv.PUBLIC_PREVIEW ?? "false";
+const isPreview = publicPreviewRaw === "true";
 
 /* ---------- parse ecosystem.ts for {domain -> status} ------------------ */
 const eco = readFileSync(CONSTANTS_ECOSYSTEM, "utf8");

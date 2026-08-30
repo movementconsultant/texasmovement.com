@@ -19,11 +19,20 @@ interface Props {
 
 const { title, description, path, ogImage } = Astro.props;
 
-// PUBLIC_PREVIEW convention (see docs/LAUNCH_BLOCKERS.md + PR description):
-// true for this branch's build. When true every page is noindex/nofollow,
-// no canonical tag is emitted, and sitemap.xml ships with zero indexable
-// URLs — see src/pages/sitemap.xml.ts.
-const isPreview = import.meta.env.PUBLIC_PREVIEW !== "false";
+// PUBLIC_PREVIEW convention (see docs/LAUNCH_BLOCKERS.md + PR description).
+// When true every page is noindex/nofollow, no canonical tag is emitted,
+// and sitemap.xml ships with zero indexable URLs — see
+// src/pages/sitemap.xml.ts.
+//
+// Mark 33 (owner-authorized "launch gate override" — explicit, informed
+// acceptance of the open items in docs/LAUNCH_BLOCKERS.md as of this
+// change, recorded there) flipped the fallback: previously ANY value other
+// than the literal string "false" — including unset/misconfigured — meant
+// preview (fail-safe/closed). Now only the literal string "true" means
+// preview; unset or any other value means production (fail-open). This
+// was a deliberate reversal of a documented safety default, not a bug fix
+// — see the Mark 33 PR description for the full record of that decision.
+const isPreview = import.meta.env.PUBLIC_PREVIEW === "true";
 const robots = isPreview ? ROBOTS.staging : ROBOTS.production;
 
 const canonicalUrl = canonical("tmi", path);

@@ -27,13 +27,15 @@ const ROUTES = [
   "/accessibility",
 ];
 
-// PUBLIC_PREVIEW convention: this build ships with PUBLIC_PREVIEW=true, so
-// the sitemap is generated with ZERO indexable URLs (an empty <urlset>)
-// rather than omitted outright — robots.txt also disallows everything, so
-// nothing here is fetched by a well-behaved crawler anyway, but this keeps
-// the file itself from ever advertising production URLs while noindex.
+// PUBLIC_PREVIEW convention: when preview, the sitemap is generated with
+// ZERO indexable URLs (an empty <urlset>) rather than omitted outright —
+// robots.txt also disallows everything in that state, so nothing here is
+// fetched by a well-behaved crawler anyway, but this keeps the file itself
+// from ever advertising production URLs while noindex. See
+// src/layouts/Layout.astro's Mark 33 comment for the fallback-direction
+// reversal this matches.
 export const GET: APIRoute = () => {
-  const isPreview = import.meta.env.PUBLIC_PREVIEW !== "false";
+  const isPreview = import.meta.env.PUBLIC_PREVIEW === "true";
   const urls = isPreview ? [] : ROUTES.map((path) => canonical("tmi", path));
 
   const body = [
