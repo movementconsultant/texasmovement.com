@@ -20,13 +20,19 @@
 // merge, these two small components should be consolidated into one
 // shared link component — left as a follow-up rather than creating an
 // artificial dependency between two otherwise-independent Marks.
+//
+// Mark 32 — copy replaced with the owner's exact given line ("For keynote
+// speaking and live engagements, visit AlexanderMathai.com →"), and moved
+// out of the main page flow entirely on /consulting: it now stands alone
+// as the last element on the page, right above the footer, instead of
+// living inside the closing case-study/stub-note panel.
 import { PROPERTIES } from "@/lib/site";
 
 const founder = PROPERTIES.founder;
 ---
 
 <a href={founder.url} target="_blank" rel="noopener noreferrer" class="keynote-referral-link">
-  Keynote &amp; speaking inquiries — alexandermathai.com
+  For keynote speaking and live engagements, visit AlexanderMathai.com <span class="arrow">→</span>
 </a>
 
 <style>

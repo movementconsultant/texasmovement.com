@@ -18,14 +18,36 @@ import { CONSULTING_TIERS } from "@/lib/commerce/consultingTiers";
 // provided to this build (referenced only via env vars the owner fills in
 // after creating the real Products in their own Stripe dashboard).
 //
-// Mark 31 — "Quiet Authority" scalpel pass. Two owner-provided sections
-// added ("Who It's For" fit/no-fit framing, and a condensed "How It Works"
-// principles grid); one subtle secondary referral link added (keynote/
-// speaking → alexandermathai.com, delegated to KeynoteReferralLink.astro);
-// tier price lines annotated with each engagement's commitment shape. No
-// FAQ or Early Childhood AI Toolkit content exists anywhere in this
-// repo's history to remove — verified against full git history across
-// both this repo and alexandermathai.com before writing any of this.
+// Mark 31 — "Quiet Authority" scalpel pass. Added "Who It's For" fit/no-fit
+// framing and a "How It Works" principles section; added a subtle
+// secondary keynote/speaking referral link. No FAQ or Early Childhood AI
+// Toolkit content ever existed anywhere in this repo's history to remove —
+// verified against full git history across both this repo and
+// alexandermathai.com before writing any of Mark 31 or this Mark.
+//
+// Mark 32 — "Quiet Authority" de-clutter pass. Pure subtraction + spacing,
+// no new copy beyond the owner's own exact given lines:
+//   - Removed the /ecosystem cross-link from the closing stub note — the
+//     ecosystem is implied, not explicitly mapped on this page anymore
+//     (also reflected in the nav: Ecosystem is no longer nav-eligible,
+//     see src/lib/hub-routes.ts).
+//   - Moved the keynote/speaking referral out of the main flow entirely:
+//     it now stands alone as the very last element on the page, right
+//     above the footer, using the owner's exact given copy ("For keynote
+//     speaking and live engagements, visit AlexanderMathai.com →") in
+//     place of Mark 31's own phrasing — see KeynoteReferralLink.astro.
+//   - "How It Works" and "Engagement Tiers" converted from side-by-side
+//     grids to single-column editorial lists (hard 1px top borders,
+//     massive padding between items).
+//   - Doubled padding-block on every major section (new scoped
+//     .section--roomy / .section--roomy-tight modifiers below — these do
+//     NOT touch the shared global .section/.section--tight rules other
+//     pages still use).
+//   - Tier price lines now render as a massive stark monospace number,
+//     with the description below in the smaller muted sans-serif already
+//     used elsewhere on this page.
+// FAQ and Early Childhood AI Toolkit: confirmed (again) not present on
+// this page or anywhere in this repo — nothing to cut on those two points.
 
 const title = pageTitle("tmi", "Consulting");
 const description =
@@ -49,7 +71,7 @@ const howItWorks = [
 
 <Layout title={title} description={description} path="/consulting">
   <main id="main">
-    <section class="section section--tight">
+    <section class="section section--tight section--roomy-tight">
       <div class="wrap">
         <Eyebrow>CONSULTING</Eyebrow>
         <h1>Texas Movement Consulting.</h1>
@@ -70,7 +92,7 @@ const howItWorks = [
       </div>
     </section>
 
-    <section class="section section--panel">
+    <section class="section section--panel section--roomy">
       <div class="wrap">
         <Eyebrow>FOCUS AREAS</Eyebrow>
         <h2>Where this lane is headed.</h2>
@@ -84,7 +106,7 @@ const howItWorks = [
       </div>
     </section>
 
-    <section class="section" aria-labelledby="fit-heading">
+    <section class="section section--roomy" aria-labelledby="fit-heading">
       <div class="wrap">
         <Eyebrow>WHO THIS IS FOR</Eyebrow>
         <h2 id="fit-heading">Fit matters more than budget.</h2>
@@ -108,33 +130,36 @@ const howItWorks = [
       </div>
     </section>
 
-    <section class="section section--panel" aria-labelledby="how-heading">
+    <section class="section section--panel section--roomy" aria-labelledby="how-heading">
       <div class="wrap">
         <Eyebrow>HOW IT WORKS</Eyebrow>
         <h2 id="how-heading">Four principles.</h2>
-        <ul class="principles-grid">
-          {howItWorks.map((item) => (
-            <li>{item}</li>
+        <ul class="editorial-list principles-list">
+          {howItWorks.map((item, i) => (
+            <li>
+              <span class="principle-index">{`0${i + 1}`}</span>
+              <span class="principle-text">{item}</span>
+            </li>
           ))}
         </ul>
       </div>
     </section>
 
-    <section id="tiers" class="section" aria-labelledby="tiers-heading">
+    <section id="tiers" class="section section--roomy" aria-labelledby="tiers-heading">
       <div class="wrap">
         <Eyebrow>ENGAGEMENT TIERS</Eyebrow>
         <h2 id="tiers-heading">Three ways to work together.</h2>
 
-        <div class="tiers-grid">
-          <article class="tier-card" aria-labelledby="tier-diagnostic-heading">
+        <div class="editorial-list tiers-list">
+          <article aria-labelledby="tier-diagnostic-heading">
             <h3 id="tier-diagnostic-heading">Tier 1 · Diagnostic</h3>
-            <p class="tier-price">
-              {CONSULTING_TIERS[0].priceRange} <span class="tier-price-note">one-time · 30 days</span>
-            </p>
+            <p class="tier-price">{CONSULTING_TIERS[0].priceRange}</p>
+            <p class="tier-price-note">One-time · 30 days</p>
             <p class="tier-summary">
               A structured, four-week engagement that turns undocumented operational knowledge into
               a prioritized systems roadmap.
             </p>
+            <p class="tier-subhead">Weeks</p>
             <ul class="check-list">
               <li>Week 1: Stakeholder interviews and current-state mapping</li>
               <li>Week 2: Friction point identification and owner-dependence audit</li>
@@ -151,15 +176,15 @@ const howItWorks = [
             <PurchaseButton tierId="diagnostic" tierName="Diagnostic" />
           </article>
 
-          <article class="tier-card" aria-labelledby="tier-systems-build-heading">
+          <article aria-labelledby="tier-systems-build-heading">
             <h3 id="tier-systems-build-heading">Tier 2 · Systems Build</h3>
-            <p class="tier-price">
-              {CONSULTING_TIERS[1].priceRange} <span class="tier-price-note">scoped project</span>
-            </p>
+            <p class="tier-price">{CONSULTING_TIERS[1].priceRange}</p>
+            <p class="tier-price-note">Scoped project</p>
             <p class="tier-summary">
               Implementation of the roadmap: real systems built, tested, and documented alongside
               your team, not handed off as a slide deck.
             </p>
+            <p class="tier-subhead">Sprints</p>
             <ul class="check-list">
               <li>2-4 implementation sprints (2 weeks each)</li>
               <li>AI workflow design and testing with your team</li>
@@ -176,15 +201,15 @@ const howItWorks = [
             <PurchaseButton tierId="systems-build" tierName="Systems Build" />
           </article>
 
-          <article class="tier-card" aria-labelledby="tier-retainer-heading">
+          <article aria-labelledby="tier-retainer-heading">
             <h3 id="tier-retainer-heading">Tier 3 · Operator Retainer</h3>
-            <p class="tier-price">
-              {CONSULTING_TIERS[2].priceRange} <span class="tier-price-note">3-month minimum</span>
-            </p>
+            <p class="tier-price">{CONSULTING_TIERS[2].priceRange}</p>
+            <p class="tier-price-note">3-month minimum</p>
             <p class="tier-summary">
               Ongoing systems stewardship for operators who need ongoing calibration, not a one-time
               engagement.
             </p>
+            <p class="tier-subhead">Cadence</p>
             <ul class="check-list">
               <li>Weekly systems check-in (30-60 min)</li>
               <li>Async decision support via structured briefs</li>
@@ -204,7 +229,7 @@ const howItWorks = [
       </div>
     </section>
 
-    <section class="section section--panel">
+    <section class="section section--panel section--roomy">
       <div class="wrap">
         <div class="divisions-grid">
           <div class="division">
@@ -219,15 +244,16 @@ const howItWorks = [
         <div class="stub-note">
           Pricing above reflects each tier's published range; the exact amount for a given
           engagement is confirmed before checkout. There is still no booking link, calendar, or
-          availability statement on this page beyond the purchase and contact routes above. See
-          the <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest of
-          Texas Movement International.
-        </div>
-        <div class="keynote-referral-row">
-          <KeynoteReferralLink />
+          availability statement on this page beyond the purchase and contact routes above.
         </div>
       </div>
     </section>
+
+    <div class="keynote-referral-row">
+      <div class="wrap">
+        <KeynoteReferralLink />
+      </div>
+    </div>
   </main>
 </Layout>
 
@@ -254,6 +280,19 @@ const howItWorks = [
     position: absolute;
     left: 0;
     color: var(--ink-soft);
+  }
+
+  /* Mark 32 — doubles the shared global .section (88px) / .section--tight
+     (72px) padding-block for this page's major sections only. Scoped to
+     this component by Astro (never a :global() rule), so it has zero
+     effect on any other page still using the plain .section /
+     .section--tight classes. */
+  .section--roomy {
+    padding-block: 176px;
+  }
+
+  .section--roomy-tight {
+    padding-block: 144px;
   }
 
   .fit-grid {
@@ -284,72 +323,86 @@ const howItWorks = [
     }
   }
 
-  .principles-grid {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    margin-top: 28px;
-    padding: 0;
-    background: var(--line-strong);
-    border: 1px solid var(--line-strong);
-  }
-
-  .principles-grid li {
-    background: var(--panel);
-    padding: 22px 20px;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.82rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--ink);
-  }
-
-  @media (max-width: 40rem) {
-    .principles-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .tiers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    gap: 28px;
+  /* Mark 32 — the shared "single-column editorial list" pattern for both
+     How It Works and Engagement Tiers: a hard top border on every item,
+     a matching bottom border after the last, and generous padding so
+     each item reads as its own quiet block rather than a crowded card. */
+  .editorial-list {
+    display: flex;
+    flex-direction: column;
     margin-top: 32px;
   }
 
-  .tier-card {
-    border: 1px solid var(--line-strong);
-    padding: 20px;
+  .editorial-list > * {
+    border-top: 1px solid var(--line-strong);
+    padding-block: 56px;
+  }
+
+  .editorial-list > *:last-child {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .principles-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .principles-list li {
     display: flex;
-    flex-direction: column;
+    align-items: baseline;
+    gap: 24px;
   }
 
-  .tier-card h3 {
-    font-size: 1.1rem;
+  .principle-index {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    flex: none;
   }
 
+  .principle-text {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .tiers-list h3 {
+    font-size: 1.2rem;
+  }
+
+  /* Massive, stark monospace price — the numbers are the visual anchor
+     of each tier row, per the owner's exact typography-hierarchy spec. */
   .tier-price {
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
     color: var(--ink);
-    margin-top: 4px;
+    margin-top: 12px;
   }
 
   .tier-price-note {
-    font-weight: 400;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.7rem;
     color: var(--ink-soft);
+    margin-top: 4px;
   }
 
+  /* Muted sans-serif description, deliberately smaller and quieter than
+     the price above it — no font-family override, so it inherits the
+     page's default sans stack rather than the monospace used for labels
+     and numbers. */
   .tier-summary {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--ink-soft);
-    line-height: 1.5;
-    margin-top: 10px;
+    line-height: 1.6;
+    margin-top: 16px;
+    max-width: 42rem;
   }
 
   .tier-subhead {
@@ -358,10 +411,11 @@ const howItWorks = [
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink);
-    margin-top: 10px;
+    margin-top: 18px;
   }
 
   .keynote-referral-row {
-    margin-top: 20px;
+    padding-block: 40px;
+    border-top: 1px solid var(--line-strong);
   }
 </style>

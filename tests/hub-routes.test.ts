@@ -165,16 +165,25 @@ describe("no page presents Health, FounderLink, Social/Gather, or Reparations as
   });
 });
 
-describe("primary navigation matches the owner's exact Mark 4 instruction, plus Mark 18's Contact addition", () => {
-  it("navRoutes() returns exactly About, Ecosystem, Contact, Consulting, Media, Performance, in that order", () => {
-    expect(navRoutes().map((r) => r.navLabel)).toEqual([
-      "About",
-      "Ecosystem",
-      "Contact",
-      "Consulting",
-      "Media",
-      "Performance",
-    ]);
+describe("primary navigation matches Mark 32's 'Quiet Authority' de-clutter: exactly three items", () => {
+  it("navRoutes() returns exactly Engagements, Systems, Contact, in that order", () => {
+    expect(navRoutes().map((r) => r.navLabel)).toEqual(["Engagements", "Systems", "Contact"]);
+  });
+
+  it("Engagements points at /consulting and Systems points at /about", () => {
+    const byLabel = new Map(navRoutes().map((r) => [r.navLabel, r.path]));
+    expect(byLabel.get("Engagements")).toBe("/consulting");
+    expect(byLabel.get("Systems")).toBe("/about");
+  });
+
+  it("Ecosystem, Media, and Performance are real routes but no longer nav-eligible", () => {
+    const navPaths = new Set(navRoutes().map((r) => r.path));
+    expect(navPaths.has("/ecosystem")).toBe(false);
+    expect(navPaths.has("/media")).toBe(false);
+    expect(navPaths.has("/performance")).toBe(false);
+    expect(() => sourceFor("/ecosystem")).not.toThrow();
+    expect(() => sourceFor("/media")).not.toThrow();
+    expect(() => sourceFor("/performance")).not.toThrow();
   });
 
   it("HERO, Distribution, and Partners are real routes but excluded from primary nav", () => {

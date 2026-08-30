@@ -996,42 +996,9 @@ footer.site-footer {
   color: var(--white);
 }
 
-/* Current-page marker — neutral white under Mark 19's strict accent
-   restraint (not a live/status claim; footer nav's items list is
-   currently always empty, so this rule is presently dormant, same as
-   before). */
-.footer-nav [aria-current="page"] {
-  position: relative;
-  padding-left: 12px;
-  color: var(--white);
-}
-
-.footer-nav [aria-current="page"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 1px;
-  background: var(--white);
-}
-
-.footer-legal {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+.footer-copyright {
+  display: block;
   margin-top: 14px;
-}
-
-.footer-legal a:hover {
-  color: var(--white);
-}
-
-.footer-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 
 @media (max-width: 900px) {
