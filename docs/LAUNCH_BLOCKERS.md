@@ -203,3 +203,25 @@ section being clickable)
       `check-public-output.mjs`, `astro check`, `vitest`, `axe-core`) passes clean on both the
       original rebuild and the Pass 2 homepage rewrite — see the PR description for exact commands
       and output from this pass.
+
+## Mark 33 — launch gate override (owner-authorized, explicit)
+
+As of Mark 33, the owner explicitly overrode the launch gate this document exists to enforce,
+accepting the following gaps as known and shipping anyway:
+
+- The homepage still has **no primary CTA element at all** — `hello@texasmovement.com` remains
+  absent from `VERIFIED_INBOXES` (`src/lib/site.ts`), so `verifiedGeneralContact()` still returns
+  `null`. See the "Inbox verification" section above for the exact one-line unblock once the
+  mailbox is actually provisioned and monitored.
+- The canonical LinkedIn Company Page URL is still unconfirmed; both candidate URLs remain held
+  out of all public output (see "LinkedIn Company Page URL" above).
+- `/privacy`, `/terms`, and `/accessibility` remain honest stub pages, not real legal text.
+
+Mechanically, this override is implemented as a fallback-direction reversal on `PUBLIC_PREVIEW` —
+see `src/layouts/Layout.astro`'s Mark 33 comment. It previously failed SAFE (anything but the
+literal string `"false"`, including unset, meant preview/noindex); it now fails OPEN (only the
+literal string `"true"` means preview; unset means production/indexable). This means the site is
+now indexable and rendering production URLs/canonicals by default, with the gaps above still
+open. This document is intentionally left in place, unmodified above this section, as the record
+of what was known and explicitly accepted at the time of that decision — not deleted or archived,
+even though the launch it was gating has now happened.

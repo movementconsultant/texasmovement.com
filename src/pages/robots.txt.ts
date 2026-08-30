@@ -3,13 +3,11 @@ import { PROPERTIES } from "@tmi/constants";
 
 export const prerender = true;
 
-// PUBLIC_PREVIEW convention (see docs/LAUNCH_BLOCKERS.md): this build ships
-// with PUBLIC_PREVIEW=true, so robots.txt disallows everything and doesn't
-// reference a sitemap — matching the noindex meta tag every page emits via
-// src/layouts/Layout.astro. Flip PUBLIC_PREVIEW=false only for a real
-// production deploy.
+// PUBLIC_PREVIEW convention (see docs/LAUNCH_BLOCKERS.md). Matches the
+// noindex meta tag every page emits via src/layouts/Layout.astro — see
+// that file's Mark 33 comment for the fallback-direction reversal.
 export const GET: APIRoute = () => {
-  const isPreview = import.meta.env.PUBLIC_PREVIEW !== "false";
+  const isPreview = import.meta.env.PUBLIC_PREVIEW === "true";
 
   const body = isPreview
     ? ["User-agent: *", "Disallow: /", ""].join("\n")
