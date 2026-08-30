@@ -129,19 +129,23 @@ describe("liveSocialAccounts / liveSocialAccountsForLane", () => {
 });
 
 describe("isVerifiedInbox / verifiedGeneralContact", () => {
-  it("VERIFIED_INBOXES is empty by default — nothing is verified until a human confirms it", () => {
-    expect(VERIFIED_INBOXES.length).toBe(0);
+  it("Final Code-Level Unblock — VERIFIED_INBOXES holds exactly the two owner-confirmed inboxes", () => {
+    expect(VERIFIED_INBOXES).toEqual(["hello@texasmovement.com", "consulting@texasmovement.com"]);
   });
 
-  it("returns false for every known inbox while VERIFIED_INBOXES is empty", () => {
-    expect(isVerifiedInbox("hello@texasmovement.com")).toBe(false);
+  it("isVerifiedInbox is true for the two confirmed inboxes, false for everything else", () => {
+    expect(isVerifiedInbox("hello@texasmovement.com")).toBe(true);
+    expect(isVerifiedInbox("consulting@texasmovement.com")).toBe(true);
     expect(isVerifiedInbox("alexander@texasmovement.com")).toBe(false);
     expect(isVerifiedInbox(undefined)).toBe(false);
     expect(isVerifiedInbox(null)).toBe(false);
   });
 
-  it("verifiedGeneralContact() returns null while nothing is verified — callers must render no CTA", () => {
-    expect(verifiedGeneralContact()).toBeNull();
+  it("verifiedGeneralContact() now returns the real homepage CTA", () => {
+    expect(verifiedGeneralContact()).toEqual({
+      href: "mailto:hello@texasmovement.com",
+      label: "Contact Texas Movement",
+    });
   });
 });
 

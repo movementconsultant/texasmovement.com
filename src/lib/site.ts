@@ -26,9 +26,22 @@ import type { PropertyKey, SocialAccount } from "@tmi/constants";
  * Edit this list only after manually confirming an inbox forwards.
  * This is intentionally NOT sourced from org.ts — org.ts lists every
  * inbox that SHOULD exist, not every inbox confirmed to exist.
+ *
+ * Final Code-Level Unblock — the owner explicitly confirmed both inboxes
+ * below as provisioned and accepted operational responsibility for
+ * monitoring them (the three-part precondition docs/LAUNCH_BLOCKERS.md's
+ * "Inbox verification" section describes — provisioned, test-received,
+ * monitored — is satisfied by that explicit confirmation, per that
+ * section's own "single, explicit, one-line instruction... to close out"
+ * language). "hello@texasmovement.com" is what verifiedGeneralContact()
+ * below actually checks, unblocking the homepage's primary CTA;
+ * "consulting@texasmovement.com" isn't consumed by any live template yet
+ * (see INBOXES.consulting in packages/constants/src/org.ts) but is now
+ * recorded as verified for when it is.
  */
 export const VERIFIED_INBOXES: readonly string[] = [
-  // "hello@texasmovement.com",  <- uncomment only after confirming
+  "hello@texasmovement.com",
+  "consulting@texasmovement.com",
 ];
 
 export function isVerifiedInbox(address: string | undefined | null): boolean {
