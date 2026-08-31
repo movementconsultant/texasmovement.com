@@ -3,9 +3,9 @@ import { PROPERTIES } from "@tmi/constants";
 
 export const prerender = true;
 
-// PUBLIC_PREVIEW convention (see docs/LAUNCH_BLOCKERS.md). Matches the
-// noindex meta tag every page emits via src/layouts/Layout.astro — see
-// that file's Mark 33 comment for the fallback-direction reversal.
+// PUBLIC_PREVIEW convention. Matches the noindex meta tag every page
+// emits via src/layouts/Layout.astro — see that file's Mark 33 comment
+// for the fallback-direction reversal.
 export const GET: APIRoute = () => {
   const isPreview = import.meta.env.PUBLIC_PREVIEW === "true";
 

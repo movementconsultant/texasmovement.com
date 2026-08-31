@@ -4,8 +4,7 @@ import {
   isFooterEligible,
   liveSocialAccounts,
   liveSocialAccountsForLane,
-  isVerifiedInbox,
-  verifiedGeneralContact,
+  GENERAL_CONTACT,
   isLiveProperty,
   isPrivateProperty,
   ecosystemEntry,
@@ -13,7 +12,6 @@ import {
   safeOrganizationJsonLd,
   CONTACT_CTA_LABEL,
   LINKEDIN_URL_PENDING,
-  VERIFIED_INBOXES,
   PROPERTIES,
   PROPERTY_ORDER,
 } from "../src/lib/site";
@@ -50,9 +48,8 @@ describe("no Building or Private property can appear as a link anywhere", () => 
   // These are unit-level proofs of the underlying gates every surface
   // (Header.astro, Footer.astro, index.astro's ecosystem teaser, lanes.astro)
   // is required to call before rendering an <a> for a property. Combined
-  // with the dist/ grep sweep run as part of this change's validation
-  // (see docs/LAUNCH_BLOCKERS.md), this covers both the logic and the
-  // actual rendered output.
+  // with the dist/ grep sweep run as part of this change's validation, this
+  // covers both the logic and the actual rendered output.
   it("every property is building, private, or (if ever) live — never left unbadged", () => {
     for (const key of PROPERTY_ORDER) {
       expect(ecosystemEntry(key)).toBeDefined();
@@ -128,21 +125,9 @@ describe("liveSocialAccounts / liveSocialAccountsForLane", () => {
   });
 });
 
-describe("isVerifiedInbox / verifiedGeneralContact", () => {
-  it("Final Code-Level Unblock — VERIFIED_INBOXES holds exactly the two owner-confirmed inboxes", () => {
-    expect(VERIFIED_INBOXES).toEqual(["hello@texasmovement.com", "consulting@texasmovement.com"]);
-  });
-
-  it("isVerifiedInbox is true for the two confirmed inboxes, false for everything else", () => {
-    expect(isVerifiedInbox("hello@texasmovement.com")).toBe(true);
-    expect(isVerifiedInbox("consulting@texasmovement.com")).toBe(true);
-    expect(isVerifiedInbox("alexander@texasmovement.com")).toBe(false);
-    expect(isVerifiedInbox(undefined)).toBe(false);
-    expect(isVerifiedInbox(null)).toBe(false);
-  });
-
-  it("verifiedGeneralContact() now returns the real homepage CTA", () => {
-    expect(verifiedGeneralContact()).toEqual({
+describe("GENERAL_CONTACT", () => {
+  it("Mark 34 — renders unconditionally, no verification gate", () => {
+    expect(GENERAL_CONTACT).toEqual({
       href: "mailto:hello@texasmovement.com",
       label: "Contact Texas Movement",
     });
@@ -218,18 +203,11 @@ describe("LinkedIn URL held pending confirmation", () => {
 });
 
 describe("primary CTA copy", () => {
-  it("CONTACT_CTA_LABEL matches the exact approved copy, independent of verification state", () => {
+  it("CONTACT_CTA_LABEL matches the exact approved copy", () => {
     expect(CONTACT_CTA_LABEL).toBe("Contact Texas Movement");
   });
 
-  it("verifiedGeneralContact(), if ever non-null, would use CONTACT_CTA_LABEL", () => {
-    // Currently null (VERIFIED_INBOXES is empty) — this just documents the
-    // contract so it can't silently drift if the inbox is later verified.
-    const cta = verifiedGeneralContact();
-    if (cta) {
-      expect(cta.label).toBe(CONTACT_CTA_LABEL);
-    } else {
-      expect(cta).toBeNull();
-    }
+  it("GENERAL_CONTACT uses CONTACT_CTA_LABEL", () => {
+    expect(GENERAL_CONTACT.label).toBe(CONTACT_CTA_LABEL);
   });
 });

@@ -20,33 +20,16 @@ import {
 } from "@tmi/constants";
 import type { PropertyKey, SocialAccount } from "@tmi/constants";
 
-/**
- * Inboxes confirmed live and forwarding as of this build.
- * EMPTY by default — nothing is verified until a human confirms it.
- * Edit this list only after manually confirming an inbox forwards.
- * This is intentionally NOT sourced from org.ts — org.ts lists every
- * inbox that SHOULD exist, not every inbox confirmed to exist.
- *
- * Final Code-Level Unblock — the owner explicitly confirmed both inboxes
- * below as provisioned and accepted operational responsibility for
- * monitoring them (the three-part precondition docs/LAUNCH_BLOCKERS.md's
- * "Inbox verification" section describes — provisioned, test-received,
- * monitored — is satisfied by that explicit confirmation, per that
- * section's own "single, explicit, one-line instruction... to close out"
- * language). "hello@texasmovement.com" is what verifiedGeneralContact()
- * below actually checks, unblocking the homepage's primary CTA;
- * "consulting@texasmovement.com" isn't consumed by any live template yet
- * (see INBOXES.consulting in packages/constants/src/org.ts) but is now
- * recorded as verified for when it is.
- */
-export const VERIFIED_INBOXES: readonly string[] = [
-  "hello@texasmovement.com",
-  "consulting@texasmovement.com",
-];
-
-export function isVerifiedInbox(address: string | undefined | null): boolean {
-  return !!address && VERIFIED_INBOXES.includes(address);
-}
+// Mark 34 ("Open the Doors") — the owner explicitly retired the
+// VERIFIED_INBOXES gate this file used to enforce (isVerifiedInbox() /
+// verifiedGeneralContact(), which returned null and rendered no CTA at
+// all until an address was individually confirmed). Both
+// hello@texasmovement.com and consulting@texasmovement.com were already
+// explicitly confirmed provisioned and monitored (see git history / the
+// "Final Code-Level Unblock" pass) before this Mark removed the gate
+// mechanism itself, per the owner's explicit "bare minimum regulation"
+// direction — see GENERAL_CONTACT below, which every contact surface now
+// renders unconditionally.
 
 /**
  * Accounts intentionally withheld from ALL public output pending an explicit
@@ -272,21 +255,13 @@ export function safeOrganizationJsonLd() {
   };
 }
 
-/** Exact CTA copy Alexander specified for the site's one primary CTA. Kept
- *  as a named export so it's independently testable regardless of
- *  VERIFIED_INBOXES state. */
+/** Exact CTA copy Alexander specified for the site's one primary CTA. */
 export const CONTACT_CTA_LABEL = "Contact Texas Movement";
 
-/**
- * The ONE contact route this build is allowed to expose.
- * Returns null if nothing is verified — callers MUST render no CTA in that
- * case, never a placeholder, never a raw mailto to an unverified address.
- */
-export function verifiedGeneralContact(): { href: string; label: string } | null {
-  const general = "hello@texasmovement.com"; // INBOXES.general
-  if (!isVerifiedInbox(general)) return null;
-  return { href: mailto(general), label: CONTACT_CTA_LABEL };
-}
+/** The site's one general-contact CTA. Mark 34 — renders unconditionally;
+ *  hello@texasmovement.com is a real, confirmed-monitored inbox (see
+ *  git history), not a placeholder. */
+export const GENERAL_CONTACT = { href: mailto("hello@texasmovement.com"), label: CONTACT_CTA_LABEL };
 
 /** Is this property safe to render as a live, clickable nav/footer/lane-grid
  *  destination? Mirrors the same "status === live" gate liveFooterFor()

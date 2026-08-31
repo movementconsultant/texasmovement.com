@@ -1,21 +1,36 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Eyebrow from "@/components/Eyebrow.astro";
-import PurchaseButton from "@/components/PurchaseButton.astro";
+import ConsultingEmailCta from "@/components/ConsultingEmailCta.astro";
 import { pageTitle } from "@tmi/constants";
 import { hubRoute } from "@/lib/hub-routes";
 import { CONSULTING_TIERS } from "@/lib/commerce/consultingTiers";
 
 // Mark 29 — explicit owner policy amendment: real purchase functionality
 // (Stripe Checkout) added to this page's three engagement tiers, alongside
-// expanded copy. This is a further step on the same reconciliation Mark 28
-// already established for this route: /consulting's own status/copy is
-// kept truthful to what the page actually does, rather than left stale.
-// See src/lib/commerce/consultingTiers.ts, src/components/PurchaseButton.astro,
-// and workers/stripe-checkout/ for the full implementation record,
-// including the disclosed gap that real Stripe Price IDs were never
-// provided to this build (referenced only via env vars the owner fills in
-// after creating the real Products in their own Stripe dashboard).
+// expanded copy. See src/lib/commerce/consultingTiers.ts and
+// workers/stripe-checkout/ for the commerce backend, still deployed and
+// available (see hub-routes.ts) but no longer linked from this page.
+//
+// Mark 34 ("Open the Doors") — the owner's explicit "bare minimum
+// regulation, frictionless intake" direction. The Stripe "Purchase [Tier]"
+// buttons are replaced with plain "Email Us" mailto CTAs (see
+// ConsultingEmailCta.astro) — real purchase functionality is still real,
+// it's just gated by conversation instead of checkout. A new "Connected
+// Lanes" section (real internal links, no external claims) replaces the
+// old ecosystem cross-link that lived in the closing stub note. All
+// copy below is either the owner's own already-approved text (the hero
+// bullets, tier breakdowns) or real site navigation — no new marketing
+// claims were invented for this pass.
+//
+// Disclosed gap: the owner's Mark 34 brief asked to "bring back" an
+// "Early Childhood AI Toolkit" section and an FAQ section from "legacy
+// HTML" content. No such content exists anywhere in this repo's git
+// history (verified directly, again, before writing this file — see
+// Mark 31's identical finding) or anywhere in this conversation. Rather
+// than invent a product description and FAQ answers for a real business,
+// both are left out of this pass. Paste the actual legacy source and
+// they can be added for real.
 
 const title = pageTitle("tmi", "Consulting");
 const description =
@@ -28,11 +43,18 @@ const whatYouGet = [
   "AI workflow implementation with your team co-owning the build",
   "Ongoing operator support for founders who need systems stewardship",
 ];
+
+const connectedLanes = [
+  { label: "About", body: "How Texas Movement International operates.", href: "/about" },
+  { label: "Ecosystem", body: "Every lane this consulting practice connects to.", href: "/ecosystem" },
+  { label: "Media", body: "Documentation and signal from the work itself.", href: "/media" },
+  { label: "Performance", body: "The training and movement lane.", href: "/performance" },
+];
 ---
 
 <Layout title={title} description={description} path="/consulting">
   <main id="main">
-    <section class="section section--tight">
+    <section class="section section--tight section--roomy">
       <div class="wrap">
         <Eyebrow>CONSULTING</Eyebrow>
         <h1>Texas Movement Consulting.</h1>
@@ -40,7 +62,7 @@ const whatYouGet = [
         <p>
           Consulting is the advisory and systems capability lane of Texas Movement International:
           turning operational and technical expertise into repeatable, documented systems rather
-          than one-off advice. Diagnostic intake is open for qualified operators — see below.
+          than one-off advice. Diagnostic intake is open — see below.
         </p>
         <ul class="check-list">
           {whatYouGet.map((item) => (
@@ -53,7 +75,7 @@ const whatYouGet = [
       </div>
     </section>
 
-    <section class="section section--panel">
+    <section class="section section--panel section--roomy">
       <div class="wrap">
         <Eyebrow>FOCUS AREAS</Eyebrow>
         <h2>Where this lane is headed.</h2>
@@ -67,7 +89,7 @@ const whatYouGet = [
       </div>
     </section>
 
-    <section id="tiers" class="section" aria-labelledby="tiers-heading">
+    <section id="tiers" class="section section--roomy" aria-labelledby="tiers-heading">
       <div class="wrap">
         <Eyebrow>ENGAGEMENT TIERS</Eyebrow>
         <h2 id="tiers-heading">Three ways to work together.</h2>
@@ -93,7 +115,7 @@ const whatYouGet = [
               <li>Prioritized implementation roadmap</li>
               <li>Decision record template for ongoing use</li>
             </ul>
-            <PurchaseButton tierId="diagnostic" tierName="Diagnostic" />
+            <ConsultingEmailCta label="Email Us" subject="Diagnostic — let's talk" />
           </article>
 
           <article class="tier-card" aria-labelledby="tier-systems-build-heading">
@@ -116,7 +138,7 @@ const whatYouGet = [
               <li>Decision support systems for recurring choices</li>
               <li>Cross-team coordination and handoff protocols</li>
             </ul>
-            <PurchaseButton tierId="systems-build" tierName="Systems Build" />
+            <ConsultingEmailCta label="Email Us" subject="Systems Build — let's talk" />
           </article>
 
           <article class="tier-card" aria-labelledby="tier-retainer-heading">
@@ -139,13 +161,39 @@ const whatYouGet = [
               <li>Teams implementing AI workflows who need ongoing calibration</li>
               <li>Companies preparing for funding, acquisition, or leadership transition</li>
             </ul>
-            <PurchaseButton tierId="retainer" tierName="Operator Retainer" />
+            <ConsultingEmailCta label="Get in Touch" subject="Operator Retainer — let's talk" />
           </article>
+        </div>
+        <p class="tiers-note">
+          No booking link, calendar, or scheduling tool — email starts the conversation, and we
+          answer.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--panel section--roomy" aria-labelledby="connected-lanes-heading">
+      <div class="wrap">
+        <Eyebrow>CONNECTED LANES</Eyebrow>
+        <h2 id="connected-lanes-heading">Part of the wider ecosystem.</h2>
+        <p>
+          Consulting doesn't operate in isolation — it draws on and feeds the rest of Texas
+          Movement International.
+        </p>
+        <div class="divisions-grid">
+          {connectedLanes.map((lane) => (
+            <div class="division">
+              <div class="division-label">{lane.label}</div>
+              <p class="division-body">{lane.body}</p>
+              <div class="division-links">
+                <a href={lane.href}>{lane.label} →</a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
 
-    <section class="section section--panel">
+    <section class="section section--roomy">
       <div class="wrap">
         <div class="divisions-grid">
           <div class="division">
@@ -156,13 +204,6 @@ const whatYouGet = [
               will only be added once one exists and is confirmed for publication.
             </p>
           </div>
-        </div>
-        <div class="stub-note">
-          Pricing above reflects each tier's published range; the exact amount for a given
-          engagement is confirmed before checkout. There is still no booking link, calendar, or
-          availability statement on this page beyond the purchase and contact routes above. See the
-          <a href="/ecosystem">ecosystem overview</a> for how this lane fits into the rest of Texas
-          Movement International.
         </div>
       </div>
     </section>
@@ -194,16 +235,31 @@ const whatYouGet = [
     color: var(--ink-soft);
   }
 
+  /* Mark 34 — a more generous, inviting rhythm than the shared global
+     .section (88px) / .section--tight (72px) padding-block, scoped to
+     this page only (Astro scopes component <style> blocks automatically;
+     this is not a :global() rule, so it has zero effect on any other
+     page still using the plain classes). */
+  .section--roomy {
+    padding-block: 132px;
+  }
+
   .tiers-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    gap: 20px;
-    margin-top: 16px;
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  .tiers-note {
+    margin-top: 24px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
   }
 
   .tier-card {
     border: 1px solid var(--line-strong);
-    padding: 20px;
+    padding: 28px;
     display: flex;
     flex-direction: column;
   }

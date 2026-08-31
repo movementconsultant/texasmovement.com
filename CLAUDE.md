@@ -24,10 +24,12 @@ repos, out of scope here.
 > route inventory and safeguards. This note does not change `@tmi/constants` itself (still not
 > edited speculatively, per rule 7 below) — only this file's own description of current practice.
 
-Current state: this is a **placeholder/hub launch**, not the finished business site. It is
-honest about what's live, what's still being built, and what isn't confirmed yet — see
-`docs/IMPLEMENTATION_STATUS.md` for a snapshot and `docs/LAUNCH_BLOCKERS.md` for exactly what's
-blocking each remaining piece.
+Current state: as of Mark 34 ("Open the Doors"), the owner explicitly moved this from a gated
+placeholder/hub launch to a live, open site — see `docs/IMPLEMENTATION_STATUS.md` for a snapshot
+of what's built. It is still honest about what's live vs. still being built (see rule 4 below);
+the prior formal `LAUNCH_BLOCKERS.md` readiness-checklist document was retired, not because the
+underlying facts changed, but because the owner decided a formal gate document was no longer the
+right mechanism for this site.
 
 ## Non-negotiable safety rules
 
@@ -38,17 +40,15 @@ seems to imply it's fine.
    `ORG.mailingAddress.street`/`.postalCode` are `TBD` in `packages/constants/src/org.ts` for a
    reason — they are unfiled/unconfirmed facts. Never invent a value for any of these. Never
    publish a home address as the mailing address.
-2. **No unverified CTAs.** A contact route (mailto, form action) may only go live once its inbox
-   is in `VERIFIED_INBOXES` (`src/lib/site.ts`) — and that list may only ever contain
-   *operationally* confirmed addresses (mailbox provisioned + test email received + someone
-   confirmed to monitor it), never addresses that are merely brand-approved or "probably fine."
-   If nothing is verified, the CTA slot renders nothing — not a disabled-looking button, not a
-   placeholder. See `verifiedGeneralContact()` in `src/lib/site.ts` and
-   `docs/LAUNCH_BLOCKERS.md`.
+2. **Contact CTAs render unconditionally (Mark 34, "Open the Doors").** The prior
+   `VERIFIED_INBOXES`/`verifiedGeneralContact()` gate was deliberately retired by the owner — see
+   `GENERAL_CONTACT` in `src/lib/site.ts`. This does not license inventing a *new* address that was
+   never given by the owner; it means an owner-given address no longer needs a separate
+   provisioned/monitored confirmation step before it can appear as a live CTA.
 3. **No literal `TBD` in public output, ever.** `scripts/check-public-output.mjs` runs after every
    build (wired as `postbuild`) and fails the build if `TBD`/`__TBD__` appears anywhere under
-   `dist/`. Unresolved facts stay `TBD` in the source constants and get logged in
-   `docs/LAUNCH_BLOCKERS.md` — never silently filled in with a guess to make the check pass.
+   `dist/`. Unresolved facts stay `TBD` in the source constants — never silently filled in with a
+   guess to make the check pass.
 4. **Lifecycle gating.** Every property in `packages/constants/src/ecosystem.ts` has a `status`
    (`live` / `building` / `planned` / `retired`). Only `status: "live"` properties may appear as a
    clickable nav/footer/lane-grid destination anywhere in this site's output — `building`/`planned`
