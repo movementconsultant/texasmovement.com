@@ -8,10 +8,13 @@
    ConsultingCTA's primary button, a second entry point to that same
    /contact intake path. Mark 30 (owner-authorized) added a fourth use —
    the homepage BlackOwnedBanner's "Claim Your Slot" button, a third entry
-   point to that same /contact path — see .btn--accent's own comment. Every other
-   former accent use (focus ring, skip-link, footer current-page marker,
-   decorative eyebrow/border accents) still uses neutral white/structural-
-   gray instead.
+   point to that same /contact path. Mark 34 ("Open the Doors") added a
+   fifth use — the /consulting page's per-tier "Email Us" / "Get in
+   Touch" buttons (ConsultingEmailCta.astro), which replaced the prior
+   Stripe "Purchase [Tier]" buttons — see .btn--accent's own comment.
+   Every other former accent use (focus ring, skip-link, footer
+   current-page marker, decorative eyebrow/border accents) still uses
+   neutral white/structural-gray instead.
 
    Contrast-checked (WCAG 2.1 AA, 4.5:1 minimum for body text):
      --ink-soft (#888888) on --paper (#050505) = 6.1:1
@@ -413,7 +416,13 @@ p {
    spec ("Signal Green accent on the CTA button" only), the banner's
    eyebrow text and section border stay on the neutral --ink-soft/--line-
    strong tokens — still no accent on eyebrows, decorative borders, or
-   hovers anywhere else. */
+   hovers anywhere else.
+
+   Mark 34 ("Open the Doors," owner-authorized) added a fourth fill use:
+   /consulting's three per-tier "Email Us" / "Get in Touch" buttons
+   (src/components/ConsultingEmailCta.astro), replacing the prior Stripe
+   "Purchase [Tier]" buttons. Same accent restraint applies — no accent on
+   the surrounding tier-card borders, headings, or price text. */
 .btn--accent {
   background: var(--ff-accent-signal);
   color: #04120a;
@@ -1043,6 +1052,20 @@ footer.site-footer {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+/* Mark 34 — bare-minimum legal compliance line, moved here from
+   page-level "honest stub" banners on /privacy, /terms, /accessibility.
+   Deliberately muted and small: a real disclosure, not a warning box. */
+.footer-disclaimer {
+  margin-top: 6px;
+  max-width: 46rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+  text-transform: none;
 }
 
 @media (max-width: 900px) {

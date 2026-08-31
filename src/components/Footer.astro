@@ -20,6 +20,11 @@ const year = new Date().getFullYear();
         <nav class="footer-legal" aria-label="Legal">
           {LEGAL_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
         </nav>
+        <span class="footer-disclaimer">
+          Texas Movement International provides systems and operational consulting. We do not
+          provide legal, tax, or medical advice. Please consult licensed professionals for those
+          services.
+        </span>
       </div>
       {items.length > 0 && (
         <nav class="footer-nav" aria-label="Ecosystem">

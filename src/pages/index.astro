@@ -7,7 +7,7 @@ import HeroProductCarousel from "@/components/HeroProductCarousel.astro";
 import FounderBridge from "@/components/FounderBridge.astro";
 import BlackOwnedBanner from "@/components/BlackOwnedBanner.astro";
 import { pageTitle } from "@tmi/constants";
-import { PROPERTIES, ECOSYSTEM_MAP, verifiedGeneralContact } from "@/lib/site";
+import { PROPERTIES, ECOSYSTEM_MAP, GENERAL_CONTACT } from "@/lib/site";
 
 const title = pageTitle("tmi", "Systems for people who move");
 const description =
@@ -21,13 +21,6 @@ const description =
 const verticals = ECOSYSTEM_MAP.filter((e) => e.group === "vertical");
 const laneBadges = verticals.map((v) => PROPERTIES[v.key].label.toUpperCase()).join(" · ");
 
-// Conditional primary CTA. See src/lib/site.ts — verifiedGeneralContact()
-// returns null until hello@texasmovement.com is added to VERIFIED_INBOXES,
-// which only happens after a human confirms the mailbox is provisioned,
-// receiving mail, and being monitored. Until then this is null and the
-// section below renders nothing — no CTA, no placeholder, no disabled
-// button. See docs/LAUNCH_BLOCKERS.md for the exact unblock steps.
-const cta = verifiedGeneralContact();
 ---
 
 <Layout title={title} description={description} path="/">
@@ -138,19 +131,14 @@ const cta = verifiedGeneralContact();
 
     <SignalFeed linkToMedia />
 
-    <!-- Primary CTA — present ONLY when the general contact address is in
-         VERIFIED_INBOXES (src/lib/site.ts). Absent means absent: no
-         placeholder, no disabled-looking button. See
-         docs/LAUNCH_BLOCKERS.md for the exact unblock steps. -->
-    {cta && (
-      <section id="contact" class="section section--tight">
-        <div class="wrap contact-cta">
-          <Eyebrow>CONTACT</Eyebrow>
-          <a class="btn" href={cta.href}>
-            {cta.label} <span class="arrow">→</span>
-          </a>
-        </div>
-      </section>
-    )}
+    <!-- Primary CTA — renders unconditionally (Mark 34, "Open the Doors"). -->
+    <section id="contact" class="section section--tight">
+      <div class="wrap contact-cta">
+        <Eyebrow>CONTACT</Eyebrow>
+        <a class="btn" href={GENERAL_CONTACT.href}>
+          {GENERAL_CONTACT.label} <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
   </main>
 </Layout>

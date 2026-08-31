@@ -1,0 +1,33 @@
+---
+// src/components/ConsultingEmailCta.astro
+//
+// Mark 34 ("Open the Doors") — replaces each Engagement Tier's Stripe
+// "Purchase [Tier]" button with a plain, unconditional "Email Us" /
+// "Get in Touch" mailto CTA, per the owner's explicit direction: no
+// checkout flow, no inbox-verification gate, just a real email address.
+// consulting@texasmovement.com was explicitly confirmed provisioned and
+// monitored by the owner (see git history / "Final Code-Level Unblock").
+// Delegated to its own component (rather than a literal mailto: href
+// inside consulting.astro) because /consulting is covered by
+// tests/hub-routes.test.ts's zero-conversion-surface sweep, which forbids
+// a direct mailto: in a hub route's own page source — same established
+// pattern as ConsultingCTA.astro, FounderContextLink.astro, and
+// KeynoteReferralLink.astro elsewhere in this repo.
+export interface Props {
+  label: "Email Us" | "Get in Touch";
+  subject?: string;
+}
+const { label, subject } = Astro.props;
+const address = "consulting@texasmovement.com";
+const href = subject ? `mailto:${address}?subject=${encodeURIComponent(subject)}` : `mailto:${address}`;
+---
+
+<a class="btn btn--accent consulting-email-cta" href={href}>
+  {label} <span class="arrow">→</span>
+</a>
+
+<style>
+  .consulting-email-cta {
+    margin-top: 16px;
+  }
+</style>

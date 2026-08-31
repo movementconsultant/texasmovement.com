@@ -9,18 +9,16 @@
  *
  * Fails (process.exit(1)) if, anywhere under dist/:
  *   1. The literal string "TBD" or "__TBD__" appears in any .html/.xml/.json/.txt file.
- *   2. Any <a href="mailto:...">, or form `action="mailto:..."`, references
- *      an address not in VERIFIED_INBOXES.
- *   3. sitemap*.xml or any <link rel="canonical"> references a property
+ *   2. sitemap*.xml or any <link rel="canonical"> references a property
  *      whose PROPERTIES[key].status !== "live".
- *   4. Any href to a *.texasmovement.com (or the apex) property whose
+ *   3. Any href to a *.texasmovement.com (or the apex) property whose
  *      status !== "live" appears anywhere in the output (nav/footer and
  *      the lane directory both funnel through this — see src/lib/site.ts
  *      and DivisionCard.astro, which render non-live properties as plain
  *      text specifically so this can never trip).
- *   5. A build made with PUBLIC_PREVIEW=true is missing the noindex robots
+ *   4. A build made with PUBLIC_PREVIEW=true is missing the noindex robots
  *      meta tag on any HTML page.
- *   6. Any "linkedin.com" URL appears anywhere in dist/, in any form (link,
+ *   5. Any "linkedin.com" URL appears anywhere in dist/, in any form (link,
  *      JSON-LD, plain text) — including the founder's personal profile, not
  *      just the two conflicting/unconfirmed company-page URLs
  *      ("linkedin.com/company/texas-movement-consulting" and
@@ -29,13 +27,19 @@
  *      isHeldPendingConfirmation() in src/lib/site.ts for the full rationale
  *      and the one-line un-hold procedure once Alexander provides the real
  *      canonical URL.
- *   7. (Mark 18) A fetch() call whose first argument is a string literal
+ *   6. (Mark 18) A fetch() call whose first argument is a string literal
  *      pointing at an absolute external URL — the shape a live contact-form
  *      submission endpoint would take if PUBLIC_CONTACT_ENDPOINT were ever
  *      set without a corresponding, deliberate exception added here. Mirrors
  *      the equivalent EXTERNAL_FETCH_PATTERN check on the sibling
  *      alexandermathai.com repo's scripts/postbuild-guard.mjs. See
  *      docs/mark-18-contact-intake-implementation.md.
+ *
+ * Mark 34 ("Open the Doors") removed the prior check 2 (mailto/form-action
+ * addresses had to appear in src/lib/site.ts's VERIFIED_INBOXES) — that
+ * array and its gate function were deleted from site.ts per the owner's
+ * explicit "bare minimum regulation" direction, so there is nothing left
+ * for this script to check it against.
  *
  *   node scripts/check-public-output.mjs
  */
@@ -45,11 +49,10 @@ import { join, extname } from "node:path";
 const ROOT = join(new URL(".", import.meta.url).pathname, "..");
 const DIST = join(ROOT, "dist");
 const CONSTANTS_ECOSYSTEM = join(ROOT, "packages", "constants", "src", "ecosystem.ts");
-const SITE_LIB = join(ROOT, "src", "lib", "site.ts");
 const TBD_SENTINEL = "__TBD__";
 
 // A fetch() call whose first argument is a string literal pointing at an
-// absolute external URL — see check 7 above.
+// absolute external URL — see check 6 above.
 const EXTERNAL_FETCH_PATTERN = /fetch\s*\(\s*["'`]https?:\/\//i;
 
 const errors = [];
@@ -104,19 +107,6 @@ if (domainStatus.size === 0) {
   process.exit(1);
 }
 
-/* ---------- parse site.ts for VERIFIED_INBOXES -------------------------- */
-const siteLib = readFileSync(SITE_LIB, "utf8");
-const verifiedBlockMatch = siteLib.match(/VERIFIED_INBOXES[^=]*=\s*\[([\s\S]*?)\];/);
-const verifiedInboxes = new Set();
-if (verifiedBlockMatch) {
-  for (const line of verifiedBlockMatch[1].split("\n")) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("//")) continue;
-    const m = trimmed.match(/"([^"]+)"/);
-    if (m) verifiedInboxes.add(m[1]);
-  }
-}
-
 /* ---------- walk dist/ --------------------------------------------------- */
 // .js added in Mark 18 so check 7 (external fetch()) can actually scan
 // built client-side bundles, not just server-rendered HTML/XML/JSON/TXT.
@@ -142,18 +132,7 @@ for (const file of textFiles) {
     err(`${rel}: contains literal "TBD" / "__TBD__" in public output`);
   }
 
-  // 2. mailto hrefs / form actions not in VERIFIED_INBOXES
-  const mailtoMatches = [
-    ...content.matchAll(/(?:href|action)\s*=\s*"mailto:([^"?]+)(?:\?[^"]*)?"/gi),
-  ];
-  for (const m of mailtoMatches) {
-    const addr = m[1].trim();
-    if (!verifiedInboxes.has(addr)) {
-      err(`${rel}: mailto/form action to unverified inbox "${addr}" (not in VERIFIED_INBOXES)`);
-    }
-  }
-
-  // 3. sitemap / canonical referencing a non-live property
+  // 2. sitemap / canonical referencing a non-live property
   const isSitemap = /sitemap.*\.xml$/i.test(rel);
   if (isSitemap) {
     for (const m of content.matchAll(/<loc>([^<]+)<\/loc>/g)) {
@@ -164,12 +143,12 @@ for (const file of textFiles) {
     checkUrlIsLive(m[1], rel, "canonical link");
   }
 
-  // 4. any href to a non-live property anywhere in the output
+  // 3. any href to a non-live property anywhere in the output
   for (const m of content.matchAll(/href="(https:\/\/[^"]+)"/g)) {
     checkUrlIsLive(m[1], rel, "href");
   }
 
-  // 5. noindex marker required on preview builds
+  // 4. noindex marker required on preview builds
   if (isPreview && extname(file) === ".html") {
     const hasNoindex = /<meta\s+name="robots"\s+content="[^"]*noindex[^"]*"/.test(content);
     if (!hasNoindex) {
@@ -177,12 +156,12 @@ for (const file of textFiles) {
     }
   }
 
-  // 6. no LinkedIn URL of any kind is confirmed for public output yet
+  // 5. no LinkedIn URL of any kind is confirmed for public output yet
   if (/linkedin\.com/i.test(content)) {
     err(`${rel}: contains a "linkedin.com" URL — no LinkedIn URL is confirmed for public output yet, see isHeldPendingConfirmation() in src/lib/site.ts`);
   }
 
-  // 7. no fetch() call to an external URL (Mark 18 — see header comment)
+  // 6. no fetch() call to an external URL (Mark 18 — see header comment)
   if (EXTERNAL_FETCH_PATTERN.test(content)) {
     err(`${rel}: contains a fetch() call targeting an external URL (unconfirmed contact-form endpoint)`);
   }
@@ -208,7 +187,6 @@ console.log(`\ncheck-public-output\n${line}`);
 console.log(`dist files scanned: ${textFiles.length} (of ${files.length} total)`);
 console.log(`PUBLIC_PREVIEW resolved to: ${isPreview} (raw: "${publicPreviewRaw}")`);
 console.log(`known property domains: ${[...domainStatus.keys()].join(", ")}`);
-console.log(`verified inboxes: ${verifiedInboxes.size === 0 ? "(none)" : [...verifiedInboxes].join(", ")}`);
 console.log(`\nErrors: ${errors.length}`);
 errors.forEach((e) => console.log(`  X ${e}`));
 console.log(line);

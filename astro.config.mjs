@@ -16,7 +16,7 @@ import mdx from "@astrojs/mdx";
 // from wrangler's own config validation — unrelated to anything in this
 // site's code. Since nothing here needs SSR, the adapter was dropped rather
 // than fought. If edge functions/SSR are ever needed, re-add
-// `@astrojs/cloudflare` and revisit — see docs/LAUNCH_BLOCKERS.md.
+// `@astrojs/cloudflare` and revisit.
 export default defineConfig({
   site: "https://texasmovement.com",
   output: "static",

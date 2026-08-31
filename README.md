@@ -68,9 +68,8 @@ deploy, and only with Alexander's explicit sign-off (see `CLAUDE.md`).
 Static output (`output: "static"` in `astro.config.mjs`), no adapter required. `wrangler.toml` has
 `pages_build_output_dir = "dist"` pre-configured for Cloudflare Pages — connecting this repo to a
 real Cloudflare Pages project (or any other host) requires a human with dashboard access and is
-out of scope for an agent working in this repo. See `docs/LAUNCH_BLOCKERS.md` "Hosting / preview"
-for what's been evaluated (including why the `@astrojs/cloudflare` SSR adapter was dropped in
-favor of a plain static build) and what's still needed.
+out of scope for an agent working in this repo. See `astro.config.mjs`'s own comment for why the
+`@astrojs/cloudflare` SSR adapter was dropped in favor of a plain static build.
 
 ## Branches & rollback
 

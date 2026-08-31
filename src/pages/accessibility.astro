@@ -14,38 +14,18 @@ const description =
   <main id="main">
     <section class="section section--tight">
       <div class="wrap">
-        <div class="stub-note stub-note--top">
-          This page is a placeholder. Formal legal documentation is in progress. Texas Movement
-          International does not provide legal, tax, or medical advice.
-        </div>
         <Eyebrow>LEGAL</Eyebrow>
         <h1>Accessibility.</h1>
         <p>
-          This page is a placeholder. {ORG.legalName} has not yet published a formal accessibility
-          statement for {PROPERTIES.tmi.domain} or its properties.
+          {ORG.legalName} has not yet published a formal accessibility statement for
+          {PROPERTIES.tmi.domain} or its properties. In the meantime: this build was made with
+          accessibility as an explicit requirement — a skip-to-content link, a keyboard- and
+          screen-reader-reachable mobile navigation menu, checked color contrast, and descriptive
+          alt text on every meaningful image. It has not yet had a full manual or
+          assistive-technology audit beyond an automated axe-core pass. If you hit a barrier, use
+          the <a href="/contact">contact page</a> to let us know.
         </p>
-        <p>
-          In the meantime: this rebuild of {PROPERTIES.tmi.domain} was built with accessibility as an
-          explicit requirement — a skip-to-content link, a keyboard- and screen-reader-reachable
-          mobile navigation menu, checked color contrast on all reused text/background pairs, and
-          descriptive alt text on every meaningful image. It has not yet had a full manual or
-          assistive-technology audit beyond the automated axe-core pass run during this build (see
-          the PR description for results).
-        </p>
-        <div class="stub-note">
-          Formal accessibility statement pending. This is tracked as a launch blocker; see
-          <code>docs/LAUNCH_BLOCKERS.md</code> in the repository. If you encounter an accessibility
-          barrier on this site, there is not yet a verified contact route to report it through — see
-          the inbox-verification note in <code>docs/LAUNCH_BLOCKERS.md</code>.
-        </div>
       </div>
     </section>
   </main>
 </Layout>
-
-<style>
-  .stub-note--top {
-    margin-top: 0;
-    margin-bottom: 24px;
-  }
-</style>
